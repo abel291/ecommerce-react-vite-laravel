@@ -22,7 +22,7 @@ class OrderSeeder extends Seeder
         PaidProduct::truncate();
         $users = User::get();
         foreach ($users as $key => $user) {
-            for ($i = 0; $i < rand(2, 30); $i++) {
+            for ($i = 0; $i < rand(20, 80); $i++) {
 
                 $products = Product::get()->random(rand(3, 10));
 

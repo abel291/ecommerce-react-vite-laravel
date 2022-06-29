@@ -25,7 +25,7 @@ const MyAccount = () => {
                     <div className="flex flex-col space-y-1">
                         <NavLink to="/my-account/"
                             className={({ isActive }) =>
-                                "block px-4 py-3 rounded-md" + (isActive
+                                "block px-4 py-3 rounded-md " + (isActive
                                     ? "bg-gray-100 font-semibold"
                                     : ""
                                 )}>
@@ -34,7 +34,7 @@ const MyAccount = () => {
 
                         <NavLink to="order"
                             className={({ isActive }) =>
-                                "block px-4 py-3 rounded-md" + (isActive
+                                "block px-4 py-3 rounded-md " + (isActive
                                     ? "bg-gray-100 font-semibold"
                                     : ""
                                 )}
@@ -46,7 +46,7 @@ const MyAccount = () => {
                         <NavLink
                             to="account-details"
                             className={({ isActive }) =>
-                                "block px-4 py-3 rounded-md" + (isActive
+                                "block px-4 py-3 rounded-md " + (isActive
                                     ? "bg-gray-100 font-semibold"
                                     : ""
                                 )}
@@ -56,7 +56,7 @@ const MyAccount = () => {
                         <NavLink
                             to="change-password"
                             className={({ isActive }) =>
-                                "block px-4 py-3 rounded-md" + (isActive
+                                "block px-4 py-3 rounded-md " + (isActive
                                     ? "bg-gray-100 font-semibold"
                                     : ""
                                 )}

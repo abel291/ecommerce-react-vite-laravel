@@ -14,7 +14,7 @@ const InputLabel = ({
                 {label}
             </label>
             <input
-                className="mt-1 w-full text-sm px-4 py-3"
+                className="mt-1 w-full text-sm "
                 name={name}
                 autoComplete={autoComplete}
                 required={required ? "required" : undefined}

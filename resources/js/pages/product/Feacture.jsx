@@ -110,7 +110,7 @@ const Feacture = ({ product }) => {
                 </Button>
             </div>
             {(productCheckout.error || addProductToCart.error) && (
-                <Notifications type="error" error={productCheckout.error || addProductToCart.error} />
+                <Notifications type="error" errorResponse={productCheckout.error || addProductToCart.error} />
             )}
         </div>
     )

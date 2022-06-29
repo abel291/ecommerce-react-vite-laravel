@@ -261,13 +261,13 @@ const Search = () => {
                             <h2 className="font-bold text-2xl" ref={titleRef}>
                                 Busqueda
                             </h2>
-                            <div className="flex flex-col-reverse items-end md:flex-row md:items-center">
-                                <span className="font-light text-sm">{products.total} artículos</span>
-                                <select onChange={handleChangeSort} className="ml-7 py-2 font-semibold text-sm" name="sortBy" id="">
+                            <div className="flex flex-col items-end gap-2  md:flex-row md:items-center">
+                                <span className="font-light text-sm w-full">{products.total} artículos</span>
+                                <select onChange={handleChangeSort} className="py-2 font-semibold text-sm w-auto grow" name="sortBy" id="">
                                     <option disabled>Ordenar Por:</option>
                                     <option value="">Mas relevantes</option>
                                     <option value="price_asc">Menor precio</option>
-                                    <option value="price_desc">Mayor precio</option>
+                                    <option value="price_desc">Mayor precio</option>                                    
                                 </select>
                             </div>
                         </div>

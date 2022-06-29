@@ -40,7 +40,7 @@ const OrderDetails = () => {
 
 	return (
 		<>
-			<div className="space-y-2 text-sm">
+			<div className="space-y-2">
 				<div className="flex items-center">
 					<span className="mr-2 font-semibold">Nombre:</span>
 					{data.order.user_data.name}
@@ -58,9 +58,13 @@ const OrderDetails = () => {
 					<span className="mr-2 font-semibold">Fecha de Compra:</span>
 					{formatDate(data.order.created_at)}
 				</div>
+				<div className="flex items-center">
+					<span className="mr-2 font-semibold">Status de pago:</span>
+					<OrderStatuBadges status={data.order.status} />
+				</div>
 			</div>
 			<div className="mt-5">
-				<table className="w-full table-fixed overflow-hidden rounded-lg text-sm">
+				<table className="w-full table-fixed overflow-hidden rounded-lg">
 					<thead>
 						<tr>
 							<th className="text-heading bg-gray-100 p-3 text-left font-semibold">

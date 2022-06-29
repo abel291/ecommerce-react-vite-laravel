@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Faker as Faker;
 use File;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
@@ -24,7 +25,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('product_specification')->truncate();
+        Schema::disableForeignKeyConstraints();
+
+		DB::table('product_specification')->truncate();
         $this->call([
             CategorySeeder::class,
             UserSeeder::class,
@@ -47,5 +50,7 @@ class DatabaseSeeder extends Seeder
             }
             DB::table('product_specification')->insert($data_product_specification);
         }
+
+		Schema::enableForeignKeyConstraints();
     }
 }

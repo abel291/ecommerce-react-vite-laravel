@@ -11,7 +11,7 @@ const Notifications = ({
     scrollUp = true }) => {
     const [show, setShow] = useState(false)
     const [error, setError] = useState(null)
-
+		console.log(errorResponse)
     useEffect(() => {
 
         if (type === "ok" || type === "error") {
@@ -20,7 +20,7 @@ const Notifications = ({
                 document.getElementById("root").scrollIntoView({ behavior: "smooth" })
             }
             if (errorResponse) {
-                setError(ValidaterErrors(errorResponse))
+                setError(ValidaterErrors(errorResponse.response))
             }
 
         }

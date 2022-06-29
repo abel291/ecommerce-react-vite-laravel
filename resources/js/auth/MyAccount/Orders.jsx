@@ -17,7 +17,7 @@ const Order = () => {
 	const { data, isLoading, error } = useQuery(
 		["orders", page],
 
-		async ({ page = 1 }) => {
+		async () => {
 			const response = await apiClient
 				.get("/auth/user/orders", {
 					params: {
@@ -36,10 +36,10 @@ const Order = () => {
 		}
 	);
 	const handleClickChangePage = (number) => {
+		console.log(number)
 		setPage(number);
 	};
-	console.log(data);
-
+	
 	if (isLoading) return "Cargando....";
 
 	if (error) return <PageError />;
@@ -69,7 +69,7 @@ const Order = () => {
 				</thead>
 				<tbody className="text-sm">
 					{data.orders.data.map((item, key) => (
-						<tr>
+						<tr key={key}>
 							<td className="px-4 py-5 text-start">#{item.code}</td>
 							<td className="px-4 py-5 text-start">
 								{formatDate(item.created_at)}

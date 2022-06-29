@@ -16,11 +16,7 @@ class PageController extends Controller
     {
         //$pages = Page::get()->keyBy('type');
 
-        if (Auth::check()) {
-            $user = auth()->user()->only(['name', 'email', 'phone', 'city', 'country']);
-        } else {
-            $user = false;
-        }
+       
 
 
         $categories = Category::get();
@@ -28,7 +24,7 @@ class PageController extends Controller
         return response()->json([
             'categories' => $categories,
             'brands' => $brands,
-            'user' => $user,
+            
         ]);
     }
 
