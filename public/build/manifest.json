@@ -1,0 +1,15 @@
+{
+  "resources/js/main.jsx": {
+    "file": "assets/main.fba4981f.js",
+    "src": "resources/js/main.jsx",
+    "isEntry": true,
+    "css": [
+      "assets/main.96ca46e2.css"
+    ]
+  },
+  "resources/css/app.css": {
+    "file": "assets/app.e2e48a6d.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  }
+}
