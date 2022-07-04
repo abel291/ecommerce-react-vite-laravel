@@ -32,11 +32,11 @@ module.exports = {
                 900: "#001232",
             },
         },
-        // extend: {
-        //     fontFamily: {
-        //         sans: ["Poppins", ...defaultTheme.fontFamily.sans],
-        //     },
-        // },
+        extend: {
+            fontFamily: {
+                sans: ["Inter", ...defaultTheme.fontFamily.sans],
+            },
+        },
     },
 
     plugins: [

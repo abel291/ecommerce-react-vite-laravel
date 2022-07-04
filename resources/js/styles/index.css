@@ -9,7 +9,7 @@
 
 @layer utilities {
     .py-content {
-        @apply py-6 md:py-5 lg:py-7 xl:py-8;
+        @apply py-8 md:py-9 lg:py-10 xl:py-12;
     }
 
     .pb-content {
