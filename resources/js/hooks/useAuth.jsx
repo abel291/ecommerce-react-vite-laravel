@@ -12,7 +12,6 @@ const useAuth = (dispatch) => {
 	const csrf = () => axios.get('/sanctum/csrf-cookie')
 
 	const apiAuthClient = axios.create({
-		baseURL: "http://localhost:8000",
 		withCredentials: true,
 	})
 
@@ -75,7 +74,7 @@ const useAuth = (dispatch) => {
 
 	const updateUser = useMutation(
 		async (dataUser) => {
-			const response = await apiAuthClient.put("/auth/user/profile-store", { ...dataUser })
+			const response = await apiAuthClient.put("/api/auth/user/profile-store", { ...dataUser })
 			return response
 		},
 		{
@@ -87,7 +86,7 @@ const useAuth = (dispatch) => {
 
 	const updatePassword = useMutation(async (dataPassword) => {
 		await csrf()
-		const response = await apiAuthClient.put("/user/password", { ...dataPassword })
+		const response = await apiAuthClient.put("/api/user/password", { ...dataPassword })
 		return response
 	})
 
