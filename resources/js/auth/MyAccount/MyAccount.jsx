@@ -20,12 +20,12 @@ const MyAccount = () => {
     //console.log(useMatch())
     return (
         <div className="container py-content">
-            <div className="grid grid-cols-6 md:gap-6 gap-y-10">
-                <div className="col-span-6 md:col-span-2">
+            <div className="grid grid-cols-12 md:gap-6 gap-y-10">
+                <div className="col-span-12 lg:col-span-4">
                     <div className="flex flex-col space-y-1">
                         <NavLink to="/my-account/"
                             className={({ isActive }) =>
-                                "block px-4 py-3 rounded-md " + (isActive
+                                "block px-4 py-3 rounded-md font-medium " + (isActive
                                     ? "bg-gray-100 font-semibold"
                                     : ""
                                 )}>
@@ -34,7 +34,7 @@ const MyAccount = () => {
 
                         <NavLink to="order"
                             className={({ isActive }) =>
-                                "block px-4 py-3 rounded-md " + (isActive
+                                "block px-4 py-3 rounded-md font-medium " + (isActive
                                     ? "bg-gray-100 font-semibold"
                                     : ""
                                 )}
@@ -46,7 +46,7 @@ const MyAccount = () => {
                         <NavLink
                             to="account-details"
                             className={({ isActive }) =>
-                                "block px-4 py-3 rounded-md " + (isActive
+                                "block px-4 py-3 rounded-md font-medium " + (isActive
                                     ? "bg-gray-100 font-semibold"
                                     : ""
                                 )}
@@ -56,7 +56,7 @@ const MyAccount = () => {
                         <NavLink
                             to="change-password"
                             className={({ isActive }) =>
-                                "block px-4 py-3 rounded-md " + (isActive
+                                "block px-4 py-3 rounded-md font-medium " + (isActive
                                     ? "bg-gray-100 font-semibold"
                                     : ""
                                 )}
@@ -66,14 +66,14 @@ const MyAccount = () => {
 
                         <button
                             onClick={handleClickLogout}
-                            className="w-full text-left block px-4 py-3 rounded-md"
+                            className="w-full text-left block px-4 py-3 rounded-md font-medium "
                             disabled={logout.isLoaidng}
                         >
                             {logout.isLoading ? <SpinnerLoad /> : "Salir"}
                         </button>
                     </div>
                 </div>
-                <div className="col-span-6 md:col-span-4">
+                <div className="col-span-12 lg:col-span-8">
 
                     <Routes>
                         <Route path="" element={<Dashboard />}></Route>
