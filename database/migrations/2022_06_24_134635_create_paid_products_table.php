@@ -18,7 +18,7 @@ class CreatePaidProductsTable extends Migration
             $table->unsignedFloat('price');
             $table->string('name');
             $table->unsignedInteger('quantity');
-            $table->unsignedInteger('price_quantity');
+            $table->unsignedFloat('price_quantity');
             $table->timestamps();
         });
     }
