@@ -34,7 +34,7 @@ class BrandSeeder extends Seeder
             $data[$key] = [
                 'name' => ucfirst($value),
                 'slug' => Str::slug($value),
-                'img' => Str::slug($value) . '.png',
+                'img' => Str::slug($value).'.png',
             ];
         }
 

@@ -2,20 +2,18 @@
 
 namespace App\Services;
 
-
 class OrderService
 {
-
     public function calculate_price()
     {
     }
+
     public static function get_total_price_products($products)
     {
-        
     }
+
     public static function calculate_total_price($amount)
     {
-
         $tax_percent = 0.12;
         $shipping = 11;
         $sub_total = $amount;
@@ -30,9 +28,9 @@ class OrderService
             'total' => $total,
         ];
     }
+
     public static function generate_code($id)
     {
-
-        return  rand(1000, 9999) . date('md') . $id;
+        return  rand(1000, 9999).date('md').$id;
     }
 }

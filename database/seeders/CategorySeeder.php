@@ -2,12 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Category;
-use App\Models\Image;
-use App\Models\Product;
 use App\Models\Specification;
-
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
 class CategorySeeder extends Seeder
@@ -42,13 +39,12 @@ class CategorySeeder extends Seeder
         ];
 
         foreach ($categories as $key => $value) {
-
             Category::factory()
                 ->has(Specification::factory()->count(6))
                 ->create([
                     'name' => ucfirst($value),
                     'slug' => Str::slug($value),
-                    'img' => Str::slug($value) . '.png',
+                    'img' => Str::slug($value).'.png',
 
                 ]);
         }

@@ -13,8 +13,9 @@ class PaidProduct extends Model
     *
     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
     */
-   
-    protected $guard=[];
+
+    protected $guard = [];
+
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);

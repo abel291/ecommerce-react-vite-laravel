@@ -14,13 +14,14 @@ class Specification extends Model
         'slug',
         'type',
     ];
+
     public function products()
     {
-        return $this->belongsToMany(Product::class,);
+        return $this->belongsToMany(Product::class, );
     }
+
     public function category()
     {
-        return $this->belongsTo(Product::class,);
+        return $this->belongsTo(Product::class, );
     }
-    
 }

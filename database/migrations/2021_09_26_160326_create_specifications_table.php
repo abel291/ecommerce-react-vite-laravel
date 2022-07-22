@@ -16,7 +16,7 @@ class CreateSpecificationsTable extends Migration
         Schema::create('specifications', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('name_slug')->nullable();            
+            $table->string('name_slug')->nullable();
             $table->foreignId('category_id')->index();
             $table->timestamps();
         });

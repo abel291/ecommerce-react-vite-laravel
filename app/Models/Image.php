@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Image extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'alt',
         'img',
-    ];  
+    ];
 
     public function product()
     {

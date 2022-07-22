@@ -1,9 +1,7 @@
 <?php
 
-
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -46,11 +44,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-
     public function card_products()
     {
-        return $this->belongsToMany(Product::class)->withPivot('quantity', 'total_price_quantity','id');
+        return $this->belongsToMany(Product::class)->withPivot('quantity', 'total_price_quantity', 'id');
     }
+
     public function orders()
     {
         return $this->hasMany(Order::class);

@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Order extends Model
 {
     use HasFactory;
+
     protected $casts = [
         'user_json' => 'object',
     ];
-    protected $guard=[];
+
+    protected $guard = [];
 
     /**
      * Get all of the products for the Order
@@ -23,7 +25,4 @@ class Order extends Model
     {
         return $this->hasMany(PaidProduct::class);
     }
-
-
-
 }

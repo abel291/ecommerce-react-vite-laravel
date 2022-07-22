@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'name',
         'slug',
@@ -19,16 +20,15 @@ class Product extends Model
 
     ];
 
-
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
+
     public function images()
     {
         return $this->hasMany(Image::class);
     }
-
 
     public function brand()
     {
@@ -42,6 +42,6 @@ class Product extends Model
 
     public function card_products()
     {
-        return $this->belongsToMany(User::class)->withPivot('quantity','total_price_quantity');
+        return $this->belongsToMany(User::class)->withPivot('quantity', 'total_price_quantity');
     }
 }

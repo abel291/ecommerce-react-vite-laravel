@@ -21,14 +21,14 @@ class ProductCheckoutController extends Controller
 
         return response()->json([
             'products' => [$product],
-            'charges' => $charges
+            'charges' => $charges,
         ]);
     }
 
     public function product_checkout_cart(Request $request)
     {
         $products = auth()->user()->card_products->load('specifications');
-        
+
         foreach ($products as $key => $product) {
             $product->total_price_quantity = $product->pivot->total_price_quantity;
             $product->quantity = $product->pivot->quantity;
@@ -46,7 +46,7 @@ class ProductCheckoutController extends Controller
 
         return response()->json([
             'products' => $products,
-            'charges' => $charges
+            'charges' => $charges,
         ]);
     }
 }

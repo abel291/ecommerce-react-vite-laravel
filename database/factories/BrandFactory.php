@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 class BrandFactory extends Factory
 {
     public static $order = 1;
+
     /**
      * The name of the factory's corresponding model.
      *
@@ -21,15 +22,12 @@ class BrandFactory extends Factory
      *
      * @return array
      */
-    
     public function definition()
     {
-        
-
         return [
-            "name" => ucfirst($this->faker->words(2, true)),
-            "slug" => Str::slug($this->faker->words(2, true)),
-            "img" => 'brand-' . self::$order++ . '.png',
+            'name' => ucfirst($this->faker->words(2, true)),
+            'slug' => Str::slug($this->faker->words(2, true)),
+            'img' => 'brand-'.self::$order++.'.png',
 
         ];
     }

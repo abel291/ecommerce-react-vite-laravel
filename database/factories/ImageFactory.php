@@ -22,8 +22,8 @@ class ImageFactory extends Factory
     public function definition()
     {
         return [
-            "alt"=>$this->faker->words(7, true),
-            "img" => 'item-' . rand(1, 52) . '.jpg',
+            'alt' => $this->faker->words(7, true),
+            'img' => 'item-'.rand(1, 52).'.jpg',
         ];
     }
 }

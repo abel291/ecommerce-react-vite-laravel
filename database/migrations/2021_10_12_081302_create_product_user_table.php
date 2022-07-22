@@ -19,7 +19,7 @@ class CreateProductUserTable extends Migration
             $table->foreignId('product_id')->index();
             $table->mediumInteger('quantity');
             $table->float('total_price_quantity');
-            
+
             $table->timestamps();
         });
     }

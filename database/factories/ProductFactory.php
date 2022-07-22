@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Brand;
-use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -11,6 +10,7 @@ use Illuminate\Support\Str;
 class ProductFactory extends Factory
 {
     public static $order = 1;
+
     /**
      * The name of the factory's corresponding model.
      *
@@ -37,17 +37,17 @@ class ProductFactory extends Factory
         }
 
         return [
-            "name" => ucfirst($name),
-            "slug" => Str::slug($name),
-            "description_min" => $this->faker->paragraph(),
-            "description_max" => $this->faker->text(800),
-            "price_default" => $priceDefault,
-            "offer" => $offer,
-            "price" => $price,
-            "img" => 'item-' . rand(1, 52) . '.jpg',
-            "featured" => rand(0, 1),
-            "availables" => rand(10, 300),
-            "brand_id" => Brand::inRandomOrder()->first()->id,
+            'name' => ucfirst($name),
+            'slug' => Str::slug($name),
+            'description_min' => $this->faker->paragraph(),
+            'description_max' => $this->faker->text(800),
+            'price_default' => $priceDefault,
+            'offer' => $offer,
+            'price' => $price,
+            'img' => 'item-'.rand(1, 52).'.jpg',
+            'featured' => rand(0, 1),
+            'availables' => rand(10, 300),
+            'brand_id' => Brand::inRandomOrder()->first()->id,
 
         ];
     }

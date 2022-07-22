@@ -24,7 +24,7 @@ class CreateProductsTable extends Migration
             $table->tinyInteger('offer')->nullable();
             $table->float('price')->default(0);
             $table->string('img');
-            $table->boolean('featured')->default(false);            
+            $table->boolean('featured')->default(false);
             $table->foreignId('brand_id')->index();
             $table->foreignId('category_id')->index();
             $table->timestamps();

@@ -2,37 +2,35 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\OrderCollection;
 use App\Http\Resources\OrderResource;
-use App\Models\User;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Rules\Password;
-use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
     public function orders()
     {
-
         $orders = auth()->user()->orders()->with('products')->paginate();
 
         return response()->json([
             'orders' => $orders,
         ]);
     }
+
     public function order_details($code_order)
     {
-
         $order = auth()->user()->orders()->where('code', $code_order)->with('products')->firstOrFail();
 
         return response()->json([
             'order' => new OrderResource($order),
         ]);
     }
+
     public function profile_store(Request $request)
     {
         $user = auth()->user();
@@ -58,8 +56,9 @@ class ProfileController extends Controller
                 'city' => $request->city,
             ])->save();
         }
+
         return [
-            'message' => 'UPDATED USER'
+            'message' => 'UPDATED USER',
         ];
     }
 
@@ -71,18 +70,17 @@ class ProfileController extends Controller
             'current_password' => ['required', 'string'],
             'password' => ['required', 'string', new Password, 'confirmed'],
         ])->after(function ($validator) use ($user, $request) {
-            if (!isset($request->current_password) || !Hash::check($request->current_password, $user->password)) {
+            if (! isset($request->current_password) || ! Hash::check($request->current_password, $user->password)) {
                 $validator->errors()->add('current_password', __('La contraseña proporcionada no coincide con su contraseña actual. '));
             }
         })->validateWithBag('updatePassword');
-
 
         $user->forceFill([
             'password' => Hash::make($request->password),
         ])->save();
 
         return [
-            'message' => 'updated password'
+            'message' => 'updated password',
         ];
     }
 }

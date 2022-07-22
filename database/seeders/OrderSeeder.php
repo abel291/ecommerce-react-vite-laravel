@@ -23,12 +23,12 @@ class OrderSeeder extends Seeder
         $users = User::get();
         foreach ($users as $key => $user) {
             for ($i = 0; $i < rand(20, 80); $i++) {
-
                 $products = Product::get()->random(rand(3, 10));
 
                 $products->transform(function ($item) {
                     $item->quantity_selected = rand(3, 10);
                     $item->price_quantity = $item->price * $item->quantity_selected;
+
                     return $item;
                 });
 
@@ -38,7 +38,7 @@ class OrderSeeder extends Seeder
                 $status = ['successful', 'refunded', 'canceled'];
 
                 $order = Order::create([
-                    'code'=>OrderService::generate_code($user->id),
+                    'code' => OrderService::generate_code($user->id),
                     'quantity' => $products->count(),
                     'shipping' => $charges['shipping'],
                     'tax_amount' => $charges['tax_amount'],
@@ -51,7 +51,6 @@ class OrderSeeder extends Seeder
                 ]);
 
                 $paid_products = $products->map(function ($item, $key) {
-
                     return [
                         'name' => $item->name,
                         'price' => $item->price,

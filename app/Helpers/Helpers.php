@@ -6,7 +6,6 @@ class Helpers
 {
     public static function get_charges_products($amount)
     {
-
         $tax_percent = 0.12;
         $shipping = 11;
         $sub_total = $amount;

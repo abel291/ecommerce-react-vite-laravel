@@ -22,7 +22,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         MigrationsStarted::class => [
             DisableForeignKeyMigrations::class,
-        ]
+        ],
     ];
 
     /**

@@ -3,22 +3,19 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Product;
-
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
-    function search(Request $request)
+    public function search(Request $request)
     {
-
         $products = [];
         $categories = [];
         $brands = [];
         $prices = [];
         $specifications = [];
-
 
         $products = Product::with('category', 'brand')->where(function ($query) use ($request) {
             $query->orWhere('name', 'like', "%$request->q%");

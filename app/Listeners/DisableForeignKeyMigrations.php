@@ -2,7 +2,6 @@
 
 namespace App\Listeners;
 
-
 use Illuminate\Database\Events\MigrationsStarted;
 use Illuminate\Support\Facades\Schema;
 

@@ -2,19 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Brand;
-use App\Models\Category;
-use App\Models\Image;
 use App\Models\Product;
-use App\Models\Specification;
-use App\Models\User;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 use Faker as Faker;
-use File;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -27,7 +19,7 @@ class DatabaseSeeder extends Seeder
     {
         Schema::disableForeignKeyConstraints();
 
-		DB::table('product_specification')->truncate();
+        DB::table('product_specification')->truncate();
         $this->call([
             CategorySeeder::class,
             UserSeeder::class,
@@ -45,12 +37,12 @@ class DatabaseSeeder extends Seeder
                 $data_product_specification[$key] = [
                     'specification_id' => $specification->id,
                     'product_id' => $product->id,
-                    'value' => $faker->words(2, true)
+                    'value' => $faker->words(2, true),
                 ];
             }
             DB::table('product_specification')->insert($data_product_specification);
         }
 
-		Schema::enableForeignKeyConstraints();
+        Schema::enableForeignKeyConstraints();
     }
 }
