@@ -1,7 +1,7 @@
 # Ecommerce React
 
 Tienda el linea de venta de hardware , construida en React y Laravel
-[E-commerce-react](https://react-ecomerce-pc.vercel.app).
+[E-commerce-react](https://laravel-vite-ecommerce-pc.herokuapp.com).
 
 ## Instrucciones de instalación 🚀
 
