@@ -1,34 +1,21 @@
 {
-	"private": true,
-	"scripts": {
-		"dev": "vite",
-		"build": "vite build"
-	},
-	"devDependencies": {
-		"@tailwindcss/forms": "^0.5.2",
-		"@types/react": "^18.0.0",
-		"@types/react-dom": "^18.0.0",
-		"@vitejs/plugin-react": "^1.3.2",
-		"autoprefixer": "^10.4.7",
-		"axios": "^0.25",
-		"laravel-vite-plugin": "^0.2.1",
-		"lodash": "^4.17.19",
-		"postcss": "^8.1.14",
-		"prettier": "^2.6.2",
-		"prettier-plugin-tailwindcss": "^0.1.11",
-		"tailwindcss": "^3.1.2",
-		"vite": "^2.9.11"
-	},
-	"dependencies": {
-		"@headlessui/react": "^1.6.4",
-		"@heroicons/react": "^1.0.6",
-		"@tailwindcss/line-clamp": "^0.4.0",
-		"axios": "^0.27.2",
-		"react": "^18.0.0",
-		"react-dom": "^18.0.0",
-		"react-query": "^3.39.1",
-		"react-refresh": "^0.14.0",
-		"react-router-dom": "^6.3.0",
-		"swiper": "^8.2.3"
-	}
+    "private": true,
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "@headlessui/react": "^1.4.2",
+        "@inertiajs/react": "^1.0.0",
+        "@tailwindcss/forms": "^0.5.3",
+        "@vitejs/plugin-react": "^3.0.0",
+        "autoprefixer": "^10.4.12",
+        "axios": "^1.1.2",
+        "laravel-vite-plugin": "^0.7.2",
+        "postcss": "^8.4.18",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "tailwindcss": "^3.2.1",
+        "vite": "^4.0.0"
+    }
 }
