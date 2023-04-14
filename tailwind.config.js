@@ -2,20 +2,32 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: [
-        './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
-        './storage/framework/views/*.php',
-        './resources/views/**/*.blade.php',
-        './resources/js/**/*.jsx',
-    ],
+	darkMode: 'class',
+	content: [
+		'./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
+		'./storage/framework/views/*.php',
+		'./resources/views/**/*.blade.php',
+		'./resources/js/**/*.jsx',
+	],
 
-    theme: {
-        extend: {
-            fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
-            },
-        },
-    },
+	theme: {
+		extend: {
+			fontFamily: {
+				sans: ['Inter', ...defaultTheme.fontFamily.sans],
+			},
+		},
 
-    plugins: [require('@tailwindcss/forms')],
+		container: {
+			center: true,
+			padding: {
+				DEFAULT: "1.5rem",
+				sm: "2rem",
+				lg: "2rem",
+				xl: "2rem",
+				'2xl': '6rem',
+			},
+		},
+	},
+
+	plugins: [require('@tailwindcss/forms')],
 };
