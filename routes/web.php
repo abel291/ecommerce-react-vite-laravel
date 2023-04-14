@@ -3,6 +3,7 @@
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -37,6 +38,9 @@ Route::controller(PageController::class)->group(function () {
 	Route::get('/search', 'home')->name('search');
 	Route::get('/product/{slug}', 'home')->name('product');
 	//Route::get('/', 'home')->name('home');
+});
+Route::post('/subscribe', function () {
+	return Redirect::back()->with('subscribe', 'Suscripción completada con exito');
 });
 Route::get('/dashboard', function () {
 	return Inertia::render('Dashboard');

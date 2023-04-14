@@ -39,7 +39,8 @@ class HandleInertiaRequests extends Middleware
 			'categories' => fn () => Category::all('id', 'name', 'slug', 'img'),
 			'brands' => fn () => Brand::all('id', 'name', 'slug', 'img'),
 			'flash' => [
-				'success' => fn () => $request->session()->get('success')
+				'success' => fn () => $request->session()->get('success'),
+				'subscribe' => fn () => $request->session()->get('subscribe')
 			],
 			'ziggy' => function () use ($request) {
 				return array_merge((new Ziggy)->toArray(), [
