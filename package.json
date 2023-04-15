@@ -20,6 +20,7 @@
     },
     "dependencies": {
         "@heroicons/react": "^2.0.17",
+        "react-hot-toast": "^2.4.0",
         "swiper": "^9.2.0"
     }
 }

@@ -5,13 +5,11 @@ import { useForm, usePage } from "@inertiajs/react"
 
 
 const Suscribe = () => {
-	const { flash } = usePage().props
-
 	const { data, setData, post, processing, errors, reset } = useForm({
 		email: '',
 	})
 
-	function submit(e) {
+	function handleSubmit(e) {
 		e.preventDefault()
 		post('/subscribe', {
 			preserveScroll: true,
@@ -20,16 +18,16 @@ const Suscribe = () => {
 	}
 
 	return (
-		<div className="bg-gray-50 p-6 lg:p-16 rounded-lg shadow ">
+		<div className="bg-gray-50 p-6 lg:p-16 rounded-lg  ">
 			<div className="flex flex-col lg:flex-row  space-y-8 lg:space-y-0 space-x-0 lg:space-x-2  lg:items-center lg:justify-between">
 				<div className="lg:w-1/2 text-center lg:text-left">
 					<h3 className="text-xl lg:text-2xl font-bold mb-2 lg:mb-4">
-						Obtenga consejos de Profesionales en su bandeja de entrada
+						Obtenga consejos de profesionales en su bandeja de entrada
 					</h3>
 					<p className="lg:text-sm">Suscríbase a nuestro boletín y manténgase actualizado.</p>
 				</div>
 				<div className="lg:w-1/2 ">
-					<form onSubmit={submit} className="flex flex-col lg:flex-row  space-y-2 lg:space-y-0 space-x-0 lg:space-x-2">
+					<form onSubmit={handleSubmit} className="flex flex-col lg:flex-row  space-y-2 lg:space-y-0 space-x-0 lg:space-x-2">
 						<div className="grow w-full">
 							<TextInput
 								onChange={e => setData('email', e.target.value)}
@@ -43,11 +41,11 @@ const Suscribe = () => {
 						</div>
 						<PrimaryButton className="justify-center" disabled={processing}>Suscribirse</PrimaryButton>
 					</form>
-					<div>
+					{/* <div>
 						{flash.subscribe && (
 							<div className="text-sm text-green-500 mt-1 font-medium">{flash.subscribe}</div>
 						)}
-					</div>
+					</div> */}
 				</div>
 			</div>
 		</div>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ImageResource;
+use App\Http\Resources\ProductResource;
+use App\Models\Category;
 use App\Models\Page;
 use App\Models\Product;
 use Illuminate\Foundation\Application;
@@ -24,16 +26,59 @@ class PageController extends Controller
 		$banners_bottom = $page->banners->where('position', 'bottom');
 		//dd($banners_medium);
 		return Inertia::render('Home/Home', [
-			'canLogin' => Route::has('login'),
-			'canRegister' => Route::has('register'),
-			'laravelVersion' => Application::VERSION,
-			'phpVersion' => PHP_VERSION,
-			'featured' => $featured,
-			'newProducts' => $newProducts,
+			'page' => $page,
+			'featured' => ProductResource::collection($featured),
+			'newProducts' => ProductResource::collection($newProducts),
 			'carouselTop' => ImageResource::collection($carousel_top),
 			'bannersTop' => ImageResource::collection($banners_top),
 			'bannersMedium' => ImageResource::collection($banners_medium),
 			'bannersBottom' => ImageResource::collection($banners_bottom),
+		]);
+	}
+	public function offers()
+	{
+
+		$page = Page::with('banners')->where('type', 'offers')->firstOrFail();
+		$banners_top = $page->banners->where('position', 'top')->where('type', 'banner');
+		$products = Product::where('offer', '!=', null)->limit(20)->get()->shuffle();
+		return Inertia::render('Offers/Offers', [
+			'bannersTop' => ImageResource::collection($banners_top),
+			'page' => $page,
+			'products' => ProductResource::collection($products),
+		]);
+	}
+	public function combos()
+	{
+		$page = Page::with('banners')->where('type', 'combos')->firstOrFail();
+		$banners_top = $page->banners->where('position', 'top')->where('type', 'banner');
+		$products = Category::with('products')->where('slug', 'combos')->first()->products->slice(0, 20);
+
+		return Inertia::render('Combos/Combos', [
+			'bannersTop' => ImageResource::collection($banners_top),
+			'page' => $page,
+			'products' => ProductResource::collection($products),
+		]);
+	}
+	public function assemblies()
+	{
+		$page = Page::with('banners')->where('type', 'assemblies')->firstOrFail();
+		$carousel = $page->banners->where('position', 'top')->where('type', 'carousel');
+		$products = Category::with('products')->where('slug', 'ensambles')->first()->products->slice(0, 20);
+
+		return Inertia::render('Assemblies/Assemblies', [
+			'carousel' => ImageResource::collection($carousel),
+			'page' => $page,
+			'products' => ProductResource::collection($products),
+		]);
+	}
+	public function contact()
+	{
+		$page = Page::with('banners')->where('type', 'contact')->firstOrFail();
+		$carousel = $page->banners->where('position', 'top')->where('type', 'banner');
+
+		return Inertia::render('Contact/Contact', [
+			'banner' => ImageResource::collection($carousel),
+			'page' => $page,
 		]);
 	}
 }

@@ -14,7 +14,7 @@ const CardProduct = ({ product, badge = "" }) => {
 					<h2 className="text-heading font-medium mb-1 text-sm md:text-base ">{product.name}</h2>
 					<p className="text-body text-xs lg:text-sm leading-normal xl:leading-relaxed line-clamp-2">{product.description_min}</p>
 					<div className="mt-2">
-						{product.offer !== null ? (
+						{product.offer ? (
 							<div>
 								<div className="text-xs text-gray-400 line-through">{formatCurrency(product.price)}</div>
 								<div className="flex items-center">

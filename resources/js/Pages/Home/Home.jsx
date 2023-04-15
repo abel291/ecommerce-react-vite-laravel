@@ -9,13 +9,13 @@ import { Head, usePage } from '@inertiajs/react'
 import CarouselHome from './CarouselHome'
 
 
-export default function Home({ carouselTop, bannersTop, featured, bannersMedium, newProducts, bannersBottom }) {
+export default function Home({ page, carouselTop, bannersTop, featured, bannersMedium, newProducts, bannersBottom }) {
 	const { categories, brands } = usePage().props
 
 	//console.log(featured)
 	return (
 		<>
-			<Head title="Home" />
+			<Head title={page.meta_title} />
 			<Layout>
 				<div className="container">
 					<div className="py-content grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 ">

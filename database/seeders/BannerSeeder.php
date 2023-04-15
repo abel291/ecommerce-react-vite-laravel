@@ -15,8 +15,12 @@ class BannerSeeder extends Seeder
 	 */
 	public function run(): void
 	{
-		$home_id = Page::where('type', 'home')->first()->id;
-		//dd($home_id);
+		$pages = Page::get();
+		$home_id = $pages->where('type', 'home')->first()->id;
+		$offers_id = $pages->where('type', 'offers')->first()->id;
+		$combos_id = $pages->where('type', 'combos')->first()->id;
+		$assemblies_id = $pages->where('type', 'assemblies')->first()->id;
+
 		$current_date = date('Y-m-d H:i:s');
 
 		Image::insert(
@@ -107,6 +111,65 @@ class BannerSeeder extends Seeder
 					'position' => 'bottom',
 					'link' => route('home'),
 					'imageable_id' => $home_id,
+					'imageable_type' => 'App\Models\Page',
+					'created_at' => $current_date,
+					'updated_at' => $current_date
+				],
+
+				///page - offers
+				[
+					'img' => '/img/offers/banner-1.jpg',
+					'alt' => 'banner-3',
+					'type' => 'banner',
+					'position' => 'top',
+					'link' => route('offers'),
+					'imageable_id' => $offers_id,
+					'imageable_type' => 'App\Models\Page',
+					'created_at' => $current_date,
+					'updated_at' => $current_date
+				],
+				///page - combos
+				[
+					'img' => '/img/combos/banner-1.jpg',
+					'alt' => 'banner-3',
+					'type' => 'banner',
+					'position' => 'top',
+					'link' => route('offers'),
+					'imageable_id' => $combos_id,
+					'imageable_type' => 'App\Models\Page',
+					'created_at' => $current_date,
+					'updated_at' => $current_date
+				],
+				//page - assemblies
+				[
+					'img' => '/img/assemblies/banner-1.jpg',
+					'alt' => 'banner-3',
+					'type' => 'carousel',
+					'position' => 'top',
+					'link' => route('assemblies'),
+					'imageable_id' => $assemblies_id,
+					'imageable_type' => 'App\Models\Page',
+					'created_at' => $current_date,
+					'updated_at' => $current_date
+				],
+				[
+					'img' => '/img/assemblies/banner-2.jpg',
+					'alt' => 'banner-3',
+					'type' => 'carousel',
+					'position' => 'top',
+					'link' => route('assemblies'),
+					'imageable_id' => $assemblies_id,
+					'imageable_type' => 'App\Models\Page',
+					'created_at' => $current_date,
+					'updated_at' => $current_date
+				],
+				[
+					'img' => '/img/assemblies/banner-3.jpg',
+					'alt' => 'banner-3',
+					'type' => 'carousel',
+					'position' => 'top',
+					'link' => route('assemblies'),
+					'imageable_id' => $assemblies_id,
 					'imageable_type' => 'App\Models\Page',
 					'created_at' => $current_date,
 					'updated_at' => $current_date

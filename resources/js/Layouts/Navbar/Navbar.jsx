@@ -23,12 +23,16 @@ export default function Navbar({ auth }) {
 			path: 'assemblies'
 		},
 		{
-			title: 'Contactenos',
-			path: 'contact'
+			title: 'Targeta de regalo',
+			path: 'gift-card'
 		},
 		{
-			title: 'Promociones',
-			path: 'promotions'
+			title: 'Blog',
+			path: 'blog'
+		},
+		{
+			title: 'Contactenos',
+			path: 'contact'
 		},
 	]
 	return (
@@ -57,7 +61,7 @@ export default function Navbar({ auth }) {
 					<div className="flex gap-x-6 items-center ">
 						<CategoriesDropdown />
 						{links.map((item) => (
-							<Link key={item.title} href={route(item.path)} className={(route().current(item.path) ? 'border-b-2  border-red-500 ' : ' ') + 'px-0.5'}>
+							<Link key={item.path} href={route(item.path)} className={(route().current(item.path) ? 'border-b-2  border-red-500 ' : ' ') + 'px-0.5'}>
 								{item.title}
 							</Link>
 						))}

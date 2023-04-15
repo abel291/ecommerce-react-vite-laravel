@@ -32,7 +32,7 @@ export default function CarouselBanner({ images }) {
 						}}
 					>
 						{images.map((image) => (
-							<SwiperSlide key={image.img}>
+							<SwiperSlide key={image.id}>
 								<Link href={image.link}>
 									<img
 										className="h-full mx-auto w-full object-cover overflow-hidden rounded md:rounded-xl"

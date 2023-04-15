@@ -28,20 +28,28 @@ use Inertia\Inertia;
 // });
 Route::controller(PageController::class)->group(function () {
 
-	//home
 	Route::get('/', 'home')->name('home');
-	Route::get('/offers', 'home')->name('offers');
-	Route::get('/combos', 'home')->name('combos');
-	Route::get('/assemblies', 'home')->name('assemblies');
-	Route::get('/contact', 'home')->name('contact');
+	Route::get('/offers', 'offers')->name('offers');
+	Route::get('/combos', 'combos')->name('combos');
+	Route::get('/assemblies', 'assemblies')->name('assemblies');
+	Route::get('/contact-us', 'contact')->name('contact');
 	Route::get('/promotions', 'home')->name('promotions');
 	Route::get('/search', 'home')->name('search');
 	Route::get('/product/{slug}', 'home')->name('product');
-	//Route::get('/', 'home')->name('home');
+	Route::get('/blog', 'home')->name('blog');
+	Route::get('/gift-card', 'home')->name('gift-card');
 });
+
 Route::post('/subscribe', function () {
-	return Redirect::back()->with('subscribe', 'Suscripción completada con exito');
-});
+	sleep(3);
+	return Redirect::back()->with('success', 'Suscripción completada con exito');
+})->name('subscribe');
+Route::post('/contact-form', function () {
+	sleep(3);
+	return Redirect::back()->with('success', 'Formulario  completado con exito');
+})->name('contact-form');
+
+
 Route::get('/dashboard', function () {
 	return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

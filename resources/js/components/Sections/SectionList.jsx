@@ -1,9 +1,10 @@
 import React from 'react'
+import SectionTitle from './SectionTitle'
 
-const SectionList = ({ children, title }) => {
+const SectionList = ({ children, title, entry }) => {
 	return (
 		<div className="py-content">
-			<h2 className="font-semibold text-3xl">{title}</h2>
+			<SectionTitle title={title} entry={entry} />
 			<div className="mt-8">
 				{children}
 			</div>
