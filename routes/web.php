@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -34,11 +35,12 @@ Route::controller(PageController::class)->group(function () {
 	Route::get('/assemblies', 'assemblies')->name('assemblies');
 	Route::get('/contact-us', 'contact')->name('contact');
 	Route::get('/promotions', 'home')->name('promotions');
-	Route::get('/search', 'home')->name('search');
 	Route::get('/product/{slug}', 'home')->name('product');
 	Route::get('/blog', 'home')->name('blog');
 	Route::get('/gift-card', 'home')->name('gift-card');
 });
+
+Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 Route::post('/subscribe', function () {
 	sleep(3);

@@ -20,6 +20,7 @@ class BannerSeeder extends Seeder
 		$offers_id = $pages->where('type', 'offers')->first()->id;
 		$combos_id = $pages->where('type', 'combos')->first()->id;
 		$assemblies_id = $pages->where('type', 'assemblies')->first()->id;
+		$search_id = $pages->where('type', 'search')->first()->id;
 
 		$current_date = date('Y-m-d H:i:s');
 
@@ -174,6 +175,20 @@ class BannerSeeder extends Seeder
 					'created_at' => $current_date,
 					'updated_at' => $current_date
 				],
+
+				[
+					'img' => '/img/banner-sidebar-search.jpg',
+					'alt' => 'banner-3',
+					'type' => 'banner',
+					'position' => 'medium',
+					'link' => 'https://www.logitechstore.com.ar/Gaming/Volantes',
+					'imageable_id' => $search_id,
+					'imageable_type' => 'App\Models\Page',
+					'created_at' => $current_date,
+					'updated_at' => $current_date
+				],
+
+
 			]
 		);
 	}

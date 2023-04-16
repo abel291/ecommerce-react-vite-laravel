@@ -31,11 +31,7 @@ export default function CategoriesDropdown() {
 									<div key={item.id}>
 										<Popover.Button >
 											<div>
-												<Link
-													href='/search' data={{ categories: item.slug }}
-
-													onClick={close}
-												>
+												<Link href={route('search', { 'categories[]': item.slug })} onClick={close}>
 													<div className="flex items-center">
 														<div className="mr-3 w-16 h-16 p-1 bg-gray-200 rounded-lg flex items-center">
 															<img src={"/img/categories/" + item.img} alt={item.name} />

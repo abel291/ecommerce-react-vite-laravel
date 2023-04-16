@@ -23,7 +23,7 @@ const CardProduct = ({ product, badge = "" }) => {
 								</div>
 							</div>
 						) : (
-							<div className="mr-2 text-lg font-bold">{formatCurrency(product.price)}</div>
+							<div className="mr-2 text-lg font-bold">{formatCurrency(product.price_offer)}</div>
 						)}
 					</div>
 				</div>

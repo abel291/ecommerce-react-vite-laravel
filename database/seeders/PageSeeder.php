@@ -17,7 +17,7 @@ class PageSeeder extends Seeder
 		Page::factory()->create(['type' => 'offers', 'meta_title' => 'Ofetas']);
 		Page::factory()->create(['type' => 'combos', 'meta_title' => 'Combos']);
 		Page::factory()->create(['type' => 'assemblies', 'meta_title' => 'Ensambles']);
-		Page::factory()->create(['type' => 'search', 'meta_title' => 'Ensambles']);
 		Page::factory()->create(['type' => 'contact', 'meta_title' => 'Contáctenos']);
+		Page::factory()->create(['type' => 'search',]);
 	}
 }
