@@ -9,7 +9,7 @@ use App\Models\User;
 use Faker as Faker;
 use Illuminate\Database\Seeder;
 
-class ShoppingCarSeeder extends Seeder
+class ShoppingCartSeeder extends Seeder
 {
 	/**
 	 * Run the database seeds.
@@ -22,15 +22,15 @@ class ShoppingCarSeeder extends Seeder
 
 
 		foreach (User::get() as $user) {
-			$shopping_car = [];
+			$shopping_cart = [];
 			foreach (Product::get()->random(10) as $product) {
 				$quantity = rand(1, $product->stock);
-				$shopping_car[$product->id] = [
+				$shopping_cart[$product->id] = [
 					'quantity' => $quantity,
 					'total_price_quantity' => $quantity * $product->price,
 				];
 			}
-			$user->shopping_car()->attach($shopping_car);
+			$user->shopping_cart()->attach($shopping_cart);
 		}
 	}
 }

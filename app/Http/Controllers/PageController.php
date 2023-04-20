@@ -81,4 +81,17 @@ class PageController extends Controller
 			'page' => $page,
 		]);
 	}
+
+	public function product($slug)
+	{
+
+		$product = Product::with('specifications', 'images', 'category.products')->where('slug', $slug)->first();
+
+		$related_products = $product->category->products->random(10);
+
+		return Inertia::render('Product/Product', [
+			'product' => new ProductResource($product),
+			'relatedProducts' => ProductResource::collection($related_products),
+		]);
+	}
 }

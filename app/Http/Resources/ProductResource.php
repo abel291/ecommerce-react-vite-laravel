@@ -27,6 +27,16 @@ class ProductResource extends JsonResource
 			'max_quantity' => $this->max_quantity,
 			'stock' => $this->stock,
 			'featured' => $this->featured,
+			'specifications' => $this->whenLoaded('specifications'),
+			'images' => $this->whenLoaded('images'),
+			'category' => $this->whenLoaded('category'),
+			'brand' => $this->whenLoaded('brand'),
+			'shopping_cart' => $this->whenPivotLoaded('shopping_cart', function () {
+				return [
+					'quantity' => $this->pivot->quantity,
+					'total_price_quantity' => $this->pivot->total_price_quantity,
+				];
+			}),
 		];
 	}
 }

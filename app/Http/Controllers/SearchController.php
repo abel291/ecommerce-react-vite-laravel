@@ -27,15 +27,15 @@ class SearchController extends Controller
 			})
 
 			->when($request->categories, function (Builder $query) use ($request) {
-				// $query->whereHas('category', function (Builder $sub_query) use ($request) {
-				// 	$sub_query->whereIn('slug', $request->categories);
-				// });
+				$query->whereHas('category', function (Builder $sub_query) use ($request) {
+					$sub_query->whereIn('slug', $request->categories);
+				});
 			})
 
 			->when($request->brands, function (Builder $query) use ($request) {
-				// $query->whereHas('brand', function (Builder $sub_query) use ($request) {
-				// 	$sub_query->whereIn('slug', $request->brands);
-				// });
+				$query->whereHas('brand', function (Builder $sub_query) use ($request) {
+					$sub_query->whereIn('slug', $request->brands);
+				});
 			})
 
 			->when($request->price_min, function (Builder $query) use ($request) {

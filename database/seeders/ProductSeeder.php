@@ -29,13 +29,13 @@ class ProductSeeder extends Seeder
 
 				Product::factory()
 					->has(Image::factory()->count(3)->state(function (array $attributes) use ($category) {
-						return ['img' => '/img/' . $category->slug . '/' . $category->slug . '-' . rand(1, 10) . '.jpg'];
+						return ['img' => '/img/categories/' . $category->slug . '/' . $category->slug . '-' . rand(1, 10) . '.jpg'];
 					}))
 
 					->create([
 						'name' => ucfirst($name),
 						'slug' => Str::slug($name) . rand(100, 200),
-						'img' => $category->slug . '/' . $category->slug . '-' . ($i + 1) . '.jpg',
+						'img' => '/img/categories/' . $category->slug . '/' . $category->slug . '-' . ($i + 1) . '.jpg',
 						'category_id' => $category->id,
 					]);
 			}

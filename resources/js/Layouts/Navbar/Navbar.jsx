@@ -36,7 +36,7 @@ export default function Navbar({ auth }) {
 		},
 	]
 	return (
-		<nav className="shadow pt-4 pb-3">
+		<nav className="shadow pt-4 pb-4">
 			<div className="container mx-auto ">
 				<div className="flex gap-5 items-center ">
 					<ApplicationLogo />
@@ -61,7 +61,7 @@ export default function Navbar({ auth }) {
 					<div className="flex gap-x-6 items-center ">
 						<CategoriesDropdown />
 						{links.map((item) => (
-							<Link key={item.path} href={route(item.path)} className={(route().current(item.path) ? 'border-b-2  border-red-500 ' : ' ') + 'px-0.5'}>
+							<Link key={item.path} href={route(item.path)} className={(route().current(item.path) ? 'border-b-2  border-red-500 ' : '')}>
 								{item.title}
 							</Link>
 						))}
@@ -77,7 +77,7 @@ export default function Navbar({ auth }) {
 							</>
 						)}
 
-						<Link href="/shopping-carts">
+						<Link href={route('shopping-cart.index')}>
 							<ShoppingBagIcon className="w-5 h-5  text-red-500" />
 						</Link>
 					</div>

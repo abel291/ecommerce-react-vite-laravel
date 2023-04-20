@@ -31,8 +31,8 @@ export default function CarouselBanner({ images }) {
 							prevEl: ".button-prev-banner",
 						}}
 					>
-						{images.map((image) => (
-							<SwiperSlide key={image.id}>
+						{images.map((image, index) => (
+							<SwiperSlide key={index}>
 								<Link href={image.link}>
 									<img
 										className="h-full mx-auto w-full object-cover overflow-hidden rounded md:rounded-xl"

@@ -44,9 +44,9 @@ class User extends Authenticatable
 		'email_verified_at' => 'datetime',
 	];
 
-	public function shopping_car()
+	public function shopping_cart()
 	{
-		return $this->belongsToMany(Product::class, 'shopping_car')->withPivot('quantity', 'total_price_quantity', 'id');
+		return $this->belongsToMany(Product::class, 'shopping_cart')->withPivot('quantity', 'total_price_quantity');
 	}
 
 	public function orders()

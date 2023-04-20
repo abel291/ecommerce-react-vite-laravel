@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ShoppingCartController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
@@ -35,10 +37,12 @@ Route::controller(PageController::class)->group(function () {
 	Route::get('/assemblies', 'assemblies')->name('assemblies');
 	Route::get('/contact-us', 'contact')->name('contact');
 	Route::get('/promotions', 'home')->name('promotions');
-	Route::get('/product/{slug}', 'home')->name('product');
+	Route::get('/product/{slug}', 'product')->name('product');
 	Route::get('/blog', 'home')->name('blog');
 	Route::get('/gift-card', 'home')->name('gift-card');
 });
+
+
 
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 
@@ -60,6 +64,13 @@ Route::middleware('auth')->group(function () {
 	Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 	Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 	Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+	Route::resource('shopping-cart', ShoppingCartController::class)->only([
+		'index', 'create', 'store', 'destroy',
+	]);
+
+	Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
+	Route::get('/shopping-cart-checkout', [CheckoutController::class, 'shopping_cart_checkout'])->name('shopping_cart_checkout');
 });
 
 require __DIR__ . '/auth.php';

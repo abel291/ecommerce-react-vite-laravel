@@ -17,7 +17,7 @@ const NotificationToast = () => {
 				reverseOrder={true}
 				toastOptions={{
 					success: {
-						duration: 10000,
+						duration: 6000,
 
 					}
 				}}

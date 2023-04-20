@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
 			BrandSeeder::class,
 			ProductSeeder::class,
 			SpecificationSeeder::class,
-			ShoppingCarSeeder::class,
+			ShoppingCartSeeder::class,
 			OrderSeeder::class,
 		]);
 		Schema::enableForeignKeyConstraints();

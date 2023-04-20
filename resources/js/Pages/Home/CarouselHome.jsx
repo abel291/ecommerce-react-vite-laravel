@@ -40,7 +40,7 @@ const CarouselHome = ({ items, searchType }) => {
 				{items.map((item) => (
 					<SwiperSlide key={item.id}>
 						<Link
-							href={route('search')} data={{ [searchType]: item.slug }}
+							href={route('search')} data={{ [searchType]: [item.slug] }}
 						>
 							<div className="flex flex-col items-center">
 								<div className="w-full h-44 p-6 rounded-lg bg-gray-100 flex items-center justify-center">

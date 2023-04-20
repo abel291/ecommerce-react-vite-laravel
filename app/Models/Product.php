@@ -43,7 +43,7 @@ class Product extends Model
 		return $this->hasMany(Specification::class);
 	}
 
-	public function shopping_car(): BelongsToMany
+	public function shopping_cart(): BelongsToMany
 	{
 		return $this->belongsToMany(User::class)->withPivot('quantity', 'total_price_quantity');
 	}
