@@ -3,27 +3,37 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Resources\OrderResource;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class ProfileController extends Controller
 {
-	/**
-	 * Display the user's profile form.
-	 */
-	public function edit(Request $request): Response
+
+	public function index(): Response
 	{
-		return Inertia::render('Profile/Edit', [
-			'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
-			'status' => session('status'),
+		return Inertia::render('Profile/Dashboard');
+	}
+
+	public function orders(): Response
+	{
+		return Inertia::render('Profile/Orders', [
+			'orders' => OrderResource::collection(auth()->user()->orders()->orderBy('id', 'desc')->paginate(10))
 		]);
 	}
 
+
+	public function account_details(): Response
+	{
+		return Inertia::render('Profile/AccountDetails');
+	}
 	/**
 	 * Update the user's profile information.
 	 */
@@ -37,28 +47,24 @@ class ProfileController extends Controller
 
 		$request->user()->save();
 
-		return Redirect::route('profile.edit');
+		return Redirect::route('profile-details')->with('success', 'Datos actualizados con exito');
 	}
 
-	/**
-	 * Delete the user's account.
-	 */
-	public function destroy(Request $request): RedirectResponse
+	public function change_password(): Response
 	{
-		$request->validate([
-			'password' => ['required', 'current_password'],
+		return Inertia::render('Profile/ChangePassword');
+	}
+	public function password_update(Request $request): RedirectResponse
+	{
+		$validated = $request->validate([
+			'current_password' => ['required', 'current_password'],
+			'password' => ['required', Password::defaults(), 'confirmed'],
 		]);
 
-		$user = $request->user();
-
-		Auth::logout();
-
-		$user->delete();
-
-		$request->session()->invalidate();
-		$request->session()->regenerateToken();
-
-		return Redirect::to('/');
+		$request->user()->update([
+			'password' => Hash::make($validated['password']),
+		]);
+		return Redirect::route('profile-password')->with('success', 'Datos actualizados con exito');
 	}
 
 	public function order(Request $request): RedirectResponse

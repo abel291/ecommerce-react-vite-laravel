@@ -26,7 +26,7 @@ export default function ProfileDropdown() {
 				<Menu.Items className="absolute right-0 w-52 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden">
 					<div className="">
 						<Menu.Item>
-							<Link href="/my-account" className="px-3 py-3 block hover:bg-gray-50">
+							<Link href={route('profile')} className="px-3 py-3 block hover:bg-gray-50">
 								<div className="flex items-center">
 									<UserCircleIcon className="h-5 w-5 mr-2 text-gray-700" />
 									<span>Mi cuenta</span>
@@ -34,7 +34,7 @@ export default function ProfileDropdown() {
 							</Link>
 						</Menu.Item>
 						<Menu.Item>
-							<Link href="/my-account/order" className="px-3 py-3 block hover:bg-gray-50">
+							<Link href={route('my-orders')} className="px-3 py-3 block hover:bg-gray-50">
 								<div className="flex items-center">
 									<ShoppingBagIcon className="h-5 w-5 mr-2 text-gray-700" />
 									<span>Ordenes</span>

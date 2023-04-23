@@ -1,15 +1,17 @@
 import Layout from "@/Layouts/Layout";
-import { formatCurrency } from "../../Helpers/helpers";
+import { formatCurrency, formatDate } from "../../Helpers/helpers";
 import { CheckCircleIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { Head } from "@inertiajs/react";
+import Profile from "../Profile/Profile";
+import OrderStatuBadges from "@/Components/OrderStatuBadges";
 
 const OrderComplete = ({ order, products }) => {
 
 	return (
-		<Layout>
+		<Profile>
 			<Head title="Orden" />
-			<div className="container py-content max-w-6xl space-y-8">
-				<div >
+			<div className="space-y-8">
+				{/* <div >
 					<div className="bg-green-100 p-2 md:p-4 flex items-start space-x-2 rounded-md">
 						<div>
 							<CheckCircleIcon className="h-6 w-6 text-green-400" />
@@ -23,8 +25,35 @@ const OrderComplete = ({ order, products }) => {
 							</span>
 						</div>
 					</div>
+				</div> */}
+				<div className="space-y-2">
+					<div className="flex items-center">
+						<span className="mr-2 font-semibold">Codigo:</span>
+						{order.code}
+					</div>
+					<div className="flex items-center">
+						<span className="mr-2 font-semibold">Nombre:</span>
+						{order.user.name}
+					</div>
+					<div className="flex items-center">
+						<span className="mr-2 font-semibold">Telefono:</span>
+						{order.user.phone}
+					</div>
+					<div className="flex items-center">
+						<span className="mr-2 font-semibold">Email:</span>
+						{order.user.email}
+					</div>
+
+					<div className="flex items-center">
+						<span className="mr-2 font-semibold">Fecha de Compra:</span>
+						{formatDate(order.created_at)}
+					</div>
+					<div className="flex items-center">
+						<span className="mr-2 font-semibold">Status de pago:</span>
+						<OrderStatuBadges status={order.status} />
+					</div>
 				</div>
-				<div>
+				{/* <div>
 					<div className="flex flex-col md:flex-row justify-between rounded-md border bg-gray-50 border-gray-200 divide-y md:divide-y-0 md:divide-x divide-gray-200">
 						<div className="p-3 md:p-5">
 							<span className="text-xs text-gray-500 font-light">Numero de orden</span>
@@ -47,7 +76,7 @@ const OrderComplete = ({ order, products }) => {
 							<div className="font-semibold text-lg ">Contra Entrega</div>
 						</div>
 					</div>
-				</div>
+				</div> */}
 				<h3 className=" text-2xl font-semibold">Detalles de orden</h3>
 				<div >
 					<table className=" w-full table-fixed rounded-md overflow-hidden">
@@ -93,7 +122,7 @@ const OrderComplete = ({ order, products }) => {
 					</table>
 				</div>
 			</div>
-		</Layout>
+		</Profile>
 	)
 }
 

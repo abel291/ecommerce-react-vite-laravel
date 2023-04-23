@@ -3,11 +3,11 @@
 @tailwind utilities;
 @layer utilities {
     .py-content {
-        @apply py-6 md:py-7 lg:py-8 xl:py-10;
+        @apply py-6 md:py-8 lg:py-10 xl:py-12;
     }
 
     .pb-content {
-        @apply pb-6 md:pb-7 lg:pb-8 xl:pb-10;
+        @apply pb-6 md:pb-8 lg:pb-10 xl:pb-12;
     }
 }
 @layer base {
