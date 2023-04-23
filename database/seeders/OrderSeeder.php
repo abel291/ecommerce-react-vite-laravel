@@ -22,7 +22,7 @@ class OrderSeeder extends Seeder
 		OrderProduct::truncate();
 		$users = User::get();
 		foreach ($users as $user) {
-			for ($i = 0; $i < rand(20, 80); $i++) {
+			for ($i = 0; $i < 100; $i++) {
 				$products = Product::get()->random(rand(3, 10));
 
 				$products->transform(function ($item) {
@@ -39,7 +39,7 @@ class OrderSeeder extends Seeder
 
 				$order = Order::create([
 					'code' => OrderService::generate_code($user->id),
-					'quantity' => $products->count(),
+					'quantity' => $products->sum('quantity_selected'),
 					'shipping' => $charges['shipping'],
 					'tax_amount' => $charges['tax_amount'],
 					'tax_percent' => $charges['tax_percent'],

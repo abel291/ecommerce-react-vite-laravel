@@ -9,9 +9,11 @@ export default function Layout({ children }) {
 	return (
 		<>
 			<NotificationToast />
+
 			<Navbar auth={auth} />
 			<main>{children}</main>
 			<Footer />
+
 		</>
 	);
 }

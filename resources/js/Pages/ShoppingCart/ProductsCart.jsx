@@ -1,5 +1,6 @@
 
 
+import InputError from "@/Components/InputError";
 import { formatCurrency } from "../../Helpers/helpers";
 import { Link, useForm } from "@inertiajs/react";
 const ProductsCart = ({ product }) => {
@@ -74,9 +75,9 @@ const ProductsCart = ({ product }) => {
 							))}
 						</select>
 						{product.shopping_cart.quantity > 1 && (
-							<div className=" text-gray-400 text-xs ml-1.5 mt-2.5"> 1 x {formatCurrency(product.price)} </div>
+							<div className=" text-gray-400 text-xs ml-1.5 mt-2.5"> 1 x {formatCurrency(product.price_offer)} </div>
 						)}
-						{errors.quantity && <div className="text-red-500 font-medium text-sm">{errors.quantity}</div>}
+						<InputError className="mt-1.5" message={errors.quantity} />
 					</div>
 				</div>
 				<div className="col-span-6 md:col-span-3">

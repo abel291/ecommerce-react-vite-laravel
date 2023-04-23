@@ -4,7 +4,7 @@ namespace App\Services;
 
 class OrderService
 {
-	public function calculate_price()
+	public function calculate_price($product, $quantity)
 	{
 	}
 
@@ -29,8 +29,8 @@ class OrderService
 		];
 	}
 
-	public static function generate_code($id)
+	public static function generate_code(): string
 	{
-		return  rand(1000, 9999) . date('md') . $id;
+		return  rand(1000, 9999) . date('md') . auth()->user()->id;
 	}
 }

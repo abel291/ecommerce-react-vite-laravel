@@ -14,7 +14,7 @@ class Order extends Model
 		'user_json' => 'object',
 	];
 
-	protected $guard = [];
+	protected $guarded  = [];
 
 	/**
 	 * Get all of the products for the Order

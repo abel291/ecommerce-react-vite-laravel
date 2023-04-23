@@ -41,7 +41,7 @@ export default function Navbar({ auth }) {
 				<div className="flex gap-5 items-center ">
 					<ApplicationLogo />
 					<div className="w-full xl:w-3/5">
-						<form action="" className="overflow-hidden border-2 border-red-500 bg-red-500 flex rounded-md shadow-sm">
+						<form action="" className="overflow-hidden border-2 border-orange-500 bg-orange-500 flex rounded-md shadow-sm">
 							<input
 								id="search-main"
 								type="text"
@@ -61,7 +61,7 @@ export default function Navbar({ auth }) {
 					<div className="flex gap-x-6 items-center ">
 						<CategoriesDropdown />
 						{links.map((item) => (
-							<Link key={item.path} href={route(item.path)} className={(route().current(item.path) ? 'border-b-2  border-red-500 ' : '')}>
+							<Link key={item.path} href={route(item.path)} className={(route().current(item.path) ? 'border-b-2  border-orange-500 ' : '')}>
 								{item.title}
 							</Link>
 						))}
@@ -78,7 +78,7 @@ export default function Navbar({ auth }) {
 						)}
 
 						<Link href={route('shopping-cart.index')}>
-							<ShoppingBagIcon className="w-5 h-5  text-red-500" />
+							<ShoppingBagIcon className="w-5 h-5  text-orange-500" />
 						</Link>
 					</div>
 				</div>

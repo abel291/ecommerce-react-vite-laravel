@@ -59,7 +59,7 @@ class ShoppingCartController extends Controller
 		//si el productos ya esta en el carritos no se agrega otro, solo se le cambia la cantidad a este
 		if ($product && $product->stock >= $request->quantity) {
 			$product->pivot->quantity = $request->quantity;
-			$product->pivot->total_price_quantity = $product->price * $request->quantity;
+			$product->pivot->total_price_quantity = $product->price_offer * $request->quantity;
 			$product->pivot->save();
 		}
 
@@ -73,10 +73,11 @@ class ShoppingCartController extends Controller
 			}
 
 			$product = Product::where('id', $request->product_id)->where('stock', '>=', $request->quantity)->first();
+			//dd($product);
 			if ($product) {
 				$user->shopping_cart()->attach($product->id, [
 					'quantity' => $request->quantity,
-					'total_price_quantity' => $product->price * $request->quantity,
+					'total_price_quantity' => $product->price_offer * $request->quantity,
 				]);
 				return to_route('shopping-cart.index')->with('success', 'Agregaste a tu carrito "' . $product->name . ' " ');
 				// $products = $user->shopping_cart()->with('specifications')->get();

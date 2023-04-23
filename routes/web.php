@@ -1,11 +1,14 @@
 <?php
 
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShoppingCartController;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -42,19 +45,15 @@ Route::controller(PageController::class)->group(function () {
 	Route::get('/gift-card', 'home')->name('gift-card');
 });
 
-
-
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 
-Route::post('/subscribe', function () {
-	sleep(3);
-	return Redirect::back()->with('success', 'Suscripción completada con exito');
-})->name('subscribe');
+Route::post('/subscribe', [NewsletterController::class, 'newsletter'])->name('subscribe');
+
+
 Route::post('/contact-form', function () {
 	sleep(3);
 	return Redirect::back()->with('success', 'Formulario  completado con exito');
 })->name('contact-form');
-
 
 Route::get('/dashboard', function () {
 	return Inertia::render('Dashboard');
@@ -69,8 +68,14 @@ Route::middleware('auth')->group(function () {
 		'index', 'create', 'store', 'destroy',
 	]);
 
-	Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
-	Route::get('/shopping-cart-checkout', [CheckoutController::class, 'shopping_cart_checkout'])->name('shopping_cart_checkout');
+	Route::controller(CheckoutController::class)->group(function () {
+		Route::get('/checkout', 'checkout')->name('checkout');
+		Route::get('/shopping-cart-checkout', 'shopping_cart_checkout')->name('shopping_cart_checkout');
+
+		Route::post('/pay', 'pay')->name('pay');
+	});
+
+	Route::get('/order/{code}', [OrderController::class, 'order'])->name('order');
 });
 
 require __DIR__ . '/auth.php';

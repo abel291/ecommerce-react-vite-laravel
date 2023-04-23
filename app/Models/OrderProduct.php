@@ -14,7 +14,7 @@ class OrderProduct extends Model
     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
     */
 
-	protected $guard = [];
+	protected $guarded  = [];
 
 	public function order(): BelongsTo
 	{

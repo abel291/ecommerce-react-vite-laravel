@@ -1,4 +1,5 @@
 
+import InputError from "@/Components/InputError"
 import PrimaryButton from "@/Components/PrimaryButton"
 import SecondaryButton from "@/Components/SecondaryButton"
 import { formatCurrency } from "@/Helpers/helpers"
@@ -23,7 +24,7 @@ const Feacture = ({ product }) => {
 	}
 
 	const handleClickCheckout = () => {
-		post(route('checkout'), {
+		get(route('checkout'), {
 			onStart: visit => { setProcessing('checkout') },
 			onFinish: visit => { setProcessing('') },
 		})
@@ -97,10 +98,9 @@ const Feacture = ({ product }) => {
 					</div>
 				</PrimaryButton>
 			</div>
+			<InputError className="mt-1.5" message={errors.quantity} />
+			<InputError className="mt-1.5" message={errors.product_id} />
 
-			{errors.quantity && (<div className="text-red-500 text-sm font-medium">{errors.quantity}</div>)}
-
-			{errors.product_id && (<div className="text-red-500 text-sm font-medium">{errors.product_id}</div>)}
 
 		</div>
 	)

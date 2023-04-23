@@ -1,3 +1,4 @@
+import InputError from "@/Components/InputError"
 import PrimaryButton from "@/Components/PrimaryButton"
 import TextInput from "@/Components/TextInput"
 import { useForm, usePage } from "@inertiajs/react"
@@ -36,16 +37,13 @@ const Suscribe = () => {
 								placeholder="Escriba su email aqui"
 								value={data.email}
 							/>
-							{errors.email && <div>{errors.email}</div>}
+
 
 						</div>
-						<PrimaryButton className="justify-center" disabled={processing}>Suscribirse</PrimaryButton>
+						<PrimaryButton className="justify-center" disabled={processing} isLoading={processing}>Suscribirse</PrimaryButton>
 					</form>
-					{/* <div>
-						{flash.subscribe && (
-							<div className="text-sm text-green-500 mt-1 font-medium">{flash.subscribe}</div>
-						)}
-					</div> */}
+					<InputError className="mt-1.5" message={errors.email} />
+
 				</div>
 			</div>
 		</div>
