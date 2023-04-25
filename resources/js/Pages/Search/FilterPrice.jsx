@@ -44,7 +44,7 @@ const FilterPrice = ({ filtersActive, setFiltersActive }) => {
 						className="input-form shadow-none  w-full text-sm"
 						placeholder="Maximo"
 					/>
-					<button className="px-2 text-white bg-red-500 rounded-md">
+					<button className=" btn-secondary px-2 text-white bg-orange-500 rounded-md">
 						<ChevronRightIcon className="h-6 w-6" />
 					</button>
 				</div>

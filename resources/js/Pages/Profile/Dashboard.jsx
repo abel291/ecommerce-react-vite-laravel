@@ -1,5 +1,5 @@
 import { Head, Link } from "@inertiajs/react"
-import Profile from "./Profile"
+import LayoutProfile from "../../Layouts/LayoutProfile"
 
 
 
@@ -7,7 +7,7 @@ const Dashboard = () => {
 	//let { url } = useMatch()
 
 	return (
-		<Profile>
+		<LayoutProfile>
 			<Head title="Perfil" />
 			<div className="space-y-2">
 				<h3 className="font-bold text-2xl mb-6">Dashboard</h3>
@@ -27,7 +27,7 @@ const Dashboard = () => {
 					.
 				</div>
 			</div>
-		</Profile >
+		</LayoutProfile >
 	)
 }
 

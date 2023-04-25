@@ -2,7 +2,7 @@ import NavLink from '@/Components/NavLink'
 import Layout from '@/Layouts/Layout'
 import { Head, Link } from '@inertiajs/react'
 import React from 'react'
-import Dashboard from './Dashboard'
+import Dashboard from '../Pages/Profile/Dashboard'
 import BannerWithTitle from '@/Components/Carousel/BannerWithTitle'
 import { ArrowRightOnRectangleIcon, HomeIcon, IdentificationIcon, LockClosedIcon, ShoppingCartIcon, UserCircleIcon } from '@heroicons/react/24/outline'
 
@@ -33,7 +33,6 @@ export default function Profile({ children }) {
 	]
 	return (
 		<Layout>
-
 			<BannerWithTitle title="Mi cuenta" image="/img/banner-my-account.jpg" />
 			<div className="container py-content">
 				<div className="grid grid-cols-12 md:gap-6 gap-y-10 py-10">

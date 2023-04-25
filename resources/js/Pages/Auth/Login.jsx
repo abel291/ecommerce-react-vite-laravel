@@ -9,8 +9,8 @@ import { Head, Link, useForm } from '@inertiajs/react';
 
 export default function Login({ status, canResetPassword }) {
 	const { data, setData, post, processing, errors, reset } = useForm({
-		email: '',
-		password: '',
+		email: 'user@user.com',
+		password: '123123',
 		remember: false,
 	});
 
@@ -66,28 +66,33 @@ export default function Login({ status, canResetPassword }) {
 					<InputError message={errors.password} className="mt-2" />
 				</div>
 
-				<div className="block mt-4">
-					<label className="flex items-center">
-						<Checkbox
-							name="remember"
-							checked={data.remember}
-							onChange={(e) => setData('remember', e.target.checked)}
-						/>
-						<span className="ml-2 text-sm text-gray-600 dark:text-gray-400">Acuérdate de mí</span>
-					</label>
+				<div className="flex items-center justify-between mt-8">
+					<div>
+						<label className="flex items-center">
+							<Checkbox
+								name="remember"
+								checked={data.remember}
+								onChange={(e) => setData('remember', e.target.checked)}
+							/>
+							<span className="ml-2 text-sm text-gray-600 dark:text-gray-400">Acuérdate de mí</span>
+						</label>
+					</div>
+
+					<div>
+						{canResetPassword && (
+							<Link
+								href={route('password.request')}
+								className="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
+							>
+								¿Olvidaste tu contraseña?
+							</Link>
+						)}
+
+
+					</div>
 				</div>
-
-				<div className="flex items-center justify-end mt-4">
-					{canResetPassword && (
-						<Link
-							href={route('password.request')}
-							className="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
-						>
-							¿Olvidaste tu contraseña?
-						</Link>
-					)}
-
-					<PrimaryButton className="ml-4" disabled={processing}>
+				<div>
+					<PrimaryButton className="w-full mt-8 flex justify-center" disabled={processing} isLoading={processing}>
 						Iniciar sesión
 					</PrimaryButton>
 				</div>

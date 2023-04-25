@@ -3,7 +3,7 @@ import InputLabel from "../../components/InputLabel"
 import { Head, useForm } from "@inertiajs/react"
 import PrimaryButton from "@/Components/PrimaryButton"
 import TextInput from "@/Components/TextInput"
-import Profile from "./Profile"
+import LayoutProfile from "../../Layouts/LayoutProfile"
 import InputError from "@/Components/InputError"
 
 const ChangePassword = () => {
@@ -23,7 +23,7 @@ const ChangePassword = () => {
 	}
 
 	return (
-		<Profile>
+		<LayoutProfile>
 			<Head title="Cambio de contraseña" />
 			<div className="space-y-2">
 				<h3 className="font-bold text-2xl mb-6"> Cambiar contraseña</h3>
@@ -73,7 +73,7 @@ const ChangePassword = () => {
 					</div>
 				</form>
 			</div>
-		</Profile>
+		</LayoutProfile>
 	)
 }
 

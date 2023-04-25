@@ -2,7 +2,7 @@
 
 import TextInput from "@/Components/TextInput"
 import PrimaryButton from "@/Components/PrimaryButton"
-import Profile from "./Profile"
+import LayoutProfile from "../../Layouts/LayoutProfile"
 import { Head, useForm, usePage } from "@inertiajs/react"
 import { useState } from "react"
 import InputLabel from "@/Components/InputLabel"
@@ -27,7 +27,7 @@ const AccountDetails = () => {
 		})
 	}
 	return (
-		<Profile>
+		<LayoutProfile>
 			<Head title="Detalles de cuenta" />
 			<div className="space-y-2">
 				<h3 className="font-bold text-2xl mb-6"> Detalles de Cuenta</h3>
@@ -77,7 +77,7 @@ const AccountDetails = () => {
 					</div>
 				</form>
 			</div>
-		</Profile>
+		</LayoutProfile>
 	)
 }
 

@@ -22,7 +22,7 @@ class OrderSeeder extends Seeder
 		OrderProduct::truncate();
 		$users = User::get();
 		foreach ($users as $user) {
-			for ($i = 0; $i < 100; $i++) {
+			for ($i = 0; $i < 200; $i++) {
 				$products = Product::get()->random(rand(3, 10));
 
 				$products->transform(function ($item) {
@@ -35,7 +35,7 @@ class OrderSeeder extends Seeder
 				$amount = $products->sum('price_quantity');
 
 				$charges = OrderService::calculate_total_price($amount);
-				$status = ['successful', 'refunded', 'canceled'];
+				$status = ['success', 'refunded', 'canceled'];
 
 				$order = Order::create([
 					'code' => OrderService::generate_code($user->id),

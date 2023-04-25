@@ -145,7 +145,7 @@ export default function Search({ page, banner, products, filters }) {
 											options={brands}
 											filter={filtersActive.brands}
 											setFilter={setFilter}
-											nameInputs="brands"
+											nameFilter="brands"
 											title="Marcas"
 										/>
 									</div>
@@ -181,7 +181,7 @@ export default function Search({ page, banner, products, filters }) {
 								{products.data.length ? (
 									<div className="py-content relative">
 										<>
-											<div className="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-4 ">
+											<div className="grid grid-cols-2 gap-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  md:gap-6 ">
 												{products.data.map((item) => (
 													<CardProduct key={item.id} product={item} />
 												))}

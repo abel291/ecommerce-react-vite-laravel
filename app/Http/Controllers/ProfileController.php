@@ -67,8 +67,11 @@ class ProfileController extends Controller
 		return Redirect::route('profile-password')->with('success', 'Datos actualizados con exito');
 	}
 
-	public function order(Request $request): RedirectResponse
+	public function order($code)
 	{
-		return Redirect::to('/');
+		$order = auth()->user()->orders()->with('products')->where('code', $code)->first();
+		return Inertia::render('Profile/Order', [
+			'order' => new OrderResource($order),
+		]);
 	}
 }

@@ -3,9 +3,10 @@ import { useState } from "react";
 import { formatCurrency, formatDate } from "../../Helpers/helpers";
 
 
-import Profile from "./Profile";
+import LayoutProfile from "../../Layouts/LayoutProfile";
 import OrderStatuBadges from "@/Components/OrderStatuBadges";
 import { Head, Link } from "@inertiajs/react";
+import Pagination from "@/Components/Pagination";
 
 const Order = ({ orders }) => {
 
@@ -17,7 +18,7 @@ const Order = ({ orders }) => {
 	};
 
 	return (
-		<Profile>
+		<LayoutProfile>
 			<Head title="Ordenes" />
 			<div className="space-y-2">
 				<h3 className="mb-6 text-2xl font-bold">Ordenes</h3>
@@ -63,14 +64,15 @@ const Order = ({ orders }) => {
 				</table>
 				<div>
 					<div className="mt-8">
-						{/* <Pagination
-							paginator={data.orders}
-							handleClickChangePage={handleClickChangePage}
-						/> */}
+						{orders.meta.total > orders.meta.per_page && (
+							<div className="mt-8">
+								<Pagination paginator={orders.meta} />
+							</div>
+						)}
 					</div>
 				</div>
 			</div>
-		</Profile>
+		</LayoutProfile>
 	);
 };
 

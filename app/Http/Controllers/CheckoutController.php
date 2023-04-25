@@ -85,7 +85,7 @@ class CheckoutController extends Controller
 
 		DB::beginTransaction();
 		$order = Order::create([
-			'code' => OrderService::generate_code(),
+			'code' => OrderService::generate_code(auth()->user()->id),
 			'quantity' => $charges['quantity'],
 			'shipping' => $charges['shipping'],
 			'tax_amount' => $charges['tax_amount'],

@@ -29,8 +29,8 @@ class OrderService
 		];
 	}
 
-	public static function generate_code(): string
+	public static function generate_code($id): string
 	{
-		return  rand(1000, 9999) . date('md') . auth()->user()->id;
+		return  rand(1000, 9999) . date('md') . $id;
 	}
 }
