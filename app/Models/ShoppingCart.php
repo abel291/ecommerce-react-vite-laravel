@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class ShoppingCar extends Pivot
+class ShoppingCart extends Pivot
 {
-	protected $table = 'shopping_car';
+	protected $table = 'shopping_cart';
 
 	protected $fillable = ['user_id', 'product_id', 'quantity', 'total_price'];
 

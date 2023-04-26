@@ -24,6 +24,11 @@ class Category extends Model
 		return $this->hasMany(Product::class);
 	}
 
+	public function posts()
+	{
+		return $this->belongsToMany(Blog::class);
+	}
+
 	// public function specifications()
 	// {
 	// 	return $this->hasMany(Specification::class);

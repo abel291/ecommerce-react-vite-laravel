@@ -113,6 +113,6 @@ class CheckoutController extends Controller
 
 		session()->forget(['charges', 'products']);
 
-		return Redirect::to(route('order', $order->code));
+		return Redirect::to(route('order', $order->code))->with('success', 'orden creada con exito');
 	}
 }

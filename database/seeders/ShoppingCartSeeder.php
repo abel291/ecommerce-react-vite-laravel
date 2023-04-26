@@ -4,7 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\CardProduct;
 use App\Models\Product;
-use App\Models\ShoppingCar;
+
+use App\Models\ShoppingCart;
 use App\Models\User;
 use Faker as Faker;
 use Illuminate\Database\Seeder;
@@ -18,7 +19,7 @@ class ShoppingCartSeeder extends Seeder
 	 */
 	public function run()
 	{
-		ShoppingCar::truncate();
+		ShoppingCart::truncate();
 
 
 		foreach (User::get() as $user) {

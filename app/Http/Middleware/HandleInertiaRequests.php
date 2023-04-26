@@ -36,7 +36,7 @@ class HandleInertiaRequests extends Middleware
 			'auth' => [
 				'user' => $request->user(),
 			],
-			'categories' => fn () => Category::all('id', 'name', 'slug', 'img'),
+			'categories' => fn () => Category::select('id', 'name', 'slug', 'img')->where('type', '=', 'product')->get(),
 			'brands' => fn () => Brand::all('id', 'name', 'slug', 'img'),
 			'flash' => [
 				'success' => fn () => $request->session()->get('success'),

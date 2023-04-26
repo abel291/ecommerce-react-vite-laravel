@@ -1,31 +1,33 @@
 import Layout from "@/Layouts/Layout";
 import { formatCurrency, formatDate } from "../../Helpers/helpers";
 import { CheckCircleIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import { Head } from "@inertiajs/react";
+import { Head, usePage } from "@inertiajs/react";
 import LayoutProfile from "../../Layouts/LayoutProfile";
 import OrderStatuBadges from "@/Components/OrderStatuBadges";
 
 const OrderComplete = ({ order, products }) => {
-
+	const { flash } = usePage().props
 	return (
 		<LayoutProfile>
 			<Head title="Orden" />
 			<div className="space-y-8">
-				{/* <div >
-					<div className="bg-green-100 p-2 md:p-4 flex items-start space-x-2 rounded-md">
-						<div>
-							<CheckCircleIcon className="h-6 w-6 text-green-400" />
-						</div>
-						<div className="text-green-700 flex-grow">
-							<span className="font-semibold block text-green-600">
-								Gracias. Tu orden ha sido recibida.
-							</span>
-							<span className="text-green-600  font-light">
-								Paga en efectivo al momento de la entrega
-							</span>
+				{flash.success && (
+					<div >
+						<div className="bg-green-100 p-2 md:p-4 flex items-start space-x-2 rounded-md">
+							<div>
+								<CheckCircleIcon className="h-6 w-6 text-green-400" />
+							</div>
+							<div className="text-green-700 flex-grow">
+								<span className="font-semibold block text-green-600">
+									Gracias. Tu orden ha sido recibida.
+								</span>
+								<span className="text-green-600  font-light">
+									Paga en efectivo al momento de la entrega
+								</span>
+							</div>
 						</div>
 					</div>
-				</div> */}
+				)}
 				<div className="space-y-2">
 					<div className="flex items-center">
 						<span className="mr-2 font-semibold">Codigo:</span>

@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
 			SpecificationSeeder::class,
 			ShoppingCartSeeder::class,
 			OrderSeeder::class,
+			BlogSeeder::class
 		]);
 		Schema::enableForeignKeyConstraints();
 	}
