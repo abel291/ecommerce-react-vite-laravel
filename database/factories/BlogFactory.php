@@ -18,11 +18,11 @@ class BlogFactory extends Factory
 	public function definition(): array
 	{
 		return [
-			'title' => ucfirst($this->faker->words(2, true)),
+			'title' => ucfirst($this->faker->sentence()),
 			'slug' => Str::slug($this->faker->sentence()),
 			'meta_title' => ucfirst($this->faker->words(2, true)),
 			'meta_desc' => $this->faker->sentence(),
-			'img' => '',
+			'img' => '/img/blog/post-' . rand(1, 10) . '.jpg',
 			'entry' => $this->faker->paragraph(),
 			'desc' => $this->faker->text(800),
 		];

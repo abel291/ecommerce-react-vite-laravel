@@ -96,6 +96,5 @@ class SearchController extends Controller
 			'page' => $page,
 			'banner' => $banner,
 		]);
-		return  compact('products');
 	}
 }

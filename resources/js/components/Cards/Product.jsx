@@ -11,8 +11,8 @@ const CardProduct = ({ product, badge = "" }) => {
 				</div>
 				<div className="my-2">
 					{/* <div className="bg-red-500 text-white rounded py-1 px-2 text-xs inline-block font-medium">Nuevo</div> */}
-					<h2 className="text-heading font-medium mb-1 text-sm md:text-base ">{product.name}</h2>
-					<p className="text-body text-xs lg:text-sm leading-normal xl:leading-relaxed line-clamp-2">{product.description_min}</p>
+					<h2 className="text-heading font-semibold mb-1  ">{product.name}</h2>
+					<p className="text-body text-xs lg:text-sm leading-normal xl:leading-relaxed line-clamp-2 text-gray-600">{product.description_min}</p>
 					<div className="mt-2">
 						{product.offer ? (
 							<div>

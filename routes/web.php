@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\OrderController;
@@ -41,14 +42,17 @@ Route::controller(PageController::class)->group(function () {
 	Route::get('/contact-us', 'contact')->name('contact');
 	Route::get('/promotions', 'home')->name('promotions');
 	Route::get('/product/{slug}', 'product')->name('product');
-	Route::get('/blog', 'home')->name('blog');
 	Route::get('/gift-card', 'home')->name('gift-card');
+});
+
+Route::controller(BlogController::class)->group(function () {
+	Route::get('/blog', 'blog')->name('blog');
+	Route::get('/post/{slug}', 'post')->name('post');
 });
 
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 Route::post('/subscribe', [NewsletterController::class, 'newsletter'])->name('subscribe');
-
 
 Route::post('/contact-form', function () {
 	sleep(3);
@@ -75,6 +79,8 @@ Route::middleware('auth')->group(function () {
 		Route::get('/change-password', 'change_password')->name('profile-password');
 		Route::put('/change-password', 'password_update')->name('profile-password-update');
 	});
+
+
 
 	Route::resource('shopping-cart', ShoppingCartController::class)->only([
 		'index', 'create', 'store', 'destroy',

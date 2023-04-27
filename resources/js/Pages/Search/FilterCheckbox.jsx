@@ -14,7 +14,7 @@ const FilterCheckbox = ({ options, filter, setFilter, nameFilter, title }) => {
 
 	return (
 		<>
-			<div className="font-medium mb-4 ">{title}</div>
+			<h3 className="font-medium mb-4 ">{title}</h3>
 			<div className="space-y-3 text-sm font-normal text-gray-700">
 				{options.map((item, index) => (
 					<div key={item.slug} className="flex items-center">

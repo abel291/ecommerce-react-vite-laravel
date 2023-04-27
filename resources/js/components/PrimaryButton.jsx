@@ -5,7 +5,7 @@ export default function PrimaryButton({ className = '', disabled, children, isLo
 		<button
 			{...props}
 			className={
-				`btn-primary relative ${(disabled || isLoading) && 'opacity-40'
+				`btn-primary  ${(disabled || isLoading) && 'opacity-40'
 				} ` + className
 			}
 			disabled={disabled}
