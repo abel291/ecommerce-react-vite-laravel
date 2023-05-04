@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+[x-cloak] {
+    display: none !important;
+}
+
+.table-list tr {
+    @apply text-sm;
+}
+.table-list tbody {
+    @apply border-t border-gray-300 divide-y divide-gray-200;
+}
+.table-list tr th {
+    @apply py-3.5 text-sm font-semibold text-left;
+}
+.table-list tr td {
+    @apply py-4;
+}
+.table-list tr th:first-child,
+.table-list tr td:first-child {
+    @apply pr-3;
+}
+.table-list tr th:last-child,
+.table-list tr td:last-child {
+    @apply pl-3;
+}
+.table-list tr th:not(:first-child, :last-child),
+.table-list tr td:not(:first-child, :last-child) {
+    @apply px-3;
+}
+
+.btn-primary {
+    @apply rounded-md bg-gray-800 px-3.5 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-800;
+}

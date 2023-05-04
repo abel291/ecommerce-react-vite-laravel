@@ -9,6 +9,7 @@ use App\Models\Page;
 use App\Models\Product;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -16,6 +17,7 @@ class PageController extends Controller
 {
 	public function home()
 	{
+
 		$featured = Product::where('featured', true)->get()->random(8);
 		$newProducts = Product::orderBy('id', 'desc')->limit(8)->get();
 		$page = Page::with('banners')->where('type', 'home')->firstOrFail();

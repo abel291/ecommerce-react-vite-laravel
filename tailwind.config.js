@@ -1,5 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
-
+const colors = require('tailwindcss/colors')
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	darkMode: 'class',
@@ -8,6 +8,12 @@ module.exports = {
 		'./storage/framework/views/*.php',
 		'./resources/views/**/*.blade.php',
 		'./resources/js/**/*.jsx',
+
+		//dashboard
+		//"./resources/**/*.blade.php",
+		"./resources/**/*.js",
+
+
 	],
 
 	theme: {
@@ -15,6 +21,7 @@ module.exports = {
 			fontFamily: {
 				sans: ['Inter', ...defaultTheme.fontFamily.sans],
 			},
+
 		},
 
 		container: {
@@ -29,5 +36,9 @@ module.exports = {
 		},
 	},
 
-	plugins: [require('@tailwindcss/forms')],
+	plugins: [require('@tailwindcss/forms'), require('flowbite/plugin')],
+
+
+
+
 };

@@ -15,7 +15,7 @@ class CreateOrdersTable extends Migration
 	{
 		Schema::create('orders', function (Blueprint $table) {
 			$table->id();
-			$table->string('code', 10);
+			$table->string('code', 20);
 			$table->unsignedInteger('quantity');
 			$table->unsignedFloat('shipping');
 			$table->unsignedFloat('tax_amount');

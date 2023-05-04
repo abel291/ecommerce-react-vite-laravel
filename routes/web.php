@@ -2,12 +2,15 @@
 
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShoppingCartController;
+use App\Http\Livewire\User\ListUser;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -55,13 +58,9 @@ Route::get('/search', [SearchController::class, 'search'])->name('search');
 Route::post('/subscribe', [NewsletterController::class, 'newsletter'])->name('subscribe');
 
 Route::post('/contact-form', function () {
-	sleep(3);
+
 	return Redirect::back()->with('success', 'Formulario  completado con exito');
 })->name('contact-form');
-
-Route::get('/dashboard', function () {
-	return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
 
@@ -80,10 +79,8 @@ Route::middleware('auth')->group(function () {
 		Route::put('/change-password', 'password_update')->name('profile-password-update');
 	});
 
-
-
 	Route::resource('shopping-cart', ShoppingCartController::class)->only([
-		'index', 'create', 'store', 'destroy',
+		'index', 'store', 'destroy',
 	]);
 
 	Route::controller(CheckoutController::class)->group(function () {
@@ -91,6 +88,14 @@ Route::middleware('auth')->group(function () {
 		Route::get('/shopping-cart-checkout', 'shopping_cart_checkout')->name('shopping_cart_checkout');
 		Route::post('/pay', 'pay')->name('pay');
 	});
+
+	Route::prefix('dashboard')->name('dashboard.')->middleware(['role:admin'])->group(function () {
+
+		Route::get('/', DashboardController::class)->name('home');
+		Route::get('/users', ListUser::class)->name('users');
+	});
 });
+
+
 
 require __DIR__ . '/auth.php';

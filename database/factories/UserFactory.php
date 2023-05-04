@@ -29,10 +29,11 @@ class UserFactory extends Factory
 	{
 		return [
 			'name' => $this->faker->name(),
+			'email' => $this->faker->unique()->safeEmail(),
 			'phone' => $this->faker->phoneNumber,
 			'country' => str_replace(["'", '"'], '', $this->faker->country),
 			'city' => str_replace(["'", '"'], '', $this->faker->city),
-			'email' => $this->faker->unique()->safeEmail(),
+			'address' => str_replace(["'", '"'], '', $this->faker->address()),
 			'email_verified_at' => now(),
 			'password' => Hash::make('123123'),
 			'remember_token' => Str::random(10),
