@@ -18,14 +18,16 @@ class UserSeeder extends Seeder
 	public function run()
 	{
 		User::truncate();
+		Role::truncate();
+		Role::create(['name' => 'admin']);
+		Role::create(['name' => 'usuario']);
+
 		$user = User::factory()->create([
 			'email' => 'user@user.com',
 		]);
-		Role::create(['name' => 'admin']);
-		Role::create(['name' => 'usuario']);
 		$user->assignRole('admin');
 
-		$users = User::factory()->count(200)->create();
+		$users = User::factory()->count(4)->create();
 		foreach ($users as $key => $user) {
 			$user->assignRole('usuario');
 		}

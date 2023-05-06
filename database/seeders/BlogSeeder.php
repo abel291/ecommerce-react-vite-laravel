@@ -19,10 +19,9 @@ class BlogSeeder extends Seeder
 			'type' => 'blog',
 			'specifications' => null
 		]);
-
-		for ($i = 0; $i < 30; $i++) {
-			$post = Blog::factory()->create();
-			$post->categories()->sync($categories->random(3)->pluck('id'));
-		}
+		Blog::factory()
+			->count(30)
+			->hasAttached($categories->random(8))
+			->create();
 	}
 }

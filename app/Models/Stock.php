@@ -2,26 +2,24 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class OrderProduct extends Model
+class Stock extends Model
 {
 	use HasFactory;
-	/* Get the user that owns the PaidProduct
-    *
-    * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-    */
-
-	protected $guarded  = [];
-
-	public function order(): BelongsTo
-	{
-		return $this->belongsTo(Order::class);
-	}
+	protected $table = 'stock';
 	public function product(): BelongsTo
 	{
 		return $this->belongsTo(Product::class);
+	}
+	public function stockPercent(): Attribute
+	{
+		$percent = ($this->remaining * 100) / $this->quantity;
+		return new Attribute(
+			get: fn () => round($percent, 2)
+		);
 	}
 }

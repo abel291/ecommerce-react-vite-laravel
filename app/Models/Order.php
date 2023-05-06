@@ -21,7 +21,7 @@ class Order extends Model
 	 *
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
 	 */
-	public function products(): HasMany
+	public function order_products(): HasMany
 	{
 		return $this->hasMany(OrderProduct::class);
 	}

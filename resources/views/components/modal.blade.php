@@ -9,13 +9,13 @@
             break;
         case 'lg':
         default:
-            $modalSize = 'sm:max-w-2xl md:max-w-4xl';
+            $modalSize = 'sm:max-w-2xl md:max-w-6xl';
             break;
     }
 @endphp
 <div>
     <div x-on:close.stop="show = false" x-on:keydown.escape.window="show = false" x-show="show"
-        class="absolute top-0 inset-x-0 px-4 pt-6 sm:px-4 sm:flex sm:items-top sm:justify-center z-50"
+        class=" absolute top-0 inset-x-0 px-4 pt-6 sm:px-4 sm:flex sm:items-top sm:justify-center z-50"
         style="display: none;">
 
         <div x-show="show" class="fixed inset-0 transform transition-all" x-on:click="show = false"

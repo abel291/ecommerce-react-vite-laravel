@@ -10,6 +10,8 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShoppingCartController;
+use App\Http\Livewire\Product\CreateProduct;
+use App\Http\Livewire\Product\ListProduct;
 use App\Http\Livewire\User\ListUser;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
@@ -93,6 +95,10 @@ Route::middleware('auth')->group(function () {
 
 		Route::get('/', DashboardController::class)->name('home');
 		Route::get('/users', ListUser::class)->name('users');
+		Route::get('/products', ListProduct::class)->name('products');
+
+		Route::get('/product/create', [CreateProduct::class, '__invoke'])->name('create-product');
+		Route::get('/product/{id}/edit', [CreateProduct::class, '__invoke'])->name('edit-product');
 	});
 });
 

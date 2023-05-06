@@ -20,13 +20,15 @@ class CreateProductsTable extends Migration
 			$table->string('slug')->unique()->index();
 			$table->text('description_min');
 			$table->text('description_max');
-			$table->string('img');
+			$table->string('thum')->nullable();
+			$table->string('img')->nullable();
 			$table->unsignedFloat('price')->default(0);
 			$table->unsignedTinyInteger('offer')->nullable();
 			$table->unsignedFloat('price_offer')->nullable();
+			$table->unsignedFloat('cost')->nullable();
 			$table->unsignedInteger('max_quantity');
-			$table->unsignedInteger('stock');
 			$table->boolean('featured')->default(false);
+			$table->boolean('active')->default(true);
 			$table->foreignId('brand_id')->nullable()->constrained()->nullOnDelete();
 			$table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
 			$table->timestamps();

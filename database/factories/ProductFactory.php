@@ -27,11 +27,13 @@ class ProductFactory extends Factory
 	{
 		$name = $this->faker->words(7, true);
 
-		$price = rand(10, 1500);
+		$price = rand(10, 500);
 
 		$offer = $this->faker->randomElement([0, 10, 20, 30, 40, 50]);
 
 		$price_offer = $price - ($price * ($offer / 100));
+
+		$cost = round($price * 0.80);
 
 		return [
 			'name' => ucfirst($name),
@@ -41,10 +43,12 @@ class ProductFactory extends Factory
 			'price' => $price,
 			'offer' => $offer,
 			'price_offer' => $price_offer,
+			'cost' => $cost,
+			'thum' => 'item-' . rand(1, 52) . '.jpg',
 			'img' => 'item-' . rand(1, 52) . '.jpg',
 			'featured' => rand(0, 1),
-			'stock' => rand(10, 300),
 			'max_quantity' => rand(10, 40),
+			'active' => 1,
 			'brand_id' => Brand::inRandomOrder()->first()->id,
 		];
 	}

@@ -12,9 +12,8 @@
 			show = false;
 		}, 5000);
 
-	"
-    class="fixed top-6 right-6 z-50 max-w-sm w-full" x-cloak x-show="show" x-transition.duration.500ms>
-    <div>
+	">
+    <div class="fixed top-6 right-6 z-50 max-w-sm w-full" x-cloak x-show="show" x-transition.duration.500ms>
         <div id="toast-success"
             class="w-full p-4 text-gray-700 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 "
             role="alert">
@@ -40,3 +39,7 @@
         </div>
     </div>
 </div>
+
+@if (session()->has('success'))
+    <div x-data="" x-init="$dispatch('notification', { title: '{{ session('success') }}' })"></div>
+@endif

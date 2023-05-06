@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Listeners\DisableForeignKeyMigrations;
+use App\Models\OrderProduct;
+use App\Observers\OrderProductObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Database\Events\MigrationsStarted;
@@ -30,7 +32,8 @@ class EventServiceProvider extends ServiceProvider
 	 */
 	public function boot(): void
 	{
-		//
+		OrderProduct::observe(OrderProductObserver::class);
+		//cada que se crea una orden se le resta al stock del producto
 	}
 
 	/**

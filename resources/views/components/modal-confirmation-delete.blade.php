@@ -27,11 +27,11 @@
             </x-slot>
             <x-slot name="footer">
                 <x-secondary-button x-on:click="show=false" wire:loading.attr="disabled">
-                    cancelar
+                    Cancelar
                 </x-secondary-button>
 
                 <x-danger-button class="ml-2" x-on:click="$wire.delete(id)" wire:loading.attr="disabled">
-                    <span wire:loading.class="hidden" wire:target="delete">Borrar Regsitro</span>
+                    <span wire:loading.class="hidden" wire:target="delete">Borrar regsitro</span>
                     <span wire:loading wire:target="delete"> Borrando... </span>
                 </x-danger-button>
             </x-slot>

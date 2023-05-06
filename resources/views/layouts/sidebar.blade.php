@@ -12,7 +12,7 @@
         ],
         [
             'title' => 'Productos',
-            'route' => 'home',
+            'route' => 'dashboard.products',
             'icon' => 'heroicon-o-archive-box',
         ],
         [
@@ -56,9 +56,7 @@
 <div class="w-72 flex bg-gray-900 z-40">
     <div class="px-6 pb-4 flex flex-col gap-y-6 overflow-y-auto grow ">
         <div class="h-16 flex items-center ">
-            <a href="{{ route('dashboard.home') }}">
-                <x-application-logo class="block h-8 w-auto fill-current text-white dark:text-gray-200" />
-            </a>
+            <x-application-logo class="block h-8 w-auto fill-current text-white dark:text-gray-200" />
         </div>
         <nav class="flex flex-col flex-1">
             <ul role="list" class="flex flex-col  gap-y-7 flex-1">
@@ -77,28 +75,28 @@
                     </ul>
                 </li>
                 <li>
-                    <div class="text-xs font-semibold leading-6 text-gray-400">Your teams</div>
+                    <div class="text-xs font-semibold leading-6 text-gray-400">Blog</div>
                     <ul role="list" class="space-y-1 -mx-2 mt-2">
                         <li>
                             <a href="#"
                                 class="font-semibold text-sm leading-6 rounded-md flex gap-x-3 p-2 text-gray-400 hover:text-white hover:bg-gray-800">
                                 <span
                                     class="flex w-6 h-6 flex-shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-xs font-medium ">H</span>
-                                <span class="adg">Heroicons</span></a>
+                                <span class="adg">Posts</span></a>
                         </li>
                         <li>
                             <a href="#"
                                 class="font-semibold text-sm leading-6 rounded-md flex gap-x-3 p-2 text-gray-400 hover:text-white hover:bg-gray-800">
                                 <span
                                     class="flex w-6 h-6 flex-shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-xs font-medium ">T</span>
-                                <span class="adg">Tailwind Labs</span></a>
+                                <span class="adg">Categorias</span></a>
                         </li>
                         <li>
                             <a href="#"
                                 class="font-semibold text-sm leading-6 rounded-md flex gap-x-3 p-2 text-gray-400 hover:text-white hover:bg-gray-800">
                                 <span
                                     class="flex w-6 h-6 flex-shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-xs font-medium ">W</span>
-                                <span class="adg">Workcation</span></a>
+                                <span class="adg">Autores</span></a>
                         </li>
                     </ul>
                 </li>

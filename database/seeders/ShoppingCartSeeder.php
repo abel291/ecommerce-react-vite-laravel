@@ -25,7 +25,7 @@ class ShoppingCartSeeder extends Seeder
 		foreach (User::get() as $user) {
 			$shopping_cart = [];
 			foreach (Product::get()->random(10) as $product) {
-				$quantity = rand(1, $product->stock);
+				$quantity = rand(1, $product->stock->remaining);
 				$shopping_cart[$product->id] = [
 					'quantity' => $quantity,
 					'total_price_quantity' => $quantity * $product->price,

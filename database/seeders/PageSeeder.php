@@ -13,6 +13,7 @@ class PageSeeder extends Seeder
 	 */
 	public function run(): void
 	{
+		Page::truncate();
 		Page::factory()->create(['type' => 'home', 'meta_title' => 'Inicio']);
 		Page::factory()->create(['type' => 'offers', 'meta_title' => 'Ofetas']);
 		Page::factory()->create(['type' => 'combos', 'meta_title' => 'Combos']);

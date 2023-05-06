@@ -15,21 +15,25 @@
     @apply py-3.5 text-sm font-semibold text-left;
 }
 .table-list tr td {
-    @apply py-4;
+    @apply py-3;
 }
 .table-list tr th:first-child,
 .table-list tr td:first-child {
-    @apply pr-3;
+    @apply pr-4;
 }
 .table-list tr th:last-child,
 .table-list tr td:last-child {
-    @apply pl-3;
+    @apply pl-4;
 }
 .table-list tr th:not(:first-child, :last-child),
 .table-list tr td:not(:first-child, :last-child) {
-    @apply px-3;
+    @apply px-4;
 }
 
 .btn-primary {
-    @apply rounded-md bg-gray-800 px-3.5 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-800;
+    @apply rounded-md bg-gray-800 px-3.5 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-800 disabled:opacity-30;
+}
+
+.btn-secondary {
+    @apply rounded-md bg-white px-3.5 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 capitalize;
 }
