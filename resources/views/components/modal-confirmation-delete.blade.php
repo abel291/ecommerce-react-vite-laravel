@@ -5,7 +5,7 @@
         id: null
     }" @open-modal-confirmation-delete.window="show = true;id=$event.detail">
 
-        <x-modal wire:target="">
+        <x-modal wire:target="" size="sm">
             <x-slot name="title">
                 Borrar Registro
             </x-slot>

@@ -62,12 +62,13 @@
                     </x-secondary-button>
 
                     <x-primary-button x-show="edit" class="ml-2" wire:click="update" wire:loading.attr="disabled">
-                        Editar </x-button>
+                        Editar
+                    </x-primary-button>
 
-                        <x-primary-button x-show="!edit" type="button" class="ml-2" x-on:click="$wire.save"
-                            wire:loading.attr="disabled">
-                            Guardar
-                        </x-primary-button>
+                    <x-primary-button x-show="!edit" type="button" class="ml-2" x-on:click="$wire.save"
+                        wire:loading.attr="disabled">
+                        Guardar
+                    </x-primary-button>
 
                 </div>
             </x-slot>

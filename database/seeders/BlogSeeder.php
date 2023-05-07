@@ -17,11 +17,11 @@ class BlogSeeder extends Seeder
 		Blog::truncate();
 		$categories = Category::factory()->count(30)->create([
 			'type' => 'blog',
-			'specifications' => null
+			'specifications' => []
 		]);
 		Blog::factory()
 			->count(30)
-			->hasAttached($categories->random(8))
+			->hasAttached($categories->random(2))
 			->create();
 	}
 }

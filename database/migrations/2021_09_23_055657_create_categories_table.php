@@ -18,6 +18,8 @@ class CreateCategoriesTable extends Migration
 			$table->string('name');
 			$table->string('slug')->unique()->index();
 			$table->string('img')->nullable();
+			$table->string('entry')->nullable();
+			$table->boolean('active')->default(true);
 			$table->string('type')->index()->default('product'); //product , blog
 			$table->json('specifications')->nullable();
 			$table->timestamps();

@@ -32,7 +32,6 @@ class CreateProduct extends Component
 	public $thum;
 	public $img;
 
-
 	protected $rules = [
 		'product.name' => 'required|string|max:255',
 		'product.slug' => 'required|string|max:255|unique:products,slug',
@@ -62,7 +61,7 @@ class CreateProduct extends Component
 	{
 		$this->categories = Category::where('type', 'product')->get();
 		$this->brands = Brand::all();
-
+		$this->edit = boolval($id);
 		if ($id) {
 			$this->product = Product::with('stock')->findOrFail($id);
 			$this->stock = $this->product->stock;
@@ -97,8 +96,6 @@ class CreateProduct extends Component
 			$product->redes = $this->upload_image($this->product->nombre, 'products', $this->redes);
 		}
 
-		$this->stock->remaining = $this->stock->quantity;
-
 		$product->save();
 
 		$product->stock()->save($this->stock);
@@ -106,21 +103,17 @@ class CreateProduct extends Component
 		return redirect()->route('dashboard.products')->with('success', 'Registro Guardados');
 	}
 
-	public function edit(Product $product)
-	{
-		$this->product = $product;
-		$this->role = $this->product->getRoleNames()->first();
-		$this->resetErrorBag();
-	}
-
 	public function update()
 	{
-		$this->rules['user.email'] = 'required|email|unique:users,email,' . $this->product->id . ',id';
-		$this->rules['password'] = 'sometimes|string|min:6|max:200|confirmed';
-
+		$this->rules['product.slug'] = 'required|unique:products,slug,' . $this->product->id . ',id';
 		$this->validate();
-
 		$product = $this->product;
+
+		if ($product->offer) {
+			$product->price_offer = $product->price - ($product->price * ($product->offer / 100));
+		} else {
+			$product->price_offer = $product->price;
+		}
 
 		if ($this->thum) {
 			Storage::delete($product->thum);
@@ -134,28 +127,11 @@ class CreateProduct extends Component
 
 		$product->save();
 
-		// $this->reset('password', 'password_confirmation');
-		$this->emit('renderListProduct');
-		$this->dispatchBrowserEvent('notification', [
-			'title' => 'Registro Editado',
-			'subtitle' => '',
-		]);
-		$this->open = false;
+		$this->stock->save();
+		return redirect()->route('dashboard.products')->with('success', 'Registro Editado');
 	}
 
-	public function delete(Product $product)
-	{
-		$name = $product->name;
-		$product->removeRole('admin');
-		$this->open_modal_confirmation_delete = false;
-		$product->delete();
 
-		$this->emit('renderListProduct');
-		$this->dispatchBrowserEvent('notification', [
-			'title' => 'Usuario Eliminado',
-			'subtitle' => 'El usuario  <b>' . $name . '</b>  fue quitado de la lista',
-		]);
-	}
 
 	public function updateThum(): void
 	{

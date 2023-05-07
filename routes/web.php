@@ -10,6 +10,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShoppingCartController;
+use App\Http\Livewire\Category\ListCategory;
 use App\Http\Livewire\Product\CreateProduct;
 use App\Http\Livewire\Product\ListProduct;
 use App\Http\Livewire\User\ListUser;
@@ -99,6 +100,8 @@ Route::middleware('auth')->group(function () {
 
 		Route::get('/product/create', [CreateProduct::class, '__invoke'])->name('create-product');
 		Route::get('/product/{id}/edit', [CreateProduct::class, '__invoke'])->name('edit-product');
+
+		Route::get('/categories', ListCategory::class)->name('categories');
 	});
 });
 

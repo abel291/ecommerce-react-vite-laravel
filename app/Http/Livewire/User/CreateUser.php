@@ -55,6 +55,7 @@ class CreateUser extends Component
 
 	public function save()
 	{
+		dd('save');
 		$this->validate();
 		$user = $this->user;
 		$this->user->password = Hash::make($this->password);
@@ -78,6 +79,7 @@ class CreateUser extends Component
 
 	public function update()
 	{
+		dd('update');
 		$this->rules['user.email'] = 'required|email|unique:users,email,' . $this->user->id . ',id';
 		$this->rules['password'] = 'sometimes|string|min:6|max:200|confirmed';
 

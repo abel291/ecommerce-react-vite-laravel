@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Listeners\DisableForeignKeyMigrations;
+use App\Models\Image;
 use App\Models\OrderProduct;
+use App\Observers\ImageObserver;
 use App\Observers\OrderProductObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -34,6 +36,8 @@ class EventServiceProvider extends ServiceProvider
 	{
 		OrderProduct::observe(OrderProductObserver::class);
 		//cada que se crea una orden se le resta al stock del producto
+
+		Image::observe(ImageObserver::class);
 	}
 
 	/**

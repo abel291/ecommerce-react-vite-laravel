@@ -21,7 +21,7 @@ class StockFactory extends Factory
 			'quantity' => $stock,
 			'remaining' => $stock,
 			'supplier' => $this->faker->words(7, true),
-			'barcode' => $this->faker->bothify('?#?#?#?#?'),
+			'barcode' => $this->faker->ean8(),
 		];
 	}
 }

@@ -37,7 +37,7 @@
         ],
         [
             'title' => 'Categorias',
-            'route' => 'home',
+            'route' => 'dashboard.categories',
             'icon' => 'heroicon-o-squares-2x2',
         ],
         [

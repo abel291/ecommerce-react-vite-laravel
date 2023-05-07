@@ -25,7 +25,7 @@ class OrderSeeder extends Seeder
 		//$products = Product::with('stock')->get();
 		//$stock = Stock::with('product')->get();
 
-		for ($i = 0; $i < 2000; $i++) {
+		for ($i = 0; $i < 200; $i++) {
 			$user = $users->random();
 			$quantity_selected = rand(1, 10);
 			$products_selected_order = Product::whereRelation(

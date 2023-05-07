@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Image;
 use App\Models\Product;
@@ -22,7 +23,7 @@ class ProductSeeder extends Seeder
 	{
 		Product::truncate();
 		Stock::truncate();
-
+		$brands = Brand::all();
 		$faker = Faker\Factory::create();
 		foreach (Category::get() as $category) {
 
@@ -40,6 +41,7 @@ class ProductSeeder extends Seeder
 						'img' => '/img/categories/' . $category->slug . '/' . $category->slug . '-' . rand(1, 10) . '.jpg',
 						'thum' => '/img/categories/' . $category->slug . '/' . $category->slug . '-' . rand(1, 10) . '.jpg',
 						'category_id' => $category->id,
+						'brand_id' => $brands->random()->id,
 					]);
 			}
 		}

@@ -31,7 +31,11 @@ class ProductFactory extends Factory
 
 		$offer = $this->faker->randomElement([0, 10, 20, 30, 40, 50]);
 
-		$price_offer = $price - ($price * ($offer / 100));
+		if ($offer) {
+			$price_offer = $price - ($price * ($offer / 100));
+		} else {
+			$price_offer = $price;
+		}
 
 		$cost = round($price * 0.80);
 
@@ -49,7 +53,7 @@ class ProductFactory extends Factory
 			'featured' => rand(0, 1),
 			'max_quantity' => rand(10, 40),
 			'active' => 1,
-			'brand_id' => Brand::inRandomOrder()->first()->id,
+
 		];
 	}
 }

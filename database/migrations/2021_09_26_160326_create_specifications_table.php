@@ -16,8 +16,8 @@ class CreateSpecificationsTable extends Migration
 		Schema::create('specifications', function (Blueprint $table) {
 			$table->id();
 			$table->string('name');
-			$table->string('value');
 			$table->string('slug');
+			$table->string('value');
 			$table->foreignId('product_id')->constrained()->cascadeOnDelete();
 			$table->timestamps();
 		});

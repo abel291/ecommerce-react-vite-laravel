@@ -87,17 +87,20 @@
                                 {{ $item->updated_at->diffForHumans() }}
                             </td>
 
-                            <td class="flex items-center justify-end gap-x-3">
-                                <a href="{{ route('dashboard.edit-product', $item->id) }}"
-                                    class="text-indigo-600 font-medium">
-                                    Editar
-                                </a>
-                                <button x-data class="text-indigo-600 font-medium"
-                                    x-on:click="$dispatch('modal-show-user',{{ $item->id }})">
-                                    Ver
-                                </button>
-                                <button x-data class="text-red-600 font-medium "
-                                    x-on:click="$dispatch('open-modal-confirmation-delete',{{ $item->id }})">Eliminar</button>
+                            <td>
+                                <div class="flex items-center justify-end gap-x-3">
+                                    <a href="{{ route('dashboard.edit-product', $item->id) }}"
+                                        class="text-indigo-600 font-medium">
+                                        Editar
+                                    </a>
+                                    <button x-data class="text-indigo-600 font-medium"
+                                        x-on:click="$dispatch('modal-show-user',{{ $item->id }})">
+                                        Ver
+                                    </button>
+                                    <button x-data class="text-red-600 font-medium "
+                                        x-on:click="$dispatch('open-modal-confirmation-delete',{{ $item->id }})">Eliminar</button>
+                                </div>
+
                             </td>
 
                         </tr>
@@ -107,5 +110,5 @@
         </x-table.table>
     </x-content>
 
-    {{-- <livewire:user.show-user :label="$label" :label-plural="$labelPlural" /> --}}
+    <x-modal-confirmation-delete />
 </div>

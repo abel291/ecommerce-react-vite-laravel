@@ -28,8 +28,10 @@ class CategoryFactory extends Factory
 			'name' => ucfirst($name),
 			'slug' => Str::slug($name),
 			'img' => 'item-' . rand(1, 20) . '.jpg',
+			'entry' => $this->faker->text(250),
+			'active' => 1,
+			'type' => 'product',
 			'specifications' => [
-				$this->faker->word(),
 				$this->faker->word(),
 				$this->faker->word(),
 				$this->faker->word(),

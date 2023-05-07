@@ -18,12 +18,26 @@ class ListProduct extends Component
 	use WithSorting;
 	public $label = "Producto";
 	public $labelPlural = "Productos";
-	// public $open_modal_confirmation_delete = false;
+	public $open_modal_confirmation_delete = false;
 	protected $queryString = ['sortBy', 'sortDirection', 'search'];
 	protected $listeners = [
 		'renderListProduct' => 'render',
 		'resetListProduct' => 'resetList',
 	];
+
+	public function delete(Product $product)
+	{
+		$name = $product->name;
+		$product->images()->delete();
+		$product->delete();
+
+		$this->open_modal_confirmation_delete = false;
+		$this->emit('renderListProduct');
+		$this->dispatchBrowserEvent('notification', [
+			'title' => 'Regsitro Eliminado',
+			'subtitle' => 'El registro  <b>' . $name . '</b>  fue quitado de la lista',
+		]);
+	}
 
 	public function render()
 	{
