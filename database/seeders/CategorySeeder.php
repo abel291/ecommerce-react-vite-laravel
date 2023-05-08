@@ -42,7 +42,7 @@ class CategorySeeder extends Seeder
 				->create([
 					'name' => ucfirst($value),
 					'slug' => Str::slug($value),
-					'img' => Str::slug($value) . '.png',
+					'img' => '/img/categories/' . Str::slug($value) . '.png',
 
 				]);
 		}

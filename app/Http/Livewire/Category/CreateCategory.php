@@ -53,12 +53,11 @@ class CreateCategory extends Component
 
 	public function save()
 	{
-
 		$this->validate();
 		$category = $this->category;
 
 		if ($this->img) {
-			$category->img = $this->upload_image($this->category->name, 'category', $this->img);
+			$category->img = $this->upload_image($this->category->name, 'categories', $this->img);
 		}
 
 		$category->specifications = array_filter($category->specifications, fn ($i) => $i != "");
@@ -92,11 +91,10 @@ class CreateCategory extends Component
 		} else {
 			$category->specifications = array_filter($category->specifications, fn ($i) => $i != "");
 		}
-		$this->save();
 
 		if ($this->img) {
 			Storage::delete($category->img);
-			$category->img = $this->upload_image($this->category->name, 'category', $this->img);
+			$category->img = $this->upload_image($this->category->name, 'categories', $this->img);
 		}
 
 		$category->save();

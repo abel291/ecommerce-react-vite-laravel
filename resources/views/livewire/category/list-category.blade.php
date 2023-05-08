@@ -51,6 +51,7 @@
                                         {{ $item->name }}
                                     </a>
                                 @endif
+                                <span class="text-gray-500 text-xs block ">{{ $item->slug }}</span>
                             </td>
 
                             <td>

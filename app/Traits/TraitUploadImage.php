@@ -10,9 +10,9 @@ trait TraitUploadImage
 
 	public function upload_image(string $title, string $directory, object $image)
 	{
-		$name_img = "$directory/" . Str::slug($title);
+		$name_img = "/img/$directory/" . Str::slug($title);
 		$name_path_image = $this->generate_name_image($name_img, $image->extension());
-		$image->storeAs('', $name_path_image);
+		$image->storeAs('', $name_path_image, 'local');
 		return $name_path_image;
 	}
 	public function generate_name_image(string $path_name, string $extension)
