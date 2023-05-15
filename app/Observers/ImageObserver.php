@@ -28,6 +28,9 @@ class ImageObserver
 	 */
 	public function deleted(Image $image): void
 	{
+		if ($image->img) {
+			Storage::delete($image->img);
+		}
 	}
 
 	/**

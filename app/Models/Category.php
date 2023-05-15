@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
 class Category extends Model
 {
@@ -19,14 +21,14 @@ class Category extends Model
 		'specifications' => 'array',
 	];
 
-	public function products()
+	public function products(): HasMany
 	{
 		return $this->hasMany(Product::class);
 	}
 
-	public function posts()
+	public function posts(): HasMany
 	{
-		return $this->belongsToMany(Blog::class);
+		return $this->hasMany(Blog::class);
 	}
 
 	// public function specifications()

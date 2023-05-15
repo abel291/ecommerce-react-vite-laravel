@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Author;
 use App\Models\Blog;
 use App\Models\Category;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -15,13 +16,18 @@ class BlogSeeder extends Seeder
 	public function run(): void
 	{
 		Blog::truncate();
+		Author::truncate();
 		$categories = Category::factory()->count(30)->create([
 			'type' => 'blog',
 			'specifications' => []
 		]);
+		$author = Author::factory()->count(30)->create();
 		Blog::factory()
 			->count(30)
-			->hasAttached($categories->random(2))
-			->create();
+			->create([
+				'author_id' => $author->random()->id,
+				'category_id' => $categories->random()->id,
+
+			]);
 	}
 }

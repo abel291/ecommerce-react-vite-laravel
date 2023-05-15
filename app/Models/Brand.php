@@ -7,11 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Brand extends Model
 {
-    use HasFactory;
+	use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'slug',
-        'img',
-    ];
+	protected $fillable = [
+		'name',
+		'slug',
+		'img',
+	];
+	public function products()
+	{
+		return $this->hasMany(Product::class);
+	}
 }

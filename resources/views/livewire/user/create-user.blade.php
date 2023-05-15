@@ -13,25 +13,25 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-6 gap-x-6 gap-y-8">
 
-                    <div class="sm:col-span-3">
+                    <div class="lg:col-span-3">
                         <x-form.input-label-error wire:model.defer="user.name">Nombre</x-form.input-label-error>
                     </div>
-                    <div class="sm:col-span-3">
+                    <div class="lg:col-span-3">
                         <x-form.input-label-error wire:model.defer="user.phone">Telefono</x-form.input-label-error>
                     </div>
-                    <div class="sm:col-span-4">
+                    <div class="lg:col-span-4">
                         <x-form.input-label-error wire:model.defer="user.email">Email</x-form.input-label-error>
                     </div>
-                    <div class="sm:col-span-3">
+                    <div class="lg:col-span-3">
                         <x-form.input-label-error wire:model.defer="user.country">Pais</x-form.input-label-error>
                     </div>
-                    <div class="sm:col-span-3">
+                    <div class="lg:col-span-3">
                         <x-form.input-label-error wire:model.defer="user.city">Ciudad</x-form.input-label-error>
                     </div>
-                    <div class="sm:col-span-6">
+                    <div class="lg:col-span-6">
                         <x-form.input-label-error wire:model.defer="user.address">Direccion</x-form.input-label-error>
                     </div>
-                    <div class="sm:col-span-6">
+                    <div class="lg:col-span-6">
                         <x-input-label>Roles</x-input-label>
                         <x-form.select wire:model.defer="role" class="capitalize">
                             @foreach ($roles as $item)
@@ -40,11 +40,11 @@
                         </x-form.select>
                         <x-input-error model="role" />
                     </div>
-                    <div class="sm:col-span-3">
+                    <div class="lg:col-span-3">
                         <x-form.input-label-error type="password" wire:model.defer="password">Contraseña
                         </x-form.input-label-error>
                     </div>
-                    <div class="sm:col-span-3">
+                    <div class="lg:col-span-3">
                         <x-form.input-label-error type="password" wire:model.defer="password_confirmation">Confirmar
                             Contraseña
                         </x-form.input-label-error>

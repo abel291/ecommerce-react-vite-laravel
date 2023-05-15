@@ -23,8 +23,10 @@ class BlogFactory extends Factory
 			'meta_title' => ucfirst($this->faker->words(2, true)),
 			'meta_desc' => $this->faker->sentence(),
 			'img' => '/img/blog/post-' . rand(1, 10) . '.jpg',
+			'thum' => '/img/blog/post-' . rand(1, 10) . '.jpg',
 			'entry' => $this->faker->paragraph(),
 			'desc' => $this->faker->text(800),
+			'active' => rand(0, 1),
 		];
 	}
 }

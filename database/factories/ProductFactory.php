@@ -27,22 +27,18 @@ class ProductFactory extends Factory
 	{
 		$name = $this->faker->words(7, true);
 
-		$price = rand(10, 500);
+		$price = rand(100, 1000) * 1000; //100.000 - 1.000.000
 
 		$offer = $this->faker->randomElement([0, 10, 20, 30, 40, 50]);
 
-		if ($offer) {
-			$price_offer = $price - ($price * ($offer / 100));
-		} else {
-			$price_offer = $price;
-		}
+		$price_offer = $price - ($price * ($offer / 100));
 
 		$cost = round($price * 0.80);
 
 		return [
 			'name' => ucfirst($name),
 			'slug' => Str::slug($name),
-			'description_min' => $this->faker->paragraph(),
+			'description_min' => $this->faker->text(250),
 			'description_max' => $this->faker->text(800),
 			'price' => $price,
 			'offer' => $offer,

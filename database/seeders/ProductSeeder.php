@@ -31,7 +31,7 @@ class ProductSeeder extends Seeder
 				$name = $category->name . ' ' . $faker->words(3, true);
 
 				Product::factory()
-					->has(Image::factory()->count(3)->state(function (array $attributes) use ($category) {
+					->has(Image::factory()->count(12)->state(function (array $attributes) use ($category) {
 						return ['img' => '/img/categories/' . $category->slug . '/' . $category->slug . '-' . rand(1, 10) . '.jpg',];
 					}))
 					->has(Stock::factory()->count(1))

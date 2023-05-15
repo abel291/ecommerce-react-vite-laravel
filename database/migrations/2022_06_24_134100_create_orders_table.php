@@ -17,11 +17,11 @@ class CreateOrdersTable extends Migration
 			$table->id();
 			$table->string('code', 20);
 			$table->unsignedInteger('quantity');
-			$table->unsignedDecimal('shipping');
-			$table->unsignedDecimal('tax_amount');
-			$table->unsignedDecimal('tax_percent');
-			$table->unsignedDecimal('sub_total');
-			$table->unsignedDecimal('total');
+			$table->unsignedDecimal('shipping', 12, 2);
+			$table->unsignedDecimal('tax_amount', 12, 2);
+			$table->unsignedDecimal('tax_percent', 12, 2);
+			$table->unsignedDecimal('sub_total', 12, 2);
+			$table->unsignedDecimal('total', 12, 2);
 			$table->json('user_json');
 			$table->string('status');
 			$table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();

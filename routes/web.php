@@ -10,9 +10,15 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShoppingCartController;
+use App\Http\Livewire\Blog\CreatePost;
+use App\Http\Livewire\Blog\ListAuthor;
+use App\Http\Livewire\Blog\ListPost;
+use App\Http\Livewire\Brand\ListBrand;
 use App\Http\Livewire\Category\ListCategory;
+use App\Http\Livewire\Image\ListImage;
 use App\Http\Livewire\Product\CreateProduct;
 use App\Http\Livewire\Product\ListProduct;
+use App\Http\Livewire\Specification\ListSpecification;
 use App\Http\Livewire\User\ListUser;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
@@ -98,10 +104,18 @@ Route::middleware('auth')->group(function () {
 		Route::get('/users', ListUser::class)->name('users');
 		Route::get('/products', ListProduct::class)->name('products');
 
-		Route::get('/product/create', [CreateProduct::class, '__invoke'])->name('create-product');
-		Route::get('/product/{id}/edit', [CreateProduct::class, '__invoke'])->name('edit-product');
+		Route::get('/product/create', [CreateProduct::class, '__invoke'])->name('products-create');
+		Route::get('/product/{id}/edit', [CreateProduct::class, '__invoke'])->name('products-edit');
+		Route::get('/product/{id}/specification', [ListSpecification::class, '__invoke'])->name('products-specifications');
+
+		Route::get('/posts', ListPost::class)->name('posts');
+		Route::get('/post/create', [CreatePost::class, '__invoke'])->name('posts-create');
+		Route::get('/post/{id}/edit', [CreatePost::class, '__invoke'])->name('posts-edit');
 
 		Route::get('/categories', ListCategory::class)->name('categories');
+		Route::get('/brands', ListBrand::class)->name('brands');
+		Route::get('/authors', ListAuthor::class)->name('authors');
+		Route::get('/{name}/{id}/images', [ListImage::class, '__invoke'])->name('images');
 	});
 });
 

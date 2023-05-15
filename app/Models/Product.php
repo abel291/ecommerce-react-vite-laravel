@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
+use function Pest\Laravel\get;
+
 class Product extends Model
 {
 	use HasFactory;
@@ -22,8 +24,23 @@ class Product extends Model
 		'description_max',
 		'availables',
 		'price',
+		'price_offer',
+		'cost',
 		'img',
 	];
+
+	protected function price(): Attribute
+	{
+		return Attribute::make(
+			set: fn (string $value) => str_replace(',', '', $value),
+		);
+	}
+	protected function cost(): Attribute
+	{
+		return Attribute::make(
+			set: fn (string $value) => str_replace(',', '', $value),
+		);
+	}
 
 	public function category(): BelongsTo
 	{
@@ -57,5 +74,10 @@ class Product extends Model
 	public function stock(): hasOne
 	{
 		return $this->hasOne(Stock::class);
+	}
+
+	public function calculateOffer()
+	{
+		return $this->price - ($this->price * ($this->offer / 100));
 	}
 }

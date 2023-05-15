@@ -15,16 +15,16 @@
             'route' => 'dashboard.products',
             'icon' => 'heroicon-o-archive-box',
         ],
-        [
-            'title' => 'Reportes',
-            'route' => 'home',
-            'icon' => 'heroicon-o-chart-pie',
-        ],
-        [
-            'title' => 'Blog',
-            'route' => 'home',
-            'icon' => 'heroicon-o-newspaper',
-        ],
+        // [
+        //     'title' => 'Reportes',
+        //     'route' => 'home',
+        //     'icon' => 'heroicon-o-chart-pie',
+        // ],
+        // [
+        //     'title' => 'Blog',
+        //     'route' => 'home',
+        //     'icon' => 'heroicon-o-newspaper',
+        // ],
         [
             'title' => 'Paginas',
             'route' => 'home',
@@ -32,7 +32,7 @@
         ],
         [
             'title' => 'Marcas',
-            'route' => 'home',
+            'route' => 'dashboard.brands',
             'icon' => 'heroicon-o-tag',
         ],
         [
@@ -52,10 +52,23 @@
             'icon' => 'heroicon-o-currency-dollar',
         ],
     ];
+    
+    $navigation_2 = [
+        [
+            'title' => 'Post',
+            'route' => 'dashboard.posts',
+            'icon' => 'heroicon-o-newspaper',
+        ],
+        [
+            'title' => 'Autores',
+            'route' => 'dashboard.authors',
+            'icon' => 'heroicon-o-newspaper',
+        ],
+    ];
 @endphp
 <div class="w-72 flex bg-gray-900 z-40">
     <div class="px-6 pb-4 flex flex-col gap-y-6 overflow-y-auto grow ">
-        <div class="h-16 flex items-center ">
+        <div class="h-16 shrink-0 flex items-center ">
             <x-application-logo class="block h-8 w-auto fill-current text-white dark:text-gray-200" />
         </div>
         <nav class="flex flex-col flex-1">
@@ -66,38 +79,29 @@
                             <li>
                                 <a href="{{ route($item['route']) }}"
                                     class="font-semibold text-sm leading-6 rounded-md flex gap-x-3 p-2  
-									{{ request()->routeIs($item['route']) ? 'text-white bg-gray-800' : 'text-gray-400 hover:text-white hover:bg-gray-800' }}">
+									{{ request()->routeIs($item['route'] . '*') ? 'text-white bg-gray-800' : 'text-gray-400 hover:text-white hover:bg-gray-800' }}">
                                     @svg($item['icon'], 'w-6 h-6')
-                                    {{ $item['title'] }}</a>
+                                    {{ $item['title'] }}
+                                </a>
                             </li>
                         @endforeach
 
                     </ul>
                 </li>
+
                 <li>
                     <div class="text-xs font-semibold leading-6 text-gray-400">Blog</div>
-                    <ul role="list" class="space-y-1 -mx-2 mt-2">
-                        <li>
-                            <a href="#"
-                                class="font-semibold text-sm leading-6 rounded-md flex gap-x-3 p-2 text-gray-400 hover:text-white hover:bg-gray-800">
-                                <span
-                                    class="flex w-6 h-6 flex-shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-xs font-medium ">H</span>
-                                <span class="adg">Posts</span></a>
-                        </li>
-                        <li>
-                            <a href="#"
-                                class="font-semibold text-sm leading-6 rounded-md flex gap-x-3 p-2 text-gray-400 hover:text-white hover:bg-gray-800">
-                                <span
-                                    class="flex w-6 h-6 flex-shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-xs font-medium ">T</span>
-                                <span class="adg">Categorias</span></a>
-                        </li>
-                        <li>
-                            <a href="#"
-                                class="font-semibold text-sm leading-6 rounded-md flex gap-x-3 p-2 text-gray-400 hover:text-white hover:bg-gray-800">
-                                <span
-                                    class="flex w-6 h-6 flex-shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-xs font-medium ">W</span>
-                                <span class="adg">Autores</span></a>
-                        </li>
+                    <ul role="list" class="space-y-1 -mx-2">
+                        @foreach ($navigation_2 as $item)
+                            <li>
+                                <a href="{{ route($item['route']) }}"
+                                    class="font-semibold text-sm leading-6 rounded-md flex gap-x-3 p-2  
+											{{ request()->routeIs($item['route'] . '*') ? 'text-white bg-gray-800' : 'text-gray-400 hover:text-white hover:bg-gray-800' }}">
+                                    @svg($item['icon'], 'w-6 h-6')
+                                    {{ $item['title'] }}
+                                </a>
+                            </li>
+                        @endforeach
                     </ul>
                 </li>
                 <li class="mt-auto">

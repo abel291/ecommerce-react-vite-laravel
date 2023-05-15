@@ -24,6 +24,7 @@ class ListCategory extends Component
 		'resetListCategory' => 'resetList',
 	];
 
+	public $type_category = "";
 
 	public function render()
 	{
@@ -32,6 +33,10 @@ class ListCategory extends Component
 			$query->orWhere('slug', 'like', "%$this->search%");
 			$query->orWhere('entry', 'like', "%$this->search%");
 		})
+			->when($this->type_category, function (Builder $query) {
+				$query->where('type', $this->type_category);
+			})
+
 			->withCount('products', 'posts')
 			->orderBy($this->sortBy, $this->sortDirection)
 			->paginate(20);

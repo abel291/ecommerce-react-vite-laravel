@@ -12,7 +12,8 @@ class Specification extends Model
 	protected $fillable = [
 		'name',
 		'slug',
-		'type',
+		'value',
+		'product_id',
 	];
 
 	public function product()

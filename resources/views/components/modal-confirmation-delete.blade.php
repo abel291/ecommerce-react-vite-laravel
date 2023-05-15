@@ -2,8 +2,8 @@
 <div>
     <div x-data="{
         show: @entangle('open_modal_confirmation_delete').defer,
-        id: null
-    }" @open-modal-confirmation-delete.window="show = true;id=$event.detail">
+        id_delete: null
+    }" @open-modal-confirmation-delete.window="show = true;id_delete=$event.detail;">
 
         <x-modal wire:target="" size="sm">
             <x-slot name="title">
@@ -30,7 +30,7 @@
                     Cancelar
                 </x-secondary-button>
 
-                <x-danger-button class="ml-2" x-on:click="$wire.delete(id)" wire:loading.attr="disabled">
+                <x-danger-button class="ml-2" x-on:click="$wire.delete(id_delete)" wire:loading.attr="disabled">
                     <span wire:loading.class="hidden" wire:target="delete">Borrar regsitro</span>
                     <span wire:loading wire:target="delete"> Borrando... </span>
                 </x-danger-button>

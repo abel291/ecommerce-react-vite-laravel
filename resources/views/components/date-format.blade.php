@@ -1,15 +1,18 @@
 @props(['date'])
-<div class="flex gap-x-3 whitespace-nowrap">
-    <div>
+<div class="">
+    <div class="whitespace-nowrap font-medium text-xs">
         {!! $date->isoFormat('DD MMM YYYY hh:mm A') !!}
+
+    </div>
+
+    {{-- 20 MIN --}}
+    <div class="flex items-center gap-x-4 mt-1">
         <span class="text-xs text-gray-500 block">
             {!! $date->diffForHumans() !!}
         </span>
+        @if (now()->diffInMinutes($date) < 120)
+            <span class="text-green-500 text-xs font-medium">recien</span>
+        @endif
     </div>
-    @if (now()->diffInMinutes($date) < 20)
-        {{-- 20 MIN --}}
-        <div>
-            <x-badge color="green">recien</x-badge>
-        </div>
-    @endif
+
 </div>

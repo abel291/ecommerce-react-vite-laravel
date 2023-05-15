@@ -1,7 +1,7 @@
 @props(['title'])
-<div class="pb-8 mb-9 border-b">
-    <h3 class="lg:col-span-6 font-semibold text-lg mb-4 text-gray-800 ">{{ $title }}</h3>
-    <div>
+<div class="mb-8 pb-8 border-b">
+    <x-form.title>{{ $title }}</x-form.title>
+    <div {{ $attributes }}>
         {{ $slot }}
     </div>
 </div>

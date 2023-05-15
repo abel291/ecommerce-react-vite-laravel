@@ -15,9 +15,9 @@ class CreateCategory extends Component
 	use TraitUploadImage;
 	use WithFileUploads;
 
-	public $label = "Categoria";
+	public $label;
 
-	public $labelPlural = "Categorias";
+	public $labelPlural;
 
 	public $open = false;
 	public $img;
@@ -35,8 +35,6 @@ class CreateCategory extends Component
 		'category.specifications.*' => 'string|max:255',
 		'img' => 'nullable|sometimes|image|max:2024|mimes:jpeg,jpg,png',
 	];
-	public $data = [];
-
 
 	public function mount()
 	{

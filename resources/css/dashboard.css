@@ -6,7 +6,7 @@
 }
 
 .table-list tr {
-    @apply text-sm;
+    @apply text-sm hover:bg-gray-50;
 }
 .table-list tbody {
     @apply border-t border-gray-300 divide-y divide-gray-200;

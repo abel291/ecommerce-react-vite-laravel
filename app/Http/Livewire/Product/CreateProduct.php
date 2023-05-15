@@ -5,8 +5,10 @@ namespace App\Http\Livewire\Product;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Specification;
 use App\Models\Stock;
 use App\Traits\TraitUploadImage;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -38,9 +40,9 @@ class CreateProduct extends Component
 		'product.description_min' => 'required|string|max:255',
 		'product.description_max' => 'required|string',
 		'product.max_quantity' => 'required|integer|min:0',
-		'product.price' => 'required|integer|min:0',
-		'product.offer' => 'required|max:255',
-		'product.cost' => 'required|max:255',
+		'product.price' => 'required|numeric|min:0',
+		'product.offer' => 'required|numeric|min:0',
+		'product.cost' => 'required|numeric|min:0',
 		'product.active' => 'required',
 
 		'stock.quantity' => 'required',
@@ -54,8 +56,6 @@ class CreateProduct extends Component
 		'thum' => 'nullable|sometimes|image|max:2024|mimes:jpeg,jpg,png',
 		'img' => 'nullable|sometimes|image|max:2024|mimes:jpeg,jpg,png',
 	];
-
-
 
 	public function mount($id = null)
 	{
@@ -77,28 +77,36 @@ class CreateProduct extends Component
 	{
 		//$this->rules['thum'] = "required|sometimes|image|max:2024|mimes:jpeg,jpg,png";
 		//$this->rules['img'] = "required|sometimes|image|max:2024|mimes:jpeg,jpg,png";
-
+		//dd($this->product);
 		$this->validate();
-		$product = $this->product;
-		if ($product->offer) {
-			$product->price_offer = $product->price - ($product->price * ($product->offer / 100));
-		} else {
-			$product->price_offer = $product->price;
-		}
+		DB::transaction(function () {
 
-		if ($this->thum) {
-			//Storage::delete($product->thum);
-			$product->thum = $this->upload_image($this->product->name, 'products/thum', $this->thum);
-		}
+			$product = $this->product;
+			$product->price_offer = $product->calculateOffer();
 
-		if ($this->img) {
-			//Storage::delete($product->img);
-			$product->redes = $this->upload_image($this->product->nombre, 'products', $this->redes);
-		}
+			if ($this->thum) {
+				//Storage::delete($product->thum);
+				$product->thum = $this->upload_image($this->product->name, 'products/thum', $this->thum);
+			}
 
-		$product->save();
+			if ($this->img) {
+				//Storage::delete($product->img);
+				$product->img = $this->upload_image($this->product->name, 'products', $this->img);
+			}
 
-		$product->stock()->save($this->stock);
+			$product->save();
+
+			$product->stock()->save($this->stock);
+
+			$categories = $product->category;
+
+			foreach ($categories->specifications as $specification_name) {
+				Specification::create([
+					'name' => $specification_name,
+					'product_id' => $product->id,
+				]);
+			}
+		});
 
 		return redirect()->route('dashboard.products')->with('success', 'Registro Guardados');
 	}
@@ -108,30 +116,29 @@ class CreateProduct extends Component
 		$this->rules['product.slug'] = 'required|unique:products,slug,' . $this->product->id . ',id';
 		$this->validate();
 		$product = $this->product;
-
-		if ($product->offer) {
-			$product->price_offer = $product->price - ($product->price * ($product->offer / 100));
-		} else {
-			$product->price_offer = $product->price;
-		}
+		$product->price_offer = $product->calculateOffer();
+		$stock = $this->stock;
 
 		if ($this->thum) {
-			Storage::delete($product->thum);
+			if ($product->thum) {
+				Storage::delete($product->thum);
+			}
 			$product->thum = $this->upload_image($this->product->name, 'products/thum', $this->thum);
 		}
 
 		if ($this->img) {
-			Storage::delete($product->img);
-			$product->redes = $this->upload_image($this->product->nombre, 'products', $this->redes);
+			if ($product->img) {
+				Storage::delete($product->img);
+			}
+			$product->img = $this->upload_image($this->product->name, 'products', $this->img);
 		}
 
 		$product->save();
 
-		$this->stock->save();
+		$stock->save();
+
 		return redirect()->route('dashboard.products')->with('success', 'Registro Editado');
 	}
-
-
 
 	public function updateThum(): void
 	{

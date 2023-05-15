@@ -7,9 +7,11 @@
     </div>
     @if ($data->isNotEmpty())
         <div wire:loading.class="blur-sm" {{ $attributes->whereStartsWith('wire:target') }}>
-            {{ $slot }}
+            <table class="w-full table-list table-auto">
+                {{ $slot }}
+            </table>
         </div>
-        <div class="text-sm mt-10 table-list">
+        <div class="text-sm mt-10">
             {{ $data->links() }}
         </div>
     @else

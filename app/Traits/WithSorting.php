@@ -4,6 +4,7 @@ namespace App\Traits;
 
 trait WithSorting
 {
+
 	public $search = '';
 
 	public $sortBy = 'id';

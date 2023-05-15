@@ -16,7 +16,7 @@ class StockFactory extends Factory
 	 */
 	public function definition(): array
 	{
-		$stock = rand(500, 1000);
+		$stock = rand(100, 500);
 		return [
 			'quantity' => $stock,
 			'remaining' => $stock,

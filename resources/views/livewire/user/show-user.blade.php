@@ -16,42 +16,42 @@
                         <dl class="divide-y divide-gray-100">
                             <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                 <dt class="text-sm font-medium leading-6 text-gray-900">Nombre Completo</dt>
-                                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                <dd class="mt-1 text-sm leading-6 text-gray-700 lg:col-span-2 sm:mt-0">
                                     {{ $user->name }}
                                 </dd>
                             </div>
                             <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                 <dt class="text-sm font-medium leading-6 text-gray-900">Email</dt>
-                                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                <dd class="mt-1 text-sm leading-6 text-gray-700 lg:col-span-2 sm:mt-0">
                                     {{ $user->email }}
                                 </dd>
                             </div>
                             <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                 <dt class="text-sm font-medium leading-6 text-gray-900">Telefono</dt>
-                                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                <dd class="mt-1 text-sm leading-6 text-gray-700 lg:col-span-2 sm:mt-0">
                                     {{ $user->phone }}</dd>
                             </div>
                             <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                 <dt class="text-sm font-medium leading-6 text-gray-900">Pais</dt>
-                                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                <dd class="mt-1 text-sm leading-6 text-gray-700 lg:col-span-2 sm:mt-0">
                                     {{ $user->country }}
                                 </dd>
                             </div>
                             <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                 <dt class="text-sm font-medium leading-6 text-gray-900">Ciudad</dt>
-                                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                <dd class="mt-1 text-sm leading-6 text-gray-700 lg:col-span-2 sm:mt-0">
                                     {{ $user->city }}
                                 </dd>
                             </div>
                             <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                 <dt class="text-sm font-medium leading-6 text-gray-900">Direccion</dt>
-                                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                <dd class="mt-1 text-sm leading-6 text-gray-700 lg:col-span-2 sm:mt-0">
                                     {{ $user->address }}
                                 </dd>
                             </div>
                             <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                 <dt class="text-sm font-medium leading-6 text-gray-900">Fecha de registro</dt>
-                                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                <dd class="mt-1 text-sm leading-6 text-gray-700 lg:col-span-2 sm:mt-0">
 
                                     {{ $user->created_at->isoFormat('ddd DD MMM YYYY hh:mm A') }}
 
@@ -59,7 +59,7 @@
                             </div>
                             <div class="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                 <dt class="text-sm font-medium leading-6 text-gray-900">Fecha de modificacion</dt>
-                                <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                <dd class="mt-1 text-sm leading-6 text-gray-700 lg:col-span-2 sm:mt-0">
 
                                     {{ $user->updated_at->isoFormat('ddd DD MMM YYYY hh:mm A') }}
 

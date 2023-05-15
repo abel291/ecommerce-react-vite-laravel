@@ -16,10 +16,10 @@ class CreateOrderProductsTable extends Migration
 		Schema::disableForeignKeyConstraints();
 		Schema::create('order_products', function (Blueprint $table) {
 			$table->id();
-			$table->unsignedFloat('price');
+			$table->unsignedDecimal('price', 12, 2);
 			$table->string('name');
 			$table->unsignedInteger('quantity');
-			$table->unsignedFloat('price_quantity');
+			$table->unsignedDecimal('price_quantity', 12, 2);
 			$table->foreignId('order_id')->constrained()->cascadeOnDelete();
 			$table->foreignId('product_id')->nullable()->constrained()->nullOnDelete();
 			$table->timestamps();

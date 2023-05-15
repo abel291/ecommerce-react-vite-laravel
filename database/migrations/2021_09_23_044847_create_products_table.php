@@ -22,10 +22,10 @@ class CreateProductsTable extends Migration
 			$table->text('description_max');
 			$table->string('thum')->nullable();
 			$table->string('img')->nullable();
-			$table->unsignedFloat('price')->default(0);
+			$table->unsignedDecimal('price', 12)->default(0);
 			$table->unsignedTinyInteger('offer')->nullable();
-			$table->unsignedFloat('price_offer')->nullable();
-			$table->unsignedFloat('cost')->nullable();
+			$table->unsignedDecimal('price_offer', 12)->nullable();
+			$table->unsignedDecimal('cost', 12)->nullable();
 			$table->unsignedInteger('max_quantity');
 			$table->boolean('featured')->default(false);
 			$table->boolean('active')->default(true);

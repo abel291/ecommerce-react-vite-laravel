@@ -27,7 +27,7 @@ class CategoryFactory extends Factory
 		return [
 			'name' => ucfirst($name),
 			'slug' => Str::slug($name),
-			'img' => 'item-' . rand(1, 20) . '.jpg',
+			'img' => '/img/blog/post-' . rand(1, 10) . '.jpg',
 			'entry' => $this->faker->text(250),
 			'active' => 1,
 			'type' => 'product',

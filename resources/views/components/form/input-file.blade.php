@@ -1,4 +1,4 @@
-@props(['temp', 'model', 'saved ', 'label' => ''])
+@props(['temp', 'model', 'saved' => null, 'label' => ''])
 
 <div>
     <div class="mb-3">

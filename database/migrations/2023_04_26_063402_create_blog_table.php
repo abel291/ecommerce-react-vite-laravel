@@ -11,6 +11,7 @@ return new class extends Migration
 	 */
 	public function up(): void
 	{
+
 		Schema::create('blog', function (Blueprint $table) {
 			$table->id();
 			$table->string('title');
@@ -21,13 +22,29 @@ return new class extends Migration
 			$table->text('desc');
 			$table->boolean('active')->default(1);
 			$table->string('img');
+			$table->string('thum');
+			$table->foreignId('author_id')->nullable()->constrained()->nullOnDelete();
+			$table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
 			$table->timestamps();
 		});
 
-		Schema::create('blog_category', function (Blueprint $table) {
-			$table->foreignId('blog_id')->constrained()->cascadeOnDelete();
-			$table->foreignId('category_id')->constrained()->cascadeOnDelete();
+		Schema::create('authors', function (Blueprint $table) {
+			$table->id();
+			$table->string('name');
+			$table->string('email');
+			$table->text('bio');
+			$table->string('img');
+			$table->string('social1');
+			$table->string('social2');
+			$table->timestamps();
 		});
+
+		// Schema::create('category', function (Blueprint $table) {
+		// 	$table->foreignId('blog_id')->constrained()->cascadeOnDelete();
+		// 	$table->foreignId('category_id')->constrained()->cascadeOnDelete();
+		// });
+
+
 	}
 
 	/**
@@ -36,6 +53,7 @@ return new class extends Migration
 	public function down(): void
 	{
 		Schema::dropIfExists('blog');
-		Schema::dropIfExists('blog_category');
+		//Schema::dropIfExists('blog_category');
+		Schema::dropIfExists('authors');
 	}
 };
