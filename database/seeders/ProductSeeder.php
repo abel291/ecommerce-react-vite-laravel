@@ -25,7 +25,7 @@ class ProductSeeder extends Seeder
 		Stock::truncate();
 		$brands = Brand::all();
 		$faker = Faker\Factory::create();
-		foreach (Category::get() as $category) {
+		foreach (Category::where('type', 'product')->get() as $category) {
 
 			for ($i = 0; $i < 10; $i++) {
 				$name = $category->name . ' ' . $faker->words(3, true);

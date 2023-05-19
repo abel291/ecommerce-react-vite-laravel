@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
 		JsonResource::withoutWrapping();
 
 		Blade::directive('money', function ($money) {
-			return "<?php echo '$' . number_format($money, 2); ?>";
+			return "<?php echo '$ ' . number_format($money, 2); ?>";
 		});
 	}
 }

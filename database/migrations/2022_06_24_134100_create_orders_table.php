@@ -22,9 +22,10 @@ class CreateOrdersTable extends Migration
 			$table->unsignedDecimal('tax_percent', 12, 2);
 			$table->unsignedDecimal('sub_total', 12, 2);
 			$table->unsignedDecimal('total', 12, 2);
-			$table->json('user_json');
-			$table->string('status');
+			$table->json('discount')->nullable();
+			$table->json('user_data')->nullable();
 			$table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+			$table->foreignId('discount_code_id')->nullable()->constrained()->nullOnDelete();
 			$table->timestamps();
 		});
 	}

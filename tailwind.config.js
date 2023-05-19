@@ -11,17 +11,13 @@ module.exports = {
 		//dashboard
 		//"./resources/**/*.blade.php",
 		"./resources/**/*.js",
+		"./node_modules/flowbite/**/*.js"
 
 
 	],
 
 	theme: {
-		extend: {
-			fontFamily: {
-				sans: ['Inter', ...defaultTheme.fontFamily.sans],
-			},
 
-		},
 
 		container: {
 			center: true,

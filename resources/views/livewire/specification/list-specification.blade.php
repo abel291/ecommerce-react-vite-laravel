@@ -3,7 +3,8 @@
     {{ $labelPlural }}
 </x-slot>
 <div>
-
+    <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
     <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-2 mb-4">
         <x-table.description-lists :img="$product->img" title="Infomracion del producto" :data="[
             'Tipo' => 'Producto',

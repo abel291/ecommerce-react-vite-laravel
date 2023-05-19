@@ -10,8 +10,8 @@
     <title>@yield('title', ' Ecommerce') | Dashboard</title>
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
 
     <!-- Scripts -->
 
@@ -19,7 +19,7 @@
     @livewireStyles
 </head>
 
-<body class="font-sans antialiased">
+<body class="antialiased">
     <x-toast />
     <div>
         <div class="hidden md:flex fixed top-0 bottom-0">
@@ -53,6 +53,7 @@
         </div>
     </div>
     @livewireScripts
+    @stack('js')
 </body>
 
 </html>

@@ -15,7 +15,7 @@ class BlogController extends Controller
 {
 	public  function blog(Request $request): Response
 	{
-		$posts = Blog::with('categories')->where('active', 1)->orderBy('id', 'desc')
+		$posts = Blog::with('category', 'author')->where('active', 1)->orderBy('id', 'desc')
 			->when($request->q, function (Builder $query) use ($request) {
 
 				$query->where(function ($sub_query) use ($request) {
@@ -25,13 +25,13 @@ class BlogController extends Controller
 				});
 			})
 			->when($request->category, function (Builder $query) use ($request) {
-				$query->whereHas('categories', function (Builder $sub_query) use ($request) {
+				$query->whereHas('category', function (Builder $sub_query) use ($request) {
 					$sub_query->where('slug', $request->category);
 				});
 			})->paginate(12)->withQueryString();
 
 
-
+		//dd($this->categories_blog());
 		return Inertia::render('Blog/Blog', [
 			'posts' => PostResource::collection($posts),
 			'recent_post' => $this->recent_post(),
@@ -42,7 +42,7 @@ class BlogController extends Controller
 
 	public  function post($slug): Response
 	{
-		$post = Blog::with('categories')->where('slug', $slug)->where('active', 1)->firstOrFail();
+		$post = Blog::with('category', 'author')->where('slug', $slug)->where('active', 1)->firstOrFail();
 
 		return Inertia::render('Blog/Post', [
 			'post' =>  new PostResource($post),

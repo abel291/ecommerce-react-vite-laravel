@@ -16,6 +16,8 @@ use function Pest\Laravel\get;
 class Product extends Model
 {
 	use HasFactory;
+	public $quantity_selected;
+	public $price_quantity;
 
 	protected $fillable = [
 		'name',

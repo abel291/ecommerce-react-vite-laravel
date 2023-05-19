@@ -12,9 +12,9 @@ class DescModel extends Component
 	public $descList = [];
 
 	public function __construct(
-		public object $modelName,
-		public object $modelId,
-		//da error al poner $model en nombre de var
+		public string $modelName,
+		public int $modelId,
+		//da error al poner $model como nombre de var
 
 	) {
 		$modelData = $this->modelName::find($this->modelId);

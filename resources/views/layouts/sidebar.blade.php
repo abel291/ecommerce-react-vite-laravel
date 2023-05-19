@@ -27,7 +27,7 @@
         // ],
         [
             'title' => 'Paginas',
-            'route' => 'home',
+            'route' => 'dashboard.pages',
             'icon' => 'heroicon-o-view-columns',
         ],
         [
@@ -41,15 +41,15 @@
             'icon' => 'heroicon-o-squares-2x2',
         ],
         [
-            'title' => 'Targetas de regalos',
-            'route' => 'home',
-            'icon' => 'heroicon-o-gift-top',
+            'title' => 'Codigos de descuento',
+            'route' => 'dashboard.discount-codes',
+            'icon' => 'heroicon-o-currency-dollar',
         ],
     
         [
-            'title' => 'Pagos',
-            'route' => 'home',
-            'icon' => 'heroicon-o-currency-dollar',
+            'title' => 'Ordenes',
+            'route' => 'dashboard.orders',
+            'icon' => 'heroicon-o-banknotes',
         ],
     ];
     
@@ -62,7 +62,7 @@
         [
             'title' => 'Autores',
             'route' => 'dashboard.authors',
-            'icon' => 'heroicon-o-newspaper',
+            'icon' => 'heroicon-o-pencil',
         ],
     ];
 @endphp

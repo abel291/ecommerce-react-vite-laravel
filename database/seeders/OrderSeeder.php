@@ -2,8 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Enums\PaymentStatus;
+
+use App\Models\CodeDiscount;
+use App\Models\DiscountCode;
 use App\Models\Order;
 use App\Models\OrderProduct;
+use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Stock;
 use App\Models\User;
@@ -21,12 +26,17 @@ class OrderSeeder extends Seeder
 	{
 		Order::truncate();
 		OrderProduct::truncate();
+		Payment::truncate();
+		DiscountCode::truncate();
+
 		$users = User::get();
-		//$products = Product::with('stock')->get();
-		//$stock = Stock::with('product')->get();
+		$discount_codes = DiscountCode::factory()->count(30)->create();
 
 		for ($i = 0; $i < 200; $i++) {
+
 			$user = $users->random();
+			$discount_code = $discount_codes->random();
+
 			$quantity_selected = rand(1, 10);
 			$products_selected_order = Product::whereRelation(
 				'stock',
@@ -35,19 +45,16 @@ class OrderSeeder extends Seeder
 				$quantity_selected
 			)
 				->inRandomOrder()
-				->limit(5)->get();
+				->limit(rand(1, 9))->get();
 
 			$products_selected_order->transform(function ($item) use ($quantity_selected) {
-				$item->quantity_selected = $quantity_selected;
+				$item->quantity_selected = rand(1, $quantity_selected);
 				$item->price_quantity = $item->price * $item->quantity_selected;
 				return $item;
 			});
 
-			$amount = $products_selected_order->sum('price_quantity');
+			$charges = OrderService::calculate_total_price($products_selected_order, $discount_code);
 
-			$charges = OrderService::calculate_total_price($amount);
-			$status = ['success', 'refunded', 'canceled'];
-			//dd($charges['sub_total']);
 			$order = Order::create([
 				'code' => OrderService::generate_code($user->id),
 				'quantity' => $products_selected_order->sum('quantity_selected'),
@@ -56,10 +63,16 @@ class OrderSeeder extends Seeder
 				'tax_percent' => $charges['tax_percent'],
 				'sub_total' => $charges['sub_total'],
 				'total' => $charges['total'],
+				'discount' => $charges['discount'],
+				'user_data' => $user->only(['name', 'email', 'phone', 'address', 'country', 'city']),
 				'user_id' => $user->id,
-				'user_json' => $user->only(['name', 'email', 'phone']),
-				'status' => $status[rand(0, 2)],
+				'discount_code_id' => $discount_code->id,
+
 			]);
+
+			$payment = Payment::factory()->make();
+
+			$order->payment()->save($payment);
 
 			$order_products = $products_selected_order->map(function ($item) {
 				return [

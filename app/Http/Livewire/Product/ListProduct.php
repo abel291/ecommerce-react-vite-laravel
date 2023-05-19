@@ -21,8 +21,6 @@ class ListProduct extends Component
 	public $labelPlural = "Productos";
 	public $open_modal_confirmation_delete = false;
 
-
-
 	public $category_id;
 	public $categories = "";
 

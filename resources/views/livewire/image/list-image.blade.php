@@ -61,7 +61,10 @@
                         </td>
 
                         <td>
-                            <x-table.button-options :id="$item->id" />
+                            <x-table.button-options>
+                                <x-table.button :id="$item->id" modal-id="modal-edit">Editar</x-table.button>
+                                <x-table.button-delete :id="$item->id" />
+                            </x-table.button-options>
                         </td>
 
                     </tr>

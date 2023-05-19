@@ -20,7 +20,8 @@
                     @php
                         $tableNamesHead = [
                             'name' => 'Nombre',
-                            //'entry' => 'Descipcion',
+                            'category_id' => 'Categoria',
+                            'author_id' => 'Autor',
                             'active' => 'Visible',
                             'updated_at' => 'Ultima actualización',
                         ];
@@ -37,12 +38,15 @@
                     <tr class="text-sm">
 
                         <td class="whitespace-nowrap">
-                            <x-table.title-image :img="$item->img" :title="$item->title" :sub-title="$item->slug"
+                            <x-table.title-image :img="$item->img" :title="$item->title" :sub-title="$item->author->name"
                                 :path="route('blog', $item->slug)" />
                         </td>
+                        <td>
+                            <x-badge color="indigo">{{ $item->category->name }}</x-badge>
+                        </td>
 
-                        <td class="text-gray-500 font-medium ">
 
+                        <td>
                             <x-badge-active :active="$item->active" />
                         </td>
 

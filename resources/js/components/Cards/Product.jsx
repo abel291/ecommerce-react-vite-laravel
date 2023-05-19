@@ -18,12 +18,12 @@ const CardProduct = ({ product, badge = "" }) => {
 							<div>
 								<div className="text-xs text-gray-400 line-through">{formatCurrency(product.price)}</div>
 								<div className="flex items-center">
-									<div className="text-lg inline-block mr-2 font-bold">{formatCurrency(product.price_offer)}</div>
+									<div className="text-lg inline-block mr-2 font-semibold">{formatCurrency(product.price_offer)}</div>
 									<div className="inline-block text-green-500 text-xs font-semibold">{product.offer}%</div>
 								</div>
 							</div>
 						) : (
-							<div className="mr-2 text-lg font-bold">{formatCurrency(product.price_offer)}</div>
+							<div className="mr-2 text-lg font-semibold">{formatCurrency(product.price_offer)}</div>
 						)}
 					</div>
 				</div>

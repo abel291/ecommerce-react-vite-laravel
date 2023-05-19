@@ -15,7 +15,14 @@ use App\Http\Livewire\Blog\ListAuthor;
 use App\Http\Livewire\Blog\ListPost;
 use App\Http\Livewire\Brand\ListBrand;
 use App\Http\Livewire\Category\ListCategory;
+use App\Http\Livewire\CodeDiscount\ListDiscount;
+use App\Http\Livewire\DiscountCode\ListDiscountCode;
 use App\Http\Livewire\Image\ListImage;
+use App\Http\Livewire\Order\CreateOrder;
+use App\Http\Livewire\Order\ListOrder;
+use App\Http\Livewire\Order\ShowOrder;
+use App\Http\Livewire\Page\CreatePage;
+use App\Http\Livewire\Page\ListPage;
 use App\Http\Livewire\Product\CreateProduct;
 use App\Http\Livewire\Product\ListProduct;
 use App\Http\Livewire\Specification\ListSpecification;
@@ -111,6 +118,15 @@ Route::middleware('auth')->group(function () {
 		Route::get('/posts', ListPost::class)->name('posts');
 		Route::get('/post/create', [CreatePost::class, '__invoke'])->name('posts-create');
 		Route::get('/post/{id}/edit', [CreatePost::class, '__invoke'])->name('posts-edit');
+
+		Route::get('/pages', ListPage::class)->name('pages');
+		Route::get('/page/create', [CreatePage::class, '__invoke'])->name('pages-create');
+		Route::get('/page/{id}/edit', [CreatePage::class, '__invoke'])->name('pages-edit');
+
+		Route::get('/orders', ListOrder::class)->name('orders');
+		Route::get('/order/{id}/show', [ShowOrder::class, '__invoke'])->name('orders-show');
+
+		Route::get('/discount-codes', ListDiscountCode::class)->name('discount-codes');
 
 		Route::get('/categories', ListCategory::class)->name('categories');
 		Route::get('/brands', ListBrand::class)->name('brands');

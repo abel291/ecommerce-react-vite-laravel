@@ -1,6 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+:root {
+    font-family: "Inter", sans-serif !important;
+}
+@supports (font-variation-settings: normal) {
+    :root {
+        font-family: "Inter var", sans-serif !important;
+    }
+}
 @layer utilities {
     .py-content {
         @apply py-6 md:py-8 lg:py-10 xl:py-12;

@@ -19,7 +19,6 @@
         <x-table.table :data="$list" wire:target="search">
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Nombre</th>
                     <th>Telefono</th>
                     <th>Pais - Ciudad</th>
@@ -31,13 +30,9 @@
                 @foreach ($list as $item)
                     <tr class="text-sm">
 
-                        <td class="text-gray-500 ">
-                            {{ $item->id }}
-                        </td>
+                        <td class="whitespace-nowrap">
+                            <x-table.title-image :title="$item->name" :sub-title="$item->email" />
 
-                        <td class="text-gray-900 font-medium  whitespace-nowrap">
-                            {{ $item->name }}
-                            <span class="text-xs text-gray-500 block mt-0.5">{{ $item->email }}</span>
                         </td>
                         <td class="text-gray-500 ">
                             {{ $item->phone }}
