@@ -1,4 +1,5 @@
 import PrimaryButton from '@/Components/PrimaryButton'
+import SectionTitle from '@/Components/Sections/SectionTitle'
 import TextInput from '@/Components/TextInput'
 import Textarea from '@/Components/Textarea'
 import { useForm } from '@inertiajs/react'
@@ -29,8 +30,9 @@ const ContactForm = () => {
 	return (
 		<div>
 			<div>
-				<h3 className="font-bold text-2xl mb-6 ">Ponerse en contacto</h3>
-				<div>
+				<SectionTitle title="Ponerse en contacto"></SectionTitle>
+
+				<div className="mt-5">
 					<form className="space-y-5" onSubmit={handleSubmit}>
 						<div className="flex  space-x-2">
 							<div className="w-1/2 ">

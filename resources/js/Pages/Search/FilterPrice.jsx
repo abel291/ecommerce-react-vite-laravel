@@ -1,3 +1,4 @@
+import PrimaryButton from "@/Components/PrimaryButton"
 import { ChevronDoubleRightIcon, ChevronRightIcon } from "@heroicons/react/24/solid"
 
 import { useRef } from "react"
@@ -23,8 +24,8 @@ const FilterPrice = ({ filtersActive, setFiltersActive }) => {
 			<div className="flex items-center justify-between mb-4">
 				<span className="font-medium ">Precio</span>
 			</div>
-			<form onSubmit={handleClickFilterPrice} className="space-y-3 text-sm font-normal text-gray-700">
-				<div className="flex space-x-2 items-stretch">
+			<form onSubmit={handleClickFilterPrice} className="space-y-3 text-sm">
+				<div className="flex gap-x-2 items-stretch">
 					<input
 						ref={priceMinRef}
 						defaultValue={filtersActive.price_min}
@@ -44,10 +45,11 @@ const FilterPrice = ({ filtersActive, setFiltersActive }) => {
 						className="input-form shadow-none  w-full text-sm"
 						placeholder="Maximo"
 					/>
-					<button className=" btn-secondary px-2 text-white bg-orange-500 rounded-md">
-						<ChevronRightIcon className="h-6 w-6" />
-					</button>
+					<div className="flex justify-end">
+						<PrimaryButton>Filtrar</PrimaryButton>
+					</div>
 				</div>
+
 			</form>
 		</>
 	)

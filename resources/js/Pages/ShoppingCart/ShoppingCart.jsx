@@ -1,12 +1,17 @@
 import SectionList from "@/Components/Sections/SectionList"
 import Layout from "@/Layouts/Layout"
-import ProductsCart from "./ProductsCart"
+import ProductsCart from "./ProductCart/ProductsCart"
 import OrderSummary from "./OrderSummary"
 import PrimaryButton from "@/Components/PrimaryButton"
-import { Head, Link } from "@inertiajs/react"
+import { Head, Link, useForm } from "@inertiajs/react"
+import { formatCurrency } from "@/Helpers/helpers"
 
 const ShoppingCart = ({ products, charges }) => {
 
+	const { get, processing } = useForm();
+	const handleClickCheckout = () => {
+		get(route('checkout.shopping_cart'))
+	}
 	return (
 		<Layout>
 			<Head title="Carrito de compras" />
@@ -26,7 +31,7 @@ const ShoppingCart = ({ products, charges }) => {
 									<OrderSummary charges={charges} />
 								</div>
 								<div className="text-right mt-6 ">
-									<Link href={route('shopping_cart_checkout')} className="btn-primary">Comprar ahora</Link>
+									<PrimaryButton onClick={handleClickCheckout} isLoading={processing} disabled={processing}>Comprar ahora</PrimaryButton>
 								</div>
 							</>
 						) : (

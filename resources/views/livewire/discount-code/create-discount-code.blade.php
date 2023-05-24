@@ -14,8 +14,14 @@
                     </div>
 
                     <div class="lg:col-span-3">
-                        <x-form.input-group text="%" type="number" max="100" label="Porcentaje de Descuento"
-                            wire:model.defer="discountCode.value" />
+                        <x-form.select wire:model.defer="discountCode.value" label="Porcentaje de Descuento">
+                            @for ($i = 1; $i < 19; $i++)
+                                <option value="{{ $i * 5 }}">{{ $i * 5 }}%</option>
+                            @endfor
+
+
+                        </x-form.select>
+
                     </div>
 
                     <div class="lg:col-span-3">

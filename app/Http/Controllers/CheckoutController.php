@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DiscountCodeRequest;
 use App\Http\Resources\ProductResource;
+use App\Models\DiscountCode;
 use App\Models\Order;
 use App\Models\Product;
+use App\Rules\ValidateProductRule;
+use App\Services\DiscountCodeService;
 use App\Services\OrderService;
+use App\Services\StockService;
+use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -15,56 +21,79 @@ class CheckoutController extends Controller
 {
 	public function checkout(Request $request)
 	{
-		$product = Product::where('stock', '>=', $request->quantity)->find($request->product_id);
+		$productsId = session('productsId');
+		$quantities = session('quantities');
 
-		$product->total_price_quantity = $product->price_offer * $request->quantity;
-		$product->quantity = $request->quantity;
+		if (!$productsId || !$quantities) {
+			return to_route('home');
+		}
 
-		$charges = OrderService::calculate_total_price($product->total_price_quantity);
+		$products = Product::whereIn('id', $productsId)->with('stock')->get();
 
-		$this->set_session_data(collect([$product]), $charges);
+		$productsPricesQuantity = OrderService::priceQuantity($products, $quantities);
 
-		return Inertia::render('Checkout/Checkout', [
-			'products' => ProductResource::collection(collect([$product])),
-			'charges' => $charges,
-		]);
-	}
+		$productInStock = OrderService::productInStock($productsPricesQuantity);
 
-	public function shopping_cart_checkout(Request $request)
-	{
-		$products = auth()->user()->shopping_cart->load('specifications');
+		$discountCode = session('discountCode');
 
-		$products->transform(function ($item) {
-			$item->total_price_quantity = $item->pivot->total_price_quantity;
-			$item->quantity = $item->pivot->quantity;
-			return $item;
-		});
+		$discountCodeValidated = DiscountCodeService::IsAvailable($discountCode);
 
-		$amount = $products->sum('total_price_quantity');
-		$charges = OrderService::calculate_total_price($amount);
+		$charges = OrderService::calculateTotalPrice($productInStock, $discountCodeValidated);
 
-		$this->set_session_data($products, $charges);
+
+		$dicountCodes = DiscountCode::whereDate('start_date', '<=', now())
+			->whereDate('end_date', '>=', now())
+			->where('active', 1)->inRandomOrder()->limit(5)->get();
 
 		return Inertia::render('Checkout/Checkout', [
-			'products' => ProductResource::collection($products),
+			'products' => ProductResource::collection($productsPricesQuantity),
 			'charges' => $charges,
+			'dicountCodes' => $dicountCodes,
 		]);
 	}
-
-	public function set_session_data($products, $charges)
+	public function product(Request $request)
 	{
-		$charges['quantity'] = $products->sum('quantity');
-
-		$array_produsts = $products->map(function ($item, $key) {
-			return $item->only(['id', 'name', 'price', 'price_offer', 'quantity', 'total_price_quantity']);
-		})->toArray();
+		$request->validate([
+			'quantity' => 'required|numeric|min:1',
+			'product_id' => ['required', 'exists:products,id', new ValidateProductRule]
+		]);
 
 		session([
-			'products' => $array_produsts,
-			'charges' => $charges,
+			'productsId' => [$request->product_id],
+			'quantities' => [$request->product_id => $request->quantity],
 		]);
+
+		return to_route('checkout');
 	}
 
+	public function shopping_cart(Request $request)
+	{
+		$products = auth()->user()->shopping_cart->load('specifications', 'stock');
+
+		$quantities = $products->pluck('pivot.quantity', 'id')->toArray();
+
+		$products = OrderService::priceQuantity($products, $quantities);
+
+		$productInStock = OrderService::productInStock($products);
+
+		session([
+			'productsId' => $productInStock->pluck('id')->toArray(),
+			'quantities' => $productInStock->pluck('quantity_selected', 'id')->toArray(),
+		]);
+
+		return to_route('checkout');
+	}
+
+	public function discount(DiscountCodeRequest $request)
+	{
+		session(['discountCode' => $request->discountCode]);
+		return to_route('checkout');
+	}
+	public function discountDelete()
+	{
+		session()->forget(['discountCode']);
+		return to_route('checkout');
+	}
 
 	public function pay(Request $request)
 	{
@@ -93,8 +122,7 @@ class CheckoutController extends Controller
 			'sub_total' => $charges['sub_total'],
 			'total' => $charges['total'],
 			'user_id' => auth()->user()->id,
-			'user_json' => $request->only('name', 'address', 'phone', 'email', 'city', 'postalCode', 'note'),
-			'status' => 'success',
+			'user_json' => $request->only('name', 'address', 'phone', 'email', 'city'),
 		]);
 
 		$order_products = [];

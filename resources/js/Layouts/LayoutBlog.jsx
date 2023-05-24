@@ -73,8 +73,8 @@ export default function LayoutBlog({ children }) {
 													<img src={post.img} alt={post.title} className="rounded-md w-full object-cover object-center aspect-video " />
 												</div>
 												<div className="w-8/12 text-xs">
-													<span className=" text-gray-400 uppercase">{post.date}</span>
-													<h3 className="font-medium">{post.title}</h3>
+													<span className=" text-gray-500 capitalize">{post.date}</span>
+													<h3 className="font-medium mt-1">{post.title}</h3>
 												</div>
 											</div>
 										</Link>

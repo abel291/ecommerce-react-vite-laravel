@@ -18,15 +18,15 @@ class DiscountCodeFactory extends Factory
 	public function definition(): array
 	{
 
-		$start_date = $this->faker->dateTimeInInterval('now', '+1 month');
-		$end_date = $this->faker->dateTimeInInterval('+2 month', '+10 month');
+		$start_date = now();
+		$end_date = $this->faker->dateTimeInInterval('+10 month', '+24 month');
 
 		//$type = $this->faker->randomElement(['amount', 'percent']);
 		$type = DiscountCodeTypeEnum::PERCENT;
 		if ($type == DiscountCodeTypeEnum::FIXED) {
 			$value = rand(10, 200) * 1000;
 		} else {
-			$value = rand(1, 90);
+			$value = rand(1, 19) * 5;
 		}
 
 		return [

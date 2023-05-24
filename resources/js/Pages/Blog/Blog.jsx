@@ -12,7 +12,7 @@ export default function Blog({ posts }) {
 	return (
 		<LayoutBlog>
 			<Head title="Blog" />
-			<div className="pb-12 mb-12 border-b">
+			<div className="pb-12 pt-10 mb-12 border-b">
 				<h2 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
 					Desde el blog
 				</h2>
@@ -22,7 +22,7 @@ export default function Blog({ posts }) {
 			</div>
 			{posts.data.length ? (
 				<>
-					<div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2">
+					<div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-12 lg:max-w-none lg:grid-cols-2">
 						{posts.data.map((post) => (
 							<CardPost key={post.id} post={post} />
 						))}

@@ -1,4 +1,5 @@
 
+import { formatCurrency } from '@/Helpers/helpers'
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import { router } from '@inertiajs/react'
 
@@ -65,7 +66,7 @@ const FiltersList = ({ filtersActive, setFiltersActive, setFilter }) => {
 
 				{filtersActive.price_min && (
 					<div className="mr-2 mt-2  px-2 py-2 bg-gray-50 border border-gray-200 rounded-md inline-flex items-center">
-						<span className="mr-2 capitalize">Desde ${filtersActive.price_min}</span>
+						<span className="mr-2 capitalize">Desde {formatCurrency(filtersActive.price_min)}</span>
 						<button onClick={() => handleClickRemoveFilter("price_min")}>
 							<XMarkIcon className="w-3 h-3" />
 						</button>
@@ -73,7 +74,7 @@ const FiltersList = ({ filtersActive, setFiltersActive, setFilter }) => {
 				)}
 				{filtersActive.price_max && (
 					<div className="mr-2 mt-2  px-2 py-2 bg-gray-50 border border-gray-200 rounded-md inline-flex items-center">
-						<span className="mr-2 capitalize">Hasta ${filtersActive.price_max}</span>
+						<span className="mr-2 capitalize">Hasta {formatCurrency(filtersActive.price_max)}</span>
 						<button onClick={() => handleClickRemoveFilter("price_max")}>
 							<XMarkIcon className="w-3 h-3" />
 						</button>

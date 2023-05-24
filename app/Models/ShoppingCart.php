@@ -8,7 +8,7 @@ class ShoppingCart extends Pivot
 {
 	protected $table = 'shopping_cart';
 
-	protected $fillable = ['user_id', 'product_id', 'quantity', 'total_price'];
+	protected $fillable = ['id', 'user_id', 'product_id', 'quantity', 'price_quantity'];
 
 	public function product()
 	{

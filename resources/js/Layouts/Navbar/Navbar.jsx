@@ -1,14 +1,7 @@
-import { MagnifyingGlassIcon, ShoppingBagIcon, ShoppingCartIcon } from '@heroicons/react/24/solid'
 import React from 'react'
-
-import { Link } from '@inertiajs/react';
-
-import ProfileDropdown from './ProfileDropdown';
-import CategoriesDropdown from './CategoriesDropdown';
-import ApplicationLogo from '@/Components/ApplicationLogo';
 import DesktopNavbar from './DesktopNavbar';
-import MovilNavbar from './MovileNavbar';
 
+import MovileNavbar from './MovileNavbar/MovileNavbar';
 export default function Navbar({ auth }) {
 
 	const navigation = [
@@ -25,10 +18,6 @@ export default function Navbar({ auth }) {
 			href: 'assemblies'
 		},
 		{
-			name: 'Targeta de regalo',
-			href: 'gift-card'
-		},
-		{
 			name: 'Blog',
 			href: 'blog'
 		},
@@ -39,7 +28,7 @@ export default function Navbar({ auth }) {
 	]
 	return (
 		<>
-			<MovilNavbar navigation={navigation} />
+			<MovileNavbar navigation={navigation} />
 			<DesktopNavbar navigation={navigation} />
 		</>
 	)

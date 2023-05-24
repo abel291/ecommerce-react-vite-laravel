@@ -20,8 +20,8 @@ const OrderSummary = ({ charges }) => {
 				</div>
 				<div className=" font-medium">{formatCurrency(charges.tax_amount)}</div>
 
-				<div className="text-xl font-bold mt-4">Orden total</div>
-				<div className="text-xl font-bold mt-4">{formatCurrency(charges.total)}</div>
+				<div className="text-xl font-semibold mt-4">Orden total</div>
+				<div className="text-xl font-semibold mt-4">{formatCurrency(charges.total)}</div>
 			</div>
 		</div>
 

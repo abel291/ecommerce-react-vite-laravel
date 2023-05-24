@@ -34,7 +34,7 @@ export default function CategoriesDropdown() {
 												<Link href={route('search', { 'categories[]': item.slug })} onClick={close}>
 													<div className="flex items-center">
 														<div className="mr-3 w-16 h-16 p-1 bg-gray-200 rounded-lg flex items-center">
-															<img src={"/img/categories/" + item.img} alt={item.name} />
+															<img src={item.img} alt={item.name} />
 														</div>
 														<div className="lg:text-base font-semibold">{item.name}</div>
 													</div>

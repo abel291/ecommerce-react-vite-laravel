@@ -23,12 +23,14 @@ const Feacture = ({ product }) => {
 		})
 	}
 
-	const handleClickCheckout = () => {
-		get(route('checkout'), {
+	const handleClickBuyProduct = () => {
+		post(route('checkout.product'), {
 			onStart: visit => { setProcessing('checkout') },
 			onFinish: visit => { setProcessing('') },
 		})
 	}
+
+
 
 	const handleClickQuantity = (i) => {
 		switch (i) {
@@ -52,7 +54,7 @@ const Feacture = ({ product }) => {
 	return (
 		<div className="space-y-5">
 			<div className="flex items-center">
-				<span className="text-sm font-light">Nuevo | {product.stock} disponibles</span>
+				<span className="text-sm font-light">Nuevo | {product.stock.remaining} disponibles</span>
 			</div>
 			<h2 className="font-bold text-2xl md:text-lg">{product.name}</h2>
 			<p>{product.description_min}</p>
@@ -81,18 +83,18 @@ const Feacture = ({ product }) => {
 					</button>
 				</div>
 				<div className="flex items-center">
-					<span className=" text-sm font-light text-gray-400">( {product.stock} disponibles )</span>
+					<span className=" text-sm font-light text-gray-400">( {product.stock.remaining} disponibles )</span>
 				</div>
 			</div>
 			<div className="flex flex-col lg:flex-row items-center lg:space-x-2 space-y-2 lg:space-y-0">
 				<SecondaryButton isLoading={processing == "shoppingCart"} onClick={handleClickAddProductToCart}>
 					<div className="inline-flex items-center  ">
-						<ShoppingCartIcon className="w-4 h-4 mr-3" />
+						<ShoppingCartIcon className="w-3 h-3 mr-3" />
 						<span className="text-sm font-semibold">Agregar al Carrito </span>
 					</div>
 				</SecondaryButton>
 
-				<PrimaryButton isLoading={processing == "checkout"} onClick={handleClickCheckout}>
+				<PrimaryButton isLoading={processing == "checkout"} onClick={handleClickBuyProduct}>
 					<div className="inline-flex ">
 						<span className=" text-sm font-semibold">Comprar ahora </span>
 					</div>
@@ -102,7 +104,7 @@ const Feacture = ({ product }) => {
 			<InputError className="mt-1.5" message={errors.product_id} />
 
 
-		</div>
+		</div >
 	)
 }
 

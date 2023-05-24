@@ -27,11 +27,11 @@ class ProductSeeder extends Seeder
 		$faker = Faker\Factory::create();
 		foreach (Category::where('type', 'product')->get() as $category) {
 
-			for ($i = 0; $i < 10; $i++) {
+			for ($i = 0; $i < 40; $i++) {
 				$name = $category->name . ' ' . $faker->words(3, true);
 
 				Product::factory()
-					->has(Image::factory()->count(12)->state(function (array $attributes) use ($category) {
+					->has(Image::factory()->count(5)->state(function (array $attributes) use ($category) {
 						return ['img' => '/img/categories/' . $category->slug . '/' . $category->slug . '-' . rand(1, 10) . '.jpg',];
 					}))
 					->has(Stock::factory()->count(1))

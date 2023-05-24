@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ShoppingCartStoreRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use App\Models\ShoppingCart;
+use App\Rules\ShoppingCartStoreRule;
+use App\Rules\ValidateProductRule;
 use App\Services\OrderService;
+use App\Services\ShoppingCartService;
+use App\Services\StockService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -16,11 +22,22 @@ class ShoppingCartController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function index(Request $request)
+	public function index()
 	{
-		$products = $this->get_products();
-		$amount = $products->sum('pivot.total_price_quantity');
-		$charges = OrderService::calculate_total_price($amount);
+		$products = $this->getProducts();
+
+		$quantities = $products->pluck('pivot.quantity', 'id')->toArray();
+
+		$products = OrderService::priceQuantity($products, $quantities);
+
+		$products = $products->map(function ($item) {
+			$item->in_stock = $item->stock->remaining >= $item->quantity_selected;
+			return $item;
+		});
+
+		$productInStock = OrderService::productInStock($products);
+
+		$charges = OrderService::calculateTotalPrice($productInStock);
 
 		return Inertia::render('ShoppingCart/ShoppingCart', [
 			'products' => ProductResource::collection($products),
@@ -47,52 +64,16 @@ class ShoppingCartController extends Controller
 	public function store(Request $request)
 	{
 
-		$validated = $request->validate([
+		$request->validate([
 			'quantity' => 'required|numeric|min:1',
-			'product_id' => 'required',
+			'product_id' => ['required', 'exists:products,id', new ValidateProductRule, new ShoppingCartStoreRule],
 		]);
-		//$user=auth()->user();
-		$user = auth()->user();
-		$products = $this->get_products();
-		$product = $products->firstWhere('id', $request->product_id);
 
-		//si el productos ya esta en el carritos no se agrega otro, solo se le cambia la cantidad a este
-		if ($product && $product->stock >= $request->quantity) {
-			$product->pivot->quantity = $request->quantity;
-			$product->pivot->total_price_quantity = $product->price_offer * $request->quantity;
-			$product->pivot->save();
-		}
+		$product = Product::find($request->product_id);
 
-		//agregar nuevo producto al carrito
-		if (!$product && $request->purchase == false) {
+		ShoppingCartService::addProduct(auth()->user(), $product, $request->quantity);
 
-			//limite de productos para el carrito
-			$max_products = 5;
-			if ($products->count() >= $max_products) {
-				Redirect::back()->with('error', 'Carrito lleno! ,no puedes tener mas de ' . $max_products . ' productos en el carritos');
-			}
-
-			$product = Product::where('id', $request->product_id)->where('stock', '>=', $request->quantity)->first();
-			//dd($product);
-			if ($product) {
-				$user->shopping_cart()->attach($product->id, [
-					'quantity' => $request->quantity,
-					'total_price_quantity' => $product->price_offer * $request->quantity,
-				]);
-				return to_route('shopping-cart.index')->with('success', 'Agregaste a tu carrito "' . $product->name . ' " ');
-				// $products = $user->shopping_cart()->with('specifications')->get();
-			}
-		}
-		return to_route('shopping-cart.index');
-
-
-		// $amount = $products->sum('pivot.total_price_quantity');
-		// $charges = OrderService::calculate_total_price($amount);
-
-		// return response()->json([
-		// 	'products' => $products,
-		// 	'charges' => $charges,
-		// ]);
+		return to_route('shopping-cart.index')->with('success', "Agregaste a tu carrito <b>$product->name</b> ");
 	}
 
 	/**
@@ -140,8 +121,8 @@ class ShoppingCartController extends Controller
 		return to_route('shopping-cart.index')->with('success', '¡Listo! Eliminaste el producto.');
 	}
 
-	public function get_products()
+	public function getProducts()
 	{
-		return auth()->user()->shopping_cart->load('specifications')->sortByDesc('pivot.id')->values();
+		return auth()->user()->shopping_cart->load('stock', 'specifications')->sortByDesc('pivot.id')->values();
 	}
 }

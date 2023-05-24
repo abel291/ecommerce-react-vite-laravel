@@ -1,56 +1,86 @@
+import Dropdown from "@/Components/Dropdown"
 import { Menu, Transition } from "@headlessui/react"
-import { ArrowsRightLeftIcon, ChevronDownIcon, ShoppingBagIcon, UserCircleIcon } from "@heroicons/react/24/solid"
+import { ArrowLeftOnRectangleIcon, ArrowRightOnRectangleIcon, ShoppingBagIcon, UserCircleIcon } from "@heroicons/react/24/outline"
+
 import { Link, usePage } from "@inertiajs/react"
 import { Fragment } from "react"
 
 
-export default function ProfileDropdown() {
+export default function ProfileDropdown({ children }) {
+	const navigation_profile = [
+		{
+			name: 'Perfil',
+			href: route('profile'),
+			current: route().current('profile'),
+			icon: UserCircleIcon
+		},
+		{
+			name: 'Ordenes',
+			href: route('my-orders'),
+			current: route().current('my-orders'),
+			icon: ShoppingBagIcon
+		},
+
+	]
+	const navigation_sing = [
+		{
+			name: 'Acceder ',
+			href: route('login'),
+			current: route().current('login'),
+			icon: ArrowRightOnRectangleIcon
+		},
+
+		{
+			name: 'Crear cuenta',
+			href: route('register'),
+			current: route().current('register'),
+			icon: ArrowLeftOnRectangleIcon
+		},
+	]
+
 
 	const { auth } = usePage().props
 	return (
-		<Menu as="div" className="relative inline-block z-40 ">
-			<Menu.Button className="inline-flex items-center rounded-md">
-				{auth.user.name}
-				<ChevronDownIcon className="w-4 h-4 ml-1 -mr-1 text-gray-800" aria-hidden="true" />
-			</Menu.Button>
+		<>
+			<Dropdown>
+				<Dropdown.Trigger>
 
-			<Transition
-				as={Fragment}
-				enter="transition ease-out duration-100"
-				enterFrom="transform opacity-0 scale-95"
-				enterTo="transform opacity-100 scale-100"
-				leave="transition ease-in duration-75"
-				leaveFrom="transform opacity-100 scale-100"
-				leaveTo="transform opacity-0 scale-95"
-			>
-				<Menu.Items className="absolute right-0 w-52 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden">
-					<div className="">
-						<Menu.Item>
-							<Link href={route('profile')} className="px-3 py-3 block hover:bg-gray-50">
-								<div className="flex items-center">
-									<UserCircleIcon className="h-5 w-5 mr-2 text-gray-700" />
-									<span>Mi cuenta</span>
-								</div>
-							</Link>
-						</Menu.Item>
-						<Menu.Item>
-							<Link href={route('my-orders')} className="px-3 py-3 block hover:bg-gray-50">
-								<div className="flex items-center">
-									<ShoppingBagIcon className="h-5 w-5 mr-2 text-gray-700" />
-									<span>Ordenes</span>
-								</div>
-							</Link>
-						</Menu.Item>
-					</div>
-					<div className="">
-						<Menu.Item>
-							<Link method="post" href={route('logout')} as="button" className="px-3 py-3 block hover:bg-gray-50 w-full text-left">
+					{children}
+				</Dropdown.Trigger>
+				<Dropdown.Content>
+					{auth.user ? (
+						<>
+							{navigation_profile.map((item) => (
+								<Dropdown.Link href={item.href} key={item.name} >
+									<div className="flex items-center">
+										<item.icon className="h-5 w-5 mr-2 text-indigo-600" />
+										<span>{item.name}</span>
+									</div>
+								</Dropdown.Link>
+
+							))}
+							<Dropdown.Link href={route('logout')} method="post" className='border-t'>
 								Cerrar sesión
-							</Link>
-						</Menu.Item>
-					</div>
-				</Menu.Items>
-			</Transition>
-		</Menu>
+							</Dropdown.Link>
+						</>
+					) : (
+						navigation_sing.map((item) => (
+							<Dropdown.Link href={item.href}>
+								<div className="flex items-center">
+									<item.icon className="h-5 w-5 mr-2 text-gray-400" />
+									<span>{item.name}</span>
+								</div>
+							</Dropdown.Link>
+
+						))
+					)}
+
+
+
+
+				</Dropdown.Content>
+			</Dropdown >
+
+		</>
 	)
 }

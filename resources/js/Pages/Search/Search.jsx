@@ -165,17 +165,21 @@ export default function Search({ page, banner, products, filters }) {
 								<h2 className="font-bold text-2xl">
 									Busqueda
 								</h2>
-								<div className="flex flex-col items-end gap-x-4  md:flex-row md:items-center">
-									<span className="text-sm w-full">{products.meta.total} artículos</span>
-									<select
-										onChange={e => setFilter('sortBy', e.target.value)}
-										className="py-2 select-form text-sm" name="sortBy">
-										<option disabled>Ordenar Por:</option>
-										<option value="">Mas relevantes</option>
-										<option value="price_asc">Menor precio</option>
-										<option value="price_desc">Mayor precio</option>
-									</select>
+								<div>
+									<div className="flex flex-col items-end gap-x-2  md:flex-row md:items-center justify-end">
+										<label className="text-sm block whitespace-nowrap w-full">{products.meta.total} artículos</label>
+										<select
+											onChange={e => setFilter('sortBy', e.target.value)}
+											className="py-2 select-form text-sm flex-none" name="sortBy"
+											defaultValue={filters.sortBy}>
+											<option value="">Ordenar Por:</option>
+											<option value="">Mas relevantes</option>
+											<option value="price_asc">Menor precio</option>
+											<option value="price_desc">Mayor precio</option>
+										</select>
+									</div>
 								</div>
+
 							</div>
 							<div className="relative">
 								{products.data.length ? (

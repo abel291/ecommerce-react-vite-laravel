@@ -45,13 +45,13 @@ export default function CarouselBanner({ images }) {
 					<div className="flex items-center w-full absolute top-2/4 z-10 ">
 						<button
 							aria-label="prev-button"
-							className="absolute button-next-banner  h-14 w-10 md:h-20 md:w-14 text-black flex items-center justify-center rounded-md text-gray-0 bg-white transition duration-250 hover:bg-red-500 hover:text-white focus:outline-none start-0 transform shadow-md -translate-x-1/4 lg:-translate-x-1/2"
+							className="absolute button-next-banner  h-14 w-10 md:h-20 md:w-14 text-black flex items-center justify-center rounded-md text-gray-0 bg-white transition duration-250 hover:bg-indigo-600 hover:text-white focus:outline-none start-0 transform shadow-md -translate-x-1/4 lg:-translate-x-1/2"
 						>
 							<ChevronLeftIcon className="h-4 w-4 md:h-7 md:w-7" />
 						</button>
 						<button
 							aria-label="next-button"
-							className="absolute right-0 button-prev-banner  h-14 w-10 md:h-20 md:w-14 text-black flex items-center justify-center rounded-md bg-white transition duration-250 hover:bg-red-500 hover:text-white focus:outline-none end-0 transform shadow-md translate-x-1/4  lg:translate-x-1/2"
+							className="absolute right-0 button-prev-banner  h-14 w-10 md:h-20 md:w-14 text-black flex items-center justify-center rounded-md bg-white transition duration-250 hover:bg-indigo-600 hover:text-white focus:outline-none end-0 transform shadow-md translate-x-1/4  lg:translate-x-1/2"
 						>
 							<ChevronRightIcon className="h-4 w-4 md:h-7 md:w-7" />
 						</button>

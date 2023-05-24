@@ -18,8 +18,8 @@ class PageController extends Controller
 	public function home()
 	{
 
-		$featured = Product::where('featured', true)->get()->random(8);
-		$newProducts = Product::orderBy('id', 'desc')->limit(8)->get();
+		$featured = Product::where('featured', true)->get()->random(12);
+		$newProducts = Product::orderBy('id', 'desc')->limit(12)->get();
 		$page = Page::with('banners')->where('type', 'home')->firstOrFail();
 
 		$carousel_top = $page->banners->where('position', 'top')->where('type', 'carousel');
@@ -42,7 +42,7 @@ class PageController extends Controller
 
 		$page = Page::with('banners')->where('type', 'offers')->firstOrFail();
 		$banners_top = $page->banners->where('position', 'top')->where('type', 'banner');
-		$products = Product::where('offer', '!=', null)->limit(20)->get()->shuffle();
+		$products = Product::where('offer', '!=', null)->limit(20)->inRandomOrder()->get();
 		return Inertia::render('Offers/Offers', [
 			'bannersTop' => ImageResource::collection($banners_top),
 			'page' => $page,
@@ -53,7 +53,8 @@ class PageController extends Controller
 	{
 		$page = Page::with('banners')->where('type', 'combos')->firstOrFail();
 		$banners_top = $page->banners->where('position', 'top')->where('type', 'banner');
-		$products = Category::with('products')->where('slug', 'combos')->first()->products->slice(0, 20);
+		$products = Product::whereRelation('category', 'slug', 'combos')->limit(12)->orderBy('id', 'desc')->get()->shuffle();
+		// $products = Category::with('products')->where('slug', 'combos')->first()->products->slice(0, 20);
 
 		return Inertia::render('Combos/Combos', [
 			'bannersTop' => ImageResource::collection($banners_top),
@@ -87,7 +88,7 @@ class PageController extends Controller
 	public function product($slug)
 	{
 
-		$product = Product::with('specifications', 'images', 'category.products')->where('slug', $slug)->first();
+		$product = Product::with('specifications', 'images', 'category.products', 'stock')->where('slug', $slug)->first();
 
 		$related_products = $product->category->products->random(10);
 

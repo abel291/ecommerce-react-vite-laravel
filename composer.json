@@ -12,6 +12,7 @@
         "laravel/breeze": "^1.20",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",
+        "laravel/telescope": "^4.14",
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^2.12",
         "spatie/laravel-permission": "^5.10",

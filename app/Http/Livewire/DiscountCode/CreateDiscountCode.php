@@ -53,7 +53,7 @@ class CreateDiscountCode extends Component
 
 		$this->dispatchBrowserEvent('notification', [
 			'title' => "$this->label Agregado",
-			'subtitle' => "$this->label  <b>" . $this->discountCode->name . "</b>  fue  Agregado correctamente",
+			'subtitle' => "$this->label  <b>" . $this->discountCode->code . "</b>  fue  Agregado correctamente",
 		]);
 		$this->open = false;
 	}
@@ -80,7 +80,7 @@ class CreateDiscountCode extends Component
 
 	public function delete(DiscountCode $discountCode)
 	{
-		$name = $discountCode->name;
+		$name = $discountCode->code;
 
 		$discountCode->delete();
 

@@ -34,7 +34,7 @@ export default function Product({ product, relatedProducts }) {
 				<div className="py-content">
 					<CarouselProduct products={relatedProducts} />
 				</div>
-			</div>w
+			</div>
 		</Layout >
 	)
 }

@@ -17,13 +17,13 @@ const Checkout = ({ products, charges }) => {
 			<div className="py-content container">
 				<div className="flex flex-wrap ">
 					<div className="w-full lg:w-4/6 lg:pr-8 py-content">
-						<h2 className="font-bold text-xl mb-4">Dirección de Envío</h2>
+						<h2 className="title-section mb-4">Dirección de Envío</h2>
 						<div>
 							<ShippingAddress />
 						</div>
 					</div>
 					<div className="w-full lg:w-2/6 py-content">
-						<h2 className="font-bold text-xl mb-4">Su pedido </h2>
+						<h2 className="title-section mb-4">Su pedido </h2>
 						<div>
 							<OrderSummary products={products} charges={charges} />
 						</div>

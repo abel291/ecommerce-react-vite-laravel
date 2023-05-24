@@ -67,6 +67,7 @@ Route::controller(PageController::class)->group(function () {
 Route::controller(BlogController::class)->group(function () {
 	Route::get('/blog', 'blog')->name('blog');
 	Route::get('/post/{slug}', 'post')->name('post');
+	Route::get('/author/{slug}', 'post')->name('post.author');
 });
 
 Route::get('/search', [SearchController::class, 'search'])->name('search');
@@ -100,8 +101,12 @@ Route::middleware('auth')->group(function () {
 	]);
 
 	Route::controller(CheckoutController::class)->group(function () {
+		Route::post('/checkout/product', 'product')->name('checkout.product');
+		Route::get('/checkout/shopping-cart', 'shopping_cart')->name('checkout.shopping_cart');
+		Route::post('/checkout/discount', 'discount')->name('checkout.discount');
+		Route::get('/checkout/delete/discount', 'discountDelete')->name('checkout.discount.delete');
+
 		Route::get('/checkout', 'checkout')->name('checkout');
-		Route::get('/shopping-cart-checkout', 'shopping_cart_checkout')->name('shopping_cart_checkout');
 		Route::post('/pay', 'pay')->name('pay');
 	});
 

@@ -1,9 +1,11 @@
+import SectionTitle from '@/Components/Sections/SectionTitle'
 import { MagnifyingGlassIcon, MapPinIcon, PhoneIcon } from '@heroicons/react/24/solid'
 
 const ContactAddress = () => {
 	return (
 		<div className="lg:border border-gray-200 rounded-md lg:p-6 space-y-6 lg:text-sm">
-			<span className="font-bold text-2xl lg:text-lg ">Encuéntranos aquí</span>
+
+			<SectionTitle title="Encuéntranos aquí"></SectionTitle>
 			<div className="flex items-stretch space-x-2 text-sm">
 				<div className="text-gray-600 border border-gray-200 rounded-md p-2 flex items-center h-10 w-10">
 					<MapPinIcon className="h-full w-full" />

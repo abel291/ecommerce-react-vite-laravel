@@ -14,10 +14,11 @@ class CreateShoppingCartTable extends Migration
 	public function up()
 	{
 		Schema::create('shopping_cart', function (Blueprint $table) {
+			$table->id();
 			$table->foreignId('user_id')->constrained()->cascadeOnDelete();
 			$table->foreignId('product_id')->constrained()->cascadeOnDelete();
 			$table->unsignedMediumInteger('quantity');
-			$table->unsignedDecimal('total_price_quantity', 12, 2);
+			$table->unsignedDecimal('price_quantity', 12, 2);
 			$table->timestamps();
 		});
 	}

@@ -11,14 +11,14 @@ export default function CardPost({ post }) {
 			<div>
 				<img className="aspect-video object-cover object-center rounded-2xl" src={post.img} alt="" />
 			</div>
-			<div className="flex items-center gap-x-4 text-xs mt-8 w-full">
-				<time dateTime={post.created_at} className="text-gray-500 uppercase">{post.date}</time>
+			<div className="flex items-center gap-x-4 text-xs mt-6 w-full">
+				<time dateTime={post.created_at} className="text-gray-500 uppercase font-medium">{post.date}</time>
 				<Link href={route('blog', { category: post.category.slug })} >
 					<Badge className="hover:bg-gray-200">{post.category.name}</Badge>
 				</Link>
 			</div>
-			<div className="group grow relative">
-				<h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+			<div className="group grow relative mt-2">
+				<h3 className=" text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
 					<Link href={route('post', post.slug)}>
 						<span className="absolute inset-0"></span>
 						{post.title}

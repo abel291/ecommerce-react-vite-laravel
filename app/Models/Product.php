@@ -16,8 +16,10 @@ use function Pest\Laravel\get;
 class Product extends Model
 {
 	use HasFactory;
-	public $quantity_selected;
-	public $price_quantity;
+	public $quantity_selected = 0;
+	public $price_quantity = 0;
+	public $in_stock;
+
 
 	protected $fillable = [
 		'name',
@@ -43,6 +45,7 @@ class Product extends Model
 			set: fn (string $value) => str_replace(',', '', $value),
 		);
 	}
+
 
 	public function category(): BelongsTo
 	{

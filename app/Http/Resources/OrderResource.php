@@ -23,9 +23,9 @@ class OrderResource extends JsonResource
 			'sub_total' => $this->sub_total,
 			'tax_amount' => $this->tax_amount,
 			'tax_percent' => $this->tax_percent,
-			'products' => $this->whenLoaded('products'),
+			'products' => $this->whenLoaded('order_products'),
 			'total' => $this->total,
-			'user' => $this->user_json,
+			'user' => $this->user_data,
 			'created_at' => $this->created_at->format('Y/m/d'),
 		];
 	}

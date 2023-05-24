@@ -69,7 +69,7 @@ class ProfileController extends Controller
 
 	public function order($code)
 	{
-		$order = auth()->user()->orders()->with('products')->where('code', $code)->first();
+		$order = auth()->user()->orders()->with('order_products')->where('code', $code)->first();
 		return Inertia::render('Profile/Order', [
 			'order' => new OrderResource($order),
 		]);

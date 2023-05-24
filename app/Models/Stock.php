@@ -22,4 +22,12 @@ class Stock extends Model
 			get: fn () => round($percent, 2)
 		);
 	}
+
+	public function IsInStock(): Attribute
+	{
+		$percent = ($this->remaining * 100) / $this->quantity;
+		return new Attribute(
+			get: fn () => round($percent, 2)
+		);
+	}
 }

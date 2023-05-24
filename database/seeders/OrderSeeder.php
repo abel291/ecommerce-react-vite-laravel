@@ -32,32 +32,33 @@ class OrderSeeder extends Seeder
 		$users = User::get();
 		$discount_codes = DiscountCode::factory()->count(30)->create();
 
-		for ($i = 0; $i < 200; $i++) {
 
-			$user = $users->random();
+		foreach ($users as $user) {
+
 			$discount_code = $discount_codes->random();
 
-			$quantity_selected = rand(1, 10);
-			$products_selected_order = Product::whereRelation(
+			$max_quantity_selected = rand(1, 10);
+			$quantities_selected = [];
+			$products = Product::select('id', 'name', 'price_offer', 'max_quantity')->where('active', 1)->whereRelation(
 				'stock',
 				'remaining',
 				'>=',
-				$quantity_selected
+				$max_quantity_selected
 			)
 				->inRandomOrder()
 				->limit(rand(1, 9))->get();
 
-			$products_selected_order->transform(function ($item) use ($quantity_selected) {
-				$item->quantity_selected = rand(1, $quantity_selected);
-				$item->price_quantity = $item->price * $item->quantity_selected;
-				return $item;
-			});
+			foreach ($products as $item) {
+				$quantities_selected[$item->id] = rand(1, $max_quantity_selected);
+			}
 
-			$charges = OrderService::calculate_total_price($products_selected_order, $discount_code);
+			$productsPricesQuantity = OrderService::priceQuantity($products, $quantities_selected);
+
+			$charges = OrderService::calculateTotalPrice($productsPricesQuantity, $discount_code);
 
 			$order = Order::create([
 				'code' => OrderService::generate_code($user->id),
-				'quantity' => $products_selected_order->sum('quantity_selected'),
+				'quantity' => $charges['quantity'],
 				'shipping' => $charges['shipping'],
 				'tax_amount' => $charges['tax_amount'],
 				'tax_percent' => $charges['tax_percent'],
@@ -74,10 +75,10 @@ class OrderSeeder extends Seeder
 
 			$order->payment()->save($payment);
 
-			$order_products = $products_selected_order->map(function ($item) {
+			$order_products = $productsPricesQuantity->map(function ($item) {
 				return [
 					'name' => $item->name,
-					'price' => $item->price,
+					'price' => $item->price_offer,
 					'quantity' => $item->quantity_selected,
 					'price_quantity' => $item->price_quantity,
 					'product_id' => $item->id,
