@@ -58,6 +58,6 @@ class BlogController extends Controller
 	}
 	public  function categories_blog()
 	{
-		return Category::withCount('posts')->where('type', 'blog')->get();
+		return Category::withCount('posts')->where('type', 'blog')->orderBy('name')->get();
 	}
 }

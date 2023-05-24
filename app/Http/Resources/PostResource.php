@@ -17,6 +17,7 @@ class PostResource extends JsonResource
 		return [
 			'id' => $this->id,
 			'title' => $this->title,
+			'position' => $this->position,
 			'slug' => $this->slug,
 			'meta_title' => $this->meta_title,
 			'meta_desc' => $this->meta_desc,
@@ -24,8 +25,10 @@ class PostResource extends JsonResource
 			'desc' => $this->desc,
 			'active' => $this->active,
 			'img' => $this->img,
-			'categories' => $this->whenLoaded('categories'),
-			'created_at' => $this->created_at->format('Y/m/d'),
+			'category' => $this->whenLoaded('category'),
+			'author' => $this->whenLoaded('author'),
+			'created_at' => $this->created_at->format('Y-m-d'),
+			'date' => $this->created_at->isoFormat('dddd DD MMMM YYYY'),
 			'dateRelative' => $this->updated_at->locale('es_ES')->diffForHumans(['parts' => 2]),
 		];
 	}

@@ -1,35 +1,37 @@
+import Badge from '@/Components/Badge'
 import { formatDateRelative } from '@/Helpers/helpers'
 import { ArrowDownLeftIcon, ArrowLeftIcon, ArrowRightIcon, CalendarDaysIcon } from '@heroicons/react/24/solid'
 import { Link } from '@inertiajs/react'
 import React from 'react'
+import AuthorPost from './AuthorPost'
 
 export default function CardPost({ post }) {
 	return (
-
-		<article className=" bg-white flex flex-col ">
-			<div className="mb-5 overflow-hidden rounded-lg">
-				<img src={post.img} alt="" className=" xl:h-64  w-full object-cover object-center transition hover:scale-110" />
+		<article className="flex max-w-xl flex-col items-start ">
+			<div>
+				<img className="aspect-video object-cover object-center rounded-2xl" src={post.img} alt="" />
 			</div>
-			<div className="px-1 flex flex-col grow">
-				<div className="flex justify-between items-center mb-2 text-gray-500">
-					<div className="flex items-center">
-						<CalendarDaysIcon className="w-5 h-5 mr-2" />
-						<span className="text-sm">{post.dateRelative}</span>
-					</div>
-				</div>
-				<h2 className=" mb-2 text-xl font-semibold tracking-tight text-gray-900 ">{post.title}</h2>
-				<div className="grow">
-					<p className="mb-3  text-gray-500 line-clamp-4">{post.entry}</p>
-				</div>
-				<div className="flex justify-end items-center">
-
-					<Link href={route('post', post.slug)} className="inline-flex items-center font-medium text-primary-600 hover:underline text-blue-500">
-						Leer mas
-						<ArrowRightIcon className="w-4 h-4 ml-1" />
+			<div className="flex items-center gap-x-4 text-xs mt-8 w-full">
+				<time dateTime={post.created_at} className="text-gray-500 uppercase">{post.date}</time>
+				<Link href={route('blog', { category: post.category.slug })} >
+					<Badge className="hover:bg-gray-200">{post.category.name}</Badge>
+				</Link>
+			</div>
+			<div className="group grow relative">
+				<h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+					<Link href={route('post', post.slug)}>
+						<span className="absolute inset-0"></span>
+						{post.title}
 					</Link>
-				</div>
+				</h3>
+				<p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">{post.entry}</p>
+			</div>
+			<div className="mt-6">
+				<AuthorPost author={post.author} />
 			</div>
 		</article>
 
+
 	)
 }
+

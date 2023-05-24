@@ -11,30 +11,33 @@
 }
 @layer utilities {
     .py-content {
-        @apply py-6 md:py-8 lg:py-10 xl:py-12;
+        @apply py-7 md:py-10 lg:py-12 xl:py-14;
     }
 
     .pb-content {
-        @apply pb-6 md:pb-8 lg:pb-10 xl:pb-12;
+        @apply pb-7 md:pb-10 lg:pb-12 xl:py-14;
     }
 }
 @layer base {
-    .btn-primary {
-        @apply inline-flex items-center px-4 py-2.5 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 focus:bg-blue-500 active:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 relative;
+    .title-section {
+        @apply font-medium text-2xl;
     }
+    .btn-primary {
+        @apply pointer-events-auto rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold leading-5 text-white hover:bg-indigo-500;
+    }
+
     .btn-secondary {
-        @apply inline-flex items-center px-4 py-2.5 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-500 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest shadow-sm hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 disabled:opacity-25 transition ease-in-out duration-150 relative;
+        @apply pointer-events-auto rounded-md px-3 py-2 text-sm font-semibold leading-5 text-black shadow-sm hover:bg-gray-50 border;
     }
     .select-form,
     .input-form,
-    .input-radio,
-    .input-checkbox {
-        @apply border-gray-300 dark:border-orange-700 dark:bg-orange-900 dark:text-gray-300 focus:border-orange-500 dark:focus:border-orange-600 focus:ring-orange-500 dark:focus:ring-orange-600 rounded-md;
+    .input-textarea {
+        @apply block w-full rounded-md border-0 py-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6;
     }
     .input-radio {
-        @apply rounded-full text-orange-500;
+        @apply h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600;
     }
     .input-checkbox {
-        @apply text-orange-500;
+        @apply h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600;
     }
 }

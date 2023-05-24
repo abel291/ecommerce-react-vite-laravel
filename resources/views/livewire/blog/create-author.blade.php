@@ -10,6 +10,10 @@
                 <div class="lg:col-span-3">
                     <x-form.input-label-error wire:model.defer="author.name">Nombre</x-form.input-label-error>
                 </div>
+                <div class="lg:col-span-3">
+                    <x-form.input-label-error wire:model.defer="author.position" placeholder="ej. Co-Founder / CTO">Cargo
+                    </x-form.input-label-error>
+                </div>
                 <div class="lg:col-span-5">
                     <x-form.input-label-error wire:model.defer="author.email">Email</x-form.input-label-error>
                 </div>

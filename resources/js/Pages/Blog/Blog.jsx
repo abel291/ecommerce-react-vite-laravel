@@ -7,14 +7,22 @@ import Pagination from '@/Components/Pagination'
 
 import LayoutBlog from '@/Layouts/LayoutBlog'
 
-export default function Blog({ categories_blog, posts, recent_post, filters }) {
+export default function Blog({ posts }) {
 
 	return (
 		<LayoutBlog>
 			<Head title="Blog" />
+			<div className="pb-12 mb-12 border-b">
+				<h2 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
+					Desde el blog
+				</h2>
+				<p className="mt-2 text-lg leading-8 text-gray-600">
+					Este es el blog donde encontrarás todo lo que necesitas para cuidar y mejorar tu computadora!
+				</p>
+			</div>
 			{posts.data.length ? (
 				<>
-					<div className="grid  grid-cols-1 xl:grid-cols-2 gap-12 md:gap-8">
+					<div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2">
 						{posts.data.map((post) => (
 							<CardPost key={post.id} post={post} />
 						))}

@@ -19,6 +19,7 @@ class AuthorFactory extends Factory
 		return [
 			'name' => $this->faker->name(),
 			'email' => $this->faker->email(),
+			'position' => $this->faker->jobTitle(),
 			'bio' => $this->faker->realText($maxNbChars = 500),
 			'img' => '/img/authors/author-' . rand(1, 10) . '.jpg',
 			'social1' => $this->faker->url(),

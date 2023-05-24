@@ -18,22 +18,20 @@ class BlogSeeder extends Seeder
 		Blog::truncate();
 		Author::truncate();
 		// 
-		$categories = Category::factory()->count(10)->create([
-			'type' => 'blog',
-			'specifications' => []
-		]);
-		$this->command->info('categories created');
-
-		$authors = Author::factory()->count(10)->create();
-		$this->command->info('authors created');
-
-		Blog::factory()
-			->count(10)
+		$authors = Author::factory()->count(rand(10, 20))->create();
+		$categories = Category::factory()->count(rand(10, 20))
 			->state(
-				fn () => [
-					'category_id' => $categories->random()->id,
-					'author_id' => $authors->random()->id,
+				[
+					'type' => 'blog',
+					'specifications' => []
 				]
-			)->create();
+			)
+			->has(
+				Blog::factory()
+					->count(rand(10, 20))
+					->state(fn () => ['author_id' => $authors->random()->id,]),
+				'posts'
+			)
+			->create();
 	}
 }

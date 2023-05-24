@@ -26,10 +26,12 @@ export default function LayoutBlog({ children }) {
 	return (
 		<Layout>
 
-			<BannerWithTitle image="/img/blog/banner-blog.jpg" title="Blog" />
+			{/* <BannerWithTitle image="/img/blog/banner-blog.jpg" title="Blog" /> */}
 			<div className="container py-content">
-				<div className="flex flex-col lg:flex-row gap-8">
+
+				<div className="flex flex-col lg:flex-row gap-10">
 					<div className="w-full lg:w-8/12 xl:w-9/12">
+
 						{children}
 					</div>
 					<div className="w-full lg:w-4/12 xl:w-3/12">
@@ -40,9 +42,11 @@ export default function LayoutBlog({ children }) {
 									<div className="mt-4">
 										<form onSubmit={handleSubmit} className="relative">
 											<TextInput onChange={(e) => setData('q', e.target.value)} className="w-full pr-16 " value={data.q} />
-											<PrimaryButton className='absolute 	right-0 inset-y-0 rounded-r-md rounded-l-none' disabled={processing} isLoading={processing}>
-												<MagnifyingGlassIcon className="w-6 h-6" />
-											</PrimaryButton>
+											<div className="absolute right-0 inset-y-0">
+												<PrimaryButton className=' rounded-r-md rounded-l-none' disabled={processing} isLoading={processing}>
+													<MagnifyingGlassIcon className="w-6 h-6" />
+												</PrimaryButton>
+											</div>
 										</form>
 									</div>
 								</div>
@@ -53,7 +57,7 @@ export default function LayoutBlog({ children }) {
 								<div className="flex flex-wrap gap-3 mt-4">
 									{categories_blog.map((item, index) => (
 										<Link key={index} href={route('blog', { category: item.slug })}>
-											<Badge className="bg-orange-50 text-orange-600 ring-orange-500/10 hover:bg-orange-100 ">{item.name} ({item.posts_count})</Badge>
+											<Badge color='indigo'>{item.name} ({item.posts_count})</Badge>
 										</Link>
 									))}
 								</div>
@@ -66,11 +70,11 @@ export default function LayoutBlog({ children }) {
 										<Link className="block" key={index} href={route('post', post.slug)}>
 											<div className="flex items-center  gap-x-4">
 												<div className="w-4/12">
-													<img src={post.img} alt={post.title} className="rounded-md w-full lg:h-20 object-cover object-center " />
+													<img src={post.img} alt={post.title} className="rounded-md w-full object-cover object-center aspect-video " />
 												</div>
-												<div className="w-8/12">
-													<span className="text-sm text-gray-400 font-medium">APRIL 26, 2022</span>
-													<h3 className="font-semibold">{post.title}</h3>
+												<div className="w-8/12 text-xs">
+													<span className=" text-gray-400 uppercase">{post.date}</span>
+													<h3 className="font-medium">{post.title}</h3>
 												</div>
 											</div>
 										</Link>

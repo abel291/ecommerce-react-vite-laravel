@@ -33,6 +33,7 @@ class CreateAuthor extends Component
 
 	protected $rules = [
 		'author.name' => 'required|string|max:255',
+		'author.position' => 'required|string|max:255',
 		'author.email' => 'required|string|max:255|unique:authors,email',
 		'author.bio' => 'required|string',
 		'author.social1' => 'required|string|max:255',
@@ -53,6 +54,7 @@ class CreateAuthor extends Component
 
 	public function save()
 	{
+		$this->rules['img'] = 'required|image|max:2024|mimes:jpeg,jpg,png';
 		$this->validate();
 		$author = $this->author;
 
