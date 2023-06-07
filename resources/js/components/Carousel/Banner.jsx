@@ -1,12 +1,12 @@
 import { Link } from '@inertiajs/react'
 import React from 'react'
 
-export default function Banner({ img }) {
+export default function Banner({ image }) {
 	return (
-		<Link href="/search">
+		<a href={image.link}>
 			<div className="w-full">
-				<img className="w-full rounded md:rounded-xl shadow" src={img.img} alt={img.alt} />
+				<img className="w-full rounded md:rounded-xl shadow" src={image.img} alt={image.alt} />
 			</div>
-		</Link>
+		</a>
 	)
 }

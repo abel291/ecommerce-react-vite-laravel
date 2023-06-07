@@ -21,12 +21,14 @@ class OrderResource extends JsonResource
 			'shipping' => $this->shipping,
 			'status' => $this->status,
 			'sub_total' => $this->sub_total,
+			'discount' => $this->discount,
 			'tax_amount' => $this->tax_amount,
 			'tax_percent' => $this->tax_percent,
 			'products' => $this->whenLoaded('order_products'),
+			'payment' => new PaymentResource($this->whenLoaded('payment')),
 			'total' => $this->total,
 			'user' => $this->user_data,
-			'created_at' => $this->created_at->format('Y/m/d'),
+			'created_at' => $this->created_at,
 		];
 	}
 }

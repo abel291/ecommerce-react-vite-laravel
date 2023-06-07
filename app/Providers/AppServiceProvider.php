@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Cashier\Cashier;
 use Laravel\Telescope\Telescope;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,6 +24,8 @@ class AppServiceProvider extends ServiceProvider
 	 */
 	public function boot(): void
 	{
+		Cashier::ignoreMigrations();
+		Cashier::useCustomerModel(User::class);
 		JsonResource::withoutWrapping();
 
 		Blade::directive('money', function ($money) {

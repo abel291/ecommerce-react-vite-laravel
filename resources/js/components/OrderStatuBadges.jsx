@@ -1,3 +1,4 @@
+import { ClockIcon } from "@heroicons/react/24/outline";
 import { CheckIcon, ReceiptRefundIcon, XMarkIcon } from "@heroicons/react/24/solid";
 
 
@@ -20,6 +21,12 @@ const OrderStatuBadges = ({ status }) => {
 				<div className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
 					<span>Cancelado</span>
 					<XMarkIcon className="ml-1 h-4 w-4" />
+				</div>
+			)}
+			{status == "pending" && (
+				<div className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+					<span>Pendiente</span>
+					<ClockIcon className="ml-1 h-4 w-4" />
 				</div>
 			)}
 		</div>

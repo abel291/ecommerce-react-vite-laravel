@@ -2,14 +2,13 @@
 
 namespace Database\Seeders;
 
-use App\Models\CardProduct;
+use App\Enums\CartEnum;
+use App\Models\Cart;
+use App\Models\OrderProduct;
 use App\Models\Product;
 
-use App\Models\ShoppingCart;
 use App\Models\User;
-use App\Services\OrderService;
-use App\Services\ShoppingCartService;
-use Faker as Faker;
+use App\Services\CartService;
 use Illuminate\Database\Seeder;
 
 class ShoppingCartSeeder extends Seeder
@@ -19,13 +18,14 @@ class ShoppingCartSeeder extends Seeder
 	 *
 	 * @return void
 	 */
-	public function run()
+	public function run(CartService $card_service)
 	{
-		ShoppingCart::truncate();
+		OrderProduct::where('type', CartEnum::SHOPPIN_CART)->delete();
+		$products = Product::get();
 		foreach (User::get() as $user) {
-			foreach (Product::get()->random(4) as $product) {
-				$quantity = rand(1, 5);
-				ShoppingCartService::addProduct($user, $product, $quantity);
+			foreach ($products->random(6) as $product) {
+				$quantity_selected = rand(3, 6);
+				$card_service->addProduct($user, $product, $quantity_selected);
 			}
 		}
 	}

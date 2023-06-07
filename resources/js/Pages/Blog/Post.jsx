@@ -17,7 +17,7 @@ export default function Post({ post }) {
 						<time dateTime={post.created_at} className="">{post.date}</time>
 					</div>
 
-					<h1 className="mt-4 text-2xl md:text-4xl font-extrabold leading-tight text-gray-900 lg:text-4xl dark:text-white">{post.title}</h1>
+					<h1 className="mt-2 text-2xl md:text-4xl font-extrabold leading-tight text-gray-900 lg:text-4xl dark:text-white">{post.title}</h1>
 
 					<div className="mt-4">
 						<AuthorPost author={post.author} />

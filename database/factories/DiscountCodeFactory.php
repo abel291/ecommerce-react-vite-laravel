@@ -18,11 +18,9 @@ class DiscountCodeFactory extends Factory
 	public function definition(): array
 	{
 
-		$start_date = now();
-		$end_date = $this->faker->dateTimeInInterval('+10 month', '+24 month');
-
 		//$type = $this->faker->randomElement(['amount', 'percent']);
 		$type = DiscountCodeTypeEnum::PERCENT;
+
 		if ($type == DiscountCodeTypeEnum::FIXED) {
 			$value = rand(10, 200) * 1000;
 		} else {
@@ -36,8 +34,10 @@ class DiscountCodeFactory extends Factory
 			'type' => $type,
 			'value' => $value,
 			"active" => 1,
-			"start_date" => $start_date,
-			"end_date" => $end_date,
+			"max_uses" => rand(1, 10),
+			"times_used" => rand(10, 30),
+			"valid_from" => now(),
+			"valid_to" => $this->faker->dateTimeInInterval('+10 month', '+24 month'),
 		];
 	}
 }

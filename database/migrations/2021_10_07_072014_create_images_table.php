@@ -18,7 +18,7 @@ class CreateImagesTable extends Migration
 			$table->string('img');
 			$table->string('alt')->nullable();
 			$table->string('title')->nullable();
-			$table->string('sort')->nullable();
+			$table->tinyInteger('sort')->nullable();
 			$table->string('position')->nullable();
 			$table->string('type')->nullable();
 			$table->text('link')->nullable();

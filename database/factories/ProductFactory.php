@@ -27,7 +27,7 @@ class ProductFactory extends Factory
 	{
 		$name = $this->faker->words(7, true);
 
-		$price = rand(100, 1000) * 1000; //100.000 - 1.000.000
+		$price = rand(100, 1000); //$100 - $1.000
 
 		$offer = $this->faker->randomElement([0, 10, 20, 30, 40, 50]);
 

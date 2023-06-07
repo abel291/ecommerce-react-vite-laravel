@@ -1,24 +1,23 @@
 <?php
 
 use App\Http\Controllers\BlogController;
-use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\Checkout\CheckoutController;
+use App\Http\Controllers\Checkout\DiscountCheckoutController;
+use App\Http\Controllers\Checkout\PaymentCheckoutController;
 use App\Http\Controllers\Dashboard\DashboardController;
-use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\NewsletterController;
-use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShoppingCartController;
+use App\Http\Livewire\Banner\ListBanner;
 use App\Http\Livewire\Blog\CreatePost;
 use App\Http\Livewire\Blog\ListAuthor;
 use App\Http\Livewire\Blog\ListPost;
 use App\Http\Livewire\Brand\ListBrand;
 use App\Http\Livewire\Category\ListCategory;
-use App\Http\Livewire\CodeDiscount\ListDiscount;
 use App\Http\Livewire\DiscountCode\ListDiscountCode;
 use App\Http\Livewire\Image\ListImage;
-use App\Http\Livewire\Order\CreateOrder;
 use App\Http\Livewire\Order\ListOrder;
 use App\Http\Livewire\Order\ShowOrder;
 use App\Http\Livewire\Page\CreatePage;
@@ -27,11 +26,9 @@ use App\Http\Livewire\Product\CreateProduct;
 use App\Http\Livewire\Product\ListProduct;
 use App\Http\Livewire\Specification\ListSpecification;
 use App\Http\Livewire\User\ListUser;
-use Illuminate\Foundation\Application;
-use Illuminate\Http\Request;
+use App\Http\Middleware\ProductInSession;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +49,7 @@ use Inertia\Inertia;
 //         'phpVersion' => PHP_VERSION,
 //     ]);
 // });
+
 Route::controller(PageController::class)->group(function () {
 
 	Route::get('/', 'home')->name('home');
@@ -87,7 +85,7 @@ Route::middleware('auth')->group(function () {
 
 		Route::get('/profile/my-orders', 'orders')->name('my-orders');
 
-		Route::get('/profile/order/{code}', 'order')->name('order');
+		Route::get('/profile/order-details/{code}', 'orderDetails')->name('order');
 
 		Route::get('/profile/account-details', 'account_details')->name('profile-details');
 		Route::patch('/profile/account-details', 'update')->name('profile.update');
@@ -101,13 +99,23 @@ Route::middleware('auth')->group(function () {
 	]);
 
 	Route::controller(CheckoutController::class)->group(function () {
-		Route::post('/checkout/product', 'product')->name('checkout.product');
-		Route::get('/checkout/shopping-cart', 'shopping_cart')->name('checkout.shopping_cart');
-		Route::post('/checkout/discount', 'discount')->name('checkout.discount');
-		Route::get('/checkout/delete/discount', 'discountDelete')->name('checkout.discount.delete');
 
-		Route::get('/checkout', 'checkout')->name('checkout');
-		Route::post('/pay', 'pay')->name('pay');
+		Route::get('/checkout', 'checkout')->name('checkout')->middleware(ProductInSession::class);
+
+		Route::post('/checkout/add-single-product', 'addSingleProduct')->name('checkout.add-single-product');
+
+		Route::get('/checkout/add-shopping-cart', 'addShoppingCart')->name('checkout.add-shopping-cart');
+
+		Route::get('/order-invoice/{code}', 'invoice')->name('invoice');
+	});
+
+	Route::controller(DiscountCheckoutController::class)->middleware(ProductInSession::class)->group(function () {
+		Route::post('/checkout/discount', 'applyDiscount')->name('checkout.apply-discount');
+		Route::get('/checkout/delete/discount', 'removeDiscount')->name('checkout.remove-discount');
+	});
+
+	Route::controller(PaymentCheckoutController::class)->middleware(ProductInSession::class)->group(function () {
+		Route::post('/purchase', 'purchase')->name('purchase');
 	});
 
 	Route::prefix('dashboard')->name('dashboard.')->middleware(['role:admin'])->group(function () {
@@ -115,6 +123,7 @@ Route::middleware('auth')->group(function () {
 		Route::get('/', DashboardController::class)->name('home');
 		Route::get('/users', ListUser::class)->name('users');
 		Route::get('/products', ListProduct::class)->name('products');
+		Route::get('/banners', ListBanner::class)->name('banners');
 
 		Route::get('/product/create', [CreateProduct::class, '__invoke'])->name('products-create');
 		Route::get('/product/{id}/edit', [CreateProduct::class, '__invoke'])->name('products-edit');

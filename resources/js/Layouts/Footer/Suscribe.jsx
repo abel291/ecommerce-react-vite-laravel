@@ -20,12 +20,12 @@ const Suscribe = () => {
 
 	return (
 		<div className="bg-gray-50 p-6 lg:p-16 rounded-lg  ">
-			<div className="flex flex-col lg:flex-row  gap-y-8 lg:gap-y-0 gap-x-0 md:gap-x-6  lg:items-center lg:justify-between">
+			<div className="flex flex-col lg:flex-row  gap-y-8 lg:gap-y-0 gap-x-0 md:gap-x-16  lg:items-center lg:justify-between">
 				<div className="lg:w-1/2 text-center lg:text-left">
-					<h3 className="text-xl lg:text-2xl font-bold mb-2 lg:mb-4">
+					<h3 className="text-xl lg:text-2xl font-semibold mb-2 lg:mb-4">
 						Obtenga consejos de profesionales en su bandeja de entrada
 					</h3>
-					<p className="lg:text-sm">Suscríbase a nuestro boletín y manténgase actualizado.</p>
+					<p className="lg:text-base">Suscríbase a nuestro boletín y manténgase actualizado.</p>
 				</div>
 				<div className="lg:w-1/2 ">
 					<form onSubmit={handleSubmit} className="flex flex-col lg:flex-row gap-y-2 lg:gap-y-0 gap-x-0 lg:gap-x-3">

@@ -23,12 +23,10 @@ const ChangePassword = () => {
 	}
 
 	return (
-		<LayoutProfile>
+		<LayoutProfile title="Cambiar contraseña">
 			<Head title="Cambio de contraseña" />
 			<div className="space-y-2">
-				<h3 className="font-bold text-2xl mb-6"> Cambiar contraseña</h3>
-
-				<form action="" onSubmit={handleSubmit}>
+				<form onSubmit={handleSubmit}>
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2 mb-4">
 						<div>
 							<InputLabel>Contraseña Actual *</InputLabel>

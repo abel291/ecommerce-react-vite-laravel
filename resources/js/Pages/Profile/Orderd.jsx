@@ -4,12 +4,17 @@ import { CheckCircleIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { Head, usePage } from "@inertiajs/react";
 import LayoutProfile from "../../Layouts/LayoutProfile";
 import OrderStatuBadges from "@/Components/OrderStatuBadges";
+import SectionTitle from "@/Components/Sections/SectionTitle";
+import PrimaryButton from "@/Components/PrimaryButton";
+import { PaperClipIcon } from "@heroicons/react/24/outline";
 
 const OrderComplete = ({ order, products }) => {
 	const { flash } = usePage().props
+
+	console.log(order)
 	return (
 		<LayoutProfile>
-			<Head title="Orden" />
+			<Head title="Pedidos" />
 			<div className="space-y-8">
 				{flash.success && (
 					<div >
@@ -30,29 +35,29 @@ const OrderComplete = ({ order, products }) => {
 				)}
 				<div className="space-y-2">
 					<div className="flex items-center">
-						<span className="mr-2 font-semibold">Codigo:</span>
+						<span className="mr-2 font-medium">Codigo:</span>
 						{order.code}
 					</div>
 					<div className="flex items-center">
-						<span className="mr-2 font-semibold">Nombre:</span>
+						<span className="mr-2 font-medium">Nombre:</span>
 						{order.user.name}
 					</div>
 					<div className="flex items-center">
-						<span className="mr-2 font-semibold">Telefono:</span>
+						<span className="mr-2 font-medium">Telefono:</span>
 						{order.user.phone}
 					</div>
 					<div className="flex items-center">
-						<span className="mr-2 font-semibold">Email:</span>
+						<span className="mr-2 font-medium">Email:</span>
 						{order.user.email}
 					</div>
 
 					<div className="flex items-center">
-						<span className="mr-2 font-semibold">Fecha de Compra:</span>
+						<span className="mr-2 font-medium">Fecha de Compra:</span>
 						{formatDate(order.created_at)}
 					</div>
 					<div className="flex items-center">
-						<span className="mr-2 font-semibold">Status de pago:</span>
-						<OrderStatuBadges status={order.status} />
+						<span className="mr-2 font-medium">Status de pago:</span>
+						<OrderStatuBadges status={order.payment.status} />
 					</div>
 				</div>
 				{/* <div>
@@ -79,7 +84,13 @@ const OrderComplete = ({ order, products }) => {
 						</div>
 					</div>
 				</div> */}
-				<h3 className=" text-2xl font-semibold">Detalles de orden</h3>
+				<div className="flex justify-between items-center">
+					<SectionTitle title="Detalles de orden" />
+					<div>
+
+						<PrimaryButton Icon={PaperClipIcon}> Descargar Orden </PrimaryButton>
+					</div>
+				</div>
 				<div >
 					<table className=" w-full table-fixed rounded-md overflow-hidden">
 						<thead>
@@ -92,7 +103,7 @@ const OrderComplete = ({ order, products }) => {
 							{order.products.map((product) => (
 								<tr key={product.id}>
 									<td className="px-2 md:px-4 py-3">
-										{product.quantity} * {product.name}
+										{product.quantity_selected} * {product.name}
 									</td>
 									<td>{formatCurrency(product.price_quantity)}</td>
 								</tr>

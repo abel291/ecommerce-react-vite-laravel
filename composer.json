@@ -6,16 +6,19 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "barryvdh/laravel-dompdf": "^2.0",
         "blade-ui-kit/blade-heroicons": "^2.1",
-        "guzzlehttp/guzzle": "^7.2",
+        "guzzlehttp/guzzle": "^7.5",
         "inertiajs/inertia-laravel": "^0.6.3",
         "laravel/breeze": "^1.20",
+        "laravel/cashier": "^14.12",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",
         "laravel/telescope": "^4.14",
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^2.12",
         "spatie/laravel-permission": "^5.10",
+        "stripe/stripe-php": "^10.14",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {

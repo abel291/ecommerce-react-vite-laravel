@@ -1,34 +1,34 @@
 import SectionList from "@/Components/Sections/SectionList"
 import Layout from "@/Layouts/Layout"
-import ProductsCart from "./ProductCart/ProductsCart"
+import CartProduct from "./CartProduct"
 import OrderSummary from "./OrderSummary"
 import PrimaryButton from "@/Components/PrimaryButton"
 import { Head, Link, useForm } from "@inertiajs/react"
 import { formatCurrency } from "@/Helpers/helpers"
 
-const ShoppingCart = ({ products, charges }) => {
+const ShoppingCart = ({ shoppingCart, order }) => {
 
 	const { get, processing } = useForm();
 	const handleClickCheckout = () => {
-		get(route('checkout.shopping_cart'))
+		get(route('checkout.add-shopping-cart'))
 	}
 	return (
 		<Layout>
 			<Head title="Carrito de compras" />
-			<div className="container py-content relative">
+			<div className="container relative">
 				<div className="space-y-4">
 					<SectionList title="Carrito de compra">
 						{/* <TitleContent text={"Carrito de compra (" + cartProducts.products.length + ")"} /> */}
 						<div className=" divide-y divide-gray-200">
-							{products.map((product, index) => (
-								<ProductsCart product={product} key={product.id} />
+							{shoppingCart.map((item, index) => (
+								<CartProduct item={item} key={item.id} />
 							))}
 						</div>
 
-						{products.length ? (
+						{shoppingCart.length ? (
 							<>
 								<div>
-									<OrderSummary charges={charges} />
+									<OrderSummary order={order} />
 								</div>
 								<div className="text-right mt-6 ">
 									<PrimaryButton onClick={handleClickCheckout} isLoading={processing} disabled={processing}>Comprar ahora</PrimaryButton>

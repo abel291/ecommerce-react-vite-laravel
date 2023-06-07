@@ -27,8 +27,8 @@ export default function Register() {
 	};
 
 	return (
-		<GuestLayout>
-			<Head title="Register" />
+		<GuestLayout title="Registro">
+			<Head title="Registro" />
 
 			<form onSubmit={submit}>
 				<div>

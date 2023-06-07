@@ -16,10 +16,9 @@ use function Pest\Laravel\get;
 class Product extends Model
 {
 	use HasFactory;
-	public $quantity_selected = 0;
-	public $price_quantity = 0;
-	public $in_stock;
-
+	//public $quantity_selected = 0;
+	//public $price_quantity = 0;
+	//public $in_stock;
 
 	protected $fillable = [
 		'name',
@@ -79,10 +78,5 @@ class Product extends Model
 	public function stock(): hasOne
 	{
 		return $this->hasOne(Stock::class);
-	}
-
-	public function calculateOffer()
-	{
-		return $this->price - ($this->price * ($this->offer / 100));
 	}
 }

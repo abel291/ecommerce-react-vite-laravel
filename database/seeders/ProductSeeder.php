@@ -8,7 +8,7 @@ use App\Models\Image;
 use App\Models\Product;
 use App\Models\Specification;
 use App\Models\Stock;
-use Faker as Faker;
+use Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 

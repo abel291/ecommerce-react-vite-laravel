@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ShoppingCartStoreRequest;
-use App\Http\Resources\ProductResource;
+
+use App\Http\Resources\CartResource;
 use App\Models\Product;
-use App\Models\ShoppingCart;
 use App\Rules\ShoppingCartStoreRule;
 use App\Rules\ValidateProductRule;
+use App\Services\CartService;
 use App\Services\OrderService;
-use App\Services\ShoppingCartService;
-use App\Services\StockService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
+
 use Inertia\Inertia;
 
 class ShoppingCartController extends Controller
@@ -22,26 +20,17 @@ class ShoppingCartController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function index()
+	public function index(CartService $cart_service)
 	{
-		$products = $this->getProducts();
+		$cartProducts = auth()->user()->shoppingCart->load('product.stock', 'product.specifications')->sortByDesc('id');
 
-		$quantities = $products->pluck('pivot.quantity', 'id')->toArray();
+		$productInStock = $cart_service->productsInStock($cartProducts);
 
-		$products = OrderService::priceQuantity($products, $quantities);
-
-		$products = $products->map(function ($item) {
-			$item->in_stock = $item->stock->remaining >= $item->quantity_selected;
-			return $item;
-		});
-
-		$productInStock = OrderService::productInStock($products);
-
-		$charges = OrderService::calculateTotalPrice($productInStock);
+		$order = OrderService::generateOrderWithsTotals($productInStock);
 
 		return Inertia::render('ShoppingCart/ShoppingCart', [
-			'products' => ProductResource::collection($products),
-			'charges' => $charges,
+			'shoppingCart' => CartResource::collection($cartProducts),
+			'order' => $order,
 		]);
 	}
 
@@ -61,9 +50,8 @@ class ShoppingCartController extends Controller
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(Request $request)
+	public function store(Request $request, CartService $cart_service)
 	{
-
 		$request->validate([
 			'quantity' => 'required|numeric|min:1',
 			'product_id' => ['required', 'exists:products,id', new ValidateProductRule, new ShoppingCartStoreRule],
@@ -71,9 +59,9 @@ class ShoppingCartController extends Controller
 
 		$product = Product::find($request->product_id);
 
-		ShoppingCartService::addProduct(auth()->user(), $product, $request->quantity);
+		$cart_service->addProduct(auth()->user(), $product, $request->quantity);
 
-		return to_route('shopping-cart.index')->with('success', "Agregaste a tu carrito <b>$product->name</b> ");
+		return to_route('shopping-cart.index')->with('success', "Agregaste a tu carrito $product->name ");
 	}
 
 	/**
@@ -117,12 +105,7 @@ class ShoppingCartController extends Controller
 	 */
 	public function destroy($id)
 	{
-		auth()->user()->shopping_cart()->detach($id);
+		auth()->user()->shoppingCart()->where('id', $id)->delete();
 		return to_route('shopping-cart.index')->with('success', '¡Listo! Eliminaste el producto.');
-	}
-
-	public function getProducts()
-	{
-		return auth()->user()->shopping_cart->load('stock', 'specifications')->sortByDesc('pivot.id')->values();
 	}
 }

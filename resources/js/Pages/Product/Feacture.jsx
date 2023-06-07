@@ -24,7 +24,7 @@ const Feacture = ({ product }) => {
 	}
 
 	const handleClickBuyProduct = () => {
-		post(route('checkout.product'), {
+		post(route('checkout.add-single-product'), {
 			onStart: visit => { setProcessing('checkout') },
 			onFinish: visit => { setProcessing('') },
 		})

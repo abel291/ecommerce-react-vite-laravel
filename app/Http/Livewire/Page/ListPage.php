@@ -11,8 +11,8 @@ class ListPage extends Component
 {
 	use WithPagination;
 	use WithSorting;
-	public $label = "Autor";
-	public $labelPlural = "Autores";
+	public $label = "Pagina";
+	public $labelPlural = "Paginas";
 	protected $queryString = ['sortBy', 'sortDirection', 'search'];
 	protected $listeners = [
 		'renderListPage' => 'render',
@@ -21,7 +21,7 @@ class ListPage extends Component
 
 	public function render()
 	{
-		$list = Page::where(function ($query) {
+		$list = Page::with('banners')->where(function ($query) {
 			$query->orWhere('type', 'like', "%$this->search%");
 			$query->orWhere('meta_title', 'like', "%$this->search%");
 			$query->orWhere('meta_desc', 'like', "%$this->search%");
@@ -29,6 +29,6 @@ class ListPage extends Component
 
 			->orderBy($this->sortBy, $this->sortDirection)
 			->paginate(20);
-		return view('livewire.page.list-page');
+		return view('livewire.page.list-page', compact('list'));
 	}
 }

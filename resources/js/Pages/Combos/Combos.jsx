@@ -12,9 +12,11 @@ export default function Combos({ bannersTop, page, products }) {
 		<Layout>
 			<Head title={page.meta_title} />
 			<div className="container">
-				<div className="py-content">
-					<CarouselBanner images={bannersTop} />
-				</div>
+				{bannersTop.length > 0 && (
+					<div className="py-content">
+						<CarouselBanner images={bannersTop} />
+					</div>
+				)}
 				<SectionList title="Combos" entry="¡Todos nuestros ensambles disponibles, personalizados con marcas reconocidas y fiables del mercado gamer.!">
 
 					<div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 md:gap-6 ">

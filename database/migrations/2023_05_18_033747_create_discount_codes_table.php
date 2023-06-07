@@ -14,12 +14,14 @@ return new class extends Migration
 		Schema::create('discount_codes', function (Blueprint $table) {
 			$table->id();
 			$table->string('name');
-			$table->string('entry');
+			$table->string('entry')->nullable();
 			$table->string('code');
 			$table->string('value');
 			$table->string('type'); //amount or percent
-			$table->dateTime('start_date');
-			$table->dateTime('end_date');
+			$table->string('max_uses')->nullable();
+			$table->string('times_used')->nullable();
+			$table->dateTime('valid_from')->nullable();
+			$table->dateTime('valid_to')->nullable();
 			$table->boolean('active');
 			$table->timestamps();
 		});

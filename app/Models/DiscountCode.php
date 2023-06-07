@@ -16,7 +16,6 @@ class DiscountCode extends Model
 		'start_date' => 'datetime:Y-m-d',
 		'end_date' => 'datetime:Y-m-d',
 	];
-
 	protected function startDateFormat(): Attribute
 	{
 		return Attribute::make(
@@ -33,17 +32,20 @@ class DiscountCode extends Model
 	{
 		return $this->hasMany(Order::class);
 	}
-	public function calculateDiscount($amount)
+
+	public function calculateDiscount(float $amount)
 	{
 
+		$applied = 0;
 		switch ($this->type) {
 			case DiscountCodeTypeEnum::FIXED:
-				return max(($amount - $this->value), 0);
+				$applied = max(($amount - $this->value), 0);
 				break;
 
 			case DiscountCodeTypeEnum::PERCENT:
-				return $amount * ($this->value / 100);
+				$applied = $amount * ($this->value / 100);
 				break;
 		}
+		return round($applied, 2);
 	}
 }

@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use App\Models\Product;
+use App\Services\CartService;
 use App\Services\OrderService;
 use App\Services\ShoppingCartService;
 use Closure;
@@ -43,28 +44,26 @@ class ShoppingCartStoreRule implements DataAwareRule, ValidationRule
 
 		$product = Product::with('stock')->find($product_id);
 
-		$shopping_cart_max_items = config('shoppingcart.max_quantity');
+		$shopping_cart_max_items = config('cart.shopping-cart.max-quantity');
 
 		$shopping_cart = auth()->user()->shopping_cart()->get();
 
-		$shopping_cart_product_in_stock = OrderService::productInStock($shopping_cart);
+		$shoppinCartProductsInSTock = CartService::productsInStock($shopping_cart);
 
-		$product_selected_shopping_cart = $shopping_cart_product_in_stock->firstWhere('id', $product->id);
+		$shoppinCartProductsInSTock->transform(function ($item) use ($product_id, $quantity) {
 
-		if ($product_selected_shopping_cart) {
+			if ($item->product_id == $product_id) {
+				$item->quantity_selected = $quantity;
+			}
+			return $item;
+		});
 
-			$shopping_cart_products_count = ($shopping_cart_product_in_stock->sum('pivot.quantity') - $product_selected_shopping_cart->pivot->quantity) + $quantity;
-		} else {
-
-			$shopping_cart_products_count = $shopping_cart_product_in_stock->sum('pivot.quantity')  + $quantity;
+		if ($shoppinCartProductsInSTock->sum('quantity_selected') > $shopping_cart_max_items) {
+			$fail("Carrito lleno! ,no puedes tener mas de $shopping_cart_max_items productos en el carritos");
 		}
 
 		if ($quantity > $product->max_quantity) {
 			$fail("La cantidad maxima que puedes llevar de este producto es de: $product->max_quantity unidade(s)");
-		}
-
-		if ($shopping_cart_products_count > $shopping_cart_max_items) {
-			$fail("Carrito lleno! ,no puedes tener mas de $shopping_cart_max_items productos en el carritos");
 		}
 	}
 }

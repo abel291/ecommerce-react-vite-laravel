@@ -24,8 +24,17 @@ class ProfileController extends Controller
 
 	public function orders(): Response
 	{
+		$orders = auth()->user()->orders()->with('payment')->orderBy('id', 'desc')->paginate(10);
+
 		return Inertia::render('Profile/Orders', [
-			'orders' => OrderResource::collection(auth()->user()->orders()->orderBy('id', 'desc')->paginate(10))
+			'orders' => OrderResource::collection($orders)
+		]);
+	}
+	public function orderDetails($code)
+	{
+		$order = auth()->user()->orders()->with('order_products', 'payment')->where('code', $code)->firstOrFail();
+		return Inertia::render('Profile/OrderDetails/OrderDetails', [
+			'order' => new OrderResource($order),
 		]);
 	}
 
@@ -65,13 +74,5 @@ class ProfileController extends Controller
 			'password' => Hash::make($validated['password']),
 		]);
 		return Redirect::route('profile-password')->with('success', 'Datos actualizados con exito');
-	}
-
-	public function order($code)
-	{
-		$order = auth()->user()->orders()->with('order_products')->where('code', $code)->first();
-		return Inertia::render('Profile/Order', [
-			'order' => new OrderResource($order),
-		]);
 	}
 }

@@ -33,25 +33,28 @@ export default function CarouselBanner({ images }) {
 					>
 						{images.map((image, index) => (
 							<SwiperSlide key={index}>
-								<Link href={image.link}>
-									<img
-										className="h-full mx-auto w-full object-cover overflow-hidden rounded md:rounded-xl"
-										src={image.img}
-										alt={image.alt}
-									/></Link>
+								<a href={image.link}>
+									<div className="flex justify-center items-center">
+										<img
+											className=" max-w-full w-full max-h-[550px] object-cover object-center rounded md:rounded-xl"
+											src={image.img}
+											alt={image.alt}
+										/>
+									</div>
+								</a>
 							</SwiperSlide>
 						))}
 					</Swiper>
 					<div className="flex items-center w-full absolute top-2/4 z-10 ">
 						<button
 							aria-label="prev-button"
-							className="absolute button-next-banner  h-14 w-10 md:h-20 md:w-14 text-black flex items-center justify-center rounded-md text-gray-0 bg-white transition duration-250 hover:bg-indigo-600 hover:text-white focus:outline-none start-0 transform shadow-md -translate-x-1/4 lg:-translate-x-1/2"
+							className="absolute button-next-banner  h-10 w-8 md:h-20 md:w-14 text-black flex items-center justify-center rounded-md text-gray-0 bg-white transition duration-250 hover:bg-indigo-600 hover:text-white focus:outline-none start-0 transform shadow-md -translate-x-1/4 lg:-translate-x-1/2"
 						>
 							<ChevronLeftIcon className="h-4 w-4 md:h-7 md:w-7" />
 						</button>
 						<button
 							aria-label="next-button"
-							className="absolute right-0 button-prev-banner  h-14 w-10 md:h-20 md:w-14 text-black flex items-center justify-center rounded-md bg-white transition duration-250 hover:bg-indigo-600 hover:text-white focus:outline-none end-0 transform shadow-md translate-x-1/4  lg:translate-x-1/2"
+							className="absolute right-0 button-prev-banner   h-10 w-8 md:h-20 md:w-14 text-black flex items-center justify-center rounded-md bg-white transition duration-250 hover:bg-indigo-600 hover:text-white focus:outline-none end-0 transform shadow-md translate-x-1/4  lg:translate-x-1/2"
 						>
 							<ChevronRightIcon className="h-4 w-4 md:h-7 md:w-7" />
 						</button>
@@ -60,7 +63,7 @@ export default function CarouselBanner({ images }) {
 			)}
 			{images.length == 1 && (
 				<div>
-					<Banner img={images[0]} />
+					<Banner image={images[0]} />
 				</div>
 			)}
 		</>

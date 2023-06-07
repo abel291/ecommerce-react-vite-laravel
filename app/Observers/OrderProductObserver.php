@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Enums\PaymentStatus;
 use App\Models\OrderProduct;
 
 class OrderProductObserver
@@ -11,7 +12,6 @@ class OrderProductObserver
 	 */
 	public function created(OrderProduct $orderProduct): void
 	{
-		$orderProduct->product->stock()->decrement('remaining', $orderProduct->quantity);
 	}
 
 	/**

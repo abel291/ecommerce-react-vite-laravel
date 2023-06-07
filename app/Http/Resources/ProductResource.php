@@ -32,18 +32,6 @@ class ProductResource extends JsonResource
 			'category' => $this->whenLoaded('category'),
 			'brand' => $this->whenLoaded('brand'),
 			'active' => $this->active,
-
-			'quantity_selected' => $this->when($this->quantity_selected, $this->quantity_selected),
-			'price_quantity' => $this->when($this->price_quantity, $this->price_quantity),
-			'in_stock' => $this->in_stock,
-
-
-			'shopping_cart' => $this->whenPivotLoaded('shopping_cart', function () {
-				return [
-					'quantity' => $this->pivot->quantity,
-					'price_quantity' => $this->pivot->price_quantity,
-				];
-			}),
 		];
 	}
 }

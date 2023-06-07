@@ -22,10 +22,10 @@ enum PaymentStatus: string
 	public function color(): string
 	{
 		return  match ($this) {
-			PaymentStatus::CANCELED => 'gray',
-			PaymentStatus::REFUNDED => 'gray',
+			PaymentStatus::CANCELED => 'red',
+			PaymentStatus::REFUNDED => 'red',
 			PaymentStatus::SUCCESSFUL => 'green',
-			PaymentStatus::PENDING => 'indigo',
+			PaymentStatus::PENDING => 'gray',
 		};
 	}
 

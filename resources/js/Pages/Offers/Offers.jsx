@@ -8,13 +8,16 @@ import { Head, Link } from "@inertiajs/react"
 import React from 'react'
 
 export default function Offers({ bannersTop, page, products }) {
+	console.log(bannersTop)
 	return (
 		<Layout>
 			<Head title={page.meta_title} />
 			<div className="container">
-				<div className="py-content">
-					<CarouselBanner images={bannersTop} />
-				</div>
+				{bannersTop.length > 0 && (
+					<div className="py-content">
+						<CarouselBanner images={bannersTop} />
+					</div>
+				)}
 				<SectionList title="Ofertas" entry="¡Encuentra precios increíbles cada día!">
 
 					<div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 md:gap-6 ">
@@ -26,7 +29,7 @@ export default function Offers({ bannersTop, page, products }) {
 				</SectionList>
 				<div className="py-content">
 					<div className="flex justify-center">
-						<Link className="btn-secondary" href={route('search', { offers: 10 })} > Ver mas ofertas</Link>
+						<Link className="btn-secondary" href={route('search', { offer: 10 })} > Ver mas ofertas</Link>
 					</div>
 				</div>
 			</div>

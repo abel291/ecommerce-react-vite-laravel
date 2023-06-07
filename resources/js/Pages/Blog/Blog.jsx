@@ -6,20 +6,14 @@ import CardPost from './CardPost'
 import Pagination from '@/Components/Pagination'
 
 import LayoutBlog from '@/Layouts/LayoutBlog'
+import SectionList from "@/Components/Sections/SectionList"
 
 export default function Blog({ posts }) {
 
 	return (
 		<LayoutBlog>
 			<Head title="Blog" />
-			<div className="pb-12 pt-10 mb-12 border-b">
-				<h2 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
-					Desde el blog
-				</h2>
-				<p className="mt-2 text-lg leading-8 text-gray-600">
-					Este es el blog donde encontrarás todo lo que necesitas para cuidar y mejorar tu computadora!
-				</p>
-			</div>
+			<SectionList title="Desde el blog" entry="Este es el blog donde encontrarás todo lo que necesitas para cuidar y mejorar tu computadora!" />
 			{posts.data.length ? (
 				<>
 					<div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-12 lg:max-w-none lg:grid-cols-2">

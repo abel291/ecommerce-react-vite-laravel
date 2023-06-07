@@ -13,14 +13,17 @@ class CreateOrderProductsTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::disableForeignKeyConstraints();
 		Schema::create('order_products', function (Blueprint $table) {
 			$table->id();
-			$table->unsignedDecimal('price', 12, 2);
 			$table->string('name');
-			$table->unsignedInteger('quantity');
+			$table->unsignedDecimal('price', 12, 2);
+			$table->unsignedInteger('quantity_selected');
 			$table->unsignedDecimal('price_quantity', 12, 2);
-			$table->foreignId('order_id')->constrained()->cascadeOnDelete();
+			$table->json('data')->nullable();
+			$table->string('type', 40); // CartEnum -> shopping-cart | wish-list
+
+			$table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+			$table->foreignId('order_id')->nullable()->constrained()->nullOnDelete();
 			$table->foreignId('product_id')->nullable()->constrained()->nullOnDelete();
 			$table->timestamps();
 		});

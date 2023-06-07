@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 :root {
     font-family: "Inter", sans-serif !important;
 }
@@ -20,24 +21,50 @@
 }
 @layer base {
     .title-section {
-        @apply font-medium text-2xl;
+        @apply text-2xl font-medium text-gray-800;
     }
     .btn-primary {
         @apply pointer-events-auto rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold leading-5 text-white hover:bg-indigo-500;
     }
 
     .btn-secondary {
-        @apply pointer-events-auto rounded-md px-3 py-2 text-sm font-semibold leading-5 text-black shadow-sm hover:bg-gray-50 border;
+        @apply pointer-events-auto rounded-md px-3 py-2 text-sm font-semibold leading-5 text-gray-800 shadow-sm hover:bg-gray-50 border;
     }
+
     .select-form,
     .input-form,
     .input-textarea {
-        @apply block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6;
+        @apply block w-full rounded-md border-0 py-2 px-2.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm;
     }
     .input-radio {
         @apply h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600;
     }
     .input-checkbox {
         @apply h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600;
+    }
+
+    .table-list {
+        @apply w-full;
+    }
+    .table-list thead tr {
+        @apply bg-gray-100;
+    }
+    .table-list thead tr th {
+        @apply text-gray-800 bg-gray-100 p-4 text-start font-semibold;
+    }
+    .table-list thead tr th:first-child {
+        @apply rounded-tl-lg;
+    }
+    .table-list thead tr th:last-child {
+        @apply rounded-tr-lg text-right;
+    }
+    .table-list tbody {
+        @apply divide-y;
+    }
+    .table-list tbody tr td {
+        @apply px-3 py-3.5 text-start;
+    }
+    .table-list tbody tr td:last-child {
+        @apply text-right;
     }
 }

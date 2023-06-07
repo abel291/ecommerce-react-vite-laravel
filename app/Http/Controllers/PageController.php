@@ -22,10 +22,14 @@ class PageController extends Controller
 		$newProducts = Product::orderBy('id', 'desc')->limit(12)->get();
 		$page = Page::with('banners')->where('type', 'home')->firstOrFail();
 
-		$carousel_top = $page->banners->where('position', 'top')->where('type', 'carousel');
-		$banners_top = $page->banners->where('position', 'top')->where('type', 'banner');
-		$banners_medium = $page->banners->where('position', 'medium');
-		$banners_bottom = $page->banners->where('position', 'bottom');
+		$banners = $page->banners->where('active', 1);
+
+		$carousel_top = $banners->where('position', 'top')->where('type', 'carousel');
+		$banners_top = $banners->where('position', 'top')->where('type', 'banner');
+
+		$banners_medium = $banners->where('position', 'middle');
+
+		$banners_bottom = $banners->where('position', 'below');
 		//dd($banners_medium);
 		return Inertia::render('Home/Home', [
 			'page' => $page,
@@ -41,7 +45,7 @@ class PageController extends Controller
 	{
 
 		$page = Page::with('banners')->where('type', 'offers')->firstOrFail();
-		$banners_top = $page->banners->where('position', 'top')->where('type', 'banner');
+		$banners_top = $page->banners->where('position', 'top')->where('active', 1)->where('type', 'banner');
 		$products = Product::where('offer', '!=', null)->limit(20)->inRandomOrder()->get();
 		return Inertia::render('Offers/Offers', [
 			'bannersTop' => ImageResource::collection($banners_top),
@@ -52,7 +56,7 @@ class PageController extends Controller
 	public function combos()
 	{
 		$page = Page::with('banners')->where('type', 'combos')->firstOrFail();
-		$banners_top = $page->banners->where('position', 'top')->where('type', 'banner');
+		$banners_top = $page->banners->where('position', 'top')->where('active', 1)->where('type', 'banner');
 		$products = Product::whereRelation('category', 'slug', 'combos')->limit(12)->orderBy('id', 'desc')->get()->shuffle();
 		// $products = Category::with('products')->where('slug', 'combos')->first()->products->slice(0, 20);
 
@@ -65,7 +69,7 @@ class PageController extends Controller
 	public function assemblies()
 	{
 		$page = Page::with('banners')->where('type', 'assemblies')->firstOrFail();
-		$carousel = $page->banners->where('position', 'top')->where('type', 'carousel');
+		$carousel = $page->banners->where('position', 'top')->where('active', 1)->where('type', 'carousel');
 		$products = Category::with('products')->where('slug', 'ensambles')->first()->products->slice(0, 20);
 
 		return Inertia::render('Assemblies/Assemblies', [
@@ -76,11 +80,10 @@ class PageController extends Controller
 	}
 	public function contact()
 	{
-		$page = Page::with('banners')->where('type', 'contact')->firstOrFail();
-		$carousel = $page->banners->where('position', 'top')->where('type', 'banner');
+		$page = Page::where('type', 'contact')->firstOrFail();
+
 
 		return Inertia::render('Contact/Contact', [
-			'banner' => ImageResource::collection($carousel),
 			'page' => $page,
 		]);
 	}

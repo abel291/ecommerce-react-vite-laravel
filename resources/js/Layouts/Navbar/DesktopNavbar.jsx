@@ -49,7 +49,7 @@ export default function DesktopNavbar({ navigation }) {
 					</div>
 				</div>
 				<div className="flex mt-4 justify-between  relative text-sm">
-					<div className="flex gap-x-6 items-center ">
+					<div className="flex gap-x-6 items-center font-medium ">
 						<CategoriesDropdown />
 						{navigation.map((item) => (
 							<Link key={item.href} href={route(item.href)} className={(route().current(item.href) ? 'border-b-2  border-indigo-600 ' : '')}>

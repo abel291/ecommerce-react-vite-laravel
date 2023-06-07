@@ -2,9 +2,13 @@
 
 namespace App\Models;
 
+use App\Enums\CartEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Cashier\Billable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -12,6 +16,7 @@ class User extends Authenticatable
 {
 	use HasApiTokens, HasFactory, Notifiable;
 	use HasRoles;
+	use Billable;
 
 	/**
 	 * The attributes that are mass assignable.
@@ -46,9 +51,9 @@ class User extends Authenticatable
 		'email_verified_at' => 'datetime',
 	];
 
-	public function shopping_cart()
+	public function shoppingCart(): HasMany
 	{
-		return $this->belongsToMany(Product::class, 'shopping_cart')->withPivot('quantity', 'price_quantity');
+		return $this->hasMany(OrderProduct::class)->where('type', CartEnum::SHOPPIN_CART);
 	}
 
 	public function orders()

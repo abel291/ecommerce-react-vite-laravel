@@ -6,8 +6,8 @@ const CardProduct = ({ product, badge = "" }) => {
 	return (
 		<Link key={product.id} href={route('product', product.slug)} >
 			<div>
-				<div className="h-48 p-2 flex items-center justify-center relative">
-					<img src={product.img} alt={product.slug} className="max-h-full" />
+				<div className="h-48  flex items-center justify-center relative p-2">
+					<img src={product.img} alt={product.slug} className="max-h-full  max-w-[200px] " />
 				</div>
 				<div className="my-2">
 					{/* <div className="bg-red-500 text-white rounded py-1 px-2 text-xs inline-block font-medium">Nuevo</div> */}

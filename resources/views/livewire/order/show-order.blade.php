@@ -27,7 +27,7 @@
                         <x-list-description title="Direccion de facturación">
                             <x-slot:desc>
                                 <div>{{ $order->user_data->address }}</div>
-                                <div>{{ $order->user_data->country }} - {{ $order->user_data->city }}</div>
+                                <div>{{ $order->user_data->city }}</div>
                             </x-slot:desc>
                         </x-list-description>
 
@@ -52,7 +52,7 @@
                         <dl class="font-medium text-sm pt-4 space-y-4 border-t">
                             <div class="flex justify-between">
                                 <dt class="text-gray-500">Productos</dt>
-                                <dd class="text-gray-900 ">{{ $order->order_products->sum('quantity') }}</dd>
+                                <dd class="text-gray-900 ">{{ $order->order_products->sum('quantity_selected') }}</dd>
                             </div>
 
 
@@ -76,7 +76,7 @@
                                 <dd class="text-gray-900 ">@money($order->shipping)</dd>
                             </div>
                             <div class="flex justify-between">
-                                <dt class="text-gray-500">Impuestos {{ $order->tax_percent * 100 }}%</dt>
+                                <dt class="text-gray-500">Impuestos {{ $order->tax_percent }}%</dt>
                                 <dd class="text-gray-900 ">@money($order->tax_amount)</dd>
                             </div>
                             <div class="flex justify-between pt-4 text-base  border-t">

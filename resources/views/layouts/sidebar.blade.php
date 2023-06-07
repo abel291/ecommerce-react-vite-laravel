@@ -20,15 +20,16 @@
         //     'route' => 'home',
         //     'icon' => 'heroicon-o-chart-pie',
         // ],
+    
         // [
-        //     'title' => 'Blog',
-        //     'route' => 'home',
-        //     'icon' => 'heroicon-o-newspaper',
+        //     'title' => 'Paginas',
+        //     'route' => 'dashboard.pages',
+        //     'icon' => 'heroicon-o-view-columns',
         // ],
         [
-            'title' => 'Paginas',
-            'route' => 'dashboard.pages',
-            'icon' => 'heroicon-o-view-columns',
+            'title' => 'Banners',
+            'route' => 'dashboard.banners',
+            'icon' => 'heroicon-o-photo',
         ],
         [
             'title' => 'Marcas',

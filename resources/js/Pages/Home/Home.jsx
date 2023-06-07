@@ -12,7 +12,7 @@ import CarouselHome from './CarouselHome'
 export default function Home({ page, carouselTop, bannersTop, featured, bannersMedium, newProducts, bannersBottom }) {
 	const { categories, brands } = usePage().props
 
-	//console.log(featured)
+	console.log(bannersBottom)
 	return (
 		<>
 			<Head title={page.meta_title} />
@@ -44,12 +44,13 @@ export default function Home({ page, carouselTop, bannersTop, featured, bannersM
 								<CardProduct key={product.id} product={product} />
 							))}
 						</div>
-
 					</SectionList>
 
-					<div className="py-content">
-						<CarouselBanner images={bannersMedium} />
-					</div>
+					{bannersMedium.length > 0 && (
+						<div className="py-content">
+							<CarouselBanner images={bannersMedium} />
+						</div>
+					)}
 
 					<SectionList title={"Categorias"}>
 						<CarouselHome items={categories} searchType="categories" />
@@ -65,10 +66,11 @@ export default function Home({ page, carouselTop, bannersTop, featured, bannersM
 						</div>
 					</SectionList>
 
-
-					<div className="py-content">
-						<CarouselBanner images={bannersBottom} />
-					</div>
+					{bannersBottom.length > 0 && (
+						<div className="py-content">
+							<CarouselBanner images={bannersBottom} />
+						</div>
+					)}
 
 					<SectionList title={"Top Marcas"}>
 						<CarouselHome items={brands} searchType="brands" />

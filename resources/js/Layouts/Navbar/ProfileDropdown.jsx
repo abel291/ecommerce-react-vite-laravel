@@ -65,7 +65,7 @@ export default function ProfileDropdown({ children }) {
 						</>
 					) : (
 						navigation_sing.map((item) => (
-							<Dropdown.Link href={item.href}>
+							<Dropdown.Link href={item.href} key={item.name}>
 								<div className="flex items-center">
 									<item.icon className="h-5 w-5 mr-2 text-gray-400" />
 									<span>{item.name}</span>

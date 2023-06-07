@@ -40,6 +40,7 @@ class HandleInertiaRequests extends Middleware
 			'brands' => fn () => Brand::all('id', 'name', 'slug', 'img'),
 			'flash' => [
 				'success' => fn () => $request->session()->get('success'),
+				'error' => fn () => $request->session()->get('error'),
 				'subscribe' => fn () => $request->session()->get('subscribe')
 			],
 			'ziggy' => function () use ($request) {

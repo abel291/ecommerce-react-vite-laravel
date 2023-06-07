@@ -54,7 +54,7 @@
                             <div class="flex items-center gap-x-3">
 
                                 <x-table.button :id="$item->id" modal-id="modal-quantity-product">
-                                    <span class="underline">{{ $item->order_products->sum('quantity') }}</span>
+                                    <span class="underline">{{ $item->order_products->sum('quantity_selected') }}</span>
                                 </x-table.button>
                             </div>
                         </td>

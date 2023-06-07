@@ -35,7 +35,8 @@ class AuthenticatedSessionController extends Controller
 		$request->session()->regenerate();
 
 		if (Auth::user()->hasRole('admin')) {
-			return Inertia::location(route('dashboard.home'));
+			return to_route('shopping-cart.index');
+			//return Inertia::location(route('dashboard.home'));
 		} else {
 			return redirect(RouteServiceProvider::HOME);
 		}

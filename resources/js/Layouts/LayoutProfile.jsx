@@ -5,9 +5,10 @@ import React from 'react'
 import Dashboard from '../Pages/Profile/Dashboard'
 import BannerWithTitle from '@/Components/Carousel/BannerWithTitle'
 import { ArrowRightOnRectangleIcon, HomeIcon, IdentificationIcon, LockClosedIcon, ShoppingCartIcon, UserCircleIcon } from '@heroicons/react/24/outline'
+import SectionTitle from '@/Components/Sections/SectionTitle'
 
 
-export default function Profile({ children }) {
+export default function Profile({ title, children }) {
 	const links = [
 		{
 			title: 'Dashboard',
@@ -51,7 +52,7 @@ export default function Profile({ children }) {
 
 
 						</div>
-						<Link method="post" as="button" href={route('logout')} className={'block px-4 py-3 rounded-md border-t border-gray-100 mt-4'}>
+						<Link method="post" as="button" href={route('logout')} className={'block px-4 py-3 rounded-md border-t border-gray-100 mt-2'}>
 							<div className="flex items-center gap-3">
 								<ArrowRightOnRectangleIcon className="w-6 h-6" />
 								Cerrar Session
@@ -59,12 +60,16 @@ export default function Profile({ children }) {
 						</Link>
 					</div>
 					<div className="col-span-12 lg:col-span-9 md:pl-10">
+						{title && (
+							<h3 className="title-section mb-8">{title}</h3>
+						)}
+
 						<div>
 							{children}
 						</div>
 					</div>
 				</div>
 			</div>
-		</Layout>
+		</Layout >
 	)
 }

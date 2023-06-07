@@ -21,7 +21,7 @@
                     @if ($order->payment->status == \App\Enums\PaymentStatus::PENDING)
                         <span class="text-gray-500 ">sin referencia</span>
                     @else
-                        {{ $order->payment->code_reference }}
+                        {{ $order->payment->reference }}
                     @endif
                 </dd>
             </div>

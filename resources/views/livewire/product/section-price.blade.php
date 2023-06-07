@@ -9,10 +9,10 @@
 
             <x-form.select label="Descuentos" wire:model.defer="product.offer">
                 <option value="0">Sin ofeta</option>
-                <option value="10">10% {{ $product->calculateOffer(10) }}</option>
-                <option value="20">20% {{ $product->calculateOffer(20) }}</option>
-                <option value="30">30% {{ $product->calculateOffer(30) }}</option>
-                <option value="40">40% {{ $product->calculateOffer(40) }}</option>
+                <option value="10">10%</option>
+                <option value="20">20%</option>
+                <option value="30">30%</option>
+                <option value="40">40%</option>
             </x-form.select>
         </div>
         <div class="sm:col-span-3">

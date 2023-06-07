@@ -7,6 +7,7 @@ import { Head, useForm, usePage } from "@inertiajs/react"
 import { useState } from "react"
 import InputLabel from "@/Components/InputLabel"
 import InputError from "@/Components/InputError"
+import SectionTitle from "@/Components/Sections/SectionTitle"
 const AccountDetails = () => {
 	const { auth } = usePage().props
 
@@ -27,10 +28,10 @@ const AccountDetails = () => {
 		})
 	}
 	return (
-		<LayoutProfile>
+		<LayoutProfile title="Detalles de Cuenta">
 			<Head title="Detalles de cuenta" />
 			<div className="space-y-2">
-				<h3 className="font-bold text-2xl mb-6"> Detalles de Cuenta</h3>
+
 
 				<form onSubmit={handleSubmit}>
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">

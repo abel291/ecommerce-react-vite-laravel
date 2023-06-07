@@ -17,7 +17,7 @@ class SearchController extends Controller
 		//sleep(2);
 
 		$page = Page::with('banners')->where('type', 'search')->firstOrFail();
-		$banner = $page->banners->where('position', 'medium')->where('type', 'banner');
+		$banner = $page->banners->where('position', 'middle')->where('type', 'banner');
 
 		$products = Product::with('category', 'brand')
 			->where(function ($query) use ($request) {

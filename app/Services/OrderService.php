@@ -2,73 +2,67 @@
 
 namespace App\Services;
 
+use App\Enums\CartEnum;
+use App\Models\Cart;
+use App\Models\DiscountCode;
+use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Models\Product;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Response;
+use App\Models\ShoppingCart;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Redirect;
 
 class OrderService
 {
-	public static function calculatePrice(float $price, float $quantity)
+	public static function generateCode($id): string
 	{
-		return round($price * $quantity, 2);
+		return  rand(100, 999) . date('mds') . $id;
 	}
 
-	public static function priceQuantity(Collection $products, array $quantities): Collection
+	public static function subTotal(Collection $cart_products): float
 	{
-		$productsPricesQuantity = $products
-			->map(function ($item) use ($quantities) {
-
-				$item->quantity_selected = $quantities[$item->id];
-
-				$item->price_quantity = self::calculatePrice($item->price_offer, $item->quantity_selected);
-
-				$item->in_stock = $item->stock->remaining >= $item->quantity_selected;
-
-				return $item;
-			});
-
-		return $productsPricesQuantity;
-	}
-	public static function productInStock(Collection $products): Collection
-	{
-		$productInStock = $products->filter(function ($item) {
-			return $item->active && ($item->stock->remaining >= $item->quantity_selected);
-		});
-		return $productInStock;
+		return round($cart_products->sum('price_quantity'), 2);
 	}
 
-	public static function calculateTotalPrice(array|object $products, $discountCode = null)
+	public static  function generateOrderWithsTotals(Collection $cart_products, DiscountCode $discount_code = null): Order
 	{
-		$sub_total = $products->sum('price_quantity');
+		$tax_percent = 12;
 
-		if ($discountCode) {
-			$discount = $discountCode->only(['code', 'type', 'value']);
-			$discount['applied'] = $discountCode->calculateDiscount($sub_total);
-			$new_sub_total = round($sub_total - $discount['applied'], 2);
+		$shipping = 8;
+
+		$order = new Order();
+
+		$order->sub_total = self::subTotal($cart_products);
+		$order->quantity = $cart_products->sum('quantity_selected');
+
+		if ($discount_code) {
+
+			$discount_applied = $discount_code->calculateDiscount($order->sub_total);
+
+			$order->discount_code_id = $discount_code->id;
+			$order->discount = [
+				...$discount_code->only(['code', 'value', 'type']),
+				'applied' => $discount_applied
+			];
 		} else {
-			$discount = null;
-			$new_sub_total = $sub_total;
+			$discount_applied = 0;
 		}
 
+		$order->shipping = $shipping;
 
+		$order->tax_percent = $tax_percent;
 
-		$tax_percent = 0.12;
-		$shipping = 15000;
-		$tax_amount = round($new_sub_total * $tax_percent, 2);
-		$total = round($new_sub_total + $tax_amount + $shipping, 2);
+		$order->tax_amount = self::calculateTax($order->sub_total);
 
-		return [
-			'quantity' => $products->sum('quantity_selected'),
-			'sub_total' => $sub_total,
-			'tax_percent' => $tax_percent,
-			'tax_amount' => $tax_amount,
-			'shipping' => $shipping,
-			'total' => $total,
-			'discount' => $discount,
-		];
+		$order->total = round(($order->sub_total + $order->tax_amount + $shipping) - $discount_applied, 2);
+
+		return $order;
 	}
-	public static function generate_code($id): string
+
+	public static  function calculateTax(float $sub_total): float
 	{
-		return  rand(10, 99) . date('md') . $id;
+		$tax_percent = 12;
+
+		return  round($sub_total * ($tax_percent / 100), 2);
 	}
 }

@@ -13,7 +13,7 @@
     <div class="flex flex-col gap-y-1 items-end">
         <p class="text-gray-900">@money($item->price_quantity)</p>
         <p class="text-gray-500 font-normal">
-            {{ $item->quantity }} unidades.
+            {{ $item->quantity_selected }} unidades.
         </p>
     </div>
 

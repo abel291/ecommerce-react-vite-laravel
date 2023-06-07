@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\CartEnum;
 use App\Enums\PaymentStatus;
 
 use App\Models\CodeDiscount;
@@ -12,6 +13,7 @@ use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Stock;
 use App\Models\User;
+use App\Services\CartService;
 use App\Services\OrderService;
 use Illuminate\Database\Seeder;
 
@@ -25,68 +27,52 @@ class OrderSeeder extends Seeder
 	public function run()
 	{
 		Order::truncate();
-		OrderProduct::truncate();
 		Payment::truncate();
 		DiscountCode::truncate();
-
+		OrderProduct::whereNotNull('order_id')->delete();
 		$users = User::get();
 		$discount_codes = DiscountCode::factory()->count(30)->create();
 
-
 		foreach ($users as $user) {
+			for ($i = 0; $i < rand(5, 10); $i++) {
 
-			$discount_code = $discount_codes->random();
 
-			$max_quantity_selected = rand(1, 10);
-			$quantities_selected = [];
-			$products = Product::select('id', 'name', 'price_offer', 'max_quantity')->where('active', 1)->whereRelation(
-				'stock',
-				'remaining',
-				'>=',
-				$max_quantity_selected
-			)
-				->inRandomOrder()
-				->limit(rand(1, 9))->get();
+				$discount_code = $discount_codes->random();
 
-			foreach ($products as $item) {
-				$quantities_selected[$item->id] = rand(1, $max_quantity_selected);
+				$max_quantity_selected = rand(1, 30);
+
+				$products = Product::select('id', 'name', 'price_offer', 'max_quantity')->where('active', 1)->whereRelation(
+					'stock',
+					'remaining',
+					'>=',
+					$max_quantity_selected
+				)
+					->inRandomOrder()
+					->limit(rand(1, 9))->get();
+
+				$cart_products = $products->map(function ($product) use ($max_quantity_selected) {
+					$quantity_selected = rand(1, $max_quantity_selected);
+					return CartService::generateCartProduct($product, $quantity_selected);
+				});
+
+				$order = OrderService::generateOrderWithsTotals($cart_products, $discount_code);
+
+				$order->code =  OrderService::generateCode($user->id);
+				$order->user_id =  $user->id;
+				$order->user_data = $user->only(['name', 'email', 'phone', 'address', 'city']);
+				$order->save();
+
+				$order_products = $cart_products->map(function ($item) {
+					$item->type = CartEnum::ORDER;
+					return  $item;
+				});
+
+				$order->order_products()->saveMany($order_products);
+
+				$payment = Payment::factory()->make();
+
+				$order->payment()->save($payment);
 			}
-
-			$productsPricesQuantity = OrderService::priceQuantity($products, $quantities_selected);
-
-			$charges = OrderService::calculateTotalPrice($productsPricesQuantity, $discount_code);
-
-			$order = Order::create([
-				'code' => OrderService::generate_code($user->id),
-				'quantity' => $charges['quantity'],
-				'shipping' => $charges['shipping'],
-				'tax_amount' => $charges['tax_amount'],
-				'tax_percent' => $charges['tax_percent'],
-				'sub_total' => $charges['sub_total'],
-				'total' => $charges['total'],
-				'discount' => $charges['discount'],
-				'user_data' => $user->only(['name', 'email', 'phone', 'address', 'country', 'city']),
-				'user_id' => $user->id,
-				'discount_code_id' => $discount_code->id,
-
-			]);
-
-			$payment = Payment::factory()->make();
-
-			$order->payment()->save($payment);
-
-			$order_products = $productsPricesQuantity->map(function ($item) {
-				return [
-					'name' => $item->name,
-					'price' => $item->price_offer,
-					'quantity' => $item->quantity_selected,
-					'price_quantity' => $item->price_quantity,
-					'product_id' => $item->id,
-				];
-			});
-			$order_products->toArray();
-
-			$order->order_products()->createMany($order_products);
 		}
 	}
 }

@@ -7,56 +7,51 @@ import LayoutProfile from "../../Layouts/LayoutProfile";
 import OrderStatuBadges from "@/Components/OrderStatuBadges";
 import { Head, Link } from "@inertiajs/react";
 import Pagination from "@/Components/Pagination";
+import Badge from "@/Components/Badge";
 
 const Order = ({ orders }) => {
 
 	const [page, setPage] = useState(1);
-
+	console.log(orders)
 	const handleClickChangePage = (number) => {
 		console.log(number)
 		setPage(number);
 	};
 
 	return (
-		<LayoutProfile>
-			<Head title="Ordenes" />
+		<LayoutProfile title="Pedidos">
+			<Head title="Pedidos" />
+
+
 			<div className="space-y-2">
-				<h3 className="mb-6 text-2xl font-bold">Ordenes</h3>
-				<table className="w-full">
+
+				<table className="table-list text-sm">
 					<thead>
-						<tr className="bg-gray-100 ">
-							<th className="text-heading bg-gray-100 p-4 text-start font-semibold rounded-tl-lg ">
-								Order
-							</th>
-							<th className="text-heading bg-gray-100 p-4 text-start font-semibold">
-								Fecha
-							</th>
-							<th className="text-heading bg-gray-100 p-4 text-start font-semibold">
-								Status
-							</th>
-							<th className="text-heading bg-gray-100 p-4 text-start font-semibold">
-								Total
-							</th>
-							<th className="text-heading bg-gray-100 p-4 text-start font-semibold rounded-tr-lg">
-								Acciones
-							</th>
+						<tr>
+							<th>Order</th>
+							<th>Fecha</th>
+							<th>Status</th>
+							<th>Total</th>
+							<th>Acciones</th>
 						</tr>
 					</thead>
 					<tbody>
 						{orders.data.map((item, key) => (
 							<tr key={key}>
-								<td className="px-4 py-5 text-start">#{item.code}</td>
-								<td className="px-4 py-5 text-start">
+								<td>
+									#{item.code}
+								</td>
+								<td>
 									{formatDate(item.created_at)}
 								</td>
-								<td className="px-4 py-5 text-start">
-									<OrderStatuBadges status={item.status} />
+								<td>
+									<Badge color={item.payment.status_color} >{item.payment.status}</Badge>
 								</td>
-								<td className="px-4 py-5 text-start">
-									<span className="font-medium">{formatCurrency(item.total)}</span> para {item.quantity} Productos
+								<td>
+									<span className="font-medium">{formatCurrency(item.total)}</span> para {item.quantity} producto(s)
 								</td>
 								<td className="px-4  text-start">
-									<Link preserveScroll className="font-medium text-blue-500" href={route('order', item.code)}>Detalles</Link>
+									<Link preserveScroll className="font-medium text-indigo-600" href={route('order', item.code)}>Detalles</Link>
 								</td>
 							</tr>
 						))}
