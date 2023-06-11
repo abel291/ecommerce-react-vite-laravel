@@ -3,16 +3,35 @@
 Tienda el linea de venta de hardware , construida en React y Laravel
 
 ## Screenshot 🖥️️
-![screenshot-1](/public/img/screenshot/screenshot-1.png)
 
-![screenshot-2](/public/img/screenshot/screenshot-2.png)
+![screenshot-1](/public/screenshot/screenshot-1.png)
 
-![screenshot-3](/public/img/screenshot/screenshot-3.png)
+![screenshot-1](/public/screenshot/screenshot-2.png)
 
-![screenshot-6](/public/img/screenshot/screenshot-6.png)
+![screenshot-1](/public/screenshot/screenshot-3.png)
 
-![screenshot-9](/public/img/screenshot/screenshot-9.png)
+![screenshot-1](/public/screenshot/screenshot-4.png)
 
-![screenshot-10](/public/img/screenshot/screenshot-10.png)
+![screenshot-1](/public/screenshot/screenshot-5.png)
 
-![screenshot-10](/public/img/screenshot/movil-1.png)
+![screenshot-1](/public/screenshot/screenshot-6.png)
+
+![screenshot-1](/public/screenshot/screenshot-7.png)
+
+![screenshot-1](/public/screenshot/screenshot-8.png)
+
+![screenshot-1](/public/screenshot/screenshot-9.png)
+
+![screenshot-1](/public/screenshot/screenshot-10.png)
+
+![screenshot-1](/public/screenshot/screenshot-11.png)
+
+![screenshot-1](/public/screenshot/screenshot-12.png)
+
+![screenshot-1](/public/screenshot/screenshot-13.png)
+
+![screenshot-1](/public/screenshot/screenshot-14.png)
+
+![screenshot-1](/public/screenshot/screenshot-movil-1.png)
+
+![screenshot-1](/public/screenshot/screenshot-movil-2.png)
