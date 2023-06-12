@@ -1,6 +1,6 @@
 
 
-import InputError from "@/Components/InputError";
+import InputError from "@/Components/Form/InputError";
 import { formatCurrency } from "../../Helpers/helpers";
 import { Link, useForm } from "@inertiajs/react";
 import Spinner from "@/Components/Spinner";
@@ -63,7 +63,6 @@ const ProductsCart = ({ item }) => {
 								</table>
 							</div>
 
-
 						</div>
 					</div>
 					<div className=" col-span-6 md:col-span-2">
@@ -103,7 +102,6 @@ const ProductsCart = ({ item }) => {
 								{(item.product.active && inStock) && (
 									<div className=" font-semibold text-lg">
 										{formatCurrency(item.price_quantity)}
-
 									</div>
 								)}
 								{!item.product.active && (

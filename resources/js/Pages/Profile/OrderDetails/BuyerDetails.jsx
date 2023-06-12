@@ -10,13 +10,9 @@ function BuyerDetails({ order }) {
 						<div className="block ">{order.user.name}</div>
 					</OrderDetailsList>
 
-					<OrderDetailsList title="Detalles de facturación" >
+					<OrderDetailsList title="Detalles de envío" >
 						<div>{order.user.email}</div>
 						<div>{order.user.phone}</div>
-
-					</OrderDetailsList>
-
-					<OrderDetailsList title="Detalles de envío" >
 						<address className="not-italic font-normal">
 							{order.user.address}
 						</address>
@@ -37,12 +33,13 @@ function BuyerDetails({ order }) {
 						{order.code}
 					</OrderDetailsList>
 
-					<OrderDetailsList title="Moneda" >
+					{/* <OrderDetailsList title="Moneda" >
 						USD - US Dollar
-					</OrderDetailsList>
+					</OrderDetailsList> */}
 
 					<OrderDetailsList title="Fecha de Compra" >
 						{formatDate(order.created_at)}
+						<span className='text-gray-500 block'>{order.createdAtRelative}</span>
 					</OrderDetailsList>
 
 					<OrderDetailsList title="Método de Pago" >

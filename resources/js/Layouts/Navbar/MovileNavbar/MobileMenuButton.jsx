@@ -6,8 +6,8 @@ export default function MobileMenuButton({ open }) {
 	return (
 
 
-		<Disclosure.Button className={"inline-flex items-center justify-center rounded-md bg-indigo-600 p-2  hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600 " +
-			(open ? 'bg-indigo-500' : '')} >
+		<Disclosure.Button className={"inline-flex items-center justify-center rounded-md bg-primary-600 p-2  hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-600 " +
+			(open ? 'bg-primary-500' : '')} >
 			<span className="sr-only">Open main menu</span>
 			{open ? (
 				<XMarkIcon className="block h-6 w-6" />

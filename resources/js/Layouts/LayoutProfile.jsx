@@ -4,7 +4,7 @@ import { Head, Link } from '@inertiajs/react'
 import React from 'react'
 import Dashboard from '../Pages/Profile/Dashboard'
 import BannerWithTitle from '@/Components/Carousel/BannerWithTitle'
-import { ArrowRightOnRectangleIcon, HomeIcon, IdentificationIcon, LockClosedIcon, ShoppingCartIcon, UserCircleIcon } from '@heroicons/react/24/outline'
+import { ArrowRightOnRectangleIcon, HomeIcon, IdentificationIcon, LockClosedIcon, ShoppingBagIcon } from '@heroicons/react/24/outline'
 import SectionTitle from '@/Components/Sections/SectionTitle'
 
 
@@ -12,22 +12,22 @@ export default function Profile({ title, children }) {
 	const links = [
 		{
 			title: 'Dashboard',
-			path: 'profile',
+			path: 'profile.index',
 			Icon: HomeIcon
 		},
 		{
-			title: 'Ordenes',
-			path: 'my-orders',
-			Icon: ShoppingCartIcon
+			title: 'Mis Compras',
+			path: 'profile.orders',
+			Icon: ShoppingBagIcon
 		},
 		{
 			title: 'Detalles de cuenta',
-			path: 'profile-details',
+			path: 'profile.account-details',
 			Icon: IdentificationIcon
 		},
 		{
 			title: 'Cambiar contraseña',
-			path: 'profile-password',
+			path: 'profile.password',
 			Icon: LockClosedIcon
 		},
 

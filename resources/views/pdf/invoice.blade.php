@@ -273,16 +273,9 @@
         <table class="w-full">
             <tr>
                 <td valign="top">
-                    <div class="text-indigo-600 text-xl">
+                    <div class="text-xl">
                         React <strong class="font-semibold text-xl">Ecommerce</strong>
                     </div>
-
-                    <address class="mt-4 not-italic">
-                        45 Roker Terrace
-                        Latheronwheel<br>
-                        KW5 8NW, London
-                        United Kingdom
-                    </address>
                 </td>
                 <td>
                     <div class="text-right">
@@ -397,8 +390,11 @@
                 Si tiene alguna pregunta sobre esta factura, utilice la siguiente información de contacto:
             </p>
             <div class="mt-2">
-                <p>example@site.com </p>
-                <p>+1 (062) 109-9222</p>
+                <p>{{ $company['email'] }}</p>
+                <p class="mt-1 not-italic">{{ $company['phone'] }}</p>
+                <address class="mt-1 not-italic">
+                    {{ $company['address'] }}
+                </address>
             </div>
             <p class="mt-2 text-sm text-gray-500">© {{ date('Y') }} React Ecommerce Inc.</p>
         </div>

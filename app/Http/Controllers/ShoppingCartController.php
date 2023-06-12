@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Resources\CartResource;
+use App\Http\Resources\OrderResource;
 use App\Models\Product;
 use App\Rules\ShoppingCartStoreRule;
 use App\Rules\ValidateProductRule;
@@ -22,15 +23,17 @@ class ShoppingCartController extends Controller
 	 */
 	public function index(CartService $cart_service)
 	{
-		$cartProducts = auth()->user()->shoppingCart->load('product.stock', 'product.specifications')->sortByDesc('id');
+		$cart_products = auth()->user()->shoppingCart->load('product.stock', 'product.specifications')->sortByDesc('id');
 
-		$productInStock = $cart_service->productsInStock($cartProducts);
+		$cart_products = $cart_service->refreshPrice($cart_products);
 
-		$order = OrderService::generateOrderWithsTotals($productInStock);
+		$cart_products_in_sctock = $cart_service->filterProductsInStock($cart_products);
+
+		$order = OrderService::calculateTotals($cart_products_in_sctock);
 
 		return Inertia::render('ShoppingCart/ShoppingCart', [
-			'shoppingCart' => CartResource::collection($cartProducts),
-			'order' => $order,
+			'shoppingCart' => CartResource::collection($cart_products),
+			'order' => new  OrderResource($order),
 		]);
 	}
 

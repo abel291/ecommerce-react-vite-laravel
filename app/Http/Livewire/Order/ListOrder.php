@@ -17,9 +17,8 @@ class ListOrder extends Component
 	use WithSorting;
 	public $label = "Orden";
 	public $labelPlural = "Ordenes";
+	public $status = '';
 	protected $queryString = ['sortBy', 'sortDirection', 'search', 'status'];
-
-	public $status = null;
 
 	protected $listeners = [
 		'renderListOrder' => 'render',

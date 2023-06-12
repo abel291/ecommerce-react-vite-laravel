@@ -32,6 +32,11 @@ class Product extends Model
 		'img',
 	];
 
+	protected $casts = [
+		'price' => 'float',
+		'price_offer' => 'float',
+	];
+
 	protected function price(): Attribute
 	{
 		return Attribute::make(
@@ -44,7 +49,6 @@ class Product extends Model
 			set: fn (string $value) => str_replace(',', '', $value),
 		);
 	}
-
 
 	public function category(): BelongsTo
 	{
@@ -78,5 +82,14 @@ class Product extends Model
 	public function stock(): hasOne
 	{
 		return $this->hasOne(Stock::class);
+	}
+
+	public function calculateOffer()
+	{
+		if ($this->offer) {
+			return	round($this->price * ((100 - $this->offer) / 100), 2);
+		} else {
+			return $this->price;
+		}
 	}
 }

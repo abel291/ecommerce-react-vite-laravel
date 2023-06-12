@@ -29,7 +29,7 @@ export default function DesktopNavbar({ navigation }) {
 					<ApplicationLogo />
 					<div className="w-full xl:w-3/5 ">
 						<div >
-							<form onSubmit={handleSubmit} className="overflow-hidden border-2 border-indigo-600 bg-indigo-600 flex rounded-lg shadow-sm">
+							<form onSubmit={handleSubmit} className="overflow-hidden border-2 border-primary-600 bg-primary-600 flex rounded-lg shadow-sm">
 								<input
 									id="search-main"
 									type="text"
@@ -52,7 +52,7 @@ export default function DesktopNavbar({ navigation }) {
 					<div className="flex gap-x-6 items-center font-medium ">
 						<CategoriesDropdown />
 						{navigation.map((item) => (
-							<Link key={item.href} href={route(item.href)} className={(route().current(item.href) ? 'border-b-2  border-indigo-600 ' : '')}>
+							<Link key={item.href} href={route(item.href)} className={(route().current(item.href) ? 'border-b-2  border-primary-600 ' : '')}>
 								{item.name}
 							</Link>
 						))}
@@ -75,7 +75,7 @@ export default function DesktopNavbar({ navigation }) {
 						)}
 
 						<Link href={route('shopping-cart.index')}>
-							<ShoppingCartIcon className="w-5 h-5  text-indigo-600" />
+							<ShoppingCartIcon className="w-5 h-5  text-primary-600" />
 						</Link>
 					</div>
 				</div>

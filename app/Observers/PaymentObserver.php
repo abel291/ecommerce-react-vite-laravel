@@ -13,8 +13,8 @@ class PaymentObserver
 	public function created(Payment $payment): void
 	{
 		$payment->load('order.order_products', 'order.order_products.product');
-		foreach ($payment->order->order_products as $item) {
-			if ($payment->status == PaymentStatus::SUCCESSFUL) {
+		if ($payment->status == PaymentStatus::SUCCESSFUL) {
+			foreach ($payment->order->order_products as $item) {
 				$item->product->stock()->decrement('remaining', $item->quantity_selected);
 			}
 		}
@@ -25,7 +25,12 @@ class PaymentObserver
 	 */
 	public function updated(Payment $payment): void
 	{
-		//
+		// $payment->load('order.order_products', 'order.order_products.product');
+		// if ($payment->status == PaymentStatus::REFUNDED) {
+		// 	foreach ($payment->order->order_products as $item) {
+		// 		$item->product->stock()->incremennt('remaining', $item->quantity_selected);
+		// 	}
+		// }
 	}
 
 	/**

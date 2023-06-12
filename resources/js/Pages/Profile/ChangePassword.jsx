@@ -1,10 +1,11 @@
 
-import InputLabel from "../../components/InputLabel"
+import InputLabel from "../../Components/Form/InputLabel"
 import { Head, useForm } from "@inertiajs/react"
 import PrimaryButton from "@/Components/PrimaryButton"
-import TextInput from "@/Components/TextInput"
+import TextInput from "@/Components/Form/TextInput"
 import LayoutProfile from "../../Layouts/LayoutProfile"
-import InputError from "@/Components/InputError"
+import InputError from "@/Components/Form/InputError"
+import { FormGrid } from "@/Components/Form/FormGrid"
 
 const ChangePassword = () => {
 
@@ -17,7 +18,7 @@ const ChangePassword = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault()
 
-		put(route('profile-password-update'), {
+		put(route('profile.password-update'), {
 			preserveScroll: true
 		})
 	}
@@ -27,11 +28,11 @@ const ChangePassword = () => {
 			<Head title="Cambio de contraseña" />
 			<div className="space-y-2">
 				<form onSubmit={handleSubmit}>
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2 mb-4">
-						<div>
+					<FormGrid className="max-w-2xl">
+						<div className="sm:col-span-3">
 							<InputLabel>Contraseña Actual *</InputLabel>
 							<TextInput
-								className="w-full mt-1"
+								className="w-full mt-2"
 								required={true}
 								type="password"
 								value={data.current_password}
@@ -41,10 +42,10 @@ const ChangePassword = () => {
 							<InputError message={errors.current_password} />
 						</div>
 
-						<div>
+						<div className="sm:col-span-3">
 							<InputLabel>Contraseña nueva*</InputLabel>
 							<TextInput
-								className="w-full mt-1"
+								className="w-full mt-2"
 								required={true}
 								type="password"
 								value={data.password}
@@ -53,10 +54,10 @@ const ChangePassword = () => {
 							/>
 							<InputError message={errors.password} />
 						</div>
-						<div>
+						<div className="sm:col-span-3">
 							<InputLabel>Confirmar contraseña nueva*</InputLabel>
 							<TextInput
-								className="w-full mt-1"
+								className="w-full mt-2"
 								required={true}
 								type="password"
 								value={data.password_confirmation}
@@ -65,10 +66,11 @@ const ChangePassword = () => {
 							/>
 							<InputError message={errors.password_confirmation} />
 						</div>
-					</div>
-					<div className="text-right">
-						<PrimaryButton isLoading={processing} disabled={processing} >Guardar</PrimaryButton>
-					</div>
+						<div className="text-right sm:col-span-6">
+							<PrimaryButton isLoading={processing} disabled={processing} >Guardar</PrimaryButton>
+						</div>
+					</FormGrid>
+
 				</form>
 			</div>
 		</LayoutProfile>

@@ -26,4 +26,15 @@ class Payment extends Model
 	{
 		return $this->belongsTo(Order::class);
 	}
+
+	public function canCancel()
+	{
+		$max_days = 30;
+
+		$can = $this->created_at->diff(now())->days < $max_days;
+
+		$status = $this->status == PaymentStatus::SUCCESSFUL;
+		// dd($this->created_at->diff(now())->days);
+		return $can && $status;
+	}
 }

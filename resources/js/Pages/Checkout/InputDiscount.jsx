@@ -1,8 +1,8 @@
 import { CheckoutContext } from '@/Components/Context/CheckoutProvider'
-import LabelInput from '@/Components/Form/LabelInput'
-import InputError from '@/Components/InputError'
+import InputLabel from '@/Components/Form/InputLabel'
+import InputError from '@/Components/Form/InputError'
 import PrimaryButton from '@/Components/PrimaryButton'
-import TextInput from '@/Components/TextInput'
+import TextInput from '@/Components/Form/TextInput'
 import { useForm, usePage } from '@inertiajs/react'
 import React from 'react'
 import { useContext } from 'react'
@@ -28,7 +28,7 @@ const InputDiscount = () => {
 	return (
 		<>
 			<form onSubmit={handleSubmitDiscount} className=" ">
-				<LabelInput>Código de descuento</LabelInput>
+				<InputLabel>Código de descuento</InputLabel>
 				<div className="flex items-end gap-x-3 mt-2">
 					<TextInput
 						name="discountCode"

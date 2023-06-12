@@ -6,17 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CheckoutProductRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\DiscountCode;
-
 use App\Models\Product;
 use App\Services\CartService;
 use App\Services\CheckoutService;
-
 use Illuminate\Http\Request;
-
 use Inertia\Inertia;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Faker;
-
 
 class CheckoutController extends Controller
 {
@@ -60,22 +55,10 @@ class CheckoutController extends Controller
 	{
 		$card_product = auth()->user()->shoppingCart->load('product.stock');
 
-		$cart_product_in_stock = CartService::productsInStock($card_product);
+		$cart_product_in_stock = CartService::filterProductsInStock($card_product);
 
 		CheckoutService::addProducts($cart_product_in_stock);
 
 		return to_route('checkout');
-	}
-
-	public function invoice($code)
-	{
-		$order = auth()->user()->orders()->with('order_products', 'payment')->where('code', $code)->firstOrFail();
-
-		$invoice = Pdf::loadView('pdf.invoice', compact('order'))
-			->setPaper('a4')
-			->setOption(['defaultFont' => 'sans-serif']);;
-
-		//return view('pdf.invoice', compact('order'));
-		return $invoice->stream();
 	}
 }

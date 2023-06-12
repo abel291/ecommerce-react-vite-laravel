@@ -44,11 +44,11 @@ class ShoppingCartStoreRule implements DataAwareRule, ValidationRule
 
 		$product = Product::with('stock')->find($product_id);
 
-		$shopping_cart_max_items = config('cart.shopping-cart.max-quantity');
+		$max_items = config('cart.shopping-cart.max-quantity');
 
-		$shopping_cart = auth()->user()->shopping_cart()->get();
+		$shopping_cart = auth()->user()->shoppingCart()->get();
 
-		$shoppinCartProductsInSTock = CartService::productsInStock($shopping_cart);
+		$shoppinCartProductsInSTock = CartService::filterProductsInStock($shopping_cart);
 
 		$shoppinCartProductsInSTock->transform(function ($item) use ($product_id, $quantity) {
 
@@ -58,8 +58,8 @@ class ShoppingCartStoreRule implements DataAwareRule, ValidationRule
 			return $item;
 		});
 
-		if ($shoppinCartProductsInSTock->sum('quantity_selected') > $shopping_cart_max_items) {
-			$fail("Carrito lleno! ,no puedes tener mas de $shopping_cart_max_items productos en el carritos");
+		if ($shoppinCartProductsInSTock->sum('quantity_selected') > $max_items) {
+			$fail("Carrito lleno! ,no puedes tener mas de $max_items productos en el carritos");
 		}
 
 		if ($quantity > $product->max_quantity) {

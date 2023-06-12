@@ -3,9 +3,13 @@
 namespace App\Providers;
 
 use App\Listeners\DisableForeignKeyMigrations;
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Image;
 use App\Models\OrderProduct;
 use App\Models\Payment;
+use App\Observers\BrandObserver;
+use App\Observers\CategoryObserver;
 use App\Observers\ImageObserver;
 use App\Observers\OrderProductObserver;
 use App\Observers\PaymentObserver;
@@ -41,6 +45,8 @@ class EventServiceProvider extends ServiceProvider
 		//cada que se crea  un pago se le resta al stock los productos de la orden 
 
 		Image::observe(ImageObserver::class);
+		Category::observe(CategoryObserver::class);
+		Brand::observe(BrandObserver::class);
 	}
 
 	/**

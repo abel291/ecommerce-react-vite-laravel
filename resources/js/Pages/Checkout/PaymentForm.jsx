@@ -3,12 +3,12 @@ import { useEffect, useState, useContext } from 'react'
 import { CardElement, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import PrimaryButton from '@/Components/PrimaryButton'
 import { formatCurrency } from '@/Helpers/helpers'
-import LabelInput from '@/Components/Form/LabelInput'
+import InputLabel from '@/Components/Form/InputLabel'
 import { router, usePage } from '@inertiajs/react'
-import TextInput from '@/Components/TextInput'
+import TextInput from '@/Components/Form/TextInput'
 import { FormGrid } from '@/Components/Form/FormGrid'
 import { CheckCircleIcon } from '@heroicons/react/24/solid'
-import InputError from '@/Components/InputError'
+import InputError from '@/Components/Form/InputError'
 import { CheckoutContext } from '@/Components/Context/CheckoutProvider'
 
 
@@ -96,7 +96,7 @@ function PaymentForm() {
 	return (
 		<FormGrid>
 			<div className="sm:col-span-6">
-				<LabelInput >Nombre</LabelInput>
+				<InputLabel >Nombre</InputLabel>
 				<TextInput
 					name="cardData"
 					required
@@ -106,7 +106,7 @@ function PaymentForm() {
 			</div>
 
 			<div className="sm:col-span-6">
-				<LabelInput >Email</LabelInput>
+				<InputLabel >Email</InputLabel>
 				<TextInput
 					name="cardData"
 					required
@@ -116,7 +116,7 @@ function PaymentForm() {
 			</div>
 
 			<div className="sm:col-span-6">
-				<LabelInput htmlFor="card-element">Targeta de credito</LabelInput>
+				<InputLabel htmlFor="card-element">Targeta de credito</InputLabel>
 				<div className={" py-2.5 px-3 rounded-md " + ((errorCard) ? 'ring-inset ring-2 ring-red-500' : 'border')}>
 					<CardElement id="card-element" options={CARD_ELEMENT_OPTIONS} />
 				</div>

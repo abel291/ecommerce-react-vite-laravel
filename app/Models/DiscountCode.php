@@ -13,21 +13,10 @@ class DiscountCode extends Model
 	use HasFactory;
 	protected $casts = [
 		'type' => DiscountCodeTypeEnum::class,
-		'start_date' => 'datetime:Y-m-d',
-		'end_date' => 'datetime:Y-m-d',
+		'valid_from' => 'datetime:Y-m-d',
+		'valid_to' => 'datetime:Y-m-d',
 	];
-	protected function startDateFormat(): Attribute
-	{
-		return Attribute::make(
-			get: fn () => $this->start_date->isoFormat('DD MMM YYYY'),
-		);
-	}
-	protected function endDateFormat(): Attribute
-	{
-		return Attribute::make(
-			get: fn () => $this->end_date->isoFormat('DD MMM YYYY'),
-		);
-	}
+
 	public function orders(): HasMany
 	{
 		return $this->hasMany(Order::class);

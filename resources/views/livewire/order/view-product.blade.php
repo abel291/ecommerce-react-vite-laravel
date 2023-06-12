@@ -1,7 +1,7 @@
 <div x-data="{ show: false }" @modal-quantity-product.window="show = true; $wire.show($event.detail);">
     <x-modal size="sm" wire:target="show">
         <x-slot name="title">
-            Productos
+            Order # {{ $order_code }}
         </x-slot>
         <x-slot name="content">
             <ul class="mt-4 divide-y border-t">

@@ -28,6 +28,10 @@ class Order extends Model
 	{
 		return $this->hasMany(OrderProduct::class);
 	}
+	public function user(): BelongsTo
+	{
+		return $this->belongsTo(User::class);
+	}
 	public function payment(): HasOne
 	{
 		return $this->hasOne(Payment::class)->withDefault([

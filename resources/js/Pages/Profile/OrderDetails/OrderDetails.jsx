@@ -14,20 +14,19 @@ import Badge from "@/Components/Badge";
 const OderDetails = ({ order }) => {
 	const { flash } = usePage().props
 
-	console.log(usePage().props)
 	return (
 		<LayoutProfile>
-			<Head title="Orden" />
+			<Head title={"Pedido #" + order.code} />
 
 			<div className="space-y-8">
-				<div className="flex items-center justify-between">
+				<div className="flex items-center justify-between ">
 					<SectionTitle className="flex items-center">
 						<span>Pedido: #  {order.code}</span>
 						<Badge className="ml-3" color={order.payment.status_color}>{order.payment.status}</Badge>
 					</SectionTitle>
 					<div className="inline-flex gap-x-2">
 
-						<a className="btn-secondary flex items-center gap-x-2" target="_black" href={route('invoice', order.code)}>
+						<a className="btn-secondary flex items-center gap-x-2" target="_black" href={route('profile.invoice', order.code)}>
 							<ArrowDownTrayIcon className="w-4 h-4" />
 							Descargar factura
 						</a>

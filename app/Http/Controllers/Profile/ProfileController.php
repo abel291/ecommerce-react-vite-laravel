@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Profile;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Resources\OrderResource;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -22,24 +23,8 @@ class ProfileController extends Controller
 		return Inertia::render('Profile/Dashboard');
 	}
 
-	public function orders(): Response
-	{
-		$orders = auth()->user()->orders()->with('payment')->orderBy('id', 'desc')->paginate(10);
 
-		return Inertia::render('Profile/Orders', [
-			'orders' => OrderResource::collection($orders)
-		]);
-	}
-	public function orderDetails($code)
-	{
-		$order = auth()->user()->orders()->with('order_products', 'payment')->where('code', $code)->firstOrFail();
-		return Inertia::render('Profile/OrderDetails/OrderDetails', [
-			'order' => new OrderResource($order),
-		]);
-	}
-
-
-	public function account_details(): Response
+	public function accountDetails(): Response
 	{
 		return Inertia::render('Profile/AccountDetails');
 	}
@@ -56,14 +41,14 @@ class ProfileController extends Controller
 
 		$request->user()->save();
 
-		return Redirect::route('profile-details')->with('success', 'Datos actualizados con exito');
+		return Redirect::route('profile.account-details')->with('success', 'Datos actualizados con exito');
 	}
 
-	public function change_password(): Response
+	public function changePassword(): Response
 	{
 		return Inertia::render('Profile/ChangePassword');
 	}
-	public function password_update(Request $request): RedirectResponse
+	public function passwordUpdate(Request $request): RedirectResponse
 	{
 		$validated = $request->validate([
 			'current_password' => ['required', 'current_password'],
@@ -73,6 +58,6 @@ class ProfileController extends Controller
 		$request->user()->update([
 			'password' => Hash::make($validated['password']),
 		]);
-		return Redirect::route('profile-password')->with('success', 'Datos actualizados con exito');
+		return Redirect::route('profile.password')->with('success', 'Datos actualizados con exito');
 	}
 }

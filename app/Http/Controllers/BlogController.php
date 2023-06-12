@@ -28,7 +28,7 @@ class BlogController extends Controller
 				$query->whereHas('category', function (Builder $sub_query) use ($request) {
 					$sub_query->where('slug', $request->category);
 				});
-			})->paginate(12)->withQueryString();
+			})->paginate(6)->withQueryString();
 
 
 		//dd($this->categories_blog());

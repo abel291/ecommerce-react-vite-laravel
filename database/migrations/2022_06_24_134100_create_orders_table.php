@@ -27,6 +27,7 @@ class CreateOrdersTable extends Migration
 			$table->json('user_data')->nullable();
 			$table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
 			$table->foreignId('discount_code_id')->nullable()->constrained()->nullOnDelete();
+			$table->timestamp('refund_at')->nullable();
 			$table->timestamps();
 		});
 	}

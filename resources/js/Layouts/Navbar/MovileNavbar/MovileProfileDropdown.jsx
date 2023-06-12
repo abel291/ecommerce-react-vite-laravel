@@ -7,7 +7,7 @@ function MovileProfileDropdown() {
 	return (
 		<Dropdown>
 			<Dropdown.Trigger>
-				<button className="flex text-sm focus:outline-none focus:ring-2 focus:ring-indigo-700 rounded-md focus:ring-offset-2">
+				<button className="flex text-sm focus:outline-none focus:ring-2 focus:ring-primary-700 rounded-md focus:ring-offset-2">
 					<span className="sr-only">Open user menu</span>
 					<UserCircleIcon className="h-8 w-8 text-white" />
 				</button>
@@ -20,7 +20,7 @@ function MovileProfileDropdown() {
 						<span>Mi cuenta</span>
 					</div>
 				</Dropdown.Link>
-				<Dropdown.Link href={route('my-orders')}>
+				<Dropdown.Link href={route('orders')}>
 					<div className="flex items-center">
 						<ShoppingBagIcon className="h-5 w-5 mr-2 text-gray-400" />
 						<span>Ordenes</span>

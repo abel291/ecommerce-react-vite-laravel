@@ -1,7 +1,7 @@
 import PrimaryButton from '@/Components/PrimaryButton'
 import SectionTitle from '@/Components/Sections/SectionTitle'
-import TextInput from '@/Components/TextInput'
-import Textarea from '@/Components/Textarea'
+import TextInput from '@/Components/Form/TextInput'
+import Textarea from '@/Components/Form/Textarea'
 import { useForm } from '@inertiajs/react'
 import React from 'react'
 import { useState } from "react"

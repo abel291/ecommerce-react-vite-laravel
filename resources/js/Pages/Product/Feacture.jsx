@@ -1,5 +1,5 @@
 
-import InputError from "@/Components/InputError"
+import InputError from "@/Components/Form/InputError"
 import PrimaryButton from "@/Components/PrimaryButton"
 import SecondaryButton from "@/Components/SecondaryButton"
 import { formatCurrency } from "@/Helpers/helpers"
@@ -86,7 +86,7 @@ const Feacture = ({ product }) => {
 					<span className=" text-sm font-light text-gray-400">( {product.stock.remaining} disponibles )</span>
 				</div>
 			</div>
-			<div className="flex flex-col lg:flex-row items-center lg:space-x-2 space-y-2 lg:space-y-0">
+			<div className="flex flex-row items-center space-x-2">
 				<SecondaryButton isLoading={processing == "shoppingCart"} onClick={handleClickAddProductToCart}>
 					<div className="inline-flex items-center  ">
 						<ShoppingCartIcon className="w-3 h-3 mr-3" />

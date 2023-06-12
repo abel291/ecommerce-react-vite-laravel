@@ -1,5 +1,6 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
 /** @type {import('tailwindcss').Config} */
+const colors = require('tailwindcss/colors')
 module.exports = {
 	darkMode: 'class',
 	content: [
@@ -17,7 +18,10 @@ module.exports = {
 	],
 
 	theme: {
-
+		colors: {
+			...colors,
+			primary: colors.red,
+		},
 
 		container: {
 			center: true,

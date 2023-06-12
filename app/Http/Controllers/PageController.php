@@ -31,6 +31,7 @@ class PageController extends Controller
 
 		$banners_bottom = $banners->where('position', 'below');
 		//dd($banners_medium);
+
 		return Inertia::render('Home/Home', [
 			'page' => $page,
 			'featured' => ProductResource::collection($featured),
@@ -82,7 +83,6 @@ class PageController extends Controller
 	{
 		$page = Page::where('type', 'contact')->firstOrFail();
 
-
 		return Inertia::render('Contact/Contact', [
 			'page' => $page,
 		]);
@@ -91,7 +91,7 @@ class PageController extends Controller
 	public function product($slug)
 	{
 
-		$product = Product::with('specifications', 'images', 'category.products', 'stock')->where('slug', $slug)->first();
+		$product = Product::with('specifications', 'images', 'category.products', 'stock')->where('slug', $slug)->firstOrFail();
 
 		$related_products = $product->category->products->random(10);
 

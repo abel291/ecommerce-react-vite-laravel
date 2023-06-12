@@ -14,6 +14,7 @@ class OrderResource extends JsonResource
 	 */
 	public function toArray(Request $request): array
 	{
+
 		return [
 			'id' => $this->id,
 			'code' => $this->code,
@@ -29,6 +30,9 @@ class OrderResource extends JsonResource
 			'total' => $this->total,
 			'user' => $this->user_data,
 			'created_at' => $this->created_at,
+			'createdAtRelative' => $this->when($this->created_at, function () {
+				return $this->created_at->locale('es_ES')->diffForHumans(['parts' => 1]);
+			}),
 		];
 	}
 }

@@ -25,13 +25,14 @@ const Order = ({ orders }) => {
 
 			<div className="space-y-2">
 
-				<table className="table-list text-sm">
+				<table className="table-list">
 					<thead>
 						<tr>
-							<th>Order</th>
-							<th>Fecha</th>
+							<th>Codigo</th>
+
 							<th>Status</th>
 							<th>Total</th>
+							<th>Fecha</th>
 							<th>Acciones</th>
 						</tr>
 					</thead>
@@ -39,19 +40,21 @@ const Order = ({ orders }) => {
 						{orders.data.map((item, key) => (
 							<tr key={key}>
 								<td>
-									#{item.code}
+									<span className="font-medium">#{item.code}</span>
 								</td>
-								<td>
-									{formatDate(item.created_at)}
-								</td>
+
 								<td>
 									<Badge color={item.payment.status_color} >{item.payment.status}</Badge>
 								</td>
 								<td>
 									<span className="font-medium">{formatCurrency(item.total)}</span> para {item.quantity} producto(s)
 								</td>
+								<td>
+									{formatDate(item.created_at)}
+									<span className='text-gray-500 block'>{item.createdAtRelative}</span>
+								</td>
 								<td className="px-4  text-start">
-									<Link preserveScroll className="font-medium text-indigo-600" href={route('order', item.code)}>Detalles</Link>
+									<Link preserveScroll className="font-medium text-indigo-600" href={route('profile.order', item.code)}>Detalles</Link>
 								</td>
 							</tr>
 						))}

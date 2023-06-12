@@ -45,7 +45,8 @@
                     <tr key="data-{{ $item->id }}">
 
                         <td class="whitespace-nowrap">
-                            <x-table.title-image :title="$item->code" />
+
+                            <x-table.title-image :title="'#' . $item->code" />
                         </td>
                         <td>
                             {{ $item->user_data->name }}

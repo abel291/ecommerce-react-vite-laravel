@@ -1,5 +1,5 @@
 {{-- app backend --}}
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
@@ -19,41 +19,41 @@
     @livewireStyles
 </head>
 
-<body class="antialiased">
-<x-toast/>
-<div>
-    <div class="hidden md:flex fixed top-0 bottom-0">
-        @include('layouts.sidebar')
-    </div>
+<body class="antialiased text-gray-800">
+    <x-toast />
+    <div>
+        <div class="hidden md:flex fixed top-0 bottom-0">
+            @include('layouts.sidebar')
+        </div>
 
-    <div class="md:ml-72">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            @include('layouts.navigation')
+        <div class="md:ml-72">
+            <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+                @include('layouts.navigation')
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                            {{ $header }}
-                        </h2>
+                <!-- Page Heading -->
+                @if (isset($header))
+                    <header class="bg-white dark:bg-gray-800 shadow">
+                        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                                {{ $header }}
+                            </h2>
+                        </div>
+                    </header>
+                @endif
+
+                <!-- Page Content -->
+                <main>
+                    <div class="py-12">
+                        <div class="max-w-7xl mx-auto px-2 sm:px-4">
+                            {{ $slot }}
+                        </div>
                     </div>
-                </header>
-            @endif
-
-            <!-- Page Content -->
-            <main>
-                <div class="py-12">
-                    <div class="max-w-7xl mx-auto px-2 sm:px-4">
-                        {{ $slot }}
-                    </div>
-                </div>
-            </main>
+                </main>
+            </div>
         </div>
     </div>
-</div>
-@livewireScripts
-@stack('js')
+    @livewireScripts
+    @stack('js')
 </body>
 
 </html>

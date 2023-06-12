@@ -1,7 +1,7 @@
 <div>
     <div x-data="{
         show: @entangle('open_canceled').defer,
-        id: null
+        id: null,
     }" @modal-status-canceled.window="show = true;">
         <x-modal wire:target="" size="sm">
             <x-slot name="title">
@@ -25,8 +25,9 @@
                 </div>
                 <form action="" class="flex items-center gap-x-4 mt-5">
                     <x-form.input-radio wire:model.defer="refunded" value="1">Rembolsar dinero
+                        (@money($amount))
                     </x-form.input-radio>
-                    <x-form.input-radio wire:model.defer="refunded" value="0">NO rembolsar dinero
+                    <x-form.input-radio wire:model.defer="refunded" value="0">No rembolsar dinero
                     </x-form.input-radio>
                 </form>
 
@@ -37,9 +38,9 @@
                     Cancelar
                 </x-secondary-button>
 
-                <x-danger-button class="ml-2" x-on:click="$wire.canceledPayment()" wire:loading.attr="disabled">
-                    <span wire:loading.class="hidden" wire:target="canceledPayment">Cancelar Pago</span>
-                    <span wire:loading wire:target="canceledPayment"> Cancelando... </span>
+                <x-danger-button class="ml-2" x-on:click="$wire.cancelPayment()" wire:loading.attr="disabled">
+                    <span wire:loading.class="hidden" wire:target="cancelPayment">Cancelar Pago</span>
+                    <span wire:loading wire:target="cancelPayment"> Cancelando... </span>
                 </x-danger-button>
             </x-slot>
         </x-modal>

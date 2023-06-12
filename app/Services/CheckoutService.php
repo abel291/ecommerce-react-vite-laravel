@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Contracts\CheckoutInterface;
 use App\Enums\CartEnum;
 use App\Enums\DiscountCodeTypeEnum;
 use App\Models\DiscountCode;
@@ -12,23 +13,23 @@ use App\Models\Product;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 
-class CheckoutService
+class CheckoutService implements CheckoutInterface
 {
 	public static function applyDiscount(DiscountCode $discount_code): void
 	{
 		session(['discount_code' => $discount_code]);
 
-		self::refreshOrder();
+		self::refreshPriceOrder();
 	}
 
 	public static function removeDiscount(): void
 	{
 		session()->forget(['discount_code']);
 
-		self::refreshOrder();
+		self::refreshPriceOrder();
 	}
 
-	public static function refreshOrder(): void
+	public static function refreshPriceOrder(): void
 	{
 		$cart_products = session('cart_products');
 
@@ -39,10 +40,18 @@ class CheckoutService
 
 	public static function addProducts(Collection $cart_products): void
 	{
+		$cart_products =  $cart_products->map(function ($cart_product) {
+			return new OrderProduct([
+				'name' => $cart_product->product->name,
+				'price' => $cart_product->price,
+				'quantity_selected' => $cart_product->quantity_selected,
+				'price_quantity' => $cart_product->price_quantity,
+				'product_id' => $cart_product->product_id,
+				'data' => $cart_product->product->only('name', 'slug', 'img'),
+			]);
+		});
 
 		$order = self::generateOrder($cart_products);
-
-		$cart_products = self::generateCardProducts($cart_products);
 
 		session([
 			'cart_products' => $cart_products,
@@ -54,25 +63,8 @@ class CheckoutService
 	{
 		$discount_code = session('discount_code');
 
-		$order = OrderService::generateOrderWithsTotals($cart_products, $discount_code);
+		$order = OrderService::calculateTotals($cart_products, $discount_code);
 
 		return $order;
-	}
-
-	public static  function generateCardProducts(Collection $cart_products,): Collection
-	{
-
-		$order_products = $cart_products->map(function ($cart) {
-			return  new OrderProduct([
-				'name' => $cart->product->name,
-				'price' => $cart->price,
-				'quantity_selected' => $cart->quantity_selected,
-				'price_quantity' => $cart->price_quantity,
-				'product_id' => $cart->product_id,
-				'data' => $cart->product->only('name', 'slug', 'img'),
-			]);
-		});
-
-		return $order_products;
 	}
 }

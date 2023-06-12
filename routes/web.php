@@ -8,7 +8,8 @@ use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\PageController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Profile\ProfileOrderController;
+use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Livewire\Banner\ListBanner;
 use App\Http\Livewire\Blog\CreatePost;
@@ -24,10 +25,13 @@ use App\Http\Livewire\Page\CreatePage;
 use App\Http\Livewire\Page\ListPage;
 use App\Http\Livewire\Product\CreateProduct;
 use App\Http\Livewire\Product\ListProduct;
+use App\Http\Livewire\Settings\EditSettings;
 use App\Http\Livewire\Specification\ListSpecification;
 use App\Http\Livewire\User\ListUser;
 use App\Http\Middleware\ProductInSession;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,6 +44,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
 
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [
@@ -79,19 +85,24 @@ Route::post('/contact-form', function () {
 
 Route::middleware('auth')->group(function () {
 
-	Route::controller(ProfileController::class)->group(function () {
+	Route::prefix('profile')->name('profile.')->group(function () {
 
-		Route::get('/profile', 'index')->name('profile');
+		Route::controller(ProfileController::class)->group(function () {
 
-		Route::get('/profile/my-orders', 'orders')->name('my-orders');
+			Route::get('/', 'index')->name('index');
 
-		Route::get('/profile/order-details/{code}', 'orderDetails')->name('order');
+			Route::get('/account-details', 'accountDetails')->name('account-details');
+			Route::patch('/account-details', 'update')->name('account-details.update');
+			Route::get('/change-password', 'changePassword')->name('password');
+			Route::put('/change-password', 'passwordUpdate')->name('password-update');
+		});
 
-		Route::get('/profile/account-details', 'account_details')->name('profile-details');
-		Route::patch('/profile/account-details', 'update')->name('profile.update');
+		Route::controller(ProfileOrderController::class)->group(function () {
 
-		Route::get('/change-password', 'change_password')->name('profile-password');
-		Route::put('/change-password', 'password_update')->name('profile-password-update');
+			Route::get('/my-orders', 'orders')->name('orders');
+			Route::get('/order/{code}', 'orderDetails')->name('order');
+			Route::get('/order-pdf/{code}', 'invoicePdf')->name('invoice');
+		});
 	});
 
 	Route::resource('shopping-cart', ShoppingCartController::class)->only([
@@ -105,8 +116,6 @@ Route::middleware('auth')->group(function () {
 		Route::post('/checkout/add-single-product', 'addSingleProduct')->name('checkout.add-single-product');
 
 		Route::get('/checkout/add-shopping-cart', 'addShoppingCart')->name('checkout.add-shopping-cart');
-
-		Route::get('/order-invoice/{code}', 'invoice')->name('invoice');
 	});
 
 	Route::controller(DiscountCheckoutController::class)->middleware(ProductInSession::class)->group(function () {
@@ -146,6 +155,8 @@ Route::middleware('auth')->group(function () {
 		Route::get('/brands', ListBrand::class)->name('brands');
 		Route::get('/authors', ListAuthor::class)->name('authors');
 		Route::get('/{name}/{id}/images', [ListImage::class, '__invoke'])->name('images');
+
+		Route::get('/settings', EditSettings::class)->name('settings');
 	});
 });
 

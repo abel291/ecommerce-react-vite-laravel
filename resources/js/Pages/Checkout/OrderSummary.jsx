@@ -1,11 +1,11 @@
-import TextInput from "@/Components/TextInput";
+import TextInput from "@/Components/Form/TextInput";
 import { formatCurrency } from "../../Helpers/helpers";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { Link, useForm, usePage } from "@inertiajs/react";
-import InputError from "@/Components/InputError";
+import InputError from "@/Components/Form/InputError";
 import Badge from "@/Components/Badge";
 import { XMarkIcon } from "@heroicons/react/24/solid";
-import LabelInput from "@/Components/Form/LabelInput";
+import InputLabel from "@/Components/Form/InputLabel";
 import InputDiscount from "./InputDiscount";
 
 const OrderSummary = ({ orderProducts, order }) => {

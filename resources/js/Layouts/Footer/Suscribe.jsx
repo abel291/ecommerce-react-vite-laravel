@@ -1,6 +1,6 @@
-import InputError from "@/Components/InputError"
+import InputError from "@/Components/Form/InputError"
 import PrimaryButton from "@/Components/PrimaryButton"
-import TextInput from "@/Components/TextInput"
+import TextInput from "@/Components/Form/TextInput"
 import { useForm, usePage } from "@inertiajs/react"
 
 

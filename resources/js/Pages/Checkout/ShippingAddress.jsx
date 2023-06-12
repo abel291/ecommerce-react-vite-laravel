@@ -1,11 +1,8 @@
-import { useState } from "react"
-import InputLabel from "../../components/InputLabel"
-import { useForm, usePage } from "@inertiajs/react"
-import PrimaryButton from "@/Components/PrimaryButton"
-import TextInput from "@/Components/TextInput"
-import Textarea from "@/Components/Textarea"
+
+import TextInput from "@/Components/Form/TextInput"
+import Textarea from "@/Components/Form/Textarea"
 import { FormGrid } from "@/Components/Form/FormGrid"
-import LabelInput from "@/Components/Form/LabelInput"
+import InputLabel from "@/Components/Form/InputLabel"
 import { PaymentElement } from "@stripe/react-stripe-js"
 
 import { useContext } from "react"
@@ -17,7 +14,7 @@ const ShippingAddress = ({ handleSubmit }) => {
 
 		<FormGrid>
 			<div className="md:col-span-3">
-				<LabelInput>Nombre</LabelInput>
+				<InputLabel>Nombre</InputLabel>
 				<TextInput
 					name="name"
 					required
@@ -26,7 +23,7 @@ const ShippingAddress = ({ handleSubmit }) => {
 					value={userForm.data.name} />
 			</div>
 			<div className="md:col-span-3">
-				<LabelInput>Email</LabelInput>
+				<InputLabel>Email</InputLabel>
 				<TextInput
 					name="email"
 					required
@@ -35,7 +32,7 @@ const ShippingAddress = ({ handleSubmit }) => {
 					value={userForm.data.email} />
 			</div>
 			<div className="md:col-span-5">
-				<LabelInput>Direccion</LabelInput>
+				<InputLabel>Direccion</InputLabel>
 				<TextInput
 					name="address"
 					required
@@ -44,7 +41,7 @@ const ShippingAddress = ({ handleSubmit }) => {
 					value={userForm.data.address} />
 			</div>
 			<div className="md:col-span-3">
-				<LabelInput>Telefono</LabelInput>
+				<InputLabel>Telefono</InputLabel>
 				<TextInput
 					name="phone"
 					required
@@ -54,7 +51,7 @@ const ShippingAddress = ({ handleSubmit }) => {
 			</div>
 
 			<div className="md:col-span-3">
-				<LabelInput>Ciudad</LabelInput>
+				<InputLabel>Ciudad</InputLabel>
 				<TextInput
 					name="city"
 					required
@@ -63,7 +60,7 @@ const ShippingAddress = ({ handleSubmit }) => {
 					value={userForm.data.city} />
 			</div>
 			<div className="md:col-span-3">
-				<LabelInput>Codigo Postal</LabelInput>
+				<InputLabel>Codigo Postal</InputLabel>
 				<TextInput
 					name="postalCode"
 					required
@@ -75,7 +72,7 @@ const ShippingAddress = ({ handleSubmit }) => {
 			</div>
 
 			<div className="md:col-span-6">
-				<LabelInput>Nota adicional</LabelInput>
+				<InputLabel>Nota adicional</InputLabel>
 				<Textarea name="note"
 					label="Nota adicional"
 					onChange={(e) => userForm.setData('note', e.target.value)}

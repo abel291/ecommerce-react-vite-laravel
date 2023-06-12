@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Order;
 
 use App\Enums\PaymentStatus;
+use App\Services\PaymentService;
 use Livewire\Component;
 
 class PaymentOrder extends Component
@@ -31,13 +32,15 @@ class PaymentOrder extends Component
 			'subtitle' => "La referencia  <b>" . $this->order->payment->code_reference . "</b>  fue  Agregado correctamente",
 		]);
 	}
-	public function canceledPayment()
+	public function cancelPayment()
 	{
 
 		$this->rules['refunded'] = "required|numeric|min:0|max:1";
 		$this->validate();
+
 		if ($this->refunded) {
 			$this->order->payment->status = PaymentStatus::REFUNDED;
+			PaymentService::refund($this->order);
 		} else {
 			$this->order->payment->status = PaymentStatus::CANCELED;
 		}

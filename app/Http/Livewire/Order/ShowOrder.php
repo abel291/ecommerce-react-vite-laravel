@@ -8,11 +8,10 @@ use Livewire\Component;
 
 class ShowOrder extends Component
 {
-	public $label = "Orden";
-	public $labelPlural = "Ordenes";
+	public $label = "Pedido";
+	public $labelPlural = "Pedidos";
 
 	public Order $order;
-
 
 	public function mount($id)
 	{

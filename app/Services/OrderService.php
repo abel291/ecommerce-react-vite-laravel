@@ -24,11 +24,11 @@ class OrderService
 		return round($cart_products->sum('price_quantity'), 2);
 	}
 
-	public static  function generateOrderWithsTotals(Collection $cart_products, DiscountCode $discount_code = null): Order
+	public static  function calculateTotals(Collection $cart_products, DiscountCode $discount_code = null): Order
 	{
-		$tax_percent = 12;
+		$tax_percent = config('ecommerce.tax');
 
-		$shipping = 8;
+		$shipping = config('ecommerce.shipping');
 
 		$order = new Order();
 
@@ -52,17 +52,15 @@ class OrderService
 
 		$order->tax_percent = $tax_percent;
 
-		$order->tax_amount = self::calculateTax($order->sub_total);
+		$order->tax_amount = self::calculateTax($order->sub_total, $order->tax_percent);
 
 		$order->total = round(($order->sub_total + $order->tax_amount + $shipping) - $discount_applied, 2);
 
 		return $order;
 	}
 
-	public static  function calculateTax(float $sub_total): float
+	public static  function calculateTax(float $sub_total, $tax): float
 	{
-		$tax_percent = 12;
-
-		return  round($sub_total * ($tax_percent / 100), 2);
+		return  round($sub_total * ($tax / 100), 2);
 	}
 }

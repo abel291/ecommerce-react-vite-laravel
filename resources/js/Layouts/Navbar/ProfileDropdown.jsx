@@ -10,14 +10,14 @@ export default function ProfileDropdown({ children }) {
 	const navigation_profile = [
 		{
 			name: 'Perfil',
-			href: route('profile'),
-			current: route().current('profile'),
+			href: route('profile.index'),
+			current: route().current('profile.index'),
 			icon: UserCircleIcon
 		},
 		{
-			name: 'Ordenes',
-			href: route('my-orders'),
-			current: route().current('my-orders'),
+			name: 'Mis Compras',
+			href: route('profile.orders'),
+			current: route().current('profile.orders'),
 			icon: ShoppingBagIcon
 		},
 
@@ -53,7 +53,7 @@ export default function ProfileDropdown({ children }) {
 							{navigation_profile.map((item) => (
 								<Dropdown.Link href={item.href} key={item.name} >
 									<div className="flex items-center">
-										<item.icon className="h-5 w-5 mr-2 text-indigo-600" />
+										<item.icon className="h-5 w-5 mr-2 text-primary-600" />
 										<span>{item.name}</span>
 									</div>
 								</Dropdown.Link>

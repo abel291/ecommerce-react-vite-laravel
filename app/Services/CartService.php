@@ -31,7 +31,17 @@ class CartService
 		);
 	}
 
-	public static function productsInStock(Collection $cart): Collection
+	public static function refreshPrice(Collection $cart_product): Collection
+	{
+		$cart_product->each(function (OrderProduct $item) {
+			$item->price = $item->product->price_offer;
+			$item->price_quantity = self::calculatePrice($item->product->price_offer,  $item->quantity_selected);
+		});
+		return $cart_product;
+	}
+
+
+	public static function filterProductsInStock(Collection $cart): Collection
 	{
 		$cart_products_in_stock = $cart->filter(function ($cart) {
 			return $cart->product->active && ($cart->product->stock->remaining >= $cart->quantity_selected);

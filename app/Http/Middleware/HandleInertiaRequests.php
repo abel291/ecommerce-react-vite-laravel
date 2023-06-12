@@ -4,7 +4,9 @@ namespace App\Http\Middleware;
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Services\Settings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
 
@@ -36,13 +38,27 @@ class HandleInertiaRequests extends Middleware
 			'auth' => [
 				'user' => $request->user(),
 			],
-			'categories' => fn () => Category::select('id', 'name', 'slug', 'img')->where('type', '=', 'product')->get(),
-			'brands' => fn () => Brand::all('id', 'name', 'slug', 'img'),
+
+			'categories' => function () {
+				return Cache::rememberForever('categories', function () {
+					return Category::select('id', 'name', 'slug', 'img')->where('type', '=', 'product')->get();
+				});
+			},
+			'brands' => function () {
+				return Cache::rememberForever('brands', function () {
+					return Brand::all('id', 'name', 'slug', 'img');
+				});
+			},
 			'flash' => [
 				'success' => fn () => $request->session()->get('success'),
 				'error' => fn () => $request->session()->get('error'),
 				'subscribe' => fn () => $request->session()->get('subscribe')
 			],
+			'settings' => function () {
+				return Cache::rememberForever('settings', function () {
+					return Settings::data()->all();
+				});
+			},
 			'ziggy' => function () use ($request) {
 				return array_merge((new Ziggy)->toArray(), [
 					'location' => $request->url(),

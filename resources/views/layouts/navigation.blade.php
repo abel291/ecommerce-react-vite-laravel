@@ -66,7 +66,7 @@ if(window.innerWidth > 768 && openSidebar ){openSidebar=false}
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile')">
+                        <x-dropdown-link :href="route('profile.index')">
                             {{ __('Perfil') }}
                         </x-dropdown-link>
 

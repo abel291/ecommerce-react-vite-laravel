@@ -62,15 +62,15 @@
                         <td>
                             <div class="flex items-center gap-x-3">
                                 <span class=" text-green-400 font-medium uppercase">
-                                    {{ $item->start_date_format }}
+                                    {{ $item->valid_from->isoFormat('DD MMM YYYY') }}
                                 </span>
                                 al
                                 <span class=" text-red-400 font-medium uppercase">
-                                    {{ $item->end_date_format }}
+                                    {{ $item->valid_to->isoFormat('DD MMM YYYY') }}
                                 </span>
                             </div>
                             <div class="text-gray-600 text-xs mt-1">
-                                {{ $item->start_date->diffInDays($item->end_date) }} dia(s)
+                                {{ $item->valid_from->diffInDays($item->valid_to) }} dia(s)
                             </div>
                         </td>
                         <td>
