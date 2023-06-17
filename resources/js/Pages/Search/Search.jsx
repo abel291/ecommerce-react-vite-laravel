@@ -1,4 +1,4 @@
-import CardProduct from '@/Components/Cards/Product'
+import CardProduct from '@/Components/Cards/CardProduct'
 import Pagination from '@/Components/Pagination'
 import Layout from '@/Layouts/Layout'
 import { Transition } from '@headlessui/react'
@@ -105,9 +105,9 @@ export default function Search({ page, banner, products, filters }) {
 		<Layout>
 			<Head title={page.meta_title}></Head>
 			<div className="container ">
-				<div className="flex md:flex-row flex-col-reverse ">
+				<div className="flex md:flex-row flex-col-reverse gap-x-14 ">
 					<div className="w-full md:w-3/12 py-content">
-						<div className="pt-5 pr-12 divide-y divide-gray-200">
+						<div className="pt-5  divide-y divide-gray-200">
 							{filtersActive && (
 								<>
 									<div className="py-5">
@@ -160,7 +160,7 @@ export default function Search({ page, banner, products, filters }) {
 						</div>
 					</div>
 					<div className="w-full md:w-9/12 py-content">
-						<div className="space-y-4 relative md:p-4">
+						<div className="space-y-4 relative ">
 							<div className="flex items-center justify-between">
 								<h2 className="font-bold text-2xl">
 									Busqueda
@@ -183,15 +183,17 @@ export default function Search({ page, banner, products, filters }) {
 							</div>
 							<div className="relative">
 								{products.data.length ? (
-									<div className="py-content relative">
+									<div className="relative">
 										<>
-											<div className="grid grid-cols-2 gap-2 md:grid-cols-2 lg:grid-cols-3 md:gap-6 ">
-												{products.data.map((item) => (
-													<CardProduct key={item.id} product={item} />
-												))}
+											<div className='py-content '>
+												<div className="grid grid-cols-2 gap-2 md:grid-cols-2 lg:grid-cols-3 md:gap-x-6 md:gap-y-8 ">
+													{products.data.map((item) => (
+														<CardProduct key={item.id} product={item} />
+													))}
+												</div>
 											</div>
 											{products.meta.total > products.meta.per_page && (
-												<div className="mt-8">
+												<div>
 													<Pagination paginator={products.meta} />
 												</div>
 											)}

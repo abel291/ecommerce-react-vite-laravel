@@ -15,7 +15,7 @@ class Image extends Model
 		'img',
 	];
 
-	public function imageable(): MorphTo
+	public function model(): MorphTo
 	{
 		return $this->morphTo();
 	}

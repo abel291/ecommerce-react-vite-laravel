@@ -46,7 +46,7 @@ class ValidateProductRule implements DataAwareRule, ValidationRule
 		}
 
 		if ($quantity > $product->stock->remaining) {
-			$fail("No hay stock disponibles para este producto");
+			$fail("No hay stock suficiente para este producto");
 		}
 	}
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Settings;
 
 use App\Services\Settings;
+use App\Services\SettingService;
 use App\Traits\TraitUploadImage;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
@@ -47,7 +48,7 @@ class EditSettings extends Component
 
 	public function mount()
 	{
-		$this->settings = Settings::data()->all();
+		$this->settings = SettingService::data();
 	}
 
 	public function update()
@@ -62,16 +63,14 @@ class EditSettings extends Component
 			$this->settings['company']['logo'] = $this->upload_image('logo', 'settings', $this->logo);
 		}
 
-		Settings::data()->put($this->settings);
-
+		SettingService::put($this->settings);
 
 		$this->reset('logo');
+
 		$this->dispatchBrowserEvent('notification', [
-			'title' => "$this->labelPlural Editados",
+			'title' => "$this->labelPlural Guardados",
 			// 'subtitle' => "",
 		]);
-
-		Cache::forget('settings');
 	}
 	public function updateLogo(): void
 	{

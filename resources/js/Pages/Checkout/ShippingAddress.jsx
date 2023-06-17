@@ -76,7 +76,7 @@ const ShippingAddress = ({ handleSubmit }) => {
 				<Textarea name="note"
 					label="Nota adicional"
 					onChange={(e) => userForm.setData('note', e.target.value)}
-					rows="5"
+					rows="3"
 					value={userForm.data.note} />
 			</div>
 

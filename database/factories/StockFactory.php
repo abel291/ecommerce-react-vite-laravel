@@ -16,10 +16,10 @@ class StockFactory extends Factory
 	 */
 	public function definition(): array
 	{
-		$stock = rand(100, 500);
+
 		return [
-			'quantity' => $stock,
-			'remaining' => $stock,
+			'quantity' => rand(40, 50),
+			'remaining' => rand(0, 50),
 			'supplier' => $this->faker->words(7, true),
 			'barcode' => $this->faker->ean8(),
 		];

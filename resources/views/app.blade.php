@@ -17,11 +17,8 @@
     @inertiaHead
 </head>
 
-<body class="antialiased text-gray-800">
-
+<body class="antialiased text-gray-800 bg-white">
     @inertia
-
-
     <script type="text/javascript" src="https://checkout.epayco.co/checkout.js"></script>
 </body>
 

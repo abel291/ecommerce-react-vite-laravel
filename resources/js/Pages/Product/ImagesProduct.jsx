@@ -5,30 +5,33 @@ const ImagesProduct = ({ product }) => {
 	const handleClickImg = (urlImg) => {
 		imgShowRef.current.src = urlImg
 	}
+	const allImages = [{
+		id: 'principal-image',
+		alt: product.slug,
+		img: product.img,
+	}, ...product.images,]
 	return (
-		<div className="py-content flex flex-col-reverse md:flex-row   ">
-			<div className="w-full md:w-1/5 ">
-				<div className="flex flex-row md:flex-col space-x-2 md:space-x-0 md:space-y-2 ">
-					<button
-						onClick={() => handleClickImg(product.img)}
-						className="p-1 border border-gray-200 rounded w-16 h-16 flex items-center justify-center"
-					>
-						<img src={product.img} alt={product.slug} className="max-h-full" />
-					</button>
-					{product.images.map((image) => (
+		<div className="">
+			<div className="w-full ">
+				<div className="flex items-center justify-center h-[400px]">
+					<img ref={imgShowRef} className="rounded-lg max-h-full " src={product.img} alt="" />
+				</div>
+			</div>
+			<div className="w-full  mt-5 ">
+				<div className="flex justify-center gap-2 flex-wrap">
+
+					{allImages.map((image) => (
 						<button
 							onClick={() => handleClickImg(image.img)}
 							key={image.id}
-							className="p-1 border border-gray-200 rounded w-16 h-16 flex items-center justify-center"
+							className="p-1 border border-gray-200 rounded-lg h-16 lg:w-20 flex justify-center items-center "
 						>
-							<img src={image.img} alt={image.alt} className="max-h-full" />
+							<img src={image.img} alt={image.alt} className="max-h-full " />
 						</button>
 					))}
 				</div>
 			</div>
-			<div className="flex items-center justify-center w-full md:w-4/5  md:p-5 h-96 mb-10 md:mb-0">
-				<img ref={imgShowRef} className="object-contain w-full h-full" src={product.img} alt="" />
-			</div>
+
 		</div>
 	)
 }

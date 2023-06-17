@@ -6,15 +6,35 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import { Link } from "@inertiajs/react";
-const CarouselHome = ({ items, searchType }) => {
+import CarouselBanner from "@/Components/Carousel/CarouselBanner";
+import Carousel, { CarouselItem } from "@/Components/Carousel/Carousel";
+const CarouselHome = ({ images }) => {
 
-	let unique_id = Math.random().toString(16).slice(2, 8);
-	let pagination_button_next = "button-next-" + unique_id
-	let pagination_button_prev = "button-prev-" + unique_id
-	console.log(pagination_button_next)
 	return (
-		<div className=" py-2 relative">
-			<Swiper
+		<Carousel>
+			{images.map((item) => (
+				<CarouselItem key={item.link} >
+					<Link key={item.link}
+						href={item.link}
+					>
+						<div className="flex justify-center items-center">
+							<img
+								className=" max-w-full w-full max-h-[550px] object-cover object-center rounded md:rounded-xl"
+								src={item.img}
+								alt={item.alt}
+								title={item.title}
+							/>
+						</div>
+					</Link>
+				</CarouselItem>
+			))}
+
+		</Carousel>
+	)
+}
+
+export default CarouselHome
+{/* <Swiper
 				modules={[Navigation, Autoplay]}
 				slidesPerView={1}
 				spaceBetween={10}
@@ -70,9 +90,4 @@ const CarouselHome = ({ items, searchType }) => {
 				>
 					<ChevronRightIcon className="h-6 w-6 lg:h-4 lg:w-4" />
 				</button>
-			</div>
-		</div >
-	)
-}
-
-export default CarouselHome
+			</div> */}

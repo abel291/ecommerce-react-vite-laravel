@@ -5,7 +5,7 @@ export default function SecondaryButton({ className = '', disabled, children, is
 		<button
 			{...props}
 			className={
-				`btn-secondary relative ${(disabled || isLoading) && 'opacity-40'
+				`btn btn-secondary relative ${(disabled || isLoading) && 'opacity-40'
 				} ` + className
 			}
 			disabled={disabled}

@@ -6,6 +6,7 @@ import TextInput from '@/Components/Form/TextInput'
 import { useForm, usePage } from '@inertiajs/react'
 import React from 'react'
 import { useContext } from 'react'
+import SecondaryButton from '@/Components/SecondaryButton'
 
 const InputDiscount = () => {
 
@@ -29,7 +30,7 @@ const InputDiscount = () => {
 		<>
 			<form onSubmit={handleSubmitDiscount} className=" ">
 				<InputLabel>Código de descuento</InputLabel>
-				<div className="flex items-end gap-x-3 mt-2">
+				<div className="flex items-stretch gap-x-3 mt-2">
 					<TextInput
 						name="discountCode"
 						required
@@ -37,7 +38,7 @@ const InputDiscount = () => {
 						className=" uppercase"
 
 						value={data.discountCode} />
-					<PrimaryButton isLoading={processing} disabled={processing} >Aplicar</PrimaryButton>
+					<SecondaryButton isLoading={processing} disabled={processing} >Aplicar</SecondaryButton>
 				</div>
 			</form>
 			<div className="flex gap-x-3 text-xs text-gray-400 mt-2">

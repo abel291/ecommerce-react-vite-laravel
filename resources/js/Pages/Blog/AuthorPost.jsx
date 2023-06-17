@@ -3,7 +3,7 @@ import React from 'react'
 
 const AuthorPost = ({ author }) => {
 	return (
-		<div class="relative flex items-center gap-x-4">
+		<div className="relative flex items-center gap-x-4">
 			<img src={author.img} className="h-10 w-10 rounded-full bg-gray-50 object-cover object-center"></img>
 			<div className="text-sm leading-6 relative">
 				<p className="font-semibold text-gray-900">

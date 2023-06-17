@@ -43,11 +43,8 @@
                 @foreach ($list as $item)
                     <tr class="text-sm">
 
-
-
                         <td>
-                            <x-table.title-image :img="$item->img" :title="$item->name" :sub-title="$item->slug"
-                                :path="route('search', ['categories[]' => $item->slug])" />
+                            <x-table.title-image :img="$item->img" :title="$item->name" />
 
                         </td>
 

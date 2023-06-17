@@ -26,7 +26,7 @@ const OderDetails = ({ order }) => {
 					</SectionTitle>
 					<div className="inline-flex gap-x-2">
 
-						<a className="btn-secondary flex items-center gap-x-2" target="_black" href={route('profile.invoice', order.code)}>
+						<a className="btn btn-secondary flex items-center gap-x-2" target="_black" href={route('profile.invoice', order.code)}>
 							<ArrowDownTrayIcon className="w-4 h-4" />
 							Descargar factura
 						</a>

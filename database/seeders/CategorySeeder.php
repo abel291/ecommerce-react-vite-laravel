@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Category;
 use App\Models\Specification;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class CategorySeeder extends Seeder
@@ -18,23 +19,24 @@ class CategorySeeder extends Seeder
 	{
 		Category::truncate();
 		Specification::truncate();
-
+		Cache::forget('categories');
 		$categories = [
-			'procesadores',
-			'board',
-			'gpu',
-			'ram',
-			'almacenamiento',
-			'monitores',
-			'teclados',
-			'mouses',
-			'torres',
-			'portatiles',
-			'sillas',
-			'audifonos',
-			'fuentes de poder',
-			'combos',
-			'ensambles',
+			"procesadores",
+			"board",
+			"gpu",
+			"ram",
+			"almacenamiento",
+			"monitores",
+			"teclados",
+			"mouses",
+			"torres",
+			"portatiles",
+			"sillas",
+			"audifonos",
+			"fuentes de poder",
+			"combos",
+			"ensambles",
+			"consolas",
 		];
 
 		foreach ($categories as $key => $value) {

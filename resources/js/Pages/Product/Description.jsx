@@ -2,8 +2,8 @@ import SectionTitle from "@/Components/Sections/SectionTitle"
 
 const Description = ({ product }) => {
 	return (
-		<div className="divide-y divide-gray-200">
-			<div className="py-content space-y-4">
+		<div className=" divide-y divide-gray-200">
+			<div className="py-content space-y-5 ">
 				<SectionTitle title="Especificaciones" />
 				<div>
 					<table className="text-left">
@@ -20,9 +20,9 @@ const Description = ({ product }) => {
 				</div>
 			</div>
 
-			<div className="py-content space-y-4">
+			<div className="py-content space-y-5">
 				<SectionTitle title="Descripción" />
-				<p className="">{product.description_max}</p>
+				<p dangerouslySetInnerHTML={{ __html: product.description_max }} />
 			</div>
 		</div>
 	)

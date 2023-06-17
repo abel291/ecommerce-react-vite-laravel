@@ -33,8 +33,8 @@ class PageSeeder extends Seeder
 					'sort' => 1,
 					'position' => 'top',
 					'link' => 'https://www.asus.com/co/laptops/for-creators/vivobook/asus-vivobook-pro-15-oled-m6500-amd-ryzen-5000-series/',
-					'imageable_id' => $home->id,
-					'imageable_type' => 'App\Models\Page',
+					'model_id' => $home->id,
+					'model_type' => 'App\Models\Page',
 
 				],
 				[
@@ -45,8 +45,8 @@ class PageSeeder extends Seeder
 					'sort' => 2,
 					'position' => 'top',
 					'link' => 'https://co.store.asus.com/90nb0wx1-m004j0-portatil-zenbook-17-3-foled-ux9702-12th-gen-intel-i7-16gb-1tb-ssd-intelr-iris-xe-graphics-17-3-ux9702aa-md007w.html',
-					'imageable_id' => $home->id,
-					'imageable_type' => 'App\Models\Page',
+					'model_id' => $home->id,
+					'model_type' => 'App\Models\Page',
 
 				],
 				[
@@ -57,8 +57,8 @@ class PageSeeder extends Seeder
 					'sort' => 3,
 					'position' => 'top',
 					'link' => 'https://co.store.asus.com/90nb0xk1-m001s0-portatil-vivobook-15-oled-k6500zc-12th-gen-intel-i5-16gb-512gb-ssd-rtx3050-15-6-k6500zc-ma016w.html',
-					'imageable_id' => $home->id,
-					'imageable_type' => 'App\Models\Page',
+					'model_id' => $home->id,
+					'model_type' => 'App\Models\Page',
 
 				],
 				[
@@ -69,8 +69,8 @@ class PageSeeder extends Seeder
 					'sort' => 4,
 					'position' => 'top',
 					'link' => 'https://co.store.asus.com/90nr0cg1-m00500-portatil-rog-strix-scar-18-g834jy-18-wqxga-qhd-i9-32gb-2tb-ssd-rtx4090-18-240hz-g834jy-n6036w.html',
-					'imageable_id' => $home->id,
-					'imageable_type' => 'App\Models\Page',
+					'model_id' => $home->id,
+					'model_type' => 'App\Models\Page',
 
 				],
 				///
@@ -81,8 +81,8 @@ class PageSeeder extends Seeder
 					'type' => 'banner',
 					'position' => 'top',
 					'link' => 'https://www.elgato.com/',
-					'imageable_id' => $home->id,
-					'imageable_type' => 'App\Models\Page',
+					'model_id' => $home->id,
+					'model_type' => 'App\Models\Page',
 
 				],
 				[
@@ -92,8 +92,8 @@ class PageSeeder extends Seeder
 					'type' => 'banner',
 					'position' => 'top',
 					'link' => 'https://www.corsair.com/pc-builder/',
-					'imageable_id' => $home->id,
-					'imageable_type' => 'App\Models\Page',
+					'model_id' => $home->id,
+					'model_type' => 'App\Models\Page',
 
 				],
 				///
@@ -104,8 +104,8 @@ class PageSeeder extends Seeder
 					'type' => 'banner',
 					'position' => 'middle',
 					'link' => 'https://www.coolermaster.com/catalog/power-supplies/gx-series/gx-iii-gold-850/',
-					'imageable_id' => $home->id,
-					'imageable_type' => 'App\Models\Page',
+					'model_id' => $home->id,
+					'model_type' => 'App\Models\Page',
 
 				],
 				[
@@ -115,8 +115,8 @@ class PageSeeder extends Seeder
 					'type' => 'banner',
 					'position' => 'below',
 					'link' => 'https://co.vsglatam.com/products/helix',
-					'imageable_id' => $home->id,
-					'imageable_type' => 'App\Models\Page',
+					'model_id' => $home->id,
+					'model_type' => 'App\Models\Page',
 
 				],
 
@@ -128,8 +128,8 @@ class PageSeeder extends Seeder
 					'type' => 'banner',
 					'position' => 'top',
 					'link' => route('offers'),
-					'imageable_id' => $offers->id,
-					'imageable_type' => 'App\Models\Page',
+					'model_id' => $offers->id,
+					'model_type' => 'App\Models\Page',
 
 				],
 				///page - combos
@@ -140,8 +140,8 @@ class PageSeeder extends Seeder
 					'type' => 'banner',
 					'position' => 'top',
 					'link' => route('offers'),
-					'imageable_id' => $combos->id,
-					'imageable_type' => 'App\Models\Page',
+					'model_id' => $combos->id,
+					'model_type' => 'App\Models\Page',
 
 				],
 
@@ -154,8 +154,8 @@ class PageSeeder extends Seeder
 					'sort' => 1,
 					'position' => 'top',
 					'link' => route('assemblies'),
-					'imageable_id' => $assemblies->id,
-					'imageable_type' => 'App\Models\Page',
+					'model_id' => $assemblies->id,
+					'model_type' => 'App\Models\Page',
 
 				],
 				[
@@ -166,8 +166,8 @@ class PageSeeder extends Seeder
 					'sort' => 2,
 					'position' => 'top',
 					'link' => route('assemblies'),
-					'imageable_id' => $assemblies->id,
-					'imageable_type' => 'App\Models\Page',
+					'model_id' => $assemblies->id,
+					'model_type' => 'App\Models\Page',
 
 				],
 				[
@@ -178,8 +178,8 @@ class PageSeeder extends Seeder
 					'sort' => 3,
 					'position' => 'top',
 					'link' => route('assemblies'),
-					'imageable_id' => $assemblies->id,
-					'imageable_type' => 'App\Models\Page',
+					'model_id' => $assemblies->id,
+					'model_type' => 'App\Models\Page',
 
 				],
 
@@ -190,8 +190,8 @@ class PageSeeder extends Seeder
 					'type' => 'banner',
 					'position' => 'middle',
 					'link' => 'https://www.logitechstore.com.ar/Gaming/Volantes',
-					'imageable_id' => $search->id,
-					'imageable_type' => 'App\Models\Page',
+					'model_id' => $search->id,
+					'model_type' => 'App\Models\Page',
 
 				],
 				//
@@ -202,8 +202,8 @@ class PageSeeder extends Seeder
 					'type' => 'banner',
 					'position' => 'middle',
 					'link' => 'https://c1.neweggimages.com/WebResource/Themes/Nest/ne_features_pcbuilder.jpg',
-					'imageable_id' => $blog->id,
-					'imageable_type' => 'App\Models\Page',
+					'model_id' => $blog->id,
+					'model_type' => 'App\Models\Page',
 
 				],
 

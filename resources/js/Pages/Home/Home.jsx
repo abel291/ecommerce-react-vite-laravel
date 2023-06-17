@@ -1,12 +1,14 @@
 
 import Banner from '@/Components/Carousel/Banner'
-import CardProduct from '@/Components/Cards/Product'
+import CardProduct from '@/Components/Cards/CardProduct'
 import CarouselBanner from '@/Components/Carousel/CarouselBanner'
 import SectionList from '@/Components/Sections/SectionList'
 
 import Layout from '@/Layouts/Layout'
 import { Head, usePage } from '@inertiajs/react'
-import CarouselHome from './CarouselHome'
+import CarouselTop from './CarouselTop'
+import GridProduct from '@/Components/Grids/GridProduct'
+import CarouselSection from './CarouselSection'
 
 
 export default function Home({ page, carouselTop, bannersTop, featured, bannersMedium, newProducts, bannersBottom }) {
@@ -20,7 +22,7 @@ export default function Home({ page, carouselTop, bannersTop, featured, bannersM
 				<div className="container">
 					<div className="py-content grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 ">
 						<div className="col-span-1 md:col-span-2 ">
-							<CarouselBanner images={carouselTop} />
+							<CarouselTop images={carouselTop} />
 						</div>
 
 						{bannersTop.map((item) => (
@@ -39,30 +41,30 @@ export default function Home({ page, carouselTop, bannersTop, featured, bannersM
 
 					<SectionList title="Destacados">
 
-						<div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-6 ">
+						<GridProduct>
 							{featured.map((product) => (
 								<CardProduct key={product.id} product={product} />
 							))}
-						</div>
+						</GridProduct>
 					</SectionList>
 
 					{bannersMedium.length > 0 && (
-						<div className="py-content">
-							<CarouselBanner images={bannersMedium} />
+						<div className="py-content ">
+							<Banner image={bannersMedium[0]} />
 						</div>
 					)}
 
 					<SectionList title={"Categorias"}>
-						<CarouselHome items={categories} searchType="categories" />
+						<CarouselSection items={categories} searchType="categories" />
 					</SectionList>
 
 					<SectionList title={"Los recién llegados"}>
 						<div className=" py-2 relative">
-							<div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 md:gap-6 ">
+							<GridProduct>
 								{newProducts.map((item) => (
 									<CardProduct key={item.id} product={item} productNew={true} />
 								))}
-							</div>
+							</GridProduct>
 						</div>
 					</SectionList>
 
@@ -73,7 +75,7 @@ export default function Home({ page, carouselTop, bannersTop, featured, bannersM
 					)}
 
 					<SectionList title={"Top Marcas"}>
-						<CarouselHome items={brands} searchType="brands" />
+						<CarouselSection items={brands} searchType="brands" />
 					</SectionList>
 
 				</div>

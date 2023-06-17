@@ -37,7 +37,7 @@
                     <tr class="text-sm">
 
                         <td class="whitespace-nowrap">
-                            <x-table.title-image :img="$item->img" :title="$item->imageable->title" />
+                            <x-table.title-image :img="$item->img" :title="$item->model->title" />
                         </td>
                         <td>
                             <x-badge color="gray">{{ $item->position }}</x-badge>

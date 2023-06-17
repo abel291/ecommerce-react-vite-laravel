@@ -20,7 +20,7 @@ module.exports = {
 	theme: {
 		colors: {
 			...colors,
-			primary: colors.red,
+			primary: colors.blue,
 		},
 
 		container: {
@@ -28,9 +28,8 @@ module.exports = {
 			padding: {
 				DEFAULT: "1.5rem",
 				sm: "2rem",
-				lg: "2rem",
-				xl: "2rem",
-				'2xl': '7rem',
+				lg: "4rem",
+				xl: "5rem",
 			},
 		},
 	},

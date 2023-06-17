@@ -1,4 +1,4 @@
-import CardProduct from "@/Components/Cards/Product"
+import CardProduct from "@/Components/Cards/CardProduct"
 import CarouselBanner from "@/Components/Carousel/CarouselBanner"
 import SectionList from "@/Components/Sections/SectionList"
 import Layout from "@/Layouts/Layout"
@@ -28,7 +28,7 @@ export default function Combos({ bannersTop, page, products }) {
 				</SectionList>
 				<div className="py-content">
 					<div className="flex justify-center">
-						<Link className="btn-secondary " href={route('search', { 'categories[]': 'combos' })} > Ver mas combos</Link>
+						<Link className="btn btn-secondary " href={route('search', { 'categories[]': 'combos' })} > Ver mas combos</Link>
 					</div>
 				</div>
 			</div>

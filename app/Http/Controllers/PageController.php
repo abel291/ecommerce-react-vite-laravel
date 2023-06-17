@@ -18,8 +18,8 @@ class PageController extends Controller
 	public function home()
 	{
 
-		$featured = Product::where('featured', true)->get()->random(12);
-		$newProducts = Product::orderBy('id', 'desc')->limit(12)->get();
+		$featured = Product::where('featured', true)->activeInStock()->get()->random(12);
+		$newProducts = Product::orderBy('id', 'desc')->activeInStock()->limit(12)->get();
 		$page = Page::with('banners')->where('type', 'home')->firstOrFail();
 
 		$banners = $page->banners->where('active', 1);
@@ -47,7 +47,7 @@ class PageController extends Controller
 
 		$page = Page::with('banners')->where('type', 'offers')->firstOrFail();
 		$banners_top = $page->banners->where('position', 'top')->where('active', 1)->where('type', 'banner');
-		$products = Product::where('offer', '!=', null)->limit(20)->inRandomOrder()->get();
+		$products = Product::where('offer', '!=', null)->activeInStock()->limit(20)->inRandomOrder()->get();
 		return Inertia::render('Offers/Offers', [
 			'bannersTop' => ImageResource::collection($banners_top),
 			'page' => $page,
@@ -58,7 +58,7 @@ class PageController extends Controller
 	{
 		$page = Page::with('banners')->where('type', 'combos')->firstOrFail();
 		$banners_top = $page->banners->where('position', 'top')->where('active', 1)->where('type', 'banner');
-		$products = Product::whereRelation('category', 'slug', 'combos')->limit(12)->orderBy('id', 'desc')->get()->shuffle();
+		$products = Product::whereRelation('category', 'slug', 'combos')->activeInStock()->limit(12)->orderBy('id', 'desc')->get()->shuffle();
 		// $products = Category::with('products')->where('slug', 'combos')->first()->products->slice(0, 20);
 
 		return Inertia::render('Combos/Combos', [
@@ -71,7 +71,10 @@ class PageController extends Controller
 	{
 		$page = Page::with('banners')->where('type', 'assemblies')->firstOrFail();
 		$carousel = $page->banners->where('position', 'top')->where('active', 1)->where('type', 'carousel');
-		$products = Category::with('products')->where('slug', 'ensambles')->first()->products->slice(0, 20);
+
+		$products = Product::activeInStock()->whereRelation('category', 'slug', 'ensambles')->limit(12)->get();
+
+		// Category::with('products')->where('slug', 'ensambles')->first()->products->slice(0, 20);
 
 		return Inertia::render('Assemblies/Assemblies', [
 			'carousel' => ImageResource::collection($carousel),
@@ -91,9 +94,9 @@ class PageController extends Controller
 	public function product($slug)
 	{
 
-		$product = Product::with('specifications', 'images', 'category.products', 'stock')->where('slug', $slug)->firstOrFail();
+		$product = Product::with('specifications', 'images', 'category.products', 'stock')->activeInStock()->where('slug', $slug)->firstOrFail();
 
-		$related_products = $product->category->products->random(10);
+		$related_products = $product->category->products->where('id', '!=', $product->id)->random(10);
 
 		return Inertia::render('Product/Product', [
 			'product' => new ProductResource($product),

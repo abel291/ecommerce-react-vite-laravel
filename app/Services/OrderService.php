@@ -26,9 +26,9 @@ class OrderService
 
 	public static  function calculateTotals(Collection $cart_products, DiscountCode $discount_code = null): Order
 	{
-		$tax_percent = config('ecommerce.tax');
+		$tax_percent = SettingService::data()['rates']['tax'];
 
-		$shipping = config('ecommerce.shipping');
+		$shipping = SettingService::data()['rates']['shipping'];
 
 		$order = new Order();
 

@@ -25,7 +25,7 @@ export default function DesktopNavbar({ navigation }) {
 	return (
 		<nav className="shadow pt-4 pb-4 hidden lg:block">
 			<div className="container mx-auto ">
-				<div className="flex gap-5 items-center ">
+				<div className="flex gap-5 items-center text-white sm:text-primary-600 ">
 					<ApplicationLogo />
 					<div className="w-full xl:w-3/5 ">
 						<div >

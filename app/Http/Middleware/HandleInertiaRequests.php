@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Services\Settings;
+use App\Services\SettingService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Middleware;
@@ -56,7 +57,7 @@ class HandleInertiaRequests extends Middleware
 			],
 			'settings' => function () {
 				return Cache::rememberForever('settings', function () {
-					return Settings::data()->all();
+					return SettingService::data();
 				});
 			},
 			'ziggy' => function () use ($request) {

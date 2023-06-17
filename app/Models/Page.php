@@ -12,6 +12,6 @@ class Page extends Model
 	use HasFactory;
 	public function banners(): MorphMany
 	{
-		return $this->morphMany(Image::class, 'imageable');
+		return $this->morphMany(Image::class, 'model');
 	}
 }

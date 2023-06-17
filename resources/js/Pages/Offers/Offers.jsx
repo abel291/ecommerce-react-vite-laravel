@@ -1,5 +1,6 @@
-import CardProduct from "@/Components/Cards/Product"
+import CardProduct from "@/Components/Cards/CardProduct"
 import CarouselBanner from "@/Components/Carousel/CarouselBanner"
+import GridProduct from "@/Components/Grids/GridProduct"
 import SectionList from "@/Components/Sections/SectionList"
 import Layout from "@/Layouts/Layout"
 import { Head, Link } from "@inertiajs/react"
@@ -13,25 +14,27 @@ export default function Offers({ bannersTop, page, products }) {
 		<Layout>
 			<Head title={page.meta_title} />
 			<div className="container">
+
 				{bannersTop.length > 0 && (
-					<div className="py-content">
+					<div className="pt-content">
 						<CarouselBanner images={bannersTop} />
 					</div>
 				)}
-				<SectionList title="Ofertas" entry="¡Encuentra precios increíbles cada día!">
 
-					<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-6 ">
+				<SectionList title="Ofertas" entry="¡Encuentra precios increíbles cada día!">
+					<GridProduct>
 						{products.map((product) => (
 							<CardProduct key={product.id} product={product} />
 						))}
-					</div>
-
+					</GridProduct>
 				</SectionList>
+
 				<div className="py-content">
 					<div className="flex justify-center">
-						<Link className="btn-secondary" href={route('search', { offer: 10 })} > Ver mas ofertas</Link>
+						<Link className="btn btn-secondary" href={route('search', { offer: 10 })} > Ver mas ofertas</Link>
 					</div>
 				</div>
+
 			</div>
 		</Layout>
 	)

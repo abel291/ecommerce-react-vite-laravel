@@ -35,6 +35,7 @@
         </div>
     </div>
     @if (session()->has('success'))
-        <div x-data="" x-init="$dispatch('notification', { title: '{{ session('success') }}' })"></div>
+        <div x-data="" x-init="$dispatch('notification', { title: '{{ session('success') }}' });
+        console.log('12');"></div>
     @endif
 </div>

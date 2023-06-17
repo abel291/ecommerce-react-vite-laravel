@@ -45,14 +45,14 @@ class ListBanner extends Component
 	// }
 	public function render()
 	{
-		$list = Image::with('imageable')->where(function ($query) {
+		$list = Image::with('model')->where(function ($query) {
 			$query->orWhere('title', 'like', "%$this->search%");
 			$query->orWhere('alt', 'like', "%$this->search%");
 			//$query->orWhere('description_max', 'like', "%$this->search%");
 		})
-			->where('imageable_type', 'App\Models\Page')
+			->where('model_type', 'App\Models\Page')
 			->when($this->pages_id, function (Builder $query) {
-				$query->where('imageable_id', $this->pages_id);
+				$query->where('model_id', $this->pages_id);
 			})
 
 			->orderBy($this->sortBy, $this->sortDirection)

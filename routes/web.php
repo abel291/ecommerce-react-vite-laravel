@@ -4,7 +4,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\Checkout\CheckoutController;
 use App\Http\Controllers\Checkout\DiscountCheckoutController;
 use App\Http\Controllers\Checkout\PaymentCheckoutController;
-use App\Http\Controllers\Dashboard\DashboardController;
+
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\PageController;
@@ -17,6 +17,7 @@ use App\Http\Livewire\Blog\ListAuthor;
 use App\Http\Livewire\Blog\ListPost;
 use App\Http\Livewire\Brand\ListBrand;
 use App\Http\Livewire\Category\ListCategory;
+use App\Http\Livewire\Dashboard\DashboardPage;
 use App\Http\Livewire\DiscountCode\ListDiscountCode;
 use App\Http\Livewire\Image\ListImage;
 use App\Http\Livewire\Order\ListOrder;
@@ -29,7 +30,7 @@ use App\Http\Livewire\Settings\EditSettings;
 use App\Http\Livewire\Specification\ListSpecification;
 use App\Http\Livewire\User\ListUser;
 use App\Http\Middleware\ProductInSession;
-use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Redirect;
 
 use Illuminate\Support\Facades\Route;
@@ -65,7 +66,7 @@ Route::controller(PageController::class)->group(function () {
 	Route::get('/contact-us', 'contact')->name('contact');
 	Route::get('/promotions', 'home')->name('promotions');
 	Route::get('/product/{slug}', 'product')->name('product');
-	Route::get('/gift-card', 'home')->name('gift-card');
+	//Route::get('/gift-card', 'home')->name('gift-card');
 });
 
 Route::controller(BlogController::class)->group(function () {
@@ -129,7 +130,7 @@ Route::middleware('auth')->group(function () {
 
 	Route::prefix('dashboard')->name('dashboard.')->middleware(['role:admin'])->group(function () {
 
-		Route::get('/', DashboardController::class)->name('home');
+		Route::get('/', DashboardPage::class)->name('home');
 		Route::get('/users', ListUser::class)->name('users');
 		Route::get('/products', ListProduct::class)->name('products');
 		Route::get('/banners', ListBanner::class)->name('banners');

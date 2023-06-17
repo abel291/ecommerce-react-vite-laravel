@@ -6,6 +6,7 @@ use App\Models\Brand;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use Faker;
+use Illuminate\Support\Facades\Cache;
 
 class BrandSeeder extends Seeder
 {
@@ -17,17 +18,39 @@ class BrandSeeder extends Seeder
 	public function run()
 	{
 		Brand::truncate();
+		Cache::forget('brands');
 		$brands = [
-			'fury',
-			'logitech',
-			'cooler master',
-			'asus',
-			'corsair',
-			'apple',
-			'intel',
-			'adata',
-			'hp',
-			'ryzen',
+			"AMD",
+			"Intel",
+			"Asus",
+			"Gigabyte",
+			"MSI",
+			"ASRock",
+			"Evga",
+			"Corsair",
+			"PNY",
+			"HyperX",
+			"Western Digital",
+			"Adata",
+			"Kingston",
+			"LG",
+			"Dell",
+			"Samsung",
+			"BenQ",
+			"Logitech",
+			"Redragon",
+			"VSG",
+			"Razer",
+			"AeroCool",
+			"Thermaltake",
+			"Iceberg",
+			"Cooler Master",
+			"Lenovo",
+			"HP",
+			"Appel",
+			"Nintendo",
+			"PlayStation",
+			"Xbox"
 		];
 		$data = [];
 		$faker = Faker\Factory::create();

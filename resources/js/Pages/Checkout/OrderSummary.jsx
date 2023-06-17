@@ -26,9 +26,9 @@ const OrderSummary = ({ orderProducts, order }) => {
 		<div className="bg-gray-50 rounded-lg text-sm font-medium">
 			<div className="p-4 md:p-6">
 				<h3 className="block   text-lg">Resumen del pedido</h3>
-				<div className=" mt-4 space-y-2">
+				<div className=" mt-4  divide-y">
 					{orderProducts.map((item) => (
-						<div className="flex items-start justify-between gap-x-5 " key={item.data.slug}>
+						<div className="flex items-start justify-between gap-x-5 py-1.5" key={item.data.slug}>
 							<div className="text-gray-600 ">{item.quantity_selected} x {item.data.name}</div>
 							<div className="font-semibold whitespace-nowrap ">{formatCurrency(item.price_quantity)}</div>
 						</div>
@@ -71,7 +71,7 @@ const OrderSummary = ({ orderProducts, order }) => {
 					</div>
 
 				</div>
-				<div className="flex items-center justify-between pt-6 text-base border-t">
+				<div className="flex items-center justify-between pt-6 text-base border-t font-semibold">
 					<div>Order total</div>
 					<div>{formatCurrency(order.total)}</div>
 				</div>

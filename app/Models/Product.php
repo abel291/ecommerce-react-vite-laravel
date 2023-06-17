@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -57,7 +58,7 @@ class Product extends Model
 
 	public function images(): MorphMany
 	{
-		return $this->morphMany(Image::class, 'imageable');
+		return $this->morphMany(Image::class, 'model');
 	}
 
 	public function brand(): BelongsTo
@@ -91,5 +92,17 @@ class Product extends Model
 		} else {
 			return $this->price;
 		}
+	}
+	public function scopeInStock(Builder $query): void
+	{
+		$query->whereRelation('stock', 'remaining', '>', 0);
+	}
+	public function scopeActive(Builder $query): void
+	{
+		$query->where('active', 1);
+	}
+	public function scopeActiveInStock(Builder $query): void
+	{
+		$query->active()->inStock();
 	}
 }

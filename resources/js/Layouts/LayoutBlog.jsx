@@ -1,13 +1,11 @@
 import React from 'react'
-import BannerWithTitle from '@/Components/Carousel/BannerWithTitle'
 import Layout from '@/Layouts/Layout'
 import Badge from '@/Components/Badge'
 import TextInput from '@/Components/Form/TextInput'
 import PrimaryButton from '@/Components/PrimaryButton'
-import { ServerStackIcon } from '@heroicons/react/24/outline'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid'
 import { Link, useForm, usePage } from '@inertiajs/react'
-import { useState } from 'react'
+
 export default function LayoutBlog({ children }) {
 	const { filters, categories_blog, recent_post } = usePage().props
 	const { data, setData, get, processing } = useForm({
@@ -26,23 +24,22 @@ export default function LayoutBlog({ children }) {
 	return (
 		<Layout>
 
-			{/* <BannerWithTitle image="/img/blog/banner-blog.jpg" title="Blog" /> */}
 			<div className="container py-content">
 
-				<div className="flex flex-col lg:flex-row gap-10">
-					<div className="w-full lg:w-8/12 xl:w-9/12">
+				<div className="flex flex-col 2xl:flex-row gap-10">
+					<div className="w-full  2xl:w-9/12">
 
 						{children}
 					</div>
-					<div className="w-full lg:w-4/12 xl:w-3/12">
+					<div className="w-full  2xl:w-3/12">
 						<div className="divide-y divide-gray-200">
 							{route().current('blog') && (
 								<div className="pb-5">
 									<h3 className="font-medium text-xl ">Busqueda{filters?.q && (<span>: {filters?.q}</span>)}</h3>
 									<div className="mt-4">
-										<form onSubmit={handleSubmit} className="relative">
-											<TextInput onChange={(e) => setData('q', e.target.value)} className="w-full pr-16 " value={data.q} />
-											<div className="absolute right-0 inset-y-0">
+										<form onSubmit={handleSubmit} className="flex items-stretch">
+											<TextInput onChange={(e) => setData('q', e.target.value)} className="w-full -mr-4 " value={data.q} />
+											<div className="">
 												<PrimaryButton className=' rounded-r-md rounded-l-none' disabled={processing} isLoading={processing}>
 													<MagnifyingGlassIcon className="w-6 h-6" />
 												</PrimaryButton>
@@ -72,9 +69,9 @@ export default function LayoutBlog({ children }) {
 												<div className="w-4/12">
 													<img src={post.img} alt={post.title} className="rounded-md w-full object-cover object-center aspect-video " />
 												</div>
-												<div className="w-8/12 text-xs">
-													<span className=" text-gray-500 capitalize">{post.date}</span>
-													<h3 className="font-medium mt-1">{post.title}</h3>
+												<div className="w-8/12 ">
+													<span className=" text-gray-500 capitalize text-xs">{post.date}</span>
+													<h3 className="font-medium mt-1 text-sm">{post.title}</h3>
 												</div>
 											</div>
 										</Link>

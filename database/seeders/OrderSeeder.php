@@ -55,7 +55,7 @@ class OrderSeeder extends Seeder
 					return CartService::generateCartProduct($product, $quantity_selected);
 				});
 
-				$order = OrderService::generateOrderWithsTotals($cart_products, $discount_code);
+				$order = OrderService::calculateTotals($cart_products, $discount_code);
 
 				$order->code =  OrderService::generateCode($user->id);
 				$order->user_id =  $user->id;
