@@ -22,7 +22,7 @@ const Description = ({ product }) => {
 
 			<div className="py-content space-y-5">
 				<SectionTitle title="Descripción" />
-				<p dangerouslySetInnerHTML={{ __html: product.description_max }} />
+				<p className="break-words" dangerouslySetInnerHTML={{ __html: product.description_max }} />
 			</div>
 		</div>
 	)

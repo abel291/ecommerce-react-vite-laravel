@@ -21,6 +21,7 @@ class ProductResource extends JsonResource
 			'description_min' 	=> $this->description_min,
 			'description_max' 	=> $this->description_max,
 			'img' 				=> $this->img,
+			'thumb' 			=> $this->thumb,
 			'price' 			=> $this->price,
 			'offer' => $this->offer,
 			'price_offer' => $this->price_offer,
@@ -30,6 +31,7 @@ class ProductResource extends JsonResource
 			'specifications' => $this->whenLoaded('specifications'),
 			'images' => $this->whenLoaded('images'),
 			'category' => $this->whenLoaded('category'),
+			'department' => $this->whenLoaded('department'),
 			'brand' => $this->whenLoaded('brand'),
 			'active' => $this->active,
 		];

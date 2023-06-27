@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
 			CategorySeeder::class,
 			BrandSeeder::class,
 			ProductSeeder::class,
-			SpecificationSeeder::class,
+			//SpecificationSeeder::class,
 			ShoppingCartSeeder::class,
 			OrderSeeder::class,
 			BlogSeeder::class

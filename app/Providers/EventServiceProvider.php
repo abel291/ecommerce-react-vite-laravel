@@ -47,6 +47,7 @@ class EventServiceProvider extends ServiceProvider
 		Image::observe(ImageObserver::class);
 		Category::observe(CategoryObserver::class);
 		Brand::observe(BrandObserver::class);
+		OrderProduct::observe(OrderProductObserver::class);
 	}
 
 	/**

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
@@ -51,6 +52,11 @@ class Product extends Model
 		);
 	}
 
+	public function department(): BelongsTo
+	{
+		return $this->belongsTo(Category::class, 'department_id');
+	}
+
 	public function category(): BelongsTo
 	{
 		return $this->belongsTo(Category::class);
@@ -75,9 +81,20 @@ class Product extends Model
 	{
 		return $this->belongsToMany(User::class)->withPivot('quantity', 'total_price_quantity');
 	}
-	public function orders(): HasMany
+	public function orders_product(): HasMany
 	{
-		return $this->hasMany(OrderProduct::class);
+		return $this->hasMany(OrderProduct::class)->has('order');
+	}
+	public function orders(): HasManyThrough
+	{
+		return $this->hasManyThrough(
+			Order::class,
+			OrderProduct::class,
+			'product_id',
+			'id',
+			'id',
+			'order_id'
+		);
 	}
 
 	public function stock(): hasOne
@@ -104,5 +121,54 @@ class Product extends Model
 	public function scopeActiveInStock(Builder $query): void
 	{
 		$query->active()->inStock();
+	}
+	public function scopeWithFilters($query, $filters)
+	{
+		//$search, $categories, $sub_categories, $price_min, $price_max, $brands, $offer, $sortBy
+		//dd($categories);
+		return $query
+			->activeInStock()
+			->where(function ($query) use ($filters) {
+				$query->orWhere('name', 'like', "%" . $filters['q'] . "%");
+				$query->orWhere('slug', 'like', "%" . $filters['q'] . "%");
+				$query->orWhere('description_min', 'like', "%" . $filters['q'] . "%");
+			})
+
+			->when($filters['department'], function (Builder $query) use ($filters) {
+				$query->whereHas('department', function (Builder $sub_query) use ($filters) {
+					$sub_query->whereIn('slug', $filters['department']);
+				});
+			})
+
+			->when($filters['category'], function (Builder $query) use ($filters) {
+				$query->whereHas('category', function (Builder $sub_query) use ($filters) {
+					$sub_query->whereIn('slug', $filters['category']);
+				});
+			})
+
+			->when($filters['brands'], function (Builder $query) use ($filters) {
+				$query->whereHas('brand', function (Builder $sub_query) use ($filters) {
+					$sub_query->whereIn('slug', $filters['brands']);
+				});
+			})
+
+			->when($filters['price_min'], function (Builder $query) use ($filters) {
+				$query->where('price_offer', '>=', $filters['price_min']);
+			})
+
+			->when($filters['price_max'], function (Builder $query) use ($filters) {
+				$query->where('price_offer', '<=', $filters['price_max']);
+			})
+
+			->when($filters['offer'], function (Builder $query) use ($filters) {
+				$query->where('offer', '>=', $filters['offer']);
+			})
+
+			->when($filters['sortBy'], function (Builder $query) use ($filters) {
+				$sorBy = $filters['sortBy'] == 'price_desc' ? 'desc' : 'asc';
+				$query->orderBy('price_offer', $sorBy);
+			}, function ($query) {
+				$query->orderBy('id', 'desc');
+			});;
 	}
 }

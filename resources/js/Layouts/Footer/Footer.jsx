@@ -78,7 +78,7 @@ const Footer = () => {
 						</div>
 					</div>
 					<div className="border-t py-6">
-						<div className="flex items-center justify-between text-xs text-gray-500">
+						<div className="flex items-center justify-between text-sm text-gray-500">
 							<p>
 								© 2020 {settings.company.name}. All rights reserved.
 							</p>

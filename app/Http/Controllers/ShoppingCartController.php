@@ -108,7 +108,7 @@ class ShoppingCartController extends Controller
 	 */
 	public function destroy($id)
 	{
-		auth()->user()->shoppingCart()->where('id', $id)->delete();
+		auth()->user()->shoppingCart()->find($id)->delete();
 		return to_route('shopping-cart.index')->with('success', '¡Listo! Eliminaste el producto.');
 	}
 }

@@ -20,7 +20,7 @@ module.exports = {
 	theme: {
 		colors: {
 			...colors,
-			primary: colors.blue,
+			primary: colors.green,
 		},
 
 		container: {

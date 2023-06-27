@@ -3,98 +3,67 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CategoryFiltersResource;
 use App\Http\Resources\ProductResource;
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Page;
 use App\Models\Product;
+use App\Observers\CategoryObserver;
+use App\Services\SearchProductService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 
 class SearchController extends Controller
 {
 	public function search(Request $request)
 	{
-		//sleep(2);
-
+		//Cache::flush();
 		$page = Page::with('banners')->where('type', 'search')->firstOrFail();
+
 		$banner = $page->banners->where('position', 'middle')->where('type', 'banner');
 
-		$products = Product::with('category', 'brand')
-			->where(function ($query) use ($request) {
-				$query->orWhere('name', 'like', "%$request->q%");
-				$query->orWhere('description_max', 'like', "%$request->q%");
-				$query->orWhere('description_max', 'like', "%$request->q%");
-			})
+		$filters = [
+			'q' => $request->input('q', null),
+			'department' => $request->input('department', []),
+			'category' => $request->input('category', []),
+			'price_min' => $request->input('price_min', ""),
+			'price_max' => $request->input('price_max', ""),
+			'brands' => $request->input('brands', []),
+			'offer' => $request->input('offer', ""),
+			'sortBy' => $request->input('sortBy', "")
+		];
+		$searchProductService = new SearchProductService($filters);
+		//dd(boolval(count([])));
 
-			->when($request->categories, function (Builder $query) use ($request) {
-				$query->whereHas('category', function (Builder $sub_query) use ($request) {
-					$sub_query->whereIn('slug', $request->categories);
-				});
-			})
+		$list_departments = SearchProductService::getFilterDepartment($filters);
 
-			->when($request->brands, function (Builder $query) use ($request) {
-				$query->whereHas('brand', function (Builder $sub_query) use ($request) {
-					$sub_query->whereIn('slug', $request->brands);
-				});
-			})
+		$filters['department'] = $list_departments->whereIn('slug', $filters['department'])->pluck('slug')->values()->toArray();
 
-			->when($request->price_min, function (Builder $query) use ($request) {
-				$query->where('price_offer', '>=', $request->price_min);
-			})
+		$list_categories = SearchProductService::getFilterCategories($filters);
 
-			->when($request->price_max, function (Builder $query) use ($request) {
-				$query->where('price_offer', '<=', $request->price_max);
-			})
+		$filters['category'] = $list_categories->whereIn('slug', $filters['category'])->pluck('slug')->values()->toArray();
 
-			->when($request->offer, function (Builder $query) use ($request) {
-				$query->where('offer', '>=', $request->offer);
-			})
+		$brands = SearchProductService::getFilterBrands($filters);
 
-			->when($request->sortBy, function (Builder $query) use ($request) {
-				$sorBy = $request->sortBy == 'price_desc' ? 'desc' : 'asc';
-				$query->orderBy('price_offer', $sorBy);
-			}, function ($query) {
-				$query->orderBy('id', 'desc');
-			});
+		$filters['brands'] = $brands->whereIn('slug', $filters['brands'])->pluck('slug')->values()->toArray();
 
+		$products = Product::withFilters($filters)->paginate(15)->withQueryString();
 
-		// if ($request->category) {
-		// 	//$categories = explode(',', $request->categories);
-		// 	$products->whereHas('category', function (Builder $query) use ($request) {
-		// 		$query->whereIn('slug', $request->categories);
-		// 	});
-		// }
-		// if ($request->brands) {
-		// 	//$brands = explode(',', $request->brands);
-		// 	$products->whereHas('brand', function (Builder $query) use ($request) {
-		// 		$query->whereIn('slug', $request->brands);
-		// 	});
-		// }
-		// if ($request->price_min) {
-		// 	$products->where('price', '>=', $request->price_min);
-		// }
-		// if ($request->price_max) {
-		// 	$products->where('price', '<=', $request->price_max);
-		// }
-		// if ($request->offers) {
-		// 	$products->where('offer', '>=', $request->offers);
-		// }
-		$products = $products->paginate(15)->withQueryString();
+		$breadcrumb = SearchProductService::generateBreadcrumb($filters);
 
+		//dd($breadcrumb);
 		return Inertia::render('Search/Search', [
-			'filters' => $request->only([
-				'q',
-				'categories',
-				'brands',
-				'price_min',
-				'price_max',
-				'offer',
-				'sortBy'
-			]),
-
+			'filters' => $filters,
 			'products' => ProductResource::collection($products),
 			'page' => $page,
+			'list_departments' => CategoryFiltersResource::collection($list_departments),
+			'list_categories' => CategoryFiltersResource::collection($list_categories),
+			'brands' => CategoryFiltersResource::collection($brands),
 			'banner' => $banner,
+			'breadcrumb' => $breadcrumb,
 		]);
 	}
 }

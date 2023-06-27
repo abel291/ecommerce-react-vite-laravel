@@ -263,6 +263,10 @@
                 /* 28px */
             ;
         }
+
+        .whitespace-nowrap {
+            white-space: nowrap;
+        }
     </style>
 
 </head>
@@ -341,22 +345,22 @@
                     @foreach ($order->order_products as $item)
                         <tr class="border-t">
                             <td class="text-left p-3">{{ $item->name }}</td>
-                            <td class="text-left p-3">@money($item->price)</td>
+                            <td class="whitespace-nowrap text-left p-3">@money($item->price)</td>
                             <td class="text-left p-3">{{ $item->quantity_selected }}</td>
-                            <td class="text-right p-3">@money($item->price_quantity)</td>
+                            <td class="whitespace-nowrap text-right p-3">@money($item->price_quantity)</td>
                         </tr>
                     @endforeach
                     <tr class="border-t-2">
                         <td class="p-3"></td>
                         <td class="p-3"></td>
                         <td class="p-3 font-semibold text-right">Subtotal:</td>
-                        <td class="p-3 text-right font-semibold ">@money($order->sub_total)</td>
+                        <td class="whitespace-nowrap p-3 text-right font-semibold ">@money($order->sub_total)</td>
                     </tr>
                     <tr class="border-t ">
                         <td class="p-3"></td>
                         <td class="p-3"></td>
                         <td class="p-3 font-semibold text-right">Tax ({{ $order->tax_percent }}%):</td>
-                        <td class="p-3 text-right font-semibold">
+                        <td class="whitespace-nowrap p-3 text-right font-semibold">
                             @money($order->tax_amount)
                         </td>
                     </tr>
@@ -364,7 +368,7 @@
                         <td class="p-3"></td>
                         <td class="p-3"></td>
                         <td class="p-3 font-semibold text-right">Envio:</td>
-                        <td class="p-3 text-right font-semibold">
+                        <td class="whitespace-nowrap p-3 text-right font-semibold">
                             @money($order->shipping)
                         </td>
                     </tr>
@@ -372,7 +376,7 @@
                         <td class="p-3"></td>
                         <td class="p-3"></td>
                         <td class="p-3 font-semibold text-right">Total:</td>
-                        <td class="p-3 text-right font-semibold">
+                        <td class="whitespace-nowrap p-3 text-right font-semibold">
                             @money($order->total)
                         </td>
                     </tr>

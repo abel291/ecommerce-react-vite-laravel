@@ -44,7 +44,7 @@ class ProductFactory extends Factory
 			'offer' => $offer,
 			'price_offer' => $price_offer,
 			'cost' => $cost,
-			'thum' => 'item-' . rand(1, 52) . '.jpg',
+			'thumb' => 'item-' . rand(1, 52) . '.jpg',
 			'img' => 'item-' . rand(1, 52) . '.jpg',
 			'featured' => rand(0, 1),
 			'max_quantity' => rand(10, 40),

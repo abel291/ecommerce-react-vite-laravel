@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Enums\PaymentStatus;
 use App\Models\OrderProduct;
+use Illuminate\Support\Facades\Cache;
 
 class OrderProductObserver
 {
@@ -12,6 +13,7 @@ class OrderProductObserver
 	 */
 	public function created(OrderProduct $orderProduct): void
 	{
+		Cache::forget('shoppingCart');
 	}
 
 	/**
@@ -19,7 +21,7 @@ class OrderProductObserver
 	 */
 	public function updated(OrderProduct $orderProduct): void
 	{
-		//
+		Cache::forget('shoppingCart');
 	}
 
 	/**
@@ -27,7 +29,7 @@ class OrderProductObserver
 	 */
 	public function deleted(OrderProduct $orderProduct): void
 	{
-		//
+		Cache::forget('shoppingCart');
 	}
 
 	/**
@@ -35,7 +37,6 @@ class OrderProductObserver
 	 */
 	public function restored(OrderProduct $orderProduct): void
 	{
-		//
 	}
 
 	/**
@@ -43,6 +44,6 @@ class OrderProductObserver
 	 */
 	public function forceDeleted(OrderProduct $orderProduct): void
 	{
-		//
+		dd("deleted");
 	}
 }

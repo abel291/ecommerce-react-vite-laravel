@@ -7,19 +7,18 @@ const FilterRadio = ({ options, filter, setFilter, nameInputs, title }) => {
 
 	return (
 		<>
-			<div className="font-medium mb-4 ">{title}</div>
 			<div className="space-y-3 text-sm font-normal text-gray-700">
 				{options.map((item) => (
 					<div key={item.slug} className="flex items-center">
 						<input
 							checked={filter === item.slug}
 							type="radio"
-							className="mr-3 h-5 w-5 input-radio"
+							className="mr-3 h-4 w-4 input-radio"
 							name={nameInputs}
 							value={item.slug}
 							onChange={handleChangeFilterRadio}
 						/>
-						<label htmlFor="text-sm"> {item.name}</label>
+						<label htmlFor="text-gray-500"> {item.name}</label>
 					</div>
 				))}
 			</div>

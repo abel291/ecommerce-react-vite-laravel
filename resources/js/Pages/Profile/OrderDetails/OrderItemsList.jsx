@@ -17,9 +17,9 @@ function OrderItemsList({ order }) {
 					{order.products.map((product) => (
 						<tr key={product.id}>
 							<td >{product.name}</td>
-							<td >{formatCurrency(product.price)}</td>
+							<td className='whitespace-nowrap' >{formatCurrency(product.price)}</td>
 							<td>{product.quantity_selected}</td>
-							<td>{formatCurrency(product.price_quantity)}</td>
+							<td className='whitespace-nowrap'>{formatCurrency(product.price_quantity)}</td>
 						</tr>
 					))}
 					{/* <tr>

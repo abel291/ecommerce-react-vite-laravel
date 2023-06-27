@@ -9,6 +9,7 @@ use App\Services\SettingService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Middleware;
+use Tests\Feature\ShoppingCartTest;
 use Tightenco\Ziggy\Ziggy;
 
 class HandleInertiaRequests extends Middleware
@@ -35,19 +36,34 @@ class HandleInertiaRequests extends Middleware
 	 */
 	public function share(Request $request): array
 	{
+
 		return array_merge(parent::share($request), [
 			'auth' => [
 				'user' => $request->user(),
+				'shoppingCart' => function () {
+					return Cache::remember('shoppingCart', 3600, function () {
+						return auth()->user()->shoppingCart()->count();
+					});
+				},
 			],
 
 			'categories' => function () {
-				return Cache::rememberForever('categories', function () {
-					return Category::select('id', 'name', 'slug', 'img')->where('type', '=', 'product')->get();
+				return Cache::remember('categories', 3600, function () {
+					$departments = Category::select('id', 'name', 'slug', 'img', 'category_id')
+						->whereActive(true)
+						->whereNull('category_id')
+						->with('categories')
+						->withCount('categories')
+						->where('type', '=', 'product')
+						->orderBy('categories_count', 'desc')
+						->get();
+
+					return $departments;
 				});
 			},
 			'brands' => function () {
-				return Cache::rememberForever('brands', function () {
-					return Brand::all('id', 'name', 'slug', 'img');
+				return Cache::remember('brands', 3600, function () {
+					return Brand::whereActive(true)->select('id', 'name', 'slug', 'img')->get();
 				});
 			},
 			'flash' => [

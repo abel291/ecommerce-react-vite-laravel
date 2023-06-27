@@ -22,7 +22,7 @@ class SpecificationSeeder extends Seeder
 		$faker = Faker\Factory::create();
 		$specifications = [];
 		$current_date = date('Y-m-d H:i:s');
-		foreach (Category::with('products')->get() as $category) {
+		foreach (Category::with('products')->has('products')->get() as $category) {
 			foreach ($category->products as $product) {
 				foreach ($category->specifications as $name_specification) {
 

@@ -8,11 +8,19 @@ import CarouselProduct from './CarouselProduct'
 import Breadcrumb from '@/Components/Breadcrumb'
 
 export default function Product({ product, relatedProducts }) {
-
+	console.log(product)
 	let breadcrumb = [
 		{
+			title: product.department.name,
+			path: route("search", { 'department[]': product.department.slug })
+		},
+		{
 			title: product.category.name,
-			path: route("search", { categories: [product.category.slug] })
+			path: route("search", { 'category[]': product.category.slug })
+		},
+		{
+			title: product.brand.name,
+			path: route("search", { 'brands[]': product.brand.slug })
 		},
 		{
 			title: product.name

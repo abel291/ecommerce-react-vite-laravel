@@ -6,19 +6,19 @@ import Badge from "../Badge"
 const CardProduct = ({ product, badge = "" }) => {
 	return (
 		<Link key={product.id} href={route('product', product.slug)}
-			className="block max-w-md mx-auto h-full rounded-md p-4 transition duration-200 ease-in-out transform hover:-translate-y-1 md:hover:-translate-y-1.5 hover:shadow-lg " >
+			className=" block max-w-md mx-auto h-full rounded-md p-4 transition duration-200 ease-in-out transform hover:-translate-y-1 md:hover:-translate-y-1.5 hover:shadow-lg " >
 			<div className="h-full flex flex-col">
 
-				<div className="h-48 px-6 flex items-center justify-center relative  ">
-					<img src={product.img} alt={product.slug} className="  max-w-full max-h-full" />
+				<div className="h-52 px-6 flex items-center justify-center relative  ">
+					<img src={product.thumb} alt={product.slug} className="  max-w-full max-h-full" />
 				</div>
 
 				<div className="grow flex flex-col mt-6">
 					<h2 className="text-heading font-semibold text-base ">{product.name}</h2>
 
-					<p className="mt-3  text-sm leading-normal xl:leading-relaxed line-clamp-2 text-gray-600">
+					{/* <p className="mt-3  text-sm leading-normal xl:leading-relaxed line-clamp-2 text-gray-600">
 						{product.description_min}
-					</p>
+					</p> */}
 
 					<div className="pt-4 grow flex items-end justify-between ">
 						<div>

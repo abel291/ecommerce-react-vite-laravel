@@ -27,8 +27,8 @@ const CarouselSection = ({ items, searchType }) => {
 				spaceBetween: 40,
 			},
 		}}>
-			{items.map((item) => (
-				<CarouselItem key={item.link} >
+			{items.map((item, index) => (
+				<CarouselItem key={index} >
 					<Link
 						href={route('search')} data={{ [searchType]: [item.slug] }}
 					>

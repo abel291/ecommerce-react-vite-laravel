@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
 			$table->string('slug')->unique()->index();
 			$table->text('description_min');
 			$table->text('description_max');
-			$table->string('thum')->nullable();
+			$table->string('thumb')->nullable();
 			$table->string('img')->nullable();
 			$table->unsignedDecimal('price', 12)->default(0);
 			$table->unsignedTinyInteger('offer')->nullable();
@@ -30,7 +30,11 @@ class CreateProductsTable extends Migration
 			$table->boolean('featured')->default(false);
 			$table->boolean('active')->default(true);
 			$table->foreignId('brand_id')->nullable()->constrained()->nullOnDelete();
+
+			$table->foreignId('department_id')->nullable()->constrained()->nullOnDelete();
 			$table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
+			$table->foreignId('sub_category_id')->nullable()->constrained()->nullOnDelete();
+
 			$table->timestamps();
 		});
 	}

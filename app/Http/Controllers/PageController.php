@@ -93,10 +93,12 @@ class PageController extends Controller
 
 	public function product($slug)
 	{
+		$product = Product::with('specifications', 'images', 'category', 'department', 'stock', 'brand')->activeInStock()->where('slug', $slug)->firstOrFail();
 
-		$product = Product::with('specifications', 'images', 'category.products', 'stock')->activeInStock()->where('slug', $slug)->firstOrFail();
-
-		$related_products = $product->category->products->where('id', '!=', $product->id)->random(10);
+		$related_products = Product::activeInStock()
+			->where('id', '!=', $product->id)
+			->where('category_id', $product->category->id)
+			->inRandomOrder()->limit(10)->get();
 
 		return Inertia::render('Product/Product', [
 			'product' => new ProductResource($product),

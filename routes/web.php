@@ -4,7 +4,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\Checkout\CheckoutController;
 use App\Http\Controllers\Checkout\DiscountCheckoutController;
 use App\Http\Controllers\Checkout\PaymentCheckoutController;
-
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\PageController;
@@ -75,6 +75,7 @@ Route::controller(BlogController::class)->group(function () {
 	Route::get('/author/{slug}', 'post')->name('post.author');
 });
 
+Route::get('/department/{department}', [DepartmentController::class, 'department'])->name('department');
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 Route::post('/subscribe', [NewsletterController::class, 'newsletter'])->name('subscribe');

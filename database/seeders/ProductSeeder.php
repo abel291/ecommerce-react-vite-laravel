@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Helpers\Helpers;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Image;
@@ -10,6 +11,7 @@ use App\Models\Specification;
 use App\Models\Stock;
 use Faker;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -24,19 +26,29 @@ class ProductSeeder extends Seeder
 	{
 		Product::truncate();
 		Stock::truncate();
-		$brands = Brand::get()->pluck('id', 'name');
-		$categories = Category::get()->pluck('id', 'slug');
-		//dd($categories);
+		DB::table('category_product')->truncate();
+		$brands = Brand::get();
 
-		$products_json = collect(Storage::json('products_with_images.json'));
+		$categories = Category::select('id', 'name', 'slug')->get();
 
+		$products = Helpers::getAllProducts();
+
+		$products = $products->shuffle();
 
 		$faker = Faker\Factory::create();
-		foreach ($products_json as $key => $product) {
 
-			$category = Str::slug($product['category'], '-');
-			$category = $categories[$category];
-			$brand = $brands[$product['brand']];
+
+		foreach ($products as $key => $product) {
+
+			$category_slug = Str::slug($product['category']);
+
+			$department_slug = Str::slug($product['department']);
+
+			$department = $categories->firstWhere('slug', $department_slug);
+
+			$category = $categories->firstWhere('slug', $category_slug);
+
+			$brand = $brands->firstWhere('slug', Str::slug($product['brand']));
 
 			$price = $product['price'];
 
@@ -46,56 +58,38 @@ class ProductSeeder extends Seeder
 
 			$cost = round($price * 0.80);
 
+			echo ($key + 1) . " - " . $product['name'] . " \n";
+
 			$product_factory = Product::factory()
-				// ->has(Image::factory()->count(5)->state(function (array $attributes) use ($category) {
-				// 	return ['img' => '/img/categories/' . $category->slug . '/' . $category->slug . '-' . rand(1, 10) . '.jpg',];
-				// }))
 				->has(Stock::factory()->count(1))
 				->create([
-					'name' => $product['title'],
-					'slug' => Str::slug($product['title'], '-') . "-" . rand(1000, 2002),
-					'img' => $product['images'][0]['new_image'],
-					'thum' => $product['images'][0]['new_image_thumb'],
+					'name' => $product['name'],
+					'slug' => Str::slug($product['name'], '-') . "-" . rand(1000, 2002),
+					'img' => $product['img'],
+					'thumb' => $product['thumb'],
+					//'description_min' => $product['entry'],
 					'description_max' => $product['desc'],
 					'price' => $price,
 					'offer' => $offer,
 					'price_offer' => $price_offer,
 					'cost' => $cost,
-					'category_id' => $category,
-					'brand_id' => $brand,
+					'department_id' => $department->id,
+					'category_id' => $category->id,
+					'sub_category_id' => null,
+					'brand_id' => $brand->id,
 				]);
 
-			$images = collect($product['images'])->slice(1)->map(function ($item) {
+			$images = collect($product['images'])->map(function ($item) {
 
 				return [
-					'img' => $item['new_image'],
-					'thumb' => $item['new_image_thumb'],
+					'img' => $item['img'],
+					'thumb' => $item['thumb'],
 				];
 			});
 
 			$product_factory->images()->createMany($images);
+
+			$product_factory->specifications()->createMany($product['specifications']);
 		}
-
-
-		// foreach (Category::where('type', 'product')->get() as $category) {
-
-		// 	for ($i = 0; $i < 40; $i++) {
-		// 		$name = $category->name . ' ' . $faker->words(7, true);
-
-		// 		Product::factory()
-		// 			->has(Image::factory()->count(5)->state(function (array $attributes) use ($category) {
-		// 				return ['img' => '/img/categories/' . $category->slug . '/' . $category->slug . '-' . rand(1, 10) . '.jpg',];
-		// 			}))
-		// 			->has(Stock::factory()->count(1))
-		// 			->create([
-		// 				'name' => ucfirst($name),
-		// 				'slug' => Str::slug($name) . "-" . rand(100, 200),
-		// 				'img' => '/img/categories/' . $category->slug . '/' . $category->slug . '-' . rand(1, 10) . '.jpg',
-		// 				'thum' => '/img/categories/' . $category->slug . '/' . $category->slug . '-' . rand(1, 10) . '.jpg',
-		// 				'category_id' => $category->id,
-		// 				'brand_id' => $brands->random()->id,
-		// 			]);
-		// 	}
-		// }
 	}
 }

@@ -29,7 +29,6 @@ const Order = ({ orders }) => {
 					<thead>
 						<tr>
 							<th>Codigo</th>
-
 							<th>Status</th>
 							<th>Total</th>
 							<th>Fecha</th>

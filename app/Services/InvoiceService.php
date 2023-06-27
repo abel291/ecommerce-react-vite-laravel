@@ -17,7 +17,7 @@ class InvoiceService
 {
 	public static function generateInvoice(Order $order)
 	{
-		$settings = Settings::data()->all();
+		$settings = SettingService::data();
 		$invoice = Pdf::loadView('pdf.invoice', [
 			'order' => $order,
 			'company' => $settings['company'],

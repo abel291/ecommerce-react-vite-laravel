@@ -3,10 +3,10 @@ import { ChevronDownIcon } from '@heroicons/react/24/solid'
 import { Link, usePage } from '@inertiajs/react'
 import { Fragment } from 'react'
 
-export default function CategoriesDropdown() {
+export default function xCategoriesDropdown() {
 	const { categories } = usePage().props
 	return (
-		<Popover >
+		<Popover defaultOpen={true}>
 			<Popover.Button className="focus:ring-0 focus:border-none focus:outline-none">
 				<div className="flex items-center">
 					<span>Categorias</span>
@@ -15,6 +15,7 @@ export default function CategoriesDropdown() {
 			</Popover.Button>
 
 			<Transition
+				//show={true}
 				as={Fragment}
 				enter="transition ease-out duration-200"
 				enterFrom="opacity-0 translate-y-1"
@@ -23,24 +24,36 @@ export default function CategoriesDropdown() {
 				leaveFrom="opacity-100 translate-y-0"
 				leaveTo="opacity-0 translate-y-1"
 			>
-				<Popover.Panel className="absolute inset-x-0 z-20 mt-2 max-w-3xl">
+				<Popover.Panel className="absolute inset-x-0 z-20 mt-2 max-w-3xl" >
 					{({ close }) => (
-						<div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white">
+						<div className="overflow-hidden w-full rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white">
 							<div className="p-4 lg:p-7 grid  grid-cols-2  lg:grid-cols-3 gap-4 lg:gap-5 ">
 								{categories.map((item) => (
 									<div key={item.id}>
-										<Popover.Button >
-											<div>
-												<Link href={route('search', { 'categories[]': item.slug })} onClick={close}>
-													<div className="flex items-center">
-														<div className="mr-3 w-16 h-16 p-1 bg-gray-200 rounded-lg flex items-center">
-															<img src={item.img} alt={item.name} />
-														</div>
-														<div className="lg:text-base font-semibold">{item.name}</div>
-													</div>
-												</Link>
+										<div className="flex items-start">
+											{/* <div className="mr-3 w-16 h-16 p-1 bg-gray-200 rounded-lg flex items-center">
+												<img src={item.img} alt={item.name} />
+											</div> */}
+											<div className='grow '>
+												<Popover.Button >
+													<Link href={route('search', { 'department[]': item.slug })} onClick={close}>
+														<div className="lg:text-base font-medium">{item.name}</div>
+													</Link>
+												</Popover.Button>
+												<div className='grid grid-cols-1 gap-y-1.5 mt-2'>
+													{item.categories.map((category) => (
+														<Popover.Button >
+															<Link className='text-left ' href={route('search', { 'category[]': category.slug })} onClick={close}>
+																<div className="text-sm font-normal text-gray-500 hover:text-gray-800">{category.name}</div>
+															</Link>
+														</Popover.Button>
+													))}
+												</div>
 											</div>
-										</Popover.Button>
+										</div>
+
+
+
 									</div>
 								))}
 							</div>

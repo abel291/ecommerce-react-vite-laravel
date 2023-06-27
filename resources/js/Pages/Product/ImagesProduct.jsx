@@ -5,16 +5,17 @@ const ImagesProduct = ({ product }) => {
 	const handleClickImg = (urlImg) => {
 		imgShowRef.current.src = urlImg
 	}
+
 	const allImages = [{
 		id: 'principal-image',
 		alt: product.slug,
 		img: product.img,
-	}, ...product.images,]
+	}, ...product.images]
 	return (
 		<div className="">
 			<div className="w-full ">
 				<div className="flex items-center justify-center h-[400px]">
-					<img ref={imgShowRef} className="rounded-lg max-h-full " src={product.img} alt="" />
+					<img ref={imgShowRef} className="rounded-lg max-h-full " src={allImages[0].img} alt="" />
 				</div>
 			</div>
 			<div className="w-full  mt-5 ">

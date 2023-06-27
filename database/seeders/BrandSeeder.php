@@ -2,11 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Helpers\Helpers;
 use App\Models\Brand;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use Faker;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 
 class BrandSeeder extends Seeder
 {
@@ -19,39 +21,8 @@ class BrandSeeder extends Seeder
 	{
 		Brand::truncate();
 		Cache::forget('brands');
-		$brands = [
-			"AMD",
-			"Intel",
-			"Asus",
-			"Gigabyte",
-			"MSI",
-			"ASRock",
-			"Evga",
-			"Corsair",
-			"PNY",
-			"HyperX",
-			"Western Digital",
-			"Adata",
-			"Kingston",
-			"LG",
-			"Dell",
-			"Samsung",
-			"BenQ",
-			"Logitech",
-			"Redragon",
-			"VSG",
-			"Razer",
-			"AeroCool",
-			"Thermaltake",
-			"Iceberg",
-			"Cooler Master",
-			"Lenovo",
-			"HP",
-			"Appel",
-			"Nintendo",
-			"PlayStation",
-			"Xbox"
-		];
+		$brands = Helpers::getAllBrands();
+
 		$data = [];
 		$faker = Faker\Factory::create();
 		$current_date = date('Y-m-d H:i:s');

@@ -21,9 +21,7 @@ const FilterPrice = ({ filtersActive, setFiltersActive }) => {
 
 	return (
 		<>
-			<div className="flex items-center justify-between mb-4">
-				<span className="font-medium ">Precio</span>
-			</div>
+
 			<form onSubmit={handleClickFilterPrice} className="space-y-3 text-sm">
 				<div className="flex gap-x-2 items-stretch">
 					<input

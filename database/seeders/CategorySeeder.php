@@ -2,10 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Helpers\Helpers;
 use App\Models\Category;
 use App\Models\Specification;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class CategorySeeder extends Seeder
@@ -20,33 +22,42 @@ class CategorySeeder extends Seeder
 		Category::truncate();
 		Specification::truncate();
 		Cache::forget('categories');
-		$categories = [
-			"procesadores",
-			"board",
-			"gpu",
-			"ram",
-			"almacenamiento",
-			"monitores",
-			"teclados",
-			"mouses",
-			"torres",
-			"portatiles",
-			"sillas",
-			"audifonos",
-			"fuentes de poder",
-			"combos",
-			"ensambles",
-			"consolas",
-		];
 
-		foreach ($categories as $key => $value) {
-			Category::factory()
-				->create([
-					'name' => ucfirst($value),
-					'slug' => Str::slug($value),
-					'img' => '/img/categories/' . Str::slug($value) . '.png',
+		$department = Helpers::getAllCategories()->groupBy('department');
 
+		foreach ($department as $name_department => $categories) {
+			$name_department = Str::slug($name_department, ' ');
+
+			$category = Category::factory()->create([
+				'name' => ucfirst($name_department),
+				'slug' => Str::slug($name_department, '-'),
+				'img' => '/img/categories/' . Str::slug($name_department) . '.png',
+				'category_id' => null,
+			]);
+
+			foreach ($categories as $item) {
+
+				$name_category = Str::slug($item['category'], ' ');
+
+				Category::factory()->create([
+					'name' => ucfirst($name_category),
+					'slug' => Str::slug($name_category, '-'),
+					'img' => '/img/categories/' . Str::slug($name_category) . '.png',
+					'category_id' => $category->id,
 				]);
+			}
 		}
 	}
 }
+
+
+
+// Consolas	',
+
+// Monitores	',
+// Teclados	',
+// Mouses	',
+// Portatiles	',
+// Sillas	',
+// Audifonos	',
+// Mandos y accesorios	',
