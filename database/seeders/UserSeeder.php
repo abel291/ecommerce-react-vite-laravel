@@ -3,9 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Faker as Faker;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
 class UserSeeder extends Seeder
@@ -20,16 +18,16 @@ class UserSeeder extends Seeder
 		User::truncate();
 		Role::truncate();
 		Role::create(['name' => 'admin']);
-		Role::create(['name' => 'usuario']);
+		Role::create(['name' => 'customer']);
 
 		$user = User::factory()->create([
 			'email' => 'user@user.com',
 		]);
 		$user->assignRole('admin');
 
-		$users = User::factory()->count(10)->create();
+		$users = User::factory()->count(1)->create();
 		foreach ($users as $key => $user) {
-			$user->assignRole('usuario');
+			$user->assignRole('customer');
 		}
 	}
 }

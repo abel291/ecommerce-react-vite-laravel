@@ -14,45 +14,45 @@ use Inertia\Response;
 
 class AuthenticatedSessionController extends Controller
 {
-	/**
-	 * Display the login view.
-	 */
-	public function create(): Response
-	{
-		return Inertia::render('Auth/Login', [
-			'canResetPassword' => Route::has('password.request'),
-			'status' => session('status'),
-		]);
-	}
+    /**
+     * Display the login view.
+     */
+    public function create(): Response
+    {
+        return Inertia::render('Auth/Login', [
+            'canResetPassword' => Route::has('password.request'),
+            'status' => session('status'),
+        ]);
+    }
 
-	/**
-	 * Handle an incoming authentication request.
-	 */
-	public function store(LoginRequest $request)
-	{
-		$request->authenticate();
+    /**
+     * Handle an incoming authentication request.
+     */
+    public function store(LoginRequest $request)
+    {
+        $request->authenticate();
 
-		$request->session()->regenerate();
+        $request->session()->regenerate();
 
-		if (Auth::user()->hasRole('admin')) {
-			return to_route('shopping-cart.index');
-			//return Inertia::location(route('dashboard.home'));
-		} else {
-			return redirect(RouteServiceProvider::HOME);
-		}
-	}
+        if (Auth::user()->hasRole('admin')) {
+            return to_route('shopping-cart.index');
+            //return Inertia::location(route('dashboard.home'));
+        } else {
+            return redirect(RouteServiceProvider::HOME);
+        }
+    }
 
-	/**
-	 * Destroy an authenticated session.
-	 */
-	public function destroy(Request $request): RedirectResponse
-	{
-		Auth::guard('web')->logout();
+    /**
+     * Destroy an authenticated session.
+     */
+    public function destroy(Request $request): RedirectResponse
+    {
+        Auth::guard('web')->logout();
 
-		$request->session()->invalidate();
+        $request->session()->invalidate();
 
-		$request->session()->regenerateToken();
+        $request->session()->regenerateToken();
 
-		return redirect('/');
-	}
+        return redirect('/');
+    }
 }

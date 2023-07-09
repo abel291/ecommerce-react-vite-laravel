@@ -11,29 +11,29 @@ use Laravel\Telescope\Telescope;
 
 class AppServiceProvider extends ServiceProvider
 {
-	/**
-	 * Register any application services.
-	 */
-	public function register(): void
-	{
-		//Telescope::ignoreMigrations();
-	}
+    /**
+     * Register any application services.
+     */
+    public function register(): void
+    {
+        //Telescope::ignoreMigrations();
+    }
 
-	/**
-	 * Bootstrap any application services.
-	 */
-	public function boot(): void
-	{
-		Cashier::ignoreMigrations();
-		Cashier::useCustomerModel(User::class);
-		JsonResource::withoutWrapping();
+    /**
+     * Bootstrap any application services.
+     */
+    public function boot(): void
+    {
+        Cashier::ignoreMigrations();
+        Cashier::useCustomerModel(User::class);
+        JsonResource::withoutWrapping();
 
-		Blade::directive('money', function ($money) {
-			return "<?php echo '$ ' . number_format($money, 2); ?>";
-		});
+        Blade::directive('money', function ($money) {
+            return "<?php echo '$ ' . number_format($money, 2); ?>";
+        });
 
-		Blade::directive('numberFormat', function ($number) {
-			return "<?php echo number_format($number, 2); ?>";
-		});
-	}
+        Blade::directive('numberFormat', function ($number) {
+            return "<?php echo number_format($number, 2); ?>";
+        });
+    }
 }

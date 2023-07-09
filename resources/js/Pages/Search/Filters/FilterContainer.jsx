@@ -2,9 +2,9 @@ import { Disclosure, Transition } from '@headlessui/react'
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/outline'
 import React from 'react'
 
-const FilterContainer = ({ title, key, children }) => {
+const FilterContainer = ({ title, children, ...props }) => {
 	return (
-		<Disclosure as="div" key={key} className="border-b border-gray-200 py-4  " defaultOpen={true}>
+		<Disclosure {...props} as="div" className="border-b border-gray-200 pt-5  " defaultOpen={true}>
 			{({ open = true }) => (
 				<>
 					<h3 className="-my-2 flow-root ">

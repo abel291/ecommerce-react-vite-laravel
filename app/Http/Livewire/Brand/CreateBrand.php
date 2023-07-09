@@ -10,114 +10,117 @@ use Livewire\WithFileUploads;
 
 class CreateBrand extends Component
 {
-	use TraitUploadImage;
-	use WithFileUploads;
+    use TraitUploadImage;
+    use WithFileUploads;
 
-	public $label;
+    public $label;
 
-	public $labelPlural;
+    public $labelPlural;
 
-	public $open = false;
-	public $img;
+    public $open = false;
 
-	public Brand $brand;
+    public $img;
 
-	public $open_modal_confirmation_delete = false;
+    public Brand $brand;
 
-	protected $rules = [
-		'brand.name' => 'required|string|max:255',
-		'brand.slug' => 'required|string|max:255|unique:brands,slug',
-		'brand.website' => 'required|string|max:255',
-		'brand.active' => 'required|boolean',
-		'img' => 'nullable|sometimes|image|max:2024|mimes:jpeg,jpg,png',
-	];
-	public function mount()
-	{
-		$this->brand = new Brand;
-	}
+    public $open_modal_confirmation_delete = false;
 
-	public function create()
-	{
-		$this->brand = Brand::factory()->make();
-		$this->resetErrorBag();
-		$this->reset('img');
-	}
+    protected $rules = [
+        'brand.name' => 'required|string|max:255',
+        'brand.slug' => 'required|string|max:255|unique:brands,slug',
+        'brand.website' => 'required|string|max:255',
+        'brand.active' => 'required|boolean',
+        'img' => 'nullable|sometimes|image|max:2024|mimes:jpeg,jpg,png',
+    ];
 
-	public function save()
-	{
-		$this->validate();
-		$brand = $this->brand;
+    public function mount()
+    {
+        $this->brand = new Brand;
+    }
 
-		if ($this->img) {
-			$brand->img = $this->upload_image($this->brand->name, 'brands', $this->img);
-		}
-		$brand->save();
+    public function create()
+    {
+        $this->brand = Brand::factory()->make();
+        $this->resetErrorBag();
+        $this->reset('img');
+    }
 
-		$this->emit('renderListBrand');
-		$this->dispatchBrowserEvent('notification', [
-			'title' => "$this->label Agregado",
-			'subtitle' => "$this->label  <b>" . $this->brand->name . "</b>  fue  Agregado correctamente",
-		]);
-		$this->open = false;
-	}
+    public function save()
+    {
+        $this->validate();
+        $brand = $this->brand;
 
-	public function edit(Brand $brand)
-	{
-		$this->brand = $brand;
-		$this->resetErrorBag();
-		$this->reset('img');
-	}
+        if ($this->img) {
+            $brand->img = $this->upload_image($this->brand->name, 'brands', $this->img);
+        }
+        $brand->save();
 
-	public function update()
-	{
+        $this->emit('renderListBrand');
+        $this->dispatchBrowserEvent('notification', [
+            'title' => "$this->label Agregado",
+            'subtitle' => "$this->label  <b>".$this->brand->name.'</b>  fue  Agregado correctamente',
+        ]);
+        $this->open = false;
+    }
 
-		$this->rules['brand.slug'] = 'required|unique:brands,slug,' . $this->brand->id . ',id';
-		$this->validate();
+    public function edit(Brand $brand)
+    {
+        $this->brand = $brand;
+        $this->resetErrorBag();
+        $this->reset('img');
+    }
 
-		$brand = $this->brand;
+    public function update()
+    {
 
-		if ($this->img) {
-			Storage::delete($brand->img);
-			$brand->img = $this->upload_image($this->brand->name, 'brands', $this->img);
-		}
+        $this->rules['brand.slug'] = 'required|unique:brands,slug,'.$this->brand->id.',id';
+        $this->validate();
 
-		$brand->save();
+        $brand = $this->brand;
 
-		$this->reset('img');
+        if ($this->img) {
+            Storage::delete($brand->img);
+            $brand->img = $this->upload_image($this->brand->name, 'brands', $this->img);
+        }
 
-		$this->emit('renderListBrand');
-		$this->dispatchBrowserEvent('notification', [
-			'title' => 'Registro Editado',
-			'subtitle' => '',
-		]);
-		$this->open = false;
-	}
+        $brand->save();
 
-	public function delete(Brand $brand)
-	{
-		$name = $brand->name;
-		if ($brand->img) {
-			Storage::delete($brand->img);
-		}
+        $this->reset('img');
 
-		$brand->delete();
+        $this->emit('renderListBrand');
+        $this->dispatchBrowserEvent('notification', [
+            'title' => 'Registro Editado',
+            'subtitle' => '',
+        ]);
+        $this->open = false;
+    }
 
-		$this->open_modal_confirmation_delete = false;
-		$this->emit('renderListBrand');
-		$this->dispatchBrowserEvent('notification', [
-			'title' => "$this->label Eliminado",
-			'subtitle' => "El registro  <b> $this->label :" . $name . '</b>  fue quitado de la lista',
-		]);
-	}
-	public function updateImg(): void
-	{
-		$this->validate([
-			'img' => 'image|max:1024|mimes:jpeg,jpg,png',
-		]);
-	}
+    public function delete(Brand $brand)
+    {
+        $name = $brand->name;
+        if ($brand->img) {
+            Storage::delete($brand->img);
+        }
 
-	public function render()
-	{
-		return view('livewire.brand.create-brand');
-	}
+        $brand->delete();
+
+        $this->open_modal_confirmation_delete = false;
+        $this->emit('renderListBrand');
+        $this->dispatchBrowserEvent('notification', [
+            'title' => "$this->label Eliminado",
+            'subtitle' => "El registro  <b> $this->label :".$name.'</b>  fue quitado de la lista',
+        ]);
+    }
+
+    public function updateImg(): void
+    {
+        $this->validate([
+            'img' => 'image|max:1024|mimes:jpeg,jpg,png',
+        ]);
+    }
+
+    public function render()
+    {
+        return view('livewire.brand.create-brand');
+    }
 }

@@ -2,51 +2,61 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\PaymentStatus;
+use App\Http\Resources\ProductResource;
 use App\Models\Brand;
 use App\Models\Category;
-use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Department;
+use Inertia\Inertia;
 
 class DepartmentController extends Controller
 {
 	public function department($department)
 	{
-		$department = Category::active()->where('slug', $department)->whereNull('category_id')->firstOrFail();
 
-		$offert = $department->products()->activeInStock()
-			->whereNotNull('offer')
-			->inRandomOrder()->limit(20)->get();
+		$department = Department::active()->where('slug', $department)->firstOrFail();
 
-		$best_sellers = $department->department_products()
+		$offers_product = $department->products()->selectForCard()->activeInStock()
+			->inOffer()->limit(15)->get();
+
+		$best_sellers_product = $department->products()
+			->selectForCard()
 			->activeInStock()
-
-			->withCount(['orders' => function ($query) {
-				$query->whereHas('payment', function (Builder $query) {
-					$query->where('status', PaymentStatus::SUCCESSFUL);
-				});
-			}])
-
-			->whereHas('orders.payment', function ($query) {
-				$query->where('status', PaymentStatus::SUCCESSFUL);
-			})
-			->orderBy('orders_count', 'desc')
-			->inRandomOrder()->limit(20)
+			->bestSeller()
+			->limit(10)
 			->get();
 
-		$brands = Brand::active()
-			->withCount(['products' => function ($query) use ($department) {
-				$query->whereHas('department', function (Builder $query) use ($department) {
-					$query->where('id', $department->id);
-				});
+		$categories = $department->categories()
+			->active()
+			->with(['products' => function ($query) {
+				$query->activeInStock();
 			}])
-			->whereHas('products.department', function ($query) use ($department) {
-				$query->where('id', $department->id);
-			})
-			->orderBy('products_count', 'desc')
-			->inRandomOrder()->limit(20)
-			->get();
+			->whereHas('products', function ($query) {
+				$query->activeInStock();
+			})->get()->map(function ($item) {
+				$item->setRelation('products', $item->products->take(10));
+				return $item;
+			})->filter(fn (Category $category) => $category->products->isNotEmpty());
 
-		$blog=Blog::
+
+
+
+		// $brands = Brand::select('name', 'slug', 'img')->active()
+		//     ->withCount(['products' => function ($query) use ($department) {
+		//         $query->whereRelation('department', 'id', $department->id);
+		//     }])
+		//     ->whereHas('products.department', function ($query) use ($department) {
+		//         $query->where('id', $department->id);
+		//     })
+		//     ->orderBy('products_count', 'desc')
+		//     ->inRandomOrder()->limit(20)
+		//     ->get();
+
+		return Inertia::render('Department/Department', [
+			'department' => $department,
+			'offertProduct' => ProductResource::collection($offers_product),
+			'bestSellersProduct' => $best_sellers_product,
+			'categories' => $categories,
+
+		]);
 	}
 }

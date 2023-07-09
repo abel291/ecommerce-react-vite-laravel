@@ -7,13 +7,19 @@ import Pagination from '@/Components/Pagination'
 
 import LayoutBlog from '@/Layouts/LayoutBlog'
 import SectionList from "@/Components/Sections/SectionList"
+import BannerText from '@/Components/Carousel/BannerText'
+import Breadcrumb from '@/Components/Breadcrumb'
+import Hero from '@/Components/Hero/Hero'
 
 export default function Blog({ posts }) {
 
+	const breadcrumb = [
+		{
+			title: "Blog",
+		}]
 	return (
-		<LayoutBlog>
-			<Head title="Blog" />
-			<SectionList title="Desde el blog" entry="Este es el blog donde encontrarás todo lo que necesitas para cuidar y mejorar tu computadora!" />
+		<LayoutBlog breadcrumb={breadcrumb}>
+
 			{posts.data.length ? (
 				<>
 					<div className="mx-auto grid max-w-xl grid-cols-1 gap-x-10 gap-y-14 lg:max-w-none lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-2">

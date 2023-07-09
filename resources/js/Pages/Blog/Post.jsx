@@ -6,8 +6,18 @@ import React from 'react'
 import AuthorPost from './AuthorPost'
 
 export default function Post({ post }) {
+	const breadcrumb = [
+		{
+			title: "Blog",
+			path: route("blog")
+
+		},
+		{
+			title: post.title,
+		}
+	]
 	return (
-		<LayoutBlog>
+		<LayoutBlog breadcrumb={breadcrumb}>
 			<Head title={post.title} />
 			<article >
 				<div>
@@ -17,7 +27,7 @@ export default function Post({ post }) {
 						<time dateTime={post.created_at} className="">{post.date}</time>
 					</div>
 
-					<h1 className="mt-2 text-2xl md:text-4xl font-extrabold leading-tight text-gray-900 lg:text-4xl dark:text-white">{post.title}</h1>
+					<h1 className="mt-2 text-2xl md:text-4xl font-extrabold leading-tight tracking-tight text-gray-900 lg:text-4xl dark:text-white">{post.title}</h1>
 
 					<div className="mt-4">
 						<AuthorPost author={post.author} />

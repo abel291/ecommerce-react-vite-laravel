@@ -29,6 +29,7 @@ class ValidateProductRule implements DataAwareRule, ValidationRule
 
 		return $this;
 	}
+
 	/**
 	 * Run the validation rule.
 	 *
@@ -39,14 +40,14 @@ class ValidateProductRule implements DataAwareRule, ValidationRule
 		$quantity = $this->data['quantity'];
 		$product_id = $this->data['product_id'];
 
-		$product = Product::with('stock')->find($product_id);
+		$product = Product::with('stock')->findOrFail($product_id);
 
 		if (!$product->active) {
-			$fail("Este producto no esta disponible");
+			$fail('Este producto no esta disponible');
 		}
 
 		if ($quantity > $product->stock->remaining) {
-			$fail("No hay stock suficiente para este producto");
+			$fail('No hay stock suficiente para este producto');
 		}
 	}
 }

@@ -2,8 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Author;
-use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -20,7 +18,6 @@ class BlogFactory extends Factory
 	public function definition(): array
 	{
 
-
 		return [
 			'title' => ucfirst($this->faker->sentence()),
 			'slug' => Str::slug($this->faker->sentence()),
@@ -30,7 +27,7 @@ class BlogFactory extends Factory
 			'thum' => '/img/blog/post-' . rand(1, 10) . '.jpg',
 			'entry' => $this->faker->paragraph(),
 			'desc' => $this->faker->text(800),
-			'active' => rand(0, 1),
+			'active' => 1,
 
 		];
 	}

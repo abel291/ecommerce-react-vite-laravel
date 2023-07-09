@@ -4,8 +4,6 @@ namespace App\Rules;
 
 use App\Models\Product;
 use App\Services\CartService;
-use App\Services\OrderService;
-use App\Services\ShoppingCartService;
 use Closure;
 use Illuminate\Contracts\Validation\DataAwareRule;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -32,6 +30,7 @@ class ShoppingCartStoreRule implements DataAwareRule, ValidationRule
 
 		return $this;
 	}
+
 	/**
 	 * Run the validation rule.
 	 *
@@ -42,7 +41,7 @@ class ShoppingCartStoreRule implements DataAwareRule, ValidationRule
 		$quantity = $this->data['quantity'];
 		$product_id = $this->data['product_id'];
 
-		$product = Product::with('stock')->find($product_id);
+		$product = Product::with('stock')->findOrFail($product_id);
 
 		$max_items = config('cart.shopping-cart.max-quantity');
 
@@ -55,10 +54,12 @@ class ShoppingCartStoreRule implements DataAwareRule, ValidationRule
 			if ($item->product_id == $product_id) {
 				$item->quantity_selected = $quantity;
 			}
+
 			return $item;
 		});
+		//dd($shoppinCartProductsInSTock->sum('quantity_selected'));
 
-		if ($shoppinCartProductsInSTock->sum('quantity_selected') > $max_items) {
+		if ($shoppinCartProductsInSTock->sum('quantity_selected') >= $max_items) {
 			$fail("Carrito lleno! ,no puedes tener mas de $max_items productos en el carritos");
 		}
 

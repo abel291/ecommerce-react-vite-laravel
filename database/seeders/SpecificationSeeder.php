@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Helpers\Helpers;
 use App\Models\Category;
 use App\Models\Specification;
-use Illuminate\Database\Seeder;
 use Faker;
-use Symfony\Component\CssSelector\Node\Specificity;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
 class SpecificationSeeder extends Seeder
@@ -18,25 +18,20 @@ class SpecificationSeeder extends Seeder
 	 */
 	public function run()
 	{
-		Specification::truncate();
-		$faker = Faker\Factory::create();
-		$specifications = [];
 		$current_date = date('Y-m-d H:i:s');
-		foreach (Category::with('products')->has('products')->get() as $category) {
-			foreach ($category->products as $product) {
-				foreach ($category->specifications as $name_specification) {
 
-					array_push($specifications, [
-						'name' => $name_specification,
-						'slug' => Str::slug($name_specification),
-						'value' => $faker->words(3, true),
-						'product_id' => $product->id,
-						'created_at' => $current_date,
-						'updated_at' => $current_date
-					]);
-				}
-			}
-		}
+		Specification::truncate();
+		$data = Helpers::getAllProducts();
+		$specifications = $data->pluck('specifications')->collapse()->unique('title')->map(function ($item) use ($current_date) {
+			return [
+				'type' => $item['title'],
+				'slug' => Str::slug($item['title']),
+				'active' => 1,
+				'created_at' => $current_date,
+				'updated_at' => $current_date
+			];
+		})->values()->toArray();
+
 		Specification::insert($specifications);
 	}
 }

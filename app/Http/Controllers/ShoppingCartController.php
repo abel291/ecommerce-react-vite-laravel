@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Http\Resources\CartResource;
 use App\Http\Resources\OrderResource;
 use App\Models\Product;
@@ -10,18 +9,17 @@ use App\Rules\ShoppingCartStoreRule;
 use App\Rules\ValidateProductRule;
 use App\Services\CartService;
 use App\Services\OrderService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-
 use Inertia\Inertia;
+use Inertia\Response;
 
 class ShoppingCartController extends Controller
 {
 	/**
 	 * Display a listing of the resource.
-	 *
-	 * @return \Illuminate\Http\Response
 	 */
-	public function index(CartService $cart_service)
+	public function index(CartService $cart_service): Response
 	{
 		$cart_products = auth()->user()->shoppingCart->load('product.stock', 'product.specifications')->sortByDesc('id');
 
@@ -33,31 +31,29 @@ class ShoppingCartController extends Controller
 
 		return Inertia::render('ShoppingCart/ShoppingCart', [
 			'shoppingCart' => CartResource::collection($cart_products),
-			'order' => new  OrderResource($order),
+			'order' => new OrderResource($order),
 		]);
 	}
 
 	/**
 	 * Show the form for creating a new resource.
 	 *
-	 * @return \Illuminate\Http\Response
+	 * @return \Inertia\Response
 	 */
-	public function create()
-	{
-		//
-	}
+	// public function create()
+	// {
+	// 	//
+	// }
 
 	/**
 	 * Store a newly created resource in storage.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
 	 */
-	public function store(Request $request, CartService $cart_service)
+	public function store(Request $request, CartService $cart_service): RedirectResponse
 	{
+
 		$request->validate([
-			'quantity' => 'required|numeric|min:1',
-			'product_id' => ['required', 'exists:products,id', new ValidateProductRule, new ShoppingCartStoreRule],
+			'quantity' => ['required', 'numeric', 'min:1', new ValidateProductRule, new ShoppingCartStoreRule],
+			'product_id' => ['required', 'exists:products,id'],
 		]);
 
 		$product = Product::find($request->product_id);
@@ -71,44 +67,44 @@ class ShoppingCartController extends Controller
 	 * Display the specified resource.
 	 *
 	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
+	 * @return \Inertia\Response
 	 */
-	public function show($id)
-	{
-	}
+	// public function show($id)
+	// {
+	// }
 
 	/**
 	 * Show the form for editing the specified resource.
 	 *
 	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
+	 * @return \Inertia\Response
 	 */
-	public function edit($id)
-	{
-		//
-	}
+	// public function edit($id)
+	// {
+	// 	//
+	// }
 
 	/**
 	 * Update the specified resource in storage.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
 	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
+	 * @return \Inertia\Response
 	 */
-	public function update(Request $request, $id)
-	{
-		//
-	}
+	// public function update(Request $request, $id)
+	// {
+	// 	//
+	// }
 
 	/**
 	 * Remove the specified resource from storage.
 	 *
 	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
 	 */
-	public function destroy($id)
+	public function destroy($id): RedirectResponse
 	{
-		auth()->user()->shoppingCart()->find($id)->delete();
+		auth()->user()->shoppingCart->find($id)->delete();
+
 		return to_route('shopping-cart.index')->with('success', '¡Listo! Eliminaste el producto.');
 	}
 }

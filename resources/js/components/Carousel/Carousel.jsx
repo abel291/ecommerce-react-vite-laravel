@@ -6,7 +6,7 @@ import "swiper/css/navigation";
 
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 
-const Carousel = ({ children, spaceBetween = 20, slidesPerView = 1, centeredSlides = true, ...props }) => {
+const Carousel = ({ children, spaceBetween = 20, ...props }) => {
 	const unique_id = Math.random().toString(16).slice(2, 8);
 	const pagination_button_next = "button-next-" + unique_id
 	const pagination_button_prev = "button-prev-" + unique_id
@@ -15,15 +15,15 @@ const Carousel = ({ children, spaceBetween = 20, slidesPerView = 1, centeredSlid
 			<Swiper
 				modules={[Navigation, Autoplay]}
 				spaceBetween={spaceBetween}
-				slidesPerView={slidesPerView}
-				centeredSlides={centeredSlides}
+				//slidesPerView={slidesPerView}
 				autoplay={{
 					delay: 5000,
 				}}
 				pagination={{
 					clickable: true,
 				}}
-				loop={true}
+				loop={false}
+				watchOverflow={true}
 				navigation={{
 					nextEl: "." + pagination_button_next,
 					prevEl: "." + pagination_button_prev,

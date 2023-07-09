@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Author extends Model
 {
-	use HasFactory;
-	public function posts(): HasMany
-	{
-		return $this->hasMany(Blog::class);
-	}
+    use HasFactory;
+
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Blog::class);
+    }
 }

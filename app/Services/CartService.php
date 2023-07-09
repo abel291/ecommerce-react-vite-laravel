@@ -3,19 +3,13 @@
 namespace App\Services;
 
 use App\Enums\CartEnum;
-use App\Models\Cart;
-use App\Models\DiscountCode;
-use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
-use App\Models\ShoppingCart;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Redirect;
 
 class CartService
 {
-
-	public function addProduct(object $user, object $product, int $quantity_selected = 1, $type = CartEnum::SHOPPIN_CART): void
+	public static function addProduct(object $user, object $product, int $quantity_selected = 1, $type = CartEnum::SHOPPIN_CART): void
 	{
 		$user->shoppingCart()->updateOrCreate(
 			[
@@ -26,7 +20,7 @@ class CartService
 				'type' => $type,
 				'quantity_selected' => $quantity_selected,
 				'price' => $product->price_offer,
-				'price_quantity' => self::calculatePrice($product->price_offer, $quantity_selected)
+				'price_quantity' => self::calculatePrice($product->price_offer, $quantity_selected),
 			]
 		);
 	}
@@ -35,11 +29,11 @@ class CartService
 	{
 		$cart_product->each(function (OrderProduct $item) {
 			$item->price = $item->product->price_offer;
-			$item->price_quantity = self::calculatePrice($item->product->price_offer,  $item->quantity_selected);
+			$item->price_quantity = self::calculatePrice($item->product->price_offer, $item->quantity_selected);
 		});
+
 		return $cart_product;
 	}
-
 
 	public static function filterProductsInStock(Collection $cart): Collection
 	{
@@ -61,9 +55,9 @@ class CartService
 			'name' => $product->name,
 			'price' => $product->price_offer,
 			'quantity_selected' => $quantity,
-			'price_quantity' => self::calculatePrice($product->price_offer,  $quantity),
+			'price_quantity' => self::calculatePrice($product->price_offer, $quantity),
 			'data' => $product->only('name', 'slug', 'img'),
-			'product_id' => $product->id
+			'product_id' => $product->id,
 
 		]);
 

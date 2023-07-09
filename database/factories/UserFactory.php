@@ -5,9 +5,9 @@ namespace Database\Factories;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Laravel\Jetstream\Features;
-use Illuminate\Support\Facades\Hash;
 
 class UserFactory extends Factory
 {
@@ -23,8 +23,6 @@ class UserFactory extends Factory
 	 *
 	 * @return array
 	 */
-
-
 	public function definition()
 	{
 		return [
@@ -34,8 +32,9 @@ class UserFactory extends Factory
 			'country' => str_replace(["'", '"'], '', $this->faker->country),
 			'city' => str_replace(["'", '"'], '', $this->faker->city),
 			'address' => str_replace(["'", '"'], '', $this->faker->address()),
+			'shopping_cart_count' => 0,
 			'email_verified_at' => now(),
-			'password' => Hash::make('123123'),
+			'password' => Hash::make('password'),
 			'remember_token' => Str::random(10),
 		];
 	}

@@ -3,38 +3,40 @@
 namespace App\Models;
 
 use App\Enums\DiscountCodeTypeEnum;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class DiscountCode extends Model
 {
-	use HasFactory;
-	protected $casts = [
-		'type' => DiscountCodeTypeEnum::class,
-		'valid_from' => 'datetime:Y-m-d',
-		'valid_to' => 'datetime:Y-m-d',
-	];
+    use HasFactory;
 
-	public function orders(): HasMany
-	{
-		return $this->hasMany(Order::class);
-	}
+    protected $casts = [
+        'value' => 'float',
+        'type' => DiscountCodeTypeEnum::class,
+        'valid_from' => 'datetime:Y-m-d',
+        'valid_to' => 'datetime:Y-m-d',
+    ];
 
-	public function calculateDiscount(float $amount)
-	{
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
 
-		$applied = 0;
-		switch ($this->type) {
-			case DiscountCodeTypeEnum::FIXED:
-				$applied = max(($amount - $this->value), 0);
-				break;
+    public function calculateDiscount(float $amount): float
+    {
 
-			case DiscountCodeTypeEnum::PERCENT:
-				$applied = $amount * ($this->value / 100);
-				break;
-		}
-		return round($applied, 2);
-	}
+        $applied = 0;
+        switch ($this->type) {
+            case DiscountCodeTypeEnum::FIXED:
+                $applied = max(($amount - $this->value), 0);
+                break;
+
+            case DiscountCodeTypeEnum::PERCENT:
+                $applied = $amount * ($this->value / 100);
+                break;
+        }
+
+        return round($applied, 2);
+    }
 }

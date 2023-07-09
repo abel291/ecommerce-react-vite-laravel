@@ -2,14 +2,15 @@
 
 namespace Database\Seeders;
 
-use App\Models\Banner;
+use App\Helpers\Helpers;
 use App\Models\Category;
+use App\Models\Department;
 use App\Models\Image;
-use App\Models\Product;
-use Faker as Faker;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,19 +21,24 @@ class DatabaseSeeder extends Seeder
 	 */
 	public function run()
 	{
+
+		Cache::flush();
 		Schema::disableForeignKeyConstraints();
 
 		Image::truncate();
 		$this->call([
+
 			UserSeeder::class,
 			PageSeeder::class,
 			CategorySeeder::class,
-			BrandSeeder::class,
-			ProductSeeder::class,
 			//SpecificationSeeder::class,
-			ShoppingCartSeeder::class,
-			OrderSeeder::class,
-			BlogSeeder::class
+			BrandSeeder::class,
+			BlogSeeder::class,
+			ProductSeeder::class,
+
+			// ShoppingCartSeeder::class,
+			// OrderSeeder::class,
+			// BlogSeeder::class,
 		]);
 		Schema::enableForeignKeyConstraints();
 	}

@@ -23,8 +23,13 @@ class CreateCategoriesTable extends Migration
 			$table->boolean('active')->default(true);
 			$table->string('type')->index()->default('product'); //product , blog
 			$table->json('specifications')->nullable();
-			$table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
+			$table->foreignId('department_id')->nullable()->constrained()->nullOnDelete();
 			$table->timestamps();
+		});
+
+		Schema::create('category_department', function (Blueprint $table) {
+			$table->foreignId('department_id')->constrained()->cascadeOnDelete();
+			$table->foreignId('category_id')->constrained()->cascadeOnDelete();
 		});
 	}
 
@@ -36,5 +41,6 @@ class CreateCategoriesTable extends Migration
 	public function down()
 	{
 		Schema::dropIfExists('categories');
+		Schema::dropIfExists('category_department');
 	}
 }

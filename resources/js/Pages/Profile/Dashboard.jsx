@@ -7,10 +7,16 @@ const Dashboard = () => {
 	//let { url } = useMatch()
 
 	return (
-		<LayoutProfile>
+		<LayoutProfile title="Dashboard" breadcrumb={[
+			{
+				title: "Incio",
+				path: route("profile.index")
+
+			},
+		]}>
 			<Head title="Perfil" />
 			<div className="space-y-2">
-				<h3 className="font-bold text-2xl mb-6">Dashboard</h3>
+
 				<div>
 					Desde el panel de control de su cuenta, puede ver sus , administrar los
 					<Link href={route('profile.orders')} className="font-bold underline px-1 ">

@@ -6,10 +6,10 @@ use App\Http\Controllers\Checkout\DiscountCheckoutController;
 use App\Http\Controllers\Checkout\PaymentCheckoutController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\NewsletterController;
-use App\Http\Controllers\SearchController;
 use App\Http\Controllers\PageController;
-use App\Http\Controllers\Profile\ProfileOrderController;
 use App\Http\Controllers\Profile\ProfileController;
+use App\Http\Controllers\Profile\ProfileOrderController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Livewire\Banner\ListBanner;
 use App\Http\Livewire\Blog\CreatePost;
@@ -30,9 +30,7 @@ use App\Http\Livewire\Settings\EditSettings;
 use App\Http\Livewire\Specification\ListSpecification;
 use App\Http\Livewire\User\ListUser;
 use App\Http\Middleware\ProductInSession;
-
 use Illuminate\Support\Facades\Redirect;
-
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,8 +43,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-
 
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [
@@ -61,10 +57,8 @@ Route::controller(PageController::class)->group(function () {
 
 	Route::get('/', 'home')->name('home');
 	Route::get('/offers', 'offers')->name('offers');
-	Route::get('/combos', 'combos')->name('combos');
-	Route::get('/assemblies', 'assemblies')->name('assemblies');
 	Route::get('/contact-us', 'contact')->name('contact');
-	Route::get('/promotions', 'home')->name('promotions');
+	// Route::get('/promotions', 'home')->name('promotions');
 	Route::get('/product/{slug}', 'product')->name('product');
 	//Route::get('/gift-card', 'home')->name('gift-card');
 });
@@ -161,7 +155,5 @@ Route::middleware('auth')->group(function () {
 		Route::get('/settings', EditSettings::class)->name('settings');
 	});
 });
-
-
 
 require __DIR__ . '/auth.php';

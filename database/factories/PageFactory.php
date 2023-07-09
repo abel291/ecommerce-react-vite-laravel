@@ -9,16 +9,16 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class PageFactory extends Factory
 {
-	/**
-	 * Define the model's default state.
-	 *
-	 * @return array<string, mixed>
-	 */
-	public function definition(): array
-	{
-		return [
-			'meta_title' => ucfirst($this->faker->words(2, true)),
-			'meta_desc' => ucfirst($this->faker->sentence()),
-		];
-	}
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'meta_title' => ucfirst($this->faker->words(2, true)),
+            'meta_desc' => ucfirst($this->faker->sentence()),
+        ];
+    }
 }

@@ -1,6 +1,6 @@
 import Dropdown from "@/Components/Dropdown"
 import { Menu, Transition } from "@headlessui/react"
-import { ArrowLeftOnRectangleIcon, ArrowRightOnRectangleIcon, ShoppingBagIcon, UserCircleIcon } from "@heroicons/react/24/outline"
+import { AdjustmentsHorizontalIcon, ArrowLeftOnRectangleIcon, ArrowRightOnRectangleIcon, ShoppingBagIcon, UserCircleIcon } from "@heroicons/react/24/outline"
 
 import { Link, usePage } from "@inertiajs/react"
 import { Fragment } from "react"
@@ -59,6 +59,15 @@ export default function ProfileDropdown({ children }) {
 								</Dropdown.Link>
 
 							))}
+							{(auth.user.role == 'admin') && (
+
+								<a className="dropdown-link" target='_blank' href={route('dashboard.home')}  >
+									<div className="flex items-center">
+										<AdjustmentsHorizontalIcon className="h-5 w-5 mr-2 text-primary-600" />
+										<span>Dashboard</span>
+									</div>
+								</a>
+							)}
 							<Dropdown.Link href={route('logout')} method="post" className='border-t'>
 								Cerrar sesión
 							</Dropdown.Link>

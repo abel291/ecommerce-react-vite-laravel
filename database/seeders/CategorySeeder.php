@@ -4,9 +4,9 @@ namespace Database\Seeders;
 
 use App\Helpers\Helpers;
 use App\Models\Category;
+use App\Models\Department;
 use App\Models\Specification;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -20,44 +20,27 @@ class CategorySeeder extends Seeder
 	public function run()
 	{
 		Category::truncate();
-		Specification::truncate();
-		Cache::forget('categories');
+		Department::truncate();
 
-		$department = Helpers::getAllCategories()->groupBy('department');
+		$data = Helpers::getAllCategories();
+		$departments = collect($data['departments']);
+		// dd($data['categories']);
+		Category::insert($data['categories']);
+		$categories = Category::select('id', 'slug')->get();
 
-		foreach ($department as $name_department => $categories) {
-			$name_department = Str::slug($name_department, ' ');
+		foreach ($departments as $department) {
 
-			$category = Category::factory()->create([
-				'name' => ucfirst($name_department),
-				'slug' => Str::slug($name_department, '-'),
-				'img' => '/img/categories/' . Str::slug($name_department) . '.png',
-				'category_id' => null,
+			$department_model = Department::factory()->create([
+				'name' => $department['name'],
+				'slug' => $department['slug'],
+				'entry' => $department['entry'],
+				'meta_title' => $department['meta_title'],
+				'img' => $department['img'],
 			]);
 
-			foreach ($categories as $item) {
+			$categories_department_id = $categories->whereIn('slug', $department['categories'])->pluck('id')->values();
 
-				$name_category = Str::slug($item['category'], ' ');
-
-				Category::factory()->create([
-					'name' => ucfirst($name_category),
-					'slug' => Str::slug($name_category, '-'),
-					'img' => '/img/categories/' . Str::slug($name_category) . '.png',
-					'category_id' => $category->id,
-				]);
-			}
+			$department_model->categories()->sync($categories_department_id);
 		}
 	}
 }
-
-
-
-// Consolas	',
-
-// Monitores	',
-// Teclados	',
-// Mouses	',
-// Portatiles	',
-// Sillas	',
-// Audifonos	',
-// Mandos y accesorios	',

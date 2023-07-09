@@ -22,7 +22,7 @@ const ProductsCart = ({ item }) => {
 		})
 	}
 
-	let inStock = (item.product.stock.remaining > item.quantity_selected)
+	let inStock = (item.product.stock.remaining >= item.quantity_selected)
 
 	return (
 		<div key={item.id} className="relative">

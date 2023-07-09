@@ -13,40 +13,44 @@ use Livewire\WithPagination;
 
 class ListUser extends Component
 {
-	use WithPagination;
-	use WithSorting;
-	public $label = "Usuario";
-	public $labelPlural = "Usuarios";
-	// public $open_modal_confirmation_delete = false;
-	protected $queryString = ['sortBy', 'sortDirection', 'search'];
-	protected $listeners = [
-		'renderListUser' => 'render',
-		'resetListUser' => 'resetList',
-	];
-	// public function delete(User $beneficiary)
-	// {
+    use WithPagination;
+    use WithSorting;
 
-	// 	DB::transaction(function () use ($beneficiary) {
-	// 		if ($beneficiary->images) {
-	// 			Image::destroy($beneficiary->images->pluck('id'));
-	// 		}
-	// 		Storage::delete($beneficiary->only(['image', 'card', 'social']));
-	// 		$beneficiary->delete();
-	// 	});
+    public $label = 'Usuario';
 
-	// 	$this->open_modal_confirmation_delete = false;
-	// 	$this->dispatchBrowserEvent('toast', [
-	// 		'title' => 'Registro Eliminado',
-	// 	]);
-	// 	Cache::flush();
-	// }
+    public $labelPlural = 'Usuarios';
 
-	public function render()
-	{
-		$list = User::where('name', 'like', '%' . $this->search . '%')
-			->orderBy($this->sortBy, $this->sortDirection)
-			->paginate(20);
+    // public $open_modal_confirmation_delete = false;
+    protected $queryString = ['sortBy', 'sortDirection', 'search'];
 
-		return view('livewire.user.list-user', compact('list'));
-	}
+    protected $listeners = [
+        'renderListUser' => 'render',
+        'resetListUser' => 'resetList',
+    ];
+    // public function delete(User $beneficiary)
+    // {
+
+    // 	DB::transaction(function () use ($beneficiary) {
+    // 		if ($beneficiary->images) {
+    // 			Image::destroy($beneficiary->images->pluck('id'));
+    // 		}
+    // 		Storage::delete($beneficiary->only(['image', 'card', 'social']));
+    // 		$beneficiary->delete();
+    // 	});
+
+    // 	$this->open_modal_confirmation_delete = false;
+    // 	$this->dispatchBrowserEvent('toast', [
+    // 		'title' => 'Registro Eliminado',
+    // 	]);
+    // 	Cache::flush();
+    // }
+
+    public function render()
+    {
+        $list = User::where('name', 'like', '%'.$this->search.'%')
+            ->orderBy($this->sortBy, $this->sortDirection)
+            ->paginate(20);
+
+        return view('livewire.user.list-user', compact('list'));
+    }
 }

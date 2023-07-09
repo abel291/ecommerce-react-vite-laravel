@@ -14,7 +14,7 @@ const ImagesProduct = ({ product }) => {
 	return (
 		<div className="">
 			<div className="w-full ">
-				<div className="flex items-center justify-center h-[400px]">
+				<div className="flex items-center justify-center h-[600px]">
 					<img ref={imgShowRef} className="rounded-lg max-h-full " src={allImages[0].img} alt="" />
 				</div>
 			</div>

@@ -25,7 +25,8 @@ function classNames(...classes) {
 }
 
 export default function MovileNavbar({ navigation }) {
-	const { auth } = usePage().props
+	const { auth, departments } = usePage().props
+
 	return (
 		<Disclosure as="nav" className="shadow text-white lg:hidden bg-primary-600">
 			{({ open }) => (
@@ -56,14 +57,14 @@ export default function MovileNavbar({ navigation }) {
 					<Disclosure.Panel >
 						<>
 							<div className="space-y-1 px-2 pb-3 pt-2">
-								{navigation.map((item) => (
-									<Link
-										key={item.name}
-										href={item.href}
-										className={"block rounded-md px-3 py-2 text-base font-medium " + classNames(
-											route().current(item.href) ? 'bg-primary-700' : ' hover:bg-primary-500 ',
-											''
-										)}
+								{departments.map((item) => (
+									<Link key={item.slug} href={route('department', item.slug)}
+										className={"block rounded-md px-3 py-2 text-base font-medium " +
+											classNames(
+
+												route().current('department', item.slug) ? 'bg-primary-700' : ' hover:bg-primary-500 ',
+												''
+											)}
 										aria-current={item.current ? 'page' : undefined}
 									>
 										{item.name}
@@ -72,7 +73,7 @@ export default function MovileNavbar({ navigation }) {
 
 
 							</div>
-							<div class="border-t border-primary-700  pb-3 pt-4">
+							<div class="border-t border-primary-700/40  pb-3 pt-4">
 								{auth.user ? (
 									<>
 										<div class="flex items-center px-5">

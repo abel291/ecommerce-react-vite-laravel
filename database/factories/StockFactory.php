@@ -9,19 +9,19 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class StockFactory extends Factory
 {
-	/**
-	 * Define the model's default state.
-	 *
-	 * @return array<string, mixed>
-	 */
-	public function definition(): array
-	{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
 
-		return [
-			'quantity' => rand(40, 50),
-			'remaining' => rand(0, 50),
-			'supplier' => $this->faker->words(7, true),
-			'barcode' => $this->faker->ean8(),
-		];
-	}
+        return [
+            'quantity' => rand(40, 50),
+            'remaining' => rand(0, 50),
+            'supplier' => $this->faker->words(7, true),
+            'barcode' => $this->faker->ean8(),
+        ];
+    }
 }

@@ -13,120 +13,120 @@ use Livewire\WithFileUploads;
 
 class CreatePost extends Component
 {
-	use TraitUploadImage, WithFileUploads;
+    use TraitUploadImage, WithFileUploads;
 
-	public $label = "Post";
+    public $label = 'Post';
 
-	public $labelPlural = "Posts";
+    public $labelPlural = 'Posts';
 
-	public $edit = false;
+    public $edit = false;
 
-	public $authors;
+    public $authors;
 
-	public $categories;
+    public $categories;
 
+    public Blog $post;
 
+    public $thum;
 
-	public Blog $post;
+    public $img;
 
-	public $thum;
+    protected $rules = [
+        'post.title' => 'required|string|max:255',
+        'post.slug' => 'required|string|max:255|unique:blog,slug',
+        'post.meta_title' => 'required|string|max:255',
+        'post.meta_desc' => 'required|string|max:255',
+        'post.entry' => 'required|string|max:255',
+        'post.desc' => 'required|string',
+        'post.active' => 'required|numeric|min:0',
+        'post.author_id' => 'required|numeric|min:0',
+        'post.category_id' => 'required|numeric|min:0',
+        'thum' => 'nullable|sometimes|image|max:2024|mimes:jpeg,jpg,png',
+        'img' => 'nullable|sometimes|image|max:2024|mimes:jpeg,jpg,png',
+    ];
 
-	public $img;
+    public function mount($id = null)
+    {
+        $this->categories = Category::where('type', 'blog')->get();
+        $this->authors = Author::get();
+        $this->edit = boolval($id);
 
-	protected $rules = [
-		'post.title' => 'required|string|max:255',
-		'post.slug' => 'required|string|max:255|unique:blog,slug',
-		'post.meta_title' => 'required|string|max:255',
-		'post.meta_desc' => 'required|string|max:255',
-		'post.entry' => 'required|string|max:255',
-		'post.desc' => 'required|string',
-		'post.active' => 'required|numeric|min:0',
-		'post.author_id' => 'required|numeric|min:0',
-		'post.category_id' => 'required|numeric|min:0',
-		'thum' => 'nullable|sometimes|image|max:2024|mimes:jpeg,jpg,png',
-		'img' => 'nullable|sometimes|image|max:2024|mimes:jpeg,jpg,png',
-	];
+        if ($id) {
+            $this->post = Blog::findOrFail($id);
+        } else {
+            //$this->post = new Blog();
+            $this->post = Blog::factory()->make();
+            $this->post->category_id = $this->categories->random()->id;
+            $this->post->author_id = $this->authors->random()->id;
+        }
+    }
 
-	public function mount($id = null)
-	{
-		$this->categories = Category::where('type', 'blog')->get();
-		$this->authors = Author::get();
-		$this->edit = boolval($id);
+    public function save()
+    {
+        //$this->rules['thum'] = "required|sometimes|image|max:2024|mimes:jpeg,jpg,png";
+        //$this->rules['img'] = "required|sometimes|image|max:2024|mimes:jpeg,jpg,png";
+        //dd($this->post);
+        $this->validate();
+        DB::transaction(function () {
 
-		if ($id) {
-			$this->post = Blog::findOrFail($id);
-		} else {
-			//$this->post = new Blog();
-			$this->post = Blog::factory()->make();
-			$this->post->category_id = $this->categories->random()->id;
-			$this->post->author_id = $this->authors->random()->id;
-		}
-	}
+            $blog = $this->post;
+            if ($this->thum) {
+                //Storage::delete($blog->thum);
+                $blog->thum = $this->upload_image($this->post->title, 'posts/thum', $this->thum);
+            }
 
-	public function save()
-	{
-		//$this->rules['thum'] = "required|sometimes|image|max:2024|mimes:jpeg,jpg,png";
-		//$this->rules['img'] = "required|sometimes|image|max:2024|mimes:jpeg,jpg,png";
-		//dd($this->post);
-		$this->validate();
-		DB::transaction(function () {
+            if ($this->img) {
+                //Storage::delete($blog->img);
+                $blog->img = $this->upload_image($this->post->title, 'posts', $this->img);
+            }
 
-			$blog = $this->post;
-			if ($this->thum) {
-				//Storage::delete($blog->thum);
-				$blog->thum = $this->upload_image($this->post->title, 'posts/thum', $this->thum);
-			}
+            $blog->save();
+        });
 
-			if ($this->img) {
-				//Storage::delete($blog->img);
-				$blog->img = $this->upload_image($this->post->title, 'posts', $this->img);
-			}
+        return redirect()->route('dashboard.posts')->with('success', 'Registro Guardados');
+    }
 
-			$blog->save();
-		});
+    public function update()
+    {
+        $this->rules['post.slug'] = 'required|unique:blog,slug,'.$this->post->id.',id';
+        $this->validate();
+        $blog = $this->post;
 
-		return redirect()->route('dashboard.posts')->with('success', 'Registro Guardados');
-	}
+        if ($this->thum) {
+            if ($blog->thum) {
+                Storage::delete($blog->thum);
+            }
+            $blog->thum = $this->upload_image($this->post->title, 'posts/thum', $this->thum);
+        }
 
-	public function update()
-	{
-		$this->rules['post.slug'] = 'required|unique:blog,slug,' . $this->post->id . ',id';
-		$this->validate();
-		$blog = $this->post;
+        if ($this->img) {
+            if ($blog->img) {
+                Storage::delete($blog->img);
+            }
+            $blog->img = $this->upload_image($this->post->title, 'posts', $this->img);
+        }
 
-		if ($this->thum) {
-			if ($blog->thum) {
-				Storage::delete($blog->thum);
-			}
-			$blog->thum = $this->upload_image($this->post->title, 'posts/thum', $this->thum);
-		}
+        $blog->save();
 
-		if ($this->img) {
-			if ($blog->img) {
-				Storage::delete($blog->img);
-			}
-			$blog->img = $this->upload_image($this->post->title, 'posts', $this->img);
-		}
+        return redirect()->route('dashboard.posts')->with('success', 'Registro Editado');
+    }
 
-		$blog->save();
+    public function updateThum(): void
+    {
+        $this->validate([
+            'thum' => 'image|max:1024|mimes:jpeg,jpg,png',
+        ]);
+    }
 
-		return redirect()->route('dashboard.posts')->with('success', 'Registro Editado');
-	}
+    public function updateImg(): void
+    {
+        $this->validate([
+            'img' => 'image|max:1024|mimes:jpeg,jpg,png',
+        ]);
+    }
 
-	public function updateThum(): void
-	{
-		$this->validate([
-			'thum' => 'image|max:1024|mimes:jpeg,jpg,png',
-		]);
-	}
-	public function updateImg(): void
-	{
-		$this->validate([
-			'img' => 'image|max:1024|mimes:jpeg,jpg,png',
-		]);
-	}
-	public function render()
-	{
-		return view('livewire.blog.create-post');
-	}
+    public function render()
+    {
+        return view('livewire.blog.create-post');
+    }
 }

@@ -17,7 +17,7 @@ export default function Search({ page, banner, products, filters, breadcrumb }) 
 
 	const { data: filtersActive, setData: setFiltersActive, get, processing, errors, reset } = useForm(filters)
 
-	//console.log(filtersActive)
+	//console.log(breadcrumb)
 
 	const setFilter = (name, value) => {
 
@@ -65,18 +65,18 @@ export default function Search({ page, banner, products, filters, breadcrumb }) 
 	return (
 		<Layout>
 			<Head title={page.meta_title}></Head>
+			<Breadcrumb data={breadcrumb} />
 			<div className="container py-content">
-				<BreadcrumbFilters filtersActive={filtersActive} />
-				<div className="flex md:flex-row flex-col-reverse gap-x-14 pt-10">
+				<div className="flex lg:flex-row flex-col-reverse  ">
 
-					<div className="w-full md:w-3/12 ">
+					<div className="w-full lg:w-3/12 xl:w-3/12 2xl:w-2/12 ">
 						<Filters filtersActive={filtersActive} setFiltersActive={setFiltersActive} />
 						<div className="py-6">
 							<CarouselBanner images={banner} />
 						</div>
 					</div>
-					<div className="w-full md:w-9/12 ">
-						<div className="space-y-4 relative ">
+					<div className="w-full lg:w-9/12 xl:w-9/12 2xl:w-10/12 lg:pl-10  ">
+						<div className="relative ">
 							<div className="flex items-start justify-between">
 								<h2 className="font-bold text-2xl ">
 									Busqueda
@@ -96,12 +96,12 @@ export default function Search({ page, banner, products, filters, breadcrumb }) 
 								</div>
 
 							</div>
-							<div className="relative">
+							<div className="relative mt-12">
 								{products.data.length ? (
 									<div className="relative">
 										<>
 											<div className=''>
-												<div className="grid grid-cols-2 gap-2 md:grid-cols-2 lg:grid-cols-3 md:gap-x-2 md:gap-y-6 ">
+												<div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 md:gap-x-6 md:gap-y-6 ">
 													{products.data.map((item) => (
 														<CardProduct key={item.id} product={item} />
 													))}

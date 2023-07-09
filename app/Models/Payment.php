@@ -10,31 +10,32 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Payment extends Model
 {
-	use HasFactory;
-	protected $casts = [
-		'status' => PaymentStatus::class,
-		'method' => PaymentMethodEnum::class,
-	];
+    use HasFactory;
 
-	protected $attributes = [
-		//'status' => PaymentStatus::PENDING,
-	];
+    protected $casts = [
+        'status' => PaymentStatus::class,
+        'method' => PaymentMethodEnum::class,
+    ];
 
-	protected $guarded  = [];
+    protected $attributes = [
+        //'status' => PaymentStatus::PENDING,
+    ];
 
-	public function order(): BelongsTo
-	{
-		return $this->belongsTo(Order::class);
-	}
+    protected $guarded = [];
 
-	public function canCancel()
-	{
-		$max_days = 30;
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class);
+    }
 
-		$can = $this->created_at->diff(now())->days < $max_days;
+    public function canCancel()
+    {
+        $max_days = 30;
 
-		$status = $this->status == PaymentStatus::SUCCESSFUL;
-		// dd($this->created_at->diff(now())->days);
-		return $can && $status;
-	}
+        $can = $this->created_at->diff(now())->days < $max_days;
+
+        $status = $this->status == PaymentStatus::SUCCESSFUL;
+        // dd($this->created_at->diff(now())->days);
+        return $can && $status;
+    }
 }

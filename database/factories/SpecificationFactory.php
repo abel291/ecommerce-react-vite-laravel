@@ -18,11 +18,11 @@ class SpecificationFactory extends Factory
 	public function definition(): array
 	{
 		$name = $this->faker->word();
+
 		return [
 			'name' => $name,
 			'slug' => Str::slug($name),
-			'value' => $this->faker->words(3, true),
-			'active' => 1
+			'active' => 1,
 		];
 	}
 }

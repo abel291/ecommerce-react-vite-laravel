@@ -2,16 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\CategoryFiltersResource;
+use App\Http\Resources\AttributeResource;
+use App\Http\Resources\Filters\CategoryFiltersResource;
 use App\Http\Resources\ProductResource;
-use App\Models\Brand;
-use App\Models\Category;
 use App\Models\Page;
 use App\Models\Product;
-use App\Observers\CategoryObserver;
 use App\Services\SearchProductService;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
@@ -29,28 +25,29 @@ class SearchController extends Controller
 			'q' => $request->input('q', null),
 			'department' => $request->input('department', []),
 			'category' => $request->input('category', []),
-			'price_min' => $request->input('price_min', ""),
-			'price_max' => $request->input('price_max', ""),
+			'price_min' => $request->input('price_min', ''),
+			'price_max' => $request->input('price_max', ''),
 			'brands' => $request->input('brands', []),
-			'offer' => $request->input('offer', ""),
-			'sortBy' => $request->input('sortBy', "")
+			'offer' => $request->input('offer', ''),
+			'sortBy' => $request->input('sortBy', ''),
+			'attribute_values' => $request->input('attribute_values', []),
 		];
-		$searchProductService = new SearchProductService($filters);
-		//dd(boolval(count([])));
 
 		$list_departments = SearchProductService::getFilterDepartment($filters);
-
 		$filters['department'] = $list_departments->whereIn('slug', $filters['department'])->pluck('slug')->values()->toArray();
 
 		$list_categories = SearchProductService::getFilterCategories($filters);
-
 		$filters['category'] = $list_categories->whereIn('slug', $filters['category'])->pluck('slug')->values()->toArray();
 
-		$brands = SearchProductService::getFilterBrands($filters);
+		// $brands = SearchProductService::getFilterBrands($filters);
+		// $filters['brands'] = $brands->whereIn('slug', $filters['brands'])->pluck('slug')->values()->toArray();
 
-		$filters['brands'] = $brands->whereIn('slug', $filters['brands'])->pluck('slug')->values()->toArray();
+		$list_attributes = SearchProductService::getFilterAttributes($filters);
 
-		$products = Product::withFilters($filters)->paginate(15)->withQueryString();
+		$filters['attribute_values'] = $list_attributes->pluck('attribute_values')->collapse()->whereIn('slug', $filters['attribute_values'])
+			->pluck('slug')->values()->toArray();
+
+		$products = Product::withFilters($filters)->paginate(16)->withQueryString();
 
 		$breadcrumb = SearchProductService::generateBreadcrumb($filters);
 
@@ -61,7 +58,8 @@ class SearchController extends Controller
 			'page' => $page,
 			'list_departments' => CategoryFiltersResource::collection($list_departments),
 			'list_categories' => CategoryFiltersResource::collection($list_categories),
-			'brands' => CategoryFiltersResource::collection($brands),
+			//'brands' => CategoryFiltersResource::collection($brands),
+			'list_attributes' =>  AttributeResource::collection($list_attributes),
 			'banner' => $banner,
 			'breadcrumb' => $breadcrumb,
 		]);

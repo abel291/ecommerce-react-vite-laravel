@@ -29,7 +29,13 @@ const AccountDetails = () => {
 		})
 	}
 	return (
-		<LayoutProfile title="Detalles de Cuenta">
+		<LayoutProfile title="Detalles de Cuenta" breadcrumb={[
+			{
+				title: "Detalles de cuenta",
+				path: route("profile.account-details")
+
+			},
+		]}>
 			<Head title="Detalles de cuenta" />
 			<div className="space-y-2">
 

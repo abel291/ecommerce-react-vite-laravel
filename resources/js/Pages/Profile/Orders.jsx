@@ -19,7 +19,13 @@ const Order = ({ orders }) => {
 	};
 
 	return (
-		<LayoutProfile title="Pedidos">
+		<LayoutProfile title="Pedidos" breadcrumb={[
+			{
+				title: "Ordenes",
+				path: route("profile.orders")
+
+			},
+		]}>
 			<Head title="Pedidos" />
 
 

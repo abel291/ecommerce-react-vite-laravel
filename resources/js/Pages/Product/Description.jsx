@@ -1,30 +1,23 @@
 import SectionTitle from "@/Components/Sections/SectionTitle"
+import Specifications from "./Specifications"
 
 const Description = ({ product }) => {
 	return (
-		<div className=" divide-y divide-gray-200">
-			<div className="py-content space-y-5 ">
+		<div className="">
+			<div className="pt-content">
 				<SectionTitle title="Especificaciones" />
-				<div>
-					<table className="text-left">
-						<thead></thead>
-						<tbody>
-							{product.specifications.map((specification) => (
-								<tr key={specification.id}>
-									<td className=" font-semibold pr-10 pb-1">{specification.name}</td>
-									<td>{specification.value}</td>
-								</tr>
-							))}
-						</tbody>
-					</table>
+				<div className="mt-5">
+					<Specifications specifications={product.specifications} />
 				</div>
 			</div>
 
-			<div className="py-content space-y-5">
+			<div className="py-content">
 				<SectionTitle title="Descripción" />
-				<p className="break-words" dangerouslySetInnerHTML={{ __html: product.description_max }} />
+				<div className="mt-5">
+					<p className="break-words " dangerouslySetInnerHTML={{ __html: product.description_max }} />
+				</div>
 			</div>
-		</div>
+		</div >
 	)
 }
 

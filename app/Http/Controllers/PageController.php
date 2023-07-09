@@ -4,84 +4,91 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ImageResource;
 use App\Http\Resources\ProductResource;
+use App\Models\Attribute;
+use App\Models\AttributeProduct;
+use App\Models\AttributeValue;
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Page;
 use App\Models\Product;
-use Illuminate\Foundation\Application;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
+use App\Models\Specification;
 use Inertia\Inertia;
 
 class PageController extends Controller
 {
 	public function home()
 	{
-
-		$featured = Product::where('featured', true)->activeInStock()->get()->random(12);
-		$newProducts = Product::orderBy('id', 'desc')->activeInStock()->limit(12)->get();
 		$page = Page::with('banners')->where('type', 'home')->firstOrFail();
+
+		$bestSeller = Product::selectForCard()->bestSeller()->activeInStock()->limit(15)->get();
+
+		$newProducts = Product::orderBy('id', 'desc')->activeInStock()->selectForCard()->limit(10)->get();
 
 		$banners = $page->banners->where('active', 1);
 
 		$carousel_top = $banners->where('position', 'top')->where('type', 'carousel');
 		$banners_top = $banners->where('position', 'top')->where('type', 'banner');
-
 		$banners_medium = $banners->where('position', 'middle');
-
 		$banners_bottom = $banners->where('position', 'below');
-		//dd($banners_medium);
+
+		$categories_product_count = Category::withMoreProducts()
+			->limit(12)
+			->get();
 
 		return Inertia::render('Home/Home', [
 			'page' => $page,
-			'featured' => ProductResource::collection($featured),
+			'bestSeller' => ProductResource::collection($bestSeller),
 			'newProducts' => ProductResource::collection($newProducts),
 			'carouselTop' => ImageResource::collection($carousel_top),
 			'bannersTop' => ImageResource::collection($banners_top),
 			'bannersMedium' => ImageResource::collection($banners_medium),
 			'bannersBottom' => ImageResource::collection($banners_bottom),
+			'categoriesProductCount' => $categories_product_count,
+
 		]);
 	}
+
 	public function offers()
 	{
 
 		$page = Page::with('banners')->where('type', 'offers')->firstOrFail();
+
 		$banners_top = $page->banners->where('position', 'top')->where('active', 1)->where('type', 'banner');
-		$products = Product::where('offer', '!=', null)->activeInStock()->limit(20)->inRandomOrder()->get();
+
+		$offer_products = Product::activeInStock()->selectForCard()
+			->inOffer()->orderBy('offer', 'desc')->limit(15)->get();
+
+		$categories = Category::active()
+			->withCount(['products' => function ($query) {
+				$query->activeInStock()->inOffer();
+			}])
+			->whereHas('products', function ($query) {
+				$query->activeInStock()->inOffer();
+			})
+			->orderBy('products_count', 'desc')
+			->inRandomOrder()->limit(20)
+			->get();
+
+		$offer_brands = Brand::select('name', 'slug', 'img')->active()
+			->withCount(['products' => function ($query) {
+				$query->activeInStock()->inOffer()->orderBy('offer', 'desc');
+			}])
+			->whereHas('products', function ($query) {
+				$query->activeInStock()->inOffer();
+			})
+			->orderBy('products_count', 'desc')
+			->inRandomOrder()->limit(10)
+			->get();
+
 		return Inertia::render('Offers/Offers', [
-			'bannersTop' => ImageResource::collection($banners_top),
 			'page' => $page,
-			'products' => ProductResource::collection($products),
+			'offerProducts' => $offer_products,
+			'offerBrands' => $offer_brands,
+			'bannersTop' => $banners_top,
+
 		]);
 	}
-	public function combos()
-	{
-		$page = Page::with('banners')->where('type', 'combos')->firstOrFail();
-		$banners_top = $page->banners->where('position', 'top')->where('active', 1)->where('type', 'banner');
-		$products = Product::whereRelation('category', 'slug', 'combos')->activeInStock()->limit(12)->orderBy('id', 'desc')->get()->shuffle();
-		// $products = Category::with('products')->where('slug', 'combos')->first()->products->slice(0, 20);
 
-		return Inertia::render('Combos/Combos', [
-			'bannersTop' => ImageResource::collection($banners_top),
-			'page' => $page,
-			'products' => ProductResource::collection($products),
-		]);
-	}
-	public function assemblies()
-	{
-		$page = Page::with('banners')->where('type', 'assemblies')->firstOrFail();
-		$carousel = $page->banners->where('position', 'top')->where('active', 1)->where('type', 'carousel');
-
-		$products = Product::activeInStock()->whereRelation('category', 'slug', 'ensambles')->limit(12)->get();
-
-		// Category::with('products')->where('slug', 'ensambles')->first()->products->slice(0, 20);
-
-		return Inertia::render('Assemblies/Assemblies', [
-			'carousel' => ImageResource::collection($carousel),
-			'page' => $page,
-			'products' => ProductResource::collection($products),
-		]);
-	}
 	public function contact()
 	{
 		$page = Page::where('type', 'contact')->firstOrFail();
@@ -93,15 +100,26 @@ class PageController extends Controller
 
 	public function product($slug)
 	{
-		$product = Product::with('specifications', 'images', 'category', 'department', 'stock', 'brand')->activeInStock()->where('slug', $slug)->firstOrFail();
+		$product = Product::where('slug', $slug)->with('attributes', 'attribute_values', 'specifications', 'images', 'category', 'department', 'stock', 'brand')
+			->activeInStock()->firstOrFail()->loadAttributesWithValues();
+
+		$product->setRelation('specifications', $product->specifications->groupBy('type'));
 
 		$related_products = Product::activeInStock()
 			->where('id', '!=', $product->id)
-			->where('category_id', $product->category->id)
-			->inRandomOrder()->limit(10)->get();
+			->where('category_id', $product->category_id)
+			->where('department_id', $product->department_id)
+			->inRandomOrder()->limit(12)->get();
+
+		$attributesDefault = [];
+		foreach ($product->attributes as $key => $attribute) {
+			$attribute_value = $attribute->attribute_values->firstWhere('in_stock', true);
+			$attributesDefault[$attribute->slug] = $attribute_value->slug;
+		}
 
 		return Inertia::render('Product/Product', [
 			'product' => new ProductResource($product),
+			'attributesDefault' => $attributesDefault,
 			'relatedProducts' => ProductResource::collection($related_products),
 		]);
 	}

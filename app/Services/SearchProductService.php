@@ -2,68 +2,73 @@
 
 namespace App\Services;
 
-use App\Contracts\CheckoutInterface;
-use App\Enums\CartEnum;
-use App\Enums\DiscountCodeTypeEnum;
+use App\Models\Attribute;
 use App\Models\Brand;
 use App\Models\Category;
-use App\Models\DiscountCode;
-use App\Models\Order;
-use App\Models\OrderProduct;
-use App\Models\Product;
-
-use Illuminate\Http\Response;
-use Illuminate\Support\Collection;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use App\Models\Department;
 
 class SearchProductService
+
 {
-
-
-
+	public $filters = [];
+	public function __construct(array $filters)
+	{
+		$this->filters = $filters;
+	}
 	public static function getFilterDepartment($filters)
 	{
 		$filters['department'] = [];
-		//if ($filters['category']) {
-		if (false) {
-			return [];
-		} else {
-			$departments = Category::select('id', 'name', 'slug')->whereNull('category_id')->where('type', 'product')
-				->where('active', 1)
-				->withCount(['department_products as products_count' => function ($query) use ($filters) {
-					$query->withFilters($filters);
-				}])
-				->whereHas('department_products', function ($query) use ($filters) {
-					$query->withFilters($filters);
-				})
-				->with('categories')
-				->get();
-			return $departments;
-		}
+		$departments = Department::select('id', 'name', 'slug')
+			->active()
+			->withCount(['products' => function ($query) use ($filters) {
+				$query->withFilters($filters);
+			}])
+			->whereHas('products', function ($query) use ($filters) {
+				$query->withFilters($filters);
+			})
+
+			->get();
+
+		return $departments;
 	}
 
 	public static function getFilterCategories($filters)
 	{
+		//
+		$filters['category'] = [];
+		$categories = Category::select('id', 'name', 'slug')->where('type', 'product')
+			->active()
+			->withCount(['products' => function ($query) use ($filters) {
+				$query->withFilters($filters);
+			}])
+			->whereHas('products', function ($query) use ($filters) {
+				$query->withFilters($filters);
+			})
+			->get();
 
-		// if ($filters['department']) {
-		if (true) {
-			$filters['category'] = [];
-			$categries = Category::select('id', 'name', 'slug')->where('type', 'product')
-				->where('active', 1)
-				->withCount(['products' => function ($query) use ($filters) {
-					$query->withFilters($filters);
-				}])
-				->whereHas('products', function ($query) use ($filters) {
-					$query->withFilters($filters);
-				})
-				->get();
-			return $categries;
-		} else {
-			return [];
-		}
+		return $categories;
 	}
+	public static function getFilterAttributes($filters)
+	{
+
+		$filters['attribute_values'] = [];
+		$attributes = Attribute::select('id', 'name', 'slug')->with(['attribute_values' => function ($query1) use ($filters) {
+			$query1
+				->select('id', 'attribute_id', 'name', 'slug')
+				->withCount(['products' => function ($query2) use ($filters) {
+					$query2->withFilters($filters);
+				}])
+				->whereHas('products', function ($query3) use ($filters) {
+					$query3->withFilters($filters);
+				})
+				//->orderBy('slug', 'asc')
+				->orderBy('products_count', 'desc')
+				->limit(20);
+		}])->get();
 
 
+		return $attributes;
+	}
 	public static function getFilterBrands($filters)
 	{
 		$filters['brands'] = [];
@@ -94,7 +99,7 @@ class SearchProductService
 		$data = [
 			'department' => $categories->whereIn('slug', $filters['department']),
 			'category' => $categories->whereIn('slug', $filters['category']),
-			'brands' => Brand::select('id', 'name', 'slug')->whereActive(1)->whereIn('slug', $filters['brands'])->get()
+			'brands' => Brand::select('id', 'name', 'slug')->whereActive(1)->whereIn('slug', $filters['brands'])->get(),
 		];
 
 		foreach ($data as $key => $items) {

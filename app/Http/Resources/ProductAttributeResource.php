@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\AttributeValueResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CategoryFiltersResource extends JsonResource
+class ProductAttributeResource extends JsonResource
 {
 	/**
 	 * Transform the resource into an array.
@@ -15,9 +16,8 @@ class CategoryFiltersResource extends JsonResource
 	public function toArray(Request $request): array
 	{
 		return [
-			'name' => $this->name,
-			'value' => $this->slug,
-			'products_count' => $this->products_count,
+			'attribute' => new AttributeResource($this->whenLoaded('attribute')),
+			'attribute_values' => AttributeValueResource::collection($this->whenLoaded('attribute_values')),
 		];
 	}
 }

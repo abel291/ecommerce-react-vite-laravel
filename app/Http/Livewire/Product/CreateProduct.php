@@ -12,148 +12,151 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Spatie\Permission\Contracts\Role;
 
 class CreateProduct extends Component
 {
-	use TraitUploadImage, WithFileUploads;
+    use TraitUploadImage, WithFileUploads;
 
-	public $label = "Producto";
+    public $label = 'Producto';
 
-	public $labelPlural = "Productos";
+    public $labelPlural = 'Productos';
 
-	public $edit = false;
+    public $edit = false;
 
-	public $categories;
+    public $categories;
 
-	public $brands;
+    public $brands;
 
-	public Product $product;
-	public Stock $stock;
+    public Product $product;
 
-	public $thum;
-	public $img;
+    public Stock $stock;
 
-	protected $rules = [
-		'product.name' => 'required|string|max:255',
-		'product.slug' => 'required|string|max:255|unique:products,slug',
-		'product.description_min' => 'required|string|max:255',
-		'product.description_max' => 'required|string',
-		'product.max_quantity' => 'required|integer|min:0',
-		'product.price' => 'required|numeric|min:0',
-		'product.offer' => 'required|numeric|min:0',
-		'product.cost' => 'required|numeric|min:0',
-		'product.active' => 'required',
+    public $thum;
 
-		'stock.quantity' => 'required',
-		'stock.remaining' => 'required',
-		'stock.supplier' => 'required',
-		'stock.barcode' => 'required',
+    public $img;
 
-		'product.category_id' => 'required|max:255',
-		'product.brand_id' => 'required|max:255',
+    protected $rules = [
+        'product.name' => 'required|string|max:255',
+        'product.slug' => 'required|string|max:255|unique:products,slug',
+        'product.description_min' => 'required|string|max:255',
+        'product.description_max' => 'required|string',
+        'product.max_quantity' => 'required|integer|min:0',
+        'product.price' => 'required|numeric|min:0',
+        'product.offer' => 'required|numeric|min:0',
+        'product.cost' => 'required|numeric|min:0',
+        'product.active' => 'required',
 
-		'thum' => 'nullable|sometimes|image|max:2024|mimes:jpeg,jpg,png',
-		'img' => 'nullable|sometimes|image|max:2024|mimes:jpeg,jpg,png',
-	];
+        'stock.quantity' => 'required',
+        'stock.remaining' => 'required',
+        'stock.supplier' => 'required',
+        'stock.barcode' => 'required',
 
-	public function mount($id = null)
-	{
-		$this->categories = Category::where('type', 'product')->get();
-		$this->brands = Brand::all();
-		$this->edit = boolval($id);
-		if ($id) {
-			$this->product = Product::with('stock')->findOrFail($id);
-			$this->stock = $this->product->stock;
-		} else {
-			//$this->product = new Product();
-			$this->product = Product::factory()->make();
-			$this->stock = Stock::factory()->make();
-			$this->product->category_id = $this->categories->random()->id;
-		}
-	}
+        'product.category_id' => 'required|max:255',
+        'product.brand_id' => 'required|max:255',
 
-	public function save()
-	{
-		//$this->rules['thum'] = "required|sometimes|image|max:2024|mimes:jpeg,jpg,png";
-		//$this->rules['img'] = "required|sometimes|image|max:2024|mimes:jpeg,jpg,png";
-		//dd($this->product);
-		$this->validate();
-		DB::transaction(function () {
+        'thum' => 'nullable|sometimes|image|max:2024|mimes:jpeg,jpg,png',
+        'img' => 'nullable|sometimes|image|max:2024|mimes:jpeg,jpg,png',
+    ];
 
-			$product = $this->product;
-			$product->price_offer = $product->calculateOffer();
+    public function mount($id = null)
+    {
+        $this->categories = Category::where('type', 'product')->get();
+        $this->brands = Brand::all();
+        $this->edit = boolval($id);
+        if ($id) {
+            $this->product = Product::with('stock')->findOrFail($id);
+            $this->stock = $this->product->stock;
+        } else {
+            //$this->product = new Product();
+            $this->product = Product::factory()->make();
+            $this->stock = Stock::factory()->make();
+            $this->product->category_id = $this->categories->random()->id;
+        }
+    }
 
-			if ($this->thum) {
-				//Storage::delete($product->thum);
-				$product->thum = $this->upload_image($this->product->name, 'products/thum', $this->thum);
-			}
+    public function save()
+    {
+        //$this->rules['thum'] = "required|sometimes|image|max:2024|mimes:jpeg,jpg,png";
+        //$this->rules['img'] = "required|sometimes|image|max:2024|mimes:jpeg,jpg,png";
+        //dd($this->product);
+        $this->validate();
+        DB::transaction(function () {
 
-			if ($this->img) {
-				//Storage::delete($product->img);
-				$product->img = $this->upload_image($this->product->name, 'products', $this->img);
-			}
+            $product = $this->product;
+            $product->calculateOffer();
 
-			$product->save();
+            if ($this->thum) {
+                //Storage::delete($product->thum);
+                $product->thum = $this->upload_image($this->product->name, 'products/thum', $this->thum);
+            }
 
-			$product->stock()->save($this->stock);
+            if ($this->img) {
+                //Storage::delete($product->img);
+                $product->img = $this->upload_image($this->product->name, 'products', $this->img);
+            }
 
-			$categories = $product->category;
+            $product->save();
 
-			foreach ($categories->specifications as $specification_name) {
-				Specification::create([
-					'name' => $specification_name,
-					'product_id' => $product->id,
-				]);
-			}
-		});
+            $product->stock()->save($this->stock);
 
-		return redirect()->route('dashboard.products')->with('success', 'Registro Guardados');
-	}
+            $categories = $product->category;
 
-	public function update()
-	{
-		$this->rules['product.slug'] = 'required|unique:products,slug,' . $this->product->id . ',id';
-		$this->validate();
-		$product = $this->product;
-		$product->price_offer = $product->calculateOffer();
-		$stock = $this->stock;
+            foreach ($categories->specifications as $specification_name) {
+                Specification::create([
+                    'name' => $specification_name,
+                    'product_id' => $product->id,
+                ]);
+            }
+        });
 
-		if ($this->thum) {
-			if ($product->thum) {
-				Storage::delete($product->thum);
-			}
-			$product->thum = $this->upload_image($this->product->name, 'products/thum', $this->thum);
-		}
+        return redirect()->route('dashboard.products')->with('success', 'Registro Guardados');
+    }
 
-		if ($this->img) {
-			if ($product->img) {
-				Storage::delete($product->img);
-			}
-			$product->img = $this->upload_image($this->product->name, 'products', $this->img);
-		}
+    public function update()
+    {
+        $this->rules['product.slug'] = 'required|unique:products,slug,'.$this->product->id.',id';
+        $this->validate();
+        $product = $this->product;
+        $product->price_offer = $product->calculateOffer();
+        $stock = $this->stock;
 
-		$product->save();
+        if ($this->thum) {
+            if ($product->thum) {
+                Storage::delete($product->thum);
+            }
+            $product->thum = $this->upload_image($this->product->name, 'products/thum', $this->thum);
+        }
 
-		$stock->save();
+        if ($this->img) {
+            if ($product->img) {
+                Storage::delete($product->img);
+            }
+            $product->img = $this->upload_image($this->product->name, 'products', $this->img);
+        }
 
-		return redirect()->route('dashboard.products')->with('success', 'Registro Editado');
-	}
+        $product->save();
 
-	public function updateThum(): void
-	{
-		$this->validate([
-			'thum' => 'image|max:1024|mimes:jpeg,jpg,png',
-		]);
-	}
-	public function updateImg(): void
-	{
-		$this->validate([
-			'img' => 'image|max:1024|mimes:jpeg,jpg,png',
-		]);
-	}
-	public function render()
-	{
-		return view('livewire.product.create-product');
-	}
+        $stock->save();
+
+        return redirect()->route('dashboard.products')->with('success', 'Registro Editado');
+    }
+
+    public function updateThum(): void
+    {
+        $this->validate([
+            'thum' => 'image|max:1024|mimes:jpeg,jpg,png',
+        ]);
+    }
+
+    public function updateImg(): void
+    {
+        $this->validate([
+            'img' => 'image|max:1024|mimes:jpeg,jpg,png',
+        ]);
+    }
+
+    public function render()
+    {
+        return view('livewire.product.create-product');
+    }
 }

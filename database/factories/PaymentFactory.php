@@ -11,17 +11,17 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class PaymentFactory extends Factory
 {
-	/**
-	 * Define the model's default state.
-	 *
-	 * @return array<string, mixed>
-	 */
-	public function definition(): array
-	{
-		return [
-			'status' => $this->faker->randomElement(PaymentStatus::cases()),
-			'method' => $this->faker->randomElement(PaymentMethodEnum::cases()),
-			'reference' => $this->faker->numerify('##########'),
-		];
-	}
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'status' => $this->faker->randomElement(PaymentStatus::cases()),
+            'method' => $this->faker->randomElement(PaymentMethodEnum::cases()),
+            'reference' => $this->faker->numerify('##########'),
+        ];
+    }
 }

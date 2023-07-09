@@ -1,52 +1,66 @@
+import SimpleCard from '@/Components/Cards/SimpleCard'
 import Carousel, { CarouselItem } from '@/Components/Carousel/Carousel'
 import { Link } from '@inertiajs/react'
 import React from 'react'
 
-const CarouselSection = ({ items, searchType }) => {
+const CarouselSection = ({ items, searchType, parameters = {} }) => {
+
+
+	const CardSection = ({ item }) => {
+		return (
+			<Link href={route('search', { [searchType]: item.slug, ...parameters })}>
+				<SimpleCard name={item.name} img={item.img} />
+			</Link>
+		)
+	}
 	return (
-		<Carousel breakpoints={{
-			380: {
-				slidesPerView: 1,
-				spaceBetween: 20,
-			},
-			640: {
-				slidesPerView: 2,
-				spaceBetween: 20,
-			},
-			768: {
-				slidesPerView: 3,
-				spaceBetween: 30,
-
-			},
-			1024: {
-				slidesPerView: 4,
-				spaceBetween: 40,
-			},
-			1536: {
-				slidesPerView: 6,
-				spaceBetween: 40,
-			},
-		}}>
-			{items.map((item, index) => (
-				<CarouselItem key={index} >
-					<Link
-						href={route('search')} data={{ [searchType]: [item.slug] }}
-					>
-						<div className="flex flex-col items-center">
-							<div className="w-48 max-w-full h-48 p-6 rounded-lg bg-gray-50 flex items-center justify-center">
-
-								<img src={item.img} className="max-w-full max-h-28" alt={item.name} />
-
-							</div>
-
-							<span className="font-semibold mt-4 text-sm md:text-base ">{item.name}</span>
+		<>
+			{(items.length <= 6) ? (
+				<div className='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 md:gap-2 justify-around'>
+					{items.map((item, index) => (
+						<div key={item.slug}>
+							<CardSection item={item} />
 						</div>
-					</Link>
-				</CarouselItem>
-			))}
+					))}
+				</div>
+			) : (
+				<Carousel breakpoints={{
+					380: {
+						slidesPerView: 1,
+						spaceBetween: 20,
+					},
+					640: {
+						slidesPerView: 2,
+						spaceBetween: 20,
+					},
+					768: {
+						slidesPerView: 3,
+						spaceBetween: 30,
 
-		</Carousel>
+					},
+					1024: {
+						slidesPerView: 4,
+						spaceBetween: 40,
+					},
+					1536: {
+						slidesPerView: 6,
+						spaceBetween: 40,
+					},
+				}
+				}>
+					{
+						items.map((item, index) => (
+							<CarouselItem key={index} >
+								<CardSection item={item} />
+							</CarouselItem>
+						))
+					}
+
+				</Carousel>
+			)}
+		</>
 	)
 }
+
 
 export default CarouselSection

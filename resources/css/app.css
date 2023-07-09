@@ -21,6 +21,9 @@
     .pt-content {
         @apply pt-8 md:pt-10 lg:pt-12 xl:pt-14;
     }
+    .gradient-primary {
+        @apply bg-gradient-to-l from-primary-500 via-primary-600 to-primary-700;
+    }
 }
 @layer base {
     .title-section {
@@ -73,8 +76,14 @@
     .table-list tbody tr td:last-child {
         @apply text-right;
     }
+    .dropdown-link {
+        @apply block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-800 transition duration-150 ease-in-out;
+    }
 }
 
 .swiper-slide {
     height: auto !important;
+}
+.swiper-button-disabled {
+    display: none;
 }

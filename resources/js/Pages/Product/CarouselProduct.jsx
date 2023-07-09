@@ -6,13 +6,13 @@ import CardProduct from "@/Components/Cards/CardProduct";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import SectionTitle from "@/Components/Sections/SectionTitle";
 import Carousel, { CarouselItem } from "@/Components/Carousel/Carousel";
+import GridProduct from "@/Components/Grids/GridProduct";
 
 
 const CarouselProduct = ({ products }) => {
 	return (
-		<div>
-			<SectionTitle title="Productos relacionados" />
-			<div className="mt-5 ">
+		products.length > 5 ? (
+			<div>
 				<Carousel
 
 					centeredSlides={false}
@@ -31,24 +31,32 @@ const CarouselProduct = ({ products }) => {
 						},
 						1024: {
 							slidesPerView: 3,
-							spaceBetween: 10,
+							spaceBetween: 15,
 						},
 						1280: {
-							slidesPerView: 4,
-							spaceBetween: 10,
+							slidesPerView: 5,
+							spaceBetween: 24,
 						},
 
 					}}
 				>
 					{products.map((product) => (
-						<CarouselItem className="h-auto pb-5 " key={product.slug}>
+						<CarouselItem className="h-auto pb-1 " key={product.slug}>
 							<CardProduct product={product} />
 						</CarouselItem>
 					))}
 				</Carousel>
 
 			</div>
-		</div>
+		) : (
+			<GridProduct>
+				{products.map((product) => (
+
+					<CardProduct product={product} key={product.slug} />
+
+				))}
+			</GridProduct>
+		)
 	)
 }
 

@@ -8,15 +8,15 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Image extends Model
 {
-	use HasFactory;
+    use HasFactory;
 
-	protected $fillable = [
-		'alt',
-		'img',
-	];
+    protected $fillable = [
+        'alt',
+        'img',
+    ];
 
-	public function model(): MorphTo
-	{
-		return $this->morphTo();
-	}
+    public function model(): MorphTo
+    {
+        return $this->morphTo();
+    }
 }

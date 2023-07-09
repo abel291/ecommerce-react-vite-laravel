@@ -24,7 +24,13 @@ const ChangePassword = () => {
 	}
 
 	return (
-		<LayoutProfile title="Cambiar contraseña">
+		<LayoutProfile title="Cambiar contraseña" breadcrumb={[
+			{
+				title: "Cambio de contraseña",
+				path: route("profile.password")
+
+			},
+		]}>
 			<Head title="Cambio de contraseña" />
 			<div className="space-y-2">
 				<form onSubmit={handleSubmit}>

@@ -31,17 +31,7 @@ class CategoryFactory extends Factory
 			'entry' => $this->faker->text(250),
 			'active' => 1,
 			'type' => 'product',
-			'specifications' => [
-				$this->faker->word(),
-				$this->faker->word(),
-				$this->faker->word(),
-				$this->faker->word(),
-				$this->faker->word(),
-				$this->faker->word(),
-				$this->faker->word(),
-				$this->faker->word(),
-				$this->faker->word(),
-			],
+			//'specifications' => [],
 		];
 	}
 }

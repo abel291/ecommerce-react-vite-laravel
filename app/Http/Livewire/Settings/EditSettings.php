@@ -2,84 +2,84 @@
 
 namespace App\Http\Livewire\Settings;
 
-use App\Services\Settings;
 use App\Services\SettingService;
 use App\Traits\TraitUploadImage;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Spatie\Valuestore\Valuestore;
 
 class EditSettings extends Component
 {
-	use TraitUploadImage, WithFileUploads;
+    use TraitUploadImage, WithFileUploads;
 
-	public $label = "Ajuste";
+    public $label = 'Ajuste';
 
-	public $labelPlural = "Ajustes";
+    public $labelPlural = 'Ajustes';
 
-	public $logo;
-	public $settings;
+    public $logo;
 
-	protected $rules = [
-		// 'logo' => 'required|string|max:255',
-		'settings.company.name' => 'required|string|min:3|max:255',
-		'settings.company.address' => 'required|string|max:255',
-		'settings.company.email' => 'required|email|max:255',
-		'settings.company.phone' => 'required|string|max:255',
-		'settings.company.entry' => 'required|string|max:1000',
-		'logo' => 'nullable|sometimes|image|max:2024|mimes:jpeg,jpg,png,svg',
+    public $settings;
 
-		'settings.rates.tax' => 'required|numeric|min:0|max:255',
-		'settings.rates.shipping' => 'required|numeric|min:0|max:255',
-	];
+    protected $rules = [
+        // 'logo' => 'required|string|max:255',
+        'settings.company.name' => 'required|string|min:3|max:255',
+        'settings.company.address' => 'required|string|max:255',
+        'settings.company.email' => 'required|email|max:255',
+        'settings.company.phone' => 'required|string|max:255',
+        'settings.company.entry' => 'required|string|max:1000',
+        'logo' => 'nullable|sometimes|image|max:2024|mimes:jpeg,jpg,png,svg',
 
-	protected $validationAttributes = [
-		'settings.company.name' => 'Nombre',
-		'settings.company.address' => 'Direccion',
-		'settings.company.email' => 'Email',
-		'settings.company.phone' => 'Telefono',
-		'settings.company.logo' => 'Logo',
-		'settings.company.entry' => 'Eslogan',
-		'settings.rates.tax' => 'Impuestos',
-		'settings.rates.shipping' => 'Envio',
-	];
+        'settings.rates.tax' => 'required|numeric|min:0|max:255',
+        'settings.rates.shipping' => 'required|numeric|min:0|max:255',
+    ];
 
-	public function mount()
-	{
-		$this->settings = SettingService::data();
-	}
+    protected $validationAttributes = [
+        'settings.company.name' => 'Nombre',
+        'settings.company.address' => 'Direccion',
+        'settings.company.email' => 'Email',
+        'settings.company.phone' => 'Telefono',
+        'settings.company.logo' => 'Logo',
+        'settings.company.entry' => 'Eslogan',
+        'settings.rates.tax' => 'Impuestos',
+        'settings.rates.shipping' => 'Envio',
+    ];
 
-	public function update()
-	{
+    public function mount()
+    {
+        $this->settings = SettingService::data();
+    }
 
-		$this->validate();
+    public function update()
+    {
 
-		if ($this->logo) {
-			if ($this->settings['company']['logo']) {
-				Storage::delete($this->settings['company']['logo']);
-			}
-			$this->settings['company']['logo'] = $this->upload_image('logo', 'settings', $this->logo);
-		}
+        $this->validate();
 
-		SettingService::put($this->settings);
+        if ($this->logo) {
+            if ($this->settings['company']['logo']) {
+                Storage::delete($this->settings['company']['logo']);
+            }
+            $this->settings['company']['logo'] = $this->upload_image('logo', 'settings', $this->logo);
+        }
 
-		$this->reset('logo');
+        SettingService::put($this->settings);
 
-		$this->dispatchBrowserEvent('notification', [
-			'title' => "$this->labelPlural Guardados",
-			// 'subtitle' => "",
-		]);
-	}
-	public function updateLogo(): void
-	{
-		$this->validate([
-			'logo' => 'image|max:1024|mimes:jpeg,jpg,png',
-		]);
-	}
-	public function render()
-	{
-		return view('livewire.settings.edit-settings');
-	}
+        $this->reset('logo');
+
+        $this->dispatchBrowserEvent('notification', [
+            'title' => "$this->labelPlural Guardados",
+            // 'subtitle' => "",
+        ]);
+    }
+
+    public function updateLogo(): void
+    {
+        $this->validate([
+            'logo' => 'image|max:1024|mimes:jpeg,jpg,png',
+        ]);
+    }
+
+    public function render()
+    {
+        return view('livewire.settings.edit-settings');
+    }
 }

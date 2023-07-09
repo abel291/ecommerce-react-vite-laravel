@@ -22,13 +22,13 @@ class OrderUserRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
-			// 'name' => 'required|max:255',
-			// 'address' => 'required|max:255',
-			// 'phone' => 'required|max:255',
-			// 'email' => 'required|max:255|email',
-			// 'city' => 'required|max:255',
-			// 'postalCode' => 'nullable|max:255',
-			// 'note' => 'nullable|max:255',
+			'name' => 'required|max:255',
+			'address' => 'required|max:255',
+			'phone' => 'required|max:255',
+			'email' => 'required|max:255|email',
+			'city' => 'required|max:255',
+			'postalCode' => 'nullable|max:255',
+			'note' => 'nullable|max:255',
 		];
 	}
 }

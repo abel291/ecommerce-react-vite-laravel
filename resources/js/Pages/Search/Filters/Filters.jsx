@@ -5,6 +5,7 @@ import FilterCheckbox from './FilterCheckbox'
 import FilterPrice from './FilterPrice'
 import FilterRadio from './FilterRadio'
 import FilterContainer from './FilterContainer'
+import FilterAttribute from './FilterAttribute'
 
 const offers = [
 	{
@@ -25,12 +26,11 @@ const offers = [
 	},
 ]
 const Filters = ({ filtersActive, setFiltersActive }) => {
-	const { list_departments, list_categories, brands } = usePage().props
-
+	const { list_departments, list_categories, list_attributes, brands } = usePage().props
 	return (
-		<div className="divide-y divide-gray-200">
+		<div className="divide-y divide-gray-200 space-y-5">
 
-			<div className='py-4'>
+			<div >
 				<FiltersSelected
 					filtersActive={filtersActive}
 					setFiltersActive={setFiltersActive}
@@ -38,49 +38,58 @@ const Filters = ({ filtersActive, setFiltersActive }) => {
 			</div>
 
 
-			{
-				list_departments.length > 0 && (
-					<FilterContainer title="Departamentos" >
+			{list_departments.length > 0 && (
+				<FilterContainer title="Departamentos" >
 
+					<FilterCheckbox
+						optionsList={list_departments}
+						filter={filtersActive.department}
+						setFilter={setFiltersActive}
+						nameFilter="department"
+
+					/>
+				</FilterContainer>
+			)}
+
+			{list_categories.length > 0 && (
+				<FilterContainer title="Categorias">
+					<FilterCheckbox
+						optionsList={list_categories}
+						filter={filtersActive.category}
+						setFilter={setFiltersActive}
+						nameFilter="category"
+
+					/>
+				</FilterContainer>
+			)}
+
+			{/* {brands.length > 0 && (
+				<FilterContainer title="Marcas">
+
+					<FilterCheckbox
+						optionsList={brands}
+						filter={filtersActive.brands}
+						setFilter={setFiltersActive}
+						nameFilter="brands"
+
+					/>
+				</FilterContainer>
+			)} */}
+
+			<>
+				{list_attributes.map((item, index) => (
+					<FilterContainer key={index} title={item.name}>
 						<FilterCheckbox
-							optionsList={list_departments}
-							filter={filtersActive.department}
+							optionsList={item.attribute_values}
+							filter={filtersActive.attribute_values}
 							setFilter={setFiltersActive}
-							nameFilter="department"
-
+							nameFilter="attribute_values"
 						/>
 					</FilterContainer>
-				)
-			}
+				))}
+			</>
 
-			{
-				list_categories.length > 0 && (
-					<FilterContainer title="Categorias">
-						<FilterCheckbox
-							optionsList={list_categories}
-							filter={filtersActive.category}
-							setFilter={setFiltersActive}
-							nameFilter="category"
 
-						/>
-					</FilterContainer>
-				)
-			}
-
-			{
-				brands.length > 0 && (
-					<FilterContainer title="Marcas">
-
-						<FilterCheckbox
-							optionsList={brands}
-							filter={filtersActive.brands}
-							setFilter={setFiltersActive}
-							nameFilter="brands"
-
-						/>
-					</FilterContainer>
-				)
-			}
 
 			<FilterContainer title="Precio">
 				<FilterPrice filtersActive={filtersActive} setFiltersActive={setFiltersActive} />

@@ -4,11 +4,10 @@ namespace Database\Seeders;
 
 use App\Helpers\Helpers;
 use App\Models\Brand;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 use Faker;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class BrandSeeder extends Seeder
 {
@@ -20,7 +19,7 @@ class BrandSeeder extends Seeder
 	public function run()
 	{
 		Brand::truncate();
-		Cache::forget('brands');
+
 		$brands = Helpers::getAllBrands();
 
 		$data = [];
@@ -33,7 +32,7 @@ class BrandSeeder extends Seeder
 				'img' => '/img/brands/' . Str::slug($value) . '.png',
 				'website' => $faker->url(),
 				'created_at' => $current_date,
-				'updated_at' => $current_date
+				'updated_at' => $current_date,
 			];
 		}
 

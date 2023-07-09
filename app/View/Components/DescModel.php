@@ -8,36 +8,37 @@ use Illuminate\View\Component;
 
 class DescModel extends Component
 {
-	public $img;
-	public $descList = [];
+    public $img;
 
-	public function __construct(
-		public string $modelName,
-		public int $modelId,
-		//da error al poner $model como nombre de var
+    public $descList = [];
 
-	) {
-		$modelData = $this->modelName::find($this->modelId);
-		switch (class_basename($modelData)) {
-			case 'Product':
-				$this->img = $modelData->img;
-				$this->descList = [
-					'Tipo' => "Producto",
-					'Titulo' => $modelData->name,
-				];
-				break;
+    public function __construct(
+        public string $modelName,
+        public int $modelId,
+        //da error al poner $model como nombre de var
 
-			default:
-				# code...
-				break;
-		}
-	}
+    ) {
+        $modelData = $this->modelName::find($this->modelId);
+        switch (class_basename($modelData)) {
+            case 'Product':
+                $this->img = $modelData->img;
+                $this->descList = [
+                    'Tipo' => 'Producto',
+                    'Titulo' => $modelData->name,
+                ];
+                break;
 
-	/**
-	 * Get the view / contents that represent the component.
-	 */
-	public function render(): View|Closure|string
-	{
-		return view('components.desc-model');
-	}
+            default:
+                // code...
+                break;
+        }
+    }
+
+    /**
+     * Get the view / contents that represent the component.
+     */
+    public function render(): View|Closure|string
+    {
+        return view('components.desc-model');
+    }
 }

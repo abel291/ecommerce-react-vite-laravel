@@ -11,16 +11,14 @@ import GridProduct from '@/Components/Grids/GridProduct'
 import CarouselSection from './CarouselSection'
 
 
-export default function Home({ page, carouselTop, bannersTop, featured, bannersMedium, newProducts, bannersBottom }) {
-	const { categories, brands } = usePage().props
+export default function Home({ page, carouselTop, bannersTop, bestSeller, bannersMedium, newProducts, bannersBottom, categoriesProductCount }) {
 
-	console.log(bannersBottom)
 	return (
 		<>
 			<Head title={page.meta_title} />
 			<Layout>
 				<div className="container">
-					<div className="py-content grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 ">
+					{/* <div className="py-content grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 ">
 						<div className="col-span-1 md:col-span-2 ">
 							<CarouselTop images={carouselTop} />
 						</div>
@@ -36,13 +34,12 @@ export default function Home({ page, carouselTop, bannersTop, featured, bannersM
 								</a>
 							</div>
 						))}
-					</div>
+					</div> */}
 
-
-					<SectionList title="Destacados">
+					<SectionList title="Los mas vendidos">
 
 						<GridProduct>
-							{featured.map((product) => (
+							{bestSeller.map((product) => (
 								<CardProduct key={product.id} product={product} />
 							))}
 						</GridProduct>
@@ -55,7 +52,7 @@ export default function Home({ page, carouselTop, bannersTop, featured, bannersM
 					)}
 
 					<SectionList title={"Categorias"}>
-						<CarouselSection items={categories} searchType="categories" />
+						<CarouselSection items={categoriesProductCount} searchType="category[]" />
 					</SectionList>
 
 					<SectionList title={"Los recién llegados"}>
@@ -74,9 +71,9 @@ export default function Home({ page, carouselTop, bannersTop, featured, bannersM
 						</div>
 					)}
 
-					<SectionList title={"Top Marcas"}>
+					{/* <SectionList title={"Top Marcas"}>
 						<CarouselSection items={brands} searchType="brands" />
-					</SectionList>
+					</SectionList> */}
 
 				</div>
 

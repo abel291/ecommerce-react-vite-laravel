@@ -5,17 +5,10 @@ import MovileNavbar from './MovileNavbar/MovileNavbar';
 export default function Navbar({ auth }) {
 
 	const navigation = [
+
 		{
-			name: 'Ofetas',
+			name: 'Ofertas',
 			href: 'offers'
-		},
-		{
-			name: 'Combos',
-			href: 'combos'
-		},
-		{
-			name: 'Ensambles',
-			href: 'assemblies'
 		},
 		{
 			name: 'Blog',

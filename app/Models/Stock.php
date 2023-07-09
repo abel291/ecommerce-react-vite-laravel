@@ -9,25 +9,30 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Stock extends Model
 {
-	use HasFactory;
-	protected $table = 'stock';
-	public function product(): BelongsTo
-	{
-		return $this->belongsTo(Product::class);
-	}
-	public function stockPercent(): Attribute
-	{
-		$percent = ($this->remaining * 100) / $this->quantity;
-		return new Attribute(
-			get: fn () => round($percent, 2)
-		);
-	}
+    use HasFactory;
 
-	public function IsInStock(): Attribute
-	{
-		$percent = ($this->remaining * 100) / $this->quantity;
-		return new Attribute(
-			get: fn () => round($percent, 2)
-		);
-	}
+    protected $table = 'stock';
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function stockPercent(): Attribute
+    {
+        $percent = ($this->remaining * 100) / $this->quantity;
+
+        return new Attribute(
+            get: fn () => round($percent, 2)
+        );
+    }
+
+    public function IsInStock(): Attribute
+    {
+        $percent = ($this->remaining * 100) / $this->quantity;
+
+        return new Attribute(
+            get: fn () => round($percent, 2)
+        );
+    }
 }
