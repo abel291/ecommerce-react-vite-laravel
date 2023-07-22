@@ -2,21 +2,23 @@
 import Badge from '@/Components/Badge'
 import { formatCurrency } from '@/Helpers/helpers'
 import { XMarkIcon } from '@heroicons/react/24/solid'
-import { router } from '@inertiajs/react'
+import { router, usePage } from '@inertiajs/react'
 import { FilterTitle } from './Filters'
 
-const FiltersList = ({ filtersActive, setFiltersActive, setFilter }) => {
-	console.log(filtersActive)
-	const handleClickRemoveFilter = (filterName, filtersValue) => {
+const FiltersList = ({ data, setData, changeFilter, changeAttribute }) => {
+	const { listDepartments, listCategories, listAttributes } = usePage().props
 
-		let newFiltersActive = filtersActive
-		if ((typeof newFiltersActive[filterName]) == "object") {
-			newFiltersActive[filterName] = newFiltersActive[filterName].filter((item) => item !== filtersValue)
+	const handleClickRemoveFilter = (filterName, value = null) => {
+
+		let newFilters = data
+
+		if ((typeof newFilters[filterName]) == "object") {
+			newFilters[filterName] = newFilters[filterName].filter((item) => item !== value)
 		} else {
-			newFiltersActive[filterName] = ""
+			newFilters[filterName] = ""
 		}
 
-		setFiltersActive({ ...newFiltersActive })
+		setData({ ...newFilters })
 	}
 
 	const handleClickRemoveAll = () => {
@@ -26,7 +28,7 @@ const FiltersList = ({ filtersActive, setFiltersActive, setFilter }) => {
 	return (
 		<>
 
-			<div className="flex items-center justify-between pb-4">
+			<div className="flex items-center justify-between ">
 				<FilterTitle>Filtros</FilterTitle>
 				<button className="text-xs font-light" onClick={handleClickRemoveAll}>
 					Borrar todo
@@ -34,85 +36,90 @@ const FiltersList = ({ filtersActive, setFiltersActive, setFilter }) => {
 			</div>
 
 			<div className="flex flex-wrap text-xs gap-2.5">
-				{filtersActive.q && (
+				{data.q && (
 					<Badge color='gray' >
-						<span className="mr-2 ">"{filtersActive.q}"</span>
+						<span className="mr-2 ">"{data.q}"</span>
 						<button onClick={() => handleClickRemoveFilter("q")}>
 							<XMarkIcon className="w-3 h-3" />
 						</button>
 					</Badge>
 
 				)}
-				{filtersActive.department.length > 0 &&
-					filtersActive.department.map((item) => (
-						<Badge color='gray' key={item}>
-							<span className="mr-2 up">{item}</span>
-							<button onClick={() => handleClickRemoveFilter("department", item)}>
+				{listDepartments.map((department, index) => (
+					department.selected && (
+						<Badge color='gray' key={"department" + index}>
+							<span className="mr-2 up">{department.name}</span>
+							<button onClick={() => changeFilter("departments", department.slug, false)}>
 								<XMarkIcon className="w-3 h-3" />
 							</button>
 						</Badge>
-
-					))}
-				{filtersActive.category.length > 0 &&
-					filtersActive.category.map((item) => (
-						<Badge color='gray' key={item}>
-							<span className="mr-2 up">{item}</span>
-							<button onClick={() => handleClickRemoveFilter("category", item)}>
+					)
+				))}
+				{listCategories.map((category, index) => (
+					category.selected && (
+						<Badge color='gray' key={"category" + index}>
+							<span className="mr-2 up">{category.name}</span>
+							<button onClick={() => changeFilter("categories", category.slug, false)}>
 								<XMarkIcon className="w-3 h-3" />
 							</button>
 						</Badge>
+					)
+				))}
+				{listAttributes.map((attribute, index) => (
+					attribute.attribute_values.map((attributeValue) => (
+						attributeValue.selected && (
+							<Badge color='gray' key={"attribute" + index}>
+								<span className="mr-2 up">{attributeValue.name}</span>
+								<button onClick={() => changeAttribute(attribute.slug, attributeValue.slug, false)}>
+									<XMarkIcon className="w-3 h-3" />
+								</button>
+							</Badge>
+						)
+					)
+					)))
+				}
 
-					))}
-				{filtersActive.attribute_values.length > 0 &&
-					filtersActive.attribute_values.map((item) => (
-						<Badge color='gray' key={item}>
-							<span className="mr-2 up">{item}</span>
-							<button onClick={() => handleClickRemoveFilter("attribute_values", item)}>
-								<XMarkIcon className="w-3 h-3" />
-							</button>
-						</Badge>
-					))}
 
-				{filtersActive.brands.length > 0 &&
-					filtersActive.brands.map((item) => (
+				{/* {data.brands.length > 0 &&
+					data.brands.map((item) => (
 						<Badge color='gray' key={item}>
 							<span className="mr-2 up">{item}</span>
 							<button onClick={() => handleClickRemoveFilter("brands", item)}>
 								<XMarkIcon className="w-3 h-3" />
 							</button>
 						</Badge>
-					))}
+					))} */}
 
 
 
-				{filtersActive.price_min && (
+				{data.price_min && (
 					<Badge color='gray'>
-						<span className="mr-2 capitalize">Desde {formatCurrency(filtersActive.price_min)}</span>
+						<span className="mr-2 capitalize">Desde {formatCurrency(data.price_min)}</span>
 						<button onClick={() => handleClickRemoveFilter("price_min")}>
 							<XMarkIcon className="w-3 h-3" />
 						</button>
 					</Badge>
 				)}
-				{filtersActive.price_max && (
+				{data.price_max && (
 					<Badge color='gray' >
-						<span className="mr-2 capitalize">Hasta {formatCurrency(filtersActive.price_max)}</span>
+						<span className="mr-2 capitalize">Hasta {formatCurrency(data.price_max)}</span>
 						<button onClick={() => handleClickRemoveFilter("price_max")}>
 							<XMarkIcon className="w-3 h-3" />
 						</button>
 					</Badge>
 				)}
 
-				{filtersActive.sortBy && (
+				{data.sortBy && (
 					<Badge color='gray' >
-						<span className="mr-2 capitalize">{filtersActive.sortBy}</span>
+						<span className="mr-2 capitalize">{data.sortBy}</span>
 						<button onClick={() => handleClickRemoveFilter("sortBy")}>
 							<XMarkIcon className="w-3 h-3" />
 						</button>
 					</Badge>
 				)}
-				{filtersActive.offer && (
+				{data.offer && (
 					<Badge color='gray' >
-						<span className="mr-2 ">Descuento {filtersActive.offer}%</span>
+						<span className="mr-2 ">Descuento {data.offer}%</span>
 						<button onClick={() => handleClickRemoveFilter("offer")}>
 							<XMarkIcon className="w-3 h-3" />
 						</button>
@@ -120,7 +127,7 @@ const FiltersList = ({ filtersActive, setFiltersActive, setFilter }) => {
 				)}
 			</div>
 			{/* <div className="mr-2 mt-2  px-2 py-2 bg-gray-50 border border-gray-200 rounded-md inline-flex items-center">
-						<span className="mr-2 ">Descuento {filtersActive.offer}%</span>
+						<span className="mr-2 ">Descuento {data.offer}%</span>
 						<button onClick={() => handleClickRemoveFilter("offer")}>
 							<XMarkIcon className="w-3 h-3" />
 						</button>

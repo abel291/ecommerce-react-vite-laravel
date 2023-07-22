@@ -11,11 +11,13 @@ function BannerText({ title, img = null, entry }) {
 						<p className='mt-6 text-lg leading-7 text-white'>{entry}</p>
 
 					</div>
-					{img && (
-						<div className='lg:w-7/12 mt-8 lg:mt-0 '>
+
+					<div className='lg:w-7/12 mt-8 lg:mt-0 '>
+						{img && (
 							<img className='lg:h-80 object-contain lg:object-bottom rounded-xl mx-auto' src={img} alt={title} />
-						</div>
-					)}
+						)}
+					</div>
+
 				</div>
 			</div>
 		</div >

@@ -18,7 +18,7 @@ export default function Home({ page, carouselTop, bannersTop, bestSeller, banner
 			<Head title={page.meta_title} />
 			<Layout>
 				<div className="container">
-					{/* <div className="py-content grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 ">
+					<div className="py-content grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 ">
 						<div className="col-span-1 md:col-span-2 ">
 							<CarouselTop images={carouselTop} />
 						</div>
@@ -34,16 +34,17 @@ export default function Home({ page, carouselTop, bannersTop, bestSeller, banner
 								</a>
 							</div>
 						))}
-					</div> */}
+					</div>
+					{(bestSeller.length > 0) && (
+						<SectionList title="Los mas vendidos">
 
-					<SectionList title="Los mas vendidos">
-
-						<GridProduct>
-							{bestSeller.map((product) => (
-								<CardProduct key={product.id} product={product} />
-							))}
-						</GridProduct>
-					</SectionList>
+							<GridProduct>
+								{bestSeller.map((product) => (
+									<CardProduct key={product.id} product={product} />
+								))}
+							</GridProduct>
+						</SectionList>
+					)}
 
 					{bannersMedium.length > 0 && (
 						<div className="py-content ">
@@ -52,7 +53,7 @@ export default function Home({ page, carouselTop, bannersTop, bestSeller, banner
 					)}
 
 					<SectionList title={"Categorias"}>
-						<CarouselSection items={categoriesProductCount} searchType="category[]" />
+						<CarouselSection items={categoriesProductCount} searchType="categories[]" />
 					</SectionList>
 
 					<SectionList title={"Los recién llegados"}>

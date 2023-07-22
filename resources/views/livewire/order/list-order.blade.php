@@ -26,7 +26,7 @@
                     @php
                         $tableNamesHead = [
                             'code' => 'Codigo',
-                            'user_data->name' => 'Cliente',
+                            'data->user->name' => 'Cliente',
                             'order_products_count' => 'N° productos',
                             'status' => 'Estado',
                             'total' => 'Total',
@@ -49,14 +49,15 @@
                             <x-table.title-image :title="'#' . $item->code" />
                         </td>
                         <td>
-                            {{ $item->user_data->name }}
+                            {{ $item->data->user->name }}
                         </td>
                         <td>
                             <div class="flex items-center gap-x-3">
-
-                                <x-table.button :id="$item->id" modal-id="modal-quantity-product">
-                                    <span class="underline">{{ $item->order_products->sum('quantity_selected') }}</span>
-                                </x-table.button>
+                                <button type="button" x-data :key="'show_' + {{ $item->id }}"
+                                    class="text-indigo-600 hover:text-indigo-700 font-medium"
+                                    x-on:click="$dispatch('modal-quantity-product',{{ $item->id }})">
+                                    <span class="underline">{{ $item->quantity }}</span>
+                                </button>
                             </div>
                         </td>
                         <td>

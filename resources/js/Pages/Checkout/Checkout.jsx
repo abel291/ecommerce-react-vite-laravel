@@ -9,7 +9,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from '@stripe/stripe-js';
 const stripePromise = loadStripe('pk_test_ejdWQWajqC4QwST95KoZiDZK');
 
-const Checkout = ({ orderProducts, order }) => {
+const Checkout = ({ products, total }) => {
 
 	return (
 		<Layout>
@@ -42,7 +42,7 @@ const Checkout = ({ orderProducts, order }) => {
 						<div className="w-full lg:w-5/12 xl:w-4/12">
 							<h2 className="title-section mb-4">Su pedido </h2>
 							<div>
-								<OrderSummary orderProducts={orderProducts} order={order} />
+								<OrderSummary products={products} total={total} />
 							</div>
 						</div>
 					</div>

@@ -10,8 +10,6 @@ import { PaperClipIcon } from "@heroicons/react/24/outline";
 
 const OrderComplete = ({ order, products }) => {
 	const { flash } = usePage().props
-
-	console.log(order)
 	return (
 		<LayoutProfile>
 			<Head title="Pedidos" />

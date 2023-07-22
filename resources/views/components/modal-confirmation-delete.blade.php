@@ -1,4 +1,3 @@
-@props([''])
 <div>
     <div x-data="{
         show: @entangle('open_modal_confirmation_delete').defer,

@@ -2,14 +2,65 @@
 
 return [
 
-    'shopping-cart' => [
+	/*
+    |--------------------------------------------------------------------------
+    | Default tax rate
+    |--------------------------------------------------------------------------
+    |
+    | This default tax rate will be used when you make a class implement the
+    | Taxable interface and use the HasTax trait.
+    |
+    */
 
-        'max-quantity' => env('SHOPPING_CART_MAX_QUANTITY', 50), //CANTIDAD MAXIMA DE PRODUCTOS EN EL CARRITO DE COMPRAS
+	'tax' => 0,
 
-    ],
-    // 'wish-list' => [
-    // 	'max-quantity' => env('WISH_LIST_MAX_QUANTITY', 50), //CANTIDAD MAXIMA DE PRODUCTOS EN EL CARRITO DE COMPRAS
+	/*
+    |--------------------------------------------------------------------------
+    | Shoppingcart database settings
+    |--------------------------------------------------------------------------
+    |
+    | Here you can set the connection that the shoppingcart should use when
+    | storing and restoring a cart.
+    |
+    */
 
-    // ]
+	'database' => [
+
+		'connection' => null,
+
+		'table' => 'shoppingcart',
+
+	],
+
+	/*
+    |--------------------------------------------------------------------------
+    | Destroy the cart on user logout
+    |--------------------------------------------------------------------------
+    |
+    | When this option is set to 'true' the cart will automatically
+    | destroy all cart instances when the user logs out.
+    |
+    */
+
+	'destroy_on_logout' => false,
+
+	/*
+    |--------------------------------------------------------------------------
+    | Default number format
+    |--------------------------------------------------------------------------
+    |
+    | This defaults will be used for the formated numbers if you don't
+    | set them in the method call.
+    |
+    */
+
+	'format' => [
+
+		'decimals' => 2,
+
+		'decimal_point' => '.',
+
+		'thousand_seperator' => ''
+	],
 
 ];

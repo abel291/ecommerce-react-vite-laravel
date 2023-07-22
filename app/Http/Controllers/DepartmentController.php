@@ -25,19 +25,13 @@ class DepartmentController extends Controller
 			->limit(10)
 			->get();
 
-		$categories = $department->categories()
-			->active()
-			->with(['products' => function ($query) {
-				$query->activeInStock();
-			}])
-			->whereHas('products', function ($query) {
-				$query->activeInStock();
+		$categories = Category::active()
+			->withWhereHas('products', function ($query) use ($department) {
+				$query->activeInStock()->where('department_id', $department->id);
 			})->get()->map(function ($item) {
 				$item->setRelation('products', $item->products->take(10));
 				return $item;
 			})->filter(fn (Category $category) => $category->products->isNotEmpty());
-
-
 
 
 		// $brands = Brand::select('name', 'slug', 'img')->active()

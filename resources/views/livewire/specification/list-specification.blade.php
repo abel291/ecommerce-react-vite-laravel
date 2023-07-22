@@ -28,8 +28,8 @@
                     @php
                         $tableNamesHead = [
                             'name' => 'Nombre',
+                            'type' => 'Tipo',
                             'value' => 'Valor',
-                            //'entry' => 'Descipcion',
                             'active' => 'Visible',
                             'updated_at' => 'Ultima actualización',
                         ];
@@ -49,6 +49,9 @@
                             <x-table.title-image :title="$item->name" />
                         </td>
 
+                        <td>
+                            {{ $item->type }}
+                        </td>
                         <td>
                             {{ $item->value }}
                         </td>

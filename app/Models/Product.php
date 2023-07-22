@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\PaymentStatus;
 use App\Models\Attribute;
+use Gloudemans\Shoppingcart\Contracts\Buyable;
 use Illuminate\Database\Eloquent\Builder;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,6 +18,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Product extends Model
 {
+
+
 	use HasFactory;
 
 	protected $fillable = [
@@ -64,27 +67,14 @@ class Product extends Model
 		return $this->morphMany(Image::class, 'model');
 	}
 
-	public function attributes(): BelongsToMany
+	public function attributes(): HasMany
 	{
-		return $this->belongsToMany(Attribute::class, 'attribute_product')->distinct();
+		return $this->hasMany(Attribute::class);
 	}
-	public function attribute_values(): BelongsToMany
+	public function attribute_values(): HasMany
 	{
-		return $this->belongsToMany(AttributeValue::class, 'attribute_product');
+		return $this->hasMany(AttributeValue::class);
 	}
-
-	public function loadAttributesWithValues()
-	{
-
-		$this['attributes']->map(function ($attribute) {
-			$attribute->setRelation('attribute_values', $this->attribute_values->where('attribute_id', $attribute->id)->values());
-			return $attribute;
-		});
-
-		return $this;
-	}
-
-
 
 	public function brand(): BelongsTo
 	{
@@ -164,9 +154,7 @@ class Product extends Model
 		$query->where('offer', '!=', 0);
 	}
 
-	/**
-	 * Scope a query to only include active users.
-	 */
+
 	public function scopeActive(Builder $query): void
 	{
 		$query->where('active', 1);
@@ -189,23 +177,24 @@ class Product extends Model
 				$query->orWhere('description_min', 'like', '%' . $filters['q'] . '%');
 			})
 
-			->when($filters['department'], function (Builder $query) use ($filters) {
+			->when($filters['departments'], function (Builder $query) use ($filters) {
+
 				$query->whereHas('department', function (Builder $sub_query) use ($filters) {
-					$sub_query->whereIn('slug', $filters['department']);
+					$sub_query->whereIn('slug', $filters['departments']);
 				});
 			})
 
-			->when($filters['category'], function (Builder $query) use ($filters) {
+			->when($filters['categories'], function (Builder $query) use ($filters) {
 				$query->whereHas('category', function (Builder $sub_query) use ($filters) {
-					$sub_query->whereIn('slug', $filters['category']);
+					$sub_query->whereIn('slug', $filters['categories']);
 				});
 			})
 
-			->when($filters['brands'], function (Builder $query) use ($filters) {
-				$query->whereHas('brand', function (Builder $sub_query) use ($filters) {
-					$sub_query->whereIn('slug', $filters['brands']);
-				});
-			})
+			// ->when($filters['brands'], function (Builder $query) use ($filters) {
+			// 	$query->whereHas('brand', function (Builder $sub_query) use ($filters) {
+			// 		$sub_query->where('slug', $filters['brands']);
+			// 	});
+			// })
 
 			->when($filters['price_min'], function (Builder $query) use ($filters) {
 				$query->where('price_offer', '>=', $filters['price_min']);
@@ -218,11 +207,19 @@ class Product extends Model
 			->when($filters['offer'], function (Builder $query) use ($filters) {
 				$query->where('offer', '>=', $filters['offer']);
 			})
-			->when($filters['attribute_values'], function (Builder $query) use ($filters) {
+			->when($filters['attributes'], function (Builder $query) use ($filters) {
+				foreach ($filters['attributes'] as $attribute_name => $attribute_values) {
 
-				$query->whereHas('attribute_values', function (Builder $sub_query) use ($filters) {
-					$sub_query->whereIn('slug', $filters['attribute_values']);
-				});
+					$query->whereHas('attributes', function ($query) use ($attribute_name, $attribute_values) {
+						$query->where('slug', $attribute_name);
+						$query->whereHas('attribute_values', function ($query) use ($attribute_values) {
+							$query->whereIn('slug', $attribute_values);
+							// foreach ($attribute_values as $key => $value) {
+
+							// }
+						});
+					});
+				}
 			})
 
 			->when($filters['sortBy'], function (Builder $query) use ($filters) {

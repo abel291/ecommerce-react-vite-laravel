@@ -23,7 +23,7 @@ class DepartmentFactory extends Factory
 		return [
 			'name' => $name,
 			'slug' => $slug,
-			'img' => 'img.jpg',
+			'img' => '',
 			'entry' => $this->faker->text(),
 			'active' => 1,
 		];

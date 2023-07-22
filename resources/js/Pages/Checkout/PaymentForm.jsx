@@ -18,7 +18,7 @@ function PaymentForm() {
 	const stripe = useStripe();
 	const elements = useElements();
 
-	const { order, errors } = usePage().props
+	const { total, errors } = usePage().props
 
 	const [cardData, setCardData] = useState({
 		name: userForm.data.name,
@@ -38,14 +38,6 @@ function PaymentForm() {
 		}
 		setErrorCard(null)
 		setLoading(true)
-
-		// router.visit(route('purchase'), {
-		// 	method: 'post',
-		// 	data: {
-		// 		...userForm.data,
-		// 		//paymentMethodId: result.paymentMethod.id
-		// 	},
-		// });
 
 		await stripe.createPaymentMethod(
 			'card', elements.getElement(CardElement), {
@@ -72,7 +64,7 @@ function PaymentForm() {
 		}).catch(function (error) {
 			setLoading(false)
 			setErrorCard(error.message)
-			console.log(error);
+
 
 		})
 
@@ -128,7 +120,7 @@ function PaymentForm() {
 			<div className="sm:col-span-6">
 				<PrimaryButton className="w-full mt-4" onClick={handleSubmit}
 					isLoading={loading} disabled={loading}>
-					Pagar {formatCurrency(order.total)}
+					Pagar {formatCurrency(total.total)}
 				</PrimaryButton>
 			</div>
 

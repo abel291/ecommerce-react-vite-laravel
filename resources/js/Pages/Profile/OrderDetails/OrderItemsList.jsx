@@ -1,7 +1,9 @@
 import { formatCurrency } from '@/Helpers/helpers'
+import CartAttributes from '@/Pages/ShoppingCart/CartAttributes'
 import React from 'react'
 
 function OrderItemsList({ order }) {
+
 	return (
 		<div>
 			<table className="table-list w-full">
@@ -14,12 +16,20 @@ function OrderItemsList({ order }) {
 					</tr>
 				</thead>
 				<tbody>
-					{order.products.map((product) => (
-						<tr key={product.id}>
-							<td >{product.name}</td>
+					{order.products.map((product, index) => (
+						<tr key={index}>
+							<td>
+								{product.data.name}
+								{product.attributes.map((attribute, index) => (
+									<div key={index} className='ml-4 flex gap-x-1.5 text-sm text-gray-500'>
+										<div>{attribute.name}</div>
+										<div>{attribute.value}</div>
+									</div>
+								))}
+							</td>
 							<td className='whitespace-nowrap' >{formatCurrency(product.price)}</td>
-							<td>{product.quantity_selected}</td>
-							<td className='whitespace-nowrap'>{formatCurrency(product.price_quantity)}</td>
+							<td>{product.quantity}</td>
+							<td className='whitespace-nowrap'>{formatCurrency(product.total)}</td>
 						</tr>
 					))}
 					{/* <tr>

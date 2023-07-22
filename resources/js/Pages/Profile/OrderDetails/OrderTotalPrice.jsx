@@ -22,8 +22,8 @@ function OrderTotalPrice({ order }) {
 					</dl>
 
 					<dl className="grid sm:grid-cols-5 gap-x-3 ">
-						<dt className="col-span-3 text-gray-500">Estimación de impuestos  {order.tax_percent}%:</dt>
-						<dd className="whitespace-nowrap col-span-2 font-medium  dark:text-gray-200">{formatCurrency(order.tax_amount)}</dd>
+						<dt className="col-span-3 text-gray-500">Estimación de impuestos  {order.tax.rate}%:</dt>
+						<dd className="whitespace-nowrap col-span-2 font-medium  dark:text-gray-200">{formatCurrency(order.tax.value)}</dd>
 					</dl>
 
 					<dl className="grid sm:grid-cols-5 gap-x-3 ">

@@ -7,22 +7,29 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class CartResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
-    public function toArray(Request $request): array
-    {
-        return [
-            'id' => $this->id,
-            'quantity_selected' => $this->quantity_selected,
-            'price' => $this->price,
-            'price_quantity' => $this->price_quantity,
-            'type' => $this->type,
-            'date' => $this->date,
-            'product' => new ProductResource($this->whenLoaded('product')),
-            'user' => new UserResource($this->whenLoaded('user')),
-        ];
-    }
+	/**
+	 * Transform the resource into an array.
+	 *
+	 * @return array<string, mixed>
+	 */
+	public function toArray(Request $request): array
+	{
+
+		return [
+			'id' => $this->id,
+			'name' => $this->name,
+			'price' => (float)$this->price,
+			'quantity' => (int)$this->qty,
+			'total' => $this->total(),
+			'options' => $this->options,
+			'model' => [
+				'id' => $this->model->id,
+				'slug' => $this->model->slug,
+				'img' => $this->model->img,
+				'maxQuantity' => $this->model->max_quantity,
+				'price' => $this->model->price,
+				'priceOffer' => $this->model->price_offer,
+			],
+		];
+	}
 }

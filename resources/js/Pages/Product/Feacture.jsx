@@ -55,11 +55,7 @@ const Feacture = ({ product, attributesDefault }) => {
 	return (
 		<div >
 
-			{product.attributes.length > 0 && (
-				<div className="mt-8">
-					<Attributes product={product} data={data} setData={setData} />
-				</div>
-			)}
+
 
 			<div className="mt-8">
 				{product.stock.remaining <= 0 ? (
@@ -69,7 +65,12 @@ const Feacture = ({ product, attributesDefault }) => {
 					</div>
 				) : (
 					<>
-						<div className="flex space-x-3 items-stretch">
+						{product.attributes.length > 0 && (
+							<div className="mt-8">
+								<Attributes product={product} data={data} setData={setData} />
+							</div>
+						)}
+						<div className="flex space-x-3 items-stretch mt-8">
 							<div className="flex items-center border border-gray-200 rounded-md divide-gray-200 divide-x bg-white  h-10">
 								<button onClick={() => handleClickQuantity("down")} className=" flex items-center px-4 h-full">
 									<MinusIcon className="h-4 w-4" />

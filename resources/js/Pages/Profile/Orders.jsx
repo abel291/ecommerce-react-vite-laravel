@@ -12,9 +12,9 @@ import Badge from "@/Components/Badge";
 const Order = ({ orders }) => {
 
 	const [page, setPage] = useState(1);
-	console.log(orders)
+
 	const handleClickChangePage = (number) => {
-		console.log(number)
+
 		setPage(number);
 	};
 

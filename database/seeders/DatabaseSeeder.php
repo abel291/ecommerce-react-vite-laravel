@@ -25,20 +25,19 @@ class DatabaseSeeder extends Seeder
 		Cache::flush();
 		Schema::disableForeignKeyConstraints();
 
-		Image::truncate();
+		//Image::truncate();
 		$this->call([
 
 			UserSeeder::class,
 			PageSeeder::class,
 			CategorySeeder::class,
-			//SpecificationSeeder::class,
-			BrandSeeder::class,
+
+			//BrandSeeder::class,
 			BlogSeeder::class,
 			ProductSeeder::class,
 
-			// ShoppingCartSeeder::class,
-			// OrderSeeder::class,
-			// BlogSeeder::class,
+			OrderSeeder::class,
+
 		]);
 		Schema::enableForeignKeyConstraints();
 	}

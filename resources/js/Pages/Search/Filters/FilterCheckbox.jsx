@@ -1,16 +1,8 @@
-const FilterCheckbox = ({ optionsList, filter, setFilter, nameFilter }) => {
+const FilterCheckbox = ({ optionsList, changeFilter, filterName }) => {
 
-	const handleChangeFilterCheckbox = (e) => {
-		let target = e.target
-		let newfilter = filter;
-
-		if (target.checked) {
-			newfilter.push(target.value)
-		} else {
-			newfilter = newfilter.filter((item) => item !== target.value)
-		}
-		console.log(target.value)
-		setFilter(nameFilter, newfilter)
+	const handleChange = (e) => {
+		let target = e.target;
+		changeFilter(filterName, target.value, target.checked)
 	}
 	return (
 		<>
@@ -19,12 +11,12 @@ const FilterCheckbox = ({ optionsList, filter, setFilter, nameFilter }) => {
 					<div key={index} className="flex items-center">
 						<input
 							id={item.slug}
-							checked={filter.includes(item.slug)}
+							checked={item.selected}
 							type="checkbox"
 							className="rounded mr-3 h-4 w-4 input-checkbox"
-							name={nameFilter}
+							name={filterName}
 							value={item.slug}
-							onChange={handleChangeFilterCheckbox}
+							onChange={handleChange}
 						/>
 						<label className=" text-gray-600 " htmlFor={item.slug}>
 							{item.name}

@@ -2,9 +2,7 @@ import React from 'react'
 
 function FilterList({ optionsList, setFilter, nameFilter, title }) {
 	const handleClick = (value) => {
-		console.log(value);
 		setFilter(nameFilter, value)
-
 	}
 
 

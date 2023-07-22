@@ -22,25 +22,6 @@
                         <option value="blog">Blog</option>
                     </x-form.select>
                 </div>
-                @if ($category->type == 'product')
-                    <div class="lg:col-span-6">
-                        <x-input-label>Especificaciones</x-input-label>
-
-                        <x-form.grid>
-
-                            @foreach ($category->specifications as $key => $item)
-                                <div class="lg:col-span-2">
-                                    <x-text-input wire:key="category.specifications-{{ $key }}"
-                                        wire:model.defer="category.specifications.{{ $key }}" />
-                                </div>
-                            @endforeach
-                        </x-form.grid>
-
-                        <x-input-error model="category.specifications" />
-
-                    </div>
-                @endif
-
                 <div class="lg:col-span-6">
                     <x-form.textarea rows="4" wire:model.defer="category.entry" label="Descripcion pequeña" />
                 </div>

@@ -11,6 +11,7 @@ use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\Profile\ProfileOrderController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ShoppingCartController;
+use App\Http\Livewire\Attribute\ListAttribute;
 use App\Http\Livewire\Banner\ListBanner;
 use App\Http\Livewire\Blog\CreatePost;
 use App\Http\Livewire\Blog\ListAuthor;
@@ -102,7 +103,7 @@ Route::middleware('auth')->group(function () {
 	});
 
 	Route::resource('shopping-cart', ShoppingCartController::class)->only([
-		'index', 'store', 'destroy',
+		'index', 'store', 'update', 'destroy',
 	]);
 
 	Route::controller(CheckoutController::class)->group(function () {
@@ -133,6 +134,11 @@ Route::middleware('auth')->group(function () {
 		Route::get('/product/create', [CreateProduct::class, '__invoke'])->name('products-create');
 		Route::get('/product/{id}/edit', [CreateProduct::class, '__invoke'])->name('products-edit');
 		Route::get('/product/{id}/specification', [ListSpecification::class, '__invoke'])->name('products-specifications');
+
+		Route::get('/product/{id}/attributes', [ListAttribute::class, '__invoke'])->name('product-attributes');
+
+		Route::get('/attribute/create', [EditAttribute::class, '__invoke'])->name('attribute-create');
+		Route::get('/attribute/{id}/edit', [EditAttribute::class, '__invoke'])->name('attribute-edit');
 
 		Route::get('/posts', ListPost::class)->name('posts');
 		Route::get('/post/create', [CreatePost::class, '__invoke'])->name('posts-create');

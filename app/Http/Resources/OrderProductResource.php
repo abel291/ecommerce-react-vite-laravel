@@ -2,11 +2,10 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\AttributeValueResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductAttributeResource extends JsonResource
+class OrderProductResource extends JsonResource
 {
 	/**
 	 * Transform the resource into an array.
@@ -15,9 +14,13 @@ class ProductAttributeResource extends JsonResource
 	 */
 	public function toArray(Request $request): array
 	{
+
 		return [
-			'attribute' => new AttributeResource($this->whenLoaded('attribute')),
-			'attribute_values' => AttributeValueResource::collection($this->whenLoaded('attribute_values')),
+			'price' => $this->price,
+			'quantity' => $this->quantity,
+			'total' => $this->total,
+			'data' => $this->data,
+			'attributes' => $this->attributes,
 		];
 	}
 }

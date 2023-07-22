@@ -10,7 +10,8 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Department;
 use App\Models\Product;
-
+use App\Models\ProductAttribute;
+use App\Models\ProductAttributeValue;
 use App\Models\Specification;
 
 use App\Models\Stock;
@@ -26,16 +27,18 @@ class ProductSeeder extends Seeder
 	 *
 	 * @return void
 	 */
+
 	public function run()
 	{
 		Product::truncate();
 		Stock::truncate();
 		Specification::truncate();
 		Attribute::truncate();
-		AttributeProduct::truncate();
 
-		$brands = Brand::get();
+		//$brands = Brand::get();
+
 		$categories = Category::select('id', 'name', 'slug')->get();
+
 		$departments = Department::select('id', 'name', 'slug')->get();
 
 		$products = Helpers::getAllProducts();
@@ -43,16 +46,6 @@ class ProductSeeder extends Seeder
 		$faker = Faker\Factory::create();
 
 		foreach ($products as $key => $product) {
-
-			$category_slug = Str::slug($product['category']);
-
-			$department_slug = Str::slug($product['department']);
-
-			$department = $departments->firstWhere('slug', $department_slug);
-
-			$category = $categories->firstWhere('slug', $category_slug);
-
-			$brand = $brands->firstWhere('slug', Str::slug($product['brand']));
 
 			$price = $product['price'];
 
@@ -64,7 +57,7 @@ class ProductSeeder extends Seeder
 
 			echo ($key + 1) . ' - ' . $product['name'] . " \n";
 
-			$product_factory = Product::factory()
+			$product_model = Product::factory()
 				->has(Stock::factory()->count(1))
 				->create([
 					'name' => $product['name'],
@@ -77,16 +70,15 @@ class ProductSeeder extends Seeder
 					'offer' => $offer,
 					'price_offer' => $price_offer,
 					'cost' => $cost,
-					'department_id' => $department->id,
-					'category_id' => $category->id,
+					'department_id' => $departments->firstWhere('name', $product['department'])->id,
+					'category_id' => $categories->firstWhere('name', $product['category'])->id,
 					'sub_category_id' => null,
-					'brand_id' => $brand->id,
+					'brand_id' => null //$brands->first()->id,
 				]);
 
-			$product_factory->images()->createMany($product['images']);
+			$product_model->images()->createMany($product['images']);
 			$specifications = [];
 			foreach ($product['specifications'] as $key => $item) {
-
 				foreach ($item['table'] as $key => $table) {
 					array_push($specifications, [
 						'type' => $item['title'],
@@ -97,30 +89,31 @@ class ProductSeeder extends Seeder
 					]);
 				}
 			}
-			$product_factory->specifications()->createMany($specifications);
-			self::addAttribute($product_factory, $product['attributes']);
+			$product_model->specifications()->createMany($specifications);
+
+			foreach ($product['attributes'] as  $item) {
+
+				$product_attribute = Attribute::create([
+					'name' => $item['name'],
+					'slug' => Str::slug($item['name']),
+					'product_id' => $product_model->id,
+				]);
+
+				$attribute_values = [];
+				foreach ($item['value'] as $key => $value) {
+					$attribute_values[] = [
+						'name' => $value,
+						'slug' => Str::slug($value),
+						'default' => $key == 0,
+						'in_stock' => $key == 0 ? 1 : rand(0, 1),
+						'product_id' => $product_model->id,
+					];
+				}
+				$product_attribute->attribute_values()->createMany($attribute_values);
+			}
 		}
 	}
 	public static function addAttribute($product, $attributes_array)
 	{
-
-		foreach ($attributes_array as  $item) {
-			$attribute_selected = Attribute::firstOrCreate([
-				'name' => $item['name'],
-				'slug' => Str::slug($item['name']),
-			]);
-
-			foreach ($item['value'] as $value) {
-				$attribute_value = AttributeValue::firstOrCreate([
-					'name' => $value,
-					'slug' => Str::slug($value),
-					'attribute_id' => $attribute_selected->id,
-				]);
-
-				$product->attributes()->attach($attribute_selected->id, [
-					'attribute_value_id' => $attribute_value->id,
-				]);
-			}
-		}
 	}
 }

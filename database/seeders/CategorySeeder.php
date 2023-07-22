@@ -25,7 +25,9 @@ class CategorySeeder extends Seeder
 		$data = Helpers::getAllCategories();
 		$departments = collect($data['departments']);
 		// dd($data['categories']);
-		Category::insert($data['categories']);
+		foreach ($data['categories'] as $key => $category) {
+			Category::create($category);
+		}
 		$categories = Category::select('id', 'slug')->get();
 
 		foreach ($departments as $department) {

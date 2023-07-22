@@ -10,7 +10,7 @@ import { Head, Link, useForm } from '@inertiajs/react';
 export default function Login({ status, canResetPassword }) {
 	const { data, setData, post, processing, errors, reset } = useForm({
 		email: 'user@user.com',
-		password: '123123',
+		password: 'password',
 		remember: false,
 	});
 

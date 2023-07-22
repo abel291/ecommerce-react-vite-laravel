@@ -54,14 +54,12 @@
                             </x-badge>
                         </td>
 
-                        <td class="">
+                        <td class=" whitespace-nowrap">
 
-                            <div class="">
-                                @if ($item->offer)
-                                    <span class="block line-through text-gray-400 text-xs">@money($item->price)</span>
-                                @endif
-                                <span class="block text-grayu-700 font-medium">@money($item->price_offer)</span>
-                            </div>
+                            @if ($item->offer)
+                                <span class="block line-through text-gray-400 text-xs">@money($item->price)</span>
+                            @endif
+                            <span class="block text-grayu-700 font-medium">@money($item->price_offer)</span>
                         </td>
 
                         <td class="text-gray-500 font-medium ">
@@ -96,6 +94,9 @@
                                     <x-slot name="content">
                                         <x-dropdown-link href="{{ route('dashboard.products-edit', $item->id) }}">
                                             Datos Basicos
+                                        </x-dropdown-link>
+                                        <x-dropdown-link href="{{ route('dashboard.product-attributes', $item->id) }}">
+                                            Atributos
                                         </x-dropdown-link>
                                         <x-dropdown-link
                                             href="{{ route('dashboard.products-specifications', $item->id) }}">

@@ -10,6 +10,9 @@
                     <x-form.input-label-error wire:model.defer="specification.name">Nombre</x-form.input-label-error>
                 </div>
                 <div class="lg:col-span-6">
+                    <x-form.input-label-error wire:model.defer="specification.type">Tipo</x-form.input-label-error>
+                </div>
+                <div class="lg:col-span-6">
                     <x-form.input-label-error wire:model.defer="specification.value">Valor</x-form.input-label-error>
                 </div>
                 <div class="lg:col-span-2">

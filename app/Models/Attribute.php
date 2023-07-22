@@ -13,10 +13,11 @@ class Attribute extends Model
 
 	use HasFactory;
 
-	public function products(): BelongsToMany
+	public function product(): BelongsTo
 	{
-		return $this->belongsToMany(Product::class);
+		return $this->belongsTo(Product::class);
 	}
+
 	public function attribute_values(): HasMany
 	{
 		return $this->hasMany(AttributeValue::class);

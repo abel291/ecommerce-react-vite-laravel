@@ -84,16 +84,16 @@ const Footer = () => {
 							</p>
 							<div className="flex items-center gap-5">
 								<a href={settings.social.facebook} target="_blank">
-									<img className="w-6 transition hover:scale-110" src="/img/footer/facebook-icon.png" alt="facebook" />
+									<img className="w-6 transition hover:scale-110" src="/storage/img/footer/facebook-icon.png" alt="facebook" />
 								</a>
 								<a href={settings.social.instagram} target="_blank">
-									<img className="w-6 transition hover:scale-110" src="/img/footer/instagram-icon.png" alt="instagram" />
+									<img className="w-6 transition hover:scale-110" src="/storage/img/footer/instagram-icon.png" alt="instagram" />
 								</a>
 								<a href={settings.social.twitter} target="_blank">
-									<img className="w-6 transition hover:scale-110" src="/img/footer/twt-icon.png" alt="tw" />
+									<img className="w-6 transition hover:scale-110" src="/storage/img/footer/twt-icon.png" alt="tw" />
 								</a>
 								<a href={settings.social.ws} target="_blank">
-									<img className="w-6 transition hover:scale-110" src="/img/footer/ws-icon.png" alt="ws" />
+									<img className="w-6 transition hover:scale-110" src="/storage/img/footer/ws-icon.png" alt="ws" />
 								</a>
 							</div>
 						</div>

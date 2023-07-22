@@ -12,55 +12,25 @@ import CarouselBanner from '@/Components/Carousel/CarouselBanner'
 import Breadcrumb from '@/Components/Breadcrumb'
 import BreadcrumbFilters from './BreadcrumbFilters'
 
-export default function Search({ page, banner, products, filters, breadcrumb }) {
+export default function Search({ page, products, filters, breadcrumb }) {
 
+	const { data, setData, get, processing, errors, reset } = useForm(filters)
 
-	const { data: filtersActive, setData: setFiltersActive, get, processing, errors, reset } = useForm(filters)
+	//const getDATA
 
-	//console.log(breadcrumb)
-
-	const setFilter = (name, value) => {
-
-
-		setFiltersActive({
-			...filtersActive,
-			[name]: value,
-		})
-	}
 	const first = useRef(true);
-	useEffect(() => {
 
+	useEffect(() => {
 		if (first.current) {
 			first.current = false;
+
 			return;
 		}
 
-		// for (const property in filtersActive) {
-		// 	let data = filtersActive[property]
-
-		// 	let isEmpty = false
-		// 	switch (property) {
-		// 		case "departmen":
-		// 		default:
-		// 			isEmpty = data === ""
-		// 			break
-		// 	}
-
-		// 	if (!isEmpty) {
-		// 		newfiltersNoEmpty[property] = data
-		// 	}
-		// }
 		get('search', { preserveScroll: true })
 
-	}, [filtersActive])
+	}, [data])
 
-	// function handleSubmit(e) {
-	// 	e.preventDefault()
-	// 	post('/subscribe', {
-	// 		preserveScroll: true,
-	// 		onSuccess: () => reset('email'),
-	// 	})
-	// }
 
 	return (
 		<Layout>
@@ -70,10 +40,10 @@ export default function Search({ page, banner, products, filters, breadcrumb }) 
 				<div className="flex lg:flex-row flex-col-reverse  ">
 
 					<div className="w-full lg:w-3/12 xl:w-3/12 2xl:w-2/12 ">
-						<Filters filtersActive={filtersActive} setFiltersActive={setFiltersActive} />
-						<div className="py-6">
+						<Filters data={data} setData={setData} />
+						{/* <div className="py-6">
 							<CarouselBanner images={banner} />
-						</div>
+						</div> */}
 					</div>
 					<div className="w-full lg:w-9/12 xl:w-9/12 2xl:w-10/12 lg:pl-10  ">
 						<div className="relative ">
@@ -85,9 +55,9 @@ export default function Search({ page, banner, products, filters, breadcrumb }) 
 								<div className="flex flex-col items-end gap-x-2  md:flex-row md:items-center justify-end">
 
 									<select
-										onChange={e => setFilter('sortBy', e.target.value)}
+										onChange={e => setData('sortBy', e.target.value)}
 										className="py-2 select-form text-sm flex-none" name="sortBy"
-										defaultValue={filters.sortBy}>
+										defaultValue={data.sortBy}>
 										<option value="">Ordenar Por:</option>
 										<option value="">Mas relevantes</option>
 										<option value="price_asc">Menor precio</option>

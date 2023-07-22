@@ -31,7 +31,7 @@
                     </div>
 
                     <div class="lg:col-span-3">
-                        <x-form.input-file :temp="$thum" model="thum" :saved="$product->thum"
+                        <x-form.input-file :temp="$thumb" model="thumb" :saved="$product->thumb"
                             label="Imagen miniatura" />
                     </div>
                     <div class="lg:col-span-3">

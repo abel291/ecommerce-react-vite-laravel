@@ -100,8 +100,8 @@ class PageController extends Controller
 
 	public function product($slug)
 	{
-		$product = Product::where('slug', $slug)->with('attributes', 'attribute_values', 'specifications', 'images', 'category', 'department', 'stock', 'brand')
-			->activeInStock()->firstOrFail()->loadAttributesWithValues();
+		$product = Product::where('slug', $slug)->with('attributes.attribute_values', 'specifications', 'images', 'category', 'department', 'stock', 'brand')
+			->activeInStock()->firstOrFail();
 
 		$product->setRelation('specifications', $product->specifications->groupBy('type'));
 
@@ -112,9 +112,9 @@ class PageController extends Controller
 			->inRandomOrder()->limit(12)->get();
 
 		$attributesDefault = [];
-		foreach ($product->attributes as $key => $attribute) {
-			$attribute_value = $attribute->attribute_values->firstWhere('in_stock', true);
-			$attributesDefault[$attribute->slug] = $attribute_value->slug;
+
+		foreach ($product->attributes as $attribute) {
+			$attributesDefault[$attribute->name] = $attribute->attribute_values->where('in_stock', 1)->first()->name;
 		}
 
 		return Inertia::render('Product/Product', [

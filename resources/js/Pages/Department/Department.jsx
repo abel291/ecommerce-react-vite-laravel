@@ -20,16 +20,20 @@ function Department({ department, offertProduct, bestSellersProduct, categories 
 				}
 			]} />
 
-			<BannerText title={department.name} img={department.img} entry={department.entry} />
+			<BannerText title={department.name}
+				entry={department.entry} />
 
 			<div className="container">
 				<SectionList title="Top Ofertas">
 					<CarouselProduct products={offertProduct} />
 				</SectionList>
 
-				<SectionList title="Los mas vendidos">
-					<CarouselProduct products={bestSellersProduct} />
-				</SectionList>
+				{bestSellersProduct.length > 0 && (
+					<SectionList title="Los mas vendidos">
+						<CarouselProduct products={bestSellersProduct} />
+					</SectionList>
+				)}
+
 
 				{categories.map((category) => (
 					<SectionList key={category.slug} title={category.name}>
@@ -38,7 +42,7 @@ function Department({ department, offertProduct, bestSellersProduct, categories 
 				))}
 
 				<div className="flex justify-center">
-					<Link className="btn btn-secondary" href={route('search', { 'department[]': department.slug })} > Ver mas productos</Link>
+					<Link className="btn btn-secondary" href={route('search', { 'departments[]': department.slug })} > Ver mas productos</Link>
 				</div>
 			</div>
 		</Layout >

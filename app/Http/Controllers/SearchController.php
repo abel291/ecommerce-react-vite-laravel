@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\AttributeResource;
-use App\Http\Resources\Filters\CategoryFiltersResource;
 use App\Http\Resources\ProductResource;
+use App\Http\Resources\Search\AttributeFilterResource;
+use App\Http\Resources\Search\CategoryFilterResource;
+use App\Http\Resources\Search\SearchResource;
 use App\Models\Page;
 use App\Models\Product;
 use App\Services\SearchProductService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
 
 class SearchController extends Controller
 {
@@ -23,45 +26,38 @@ class SearchController extends Controller
 
 		$filters = [
 			'q' => $request->input('q', null),
-			'department' => $request->input('department', []),
-			'category' => $request->input('category', []),
+			'departments' => $request->input('departments', []),
+			'categories' => $request->input('categories', []),
 			'price_min' => $request->input('price_min', ''),
 			'price_max' => $request->input('price_max', ''),
-			'brands' => $request->input('brands', []),
+			//'brands' => $request->input('brands', []),
 			'offer' => $request->input('offer', ''),
 			'sortBy' => $request->input('sortBy', ''),
-			'attribute_values' => $request->input('attribute_values', []),
+			'attributes' => $request->input('attributes', []),
 		];
 
-		$list_departments = SearchProductService::getFilterDepartment($filters);
-		$filters['department'] = $list_departments->whereIn('slug', $filters['department'])->pluck('slug')->values()->toArray();
+		$searchProductService = new SearchProductService($filters);
 
-		$list_categories = SearchProductService::getFilterCategories($filters);
-		$filters['category'] = $list_categories->whereIn('slug', $filters['category'])->pluck('slug')->values()->toArray();
+		$listDepartments = $searchProductService->getFilterDepartments();
 
-		// $brands = SearchProductService::getFilterBrands($filters);
-		// $filters['brands'] = $brands->whereIn('slug', $filters['brands'])->pluck('slug')->values()->toArray();
+		$listCategories = $searchProductService->getFilterCategories();
 
-		$list_attributes = SearchProductService::getFilterAttributes($filters);
+		$listAttributes = $searchProductService->getFilterAttributes();
 
-		$filters['attribute_values'] = $list_attributes->pluck('attribute_values')->collapse()->whereIn('slug', $filters['attribute_values'])
-			->pluck('slug')->values()->toArray();
+		$products = Product::withFilters($filters)->paginate(24)->withQueryString();
 
-		$products = Product::withFilters($filters)->paginate(16)->withQueryString();
-
-		$breadcrumb = SearchProductService::generateBreadcrumb($filters);
+		//$breadcrumb = SearchProductService::generateBreadcrumb($filters);
 
 		//dd($breadcrumb);
 		return Inertia::render('Search/Search', [
 			'filters' => $filters,
+			'listDepartments' => CategoryFilterResource::collection($listDepartments),
+			'listCategories' => CategoryFilterResource::collection($listCategories),
+			'listAttributes' => AttributeFilterResource::collection($listAttributes),
 			'products' => ProductResource::collection($products),
 			'page' => $page,
-			'list_departments' => CategoryFiltersResource::collection($list_departments),
-			'list_categories' => CategoryFiltersResource::collection($list_categories),
-			//'brands' => CategoryFiltersResource::collection($brands),
-			'list_attributes' =>  AttributeResource::collection($list_attributes),
 			'banner' => $banner,
-			'breadcrumb' => $breadcrumb,
+			//'breadcrumb' => $breadcrumb,
 		]);
 	}
 }

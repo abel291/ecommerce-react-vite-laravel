@@ -2,9 +2,11 @@
 
 namespace App\Rules;
 
+use App\Enums\CartEnum;
 use App\Models\Product;
 use App\Services\CartService;
 use Closure;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Contracts\Validation\DataAwareRule;
 use Illuminate\Contracts\Validation\ValidationRule;
 
@@ -40,26 +42,25 @@ class ShoppingCartStoreRule implements DataAwareRule, ValidationRule
 	{
 		$quantity = $this->data['quantity'];
 		$product_id = $this->data['product_id'];
+		$attributes = $this->data['attributes'];
 
-		$product = Product::with('stock')->findOrFail($product_id);
+		$product = Product::query()->with('stock');
 
-		$max_items = config('cart.shopping-cart.max-quantity');
+		foreach ($attributes as $attribute_name => $attribute_value) {
+			$product->whereHas('attribute_values', function ($query) use ($attribute_name, $attribute_value) {
+				$query->where('slug', $attribute_value)
+					->whereHas('attribute', function ($query) use ($attribute_name, $attribute_value) {
+						$query->where('slug', $attribute_name);
+					});
+			});
+		}
+		$product = $product->findOrFail($product_id);
 
-		$shopping_cart = auth()->user()->shoppingCart()->get();
+		$max_items = env('SHOPPING_CART_MAX_QUANTITY', 50);
 
-		$shoppinCartProductsInSTock = CartService::filterProductsInStock($shopping_cart);
+		$cart = Cart::instance(CartEnum::SHOPPING_CART->value);
 
-		$shoppinCartProductsInSTock->transform(function ($item) use ($product_id, $quantity) {
-
-			if ($item->product_id == $product_id) {
-				$item->quantity_selected = $quantity;
-			}
-
-			return $item;
-		});
-		//dd($shoppinCartProductsInSTock->sum('quantity_selected'));
-
-		if ($shoppinCartProductsInSTock->sum('quantity_selected') >= $max_items) {
+		if ($cart->count() >= $max_items) {
 			$fail("Carrito lleno! ,no puedes tener mas de $max_items productos en el carritos");
 		}
 

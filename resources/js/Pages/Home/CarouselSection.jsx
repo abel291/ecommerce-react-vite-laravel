@@ -5,21 +5,15 @@ import React from 'react'
 
 const CarouselSection = ({ items, searchType, parameters = {} }) => {
 
-
-	const CardSection = ({ item }) => {
-		return (
-			<Link href={route('search', { [searchType]: item.slug, ...parameters })}>
-				<SimpleCard name={item.name} img={item.img} />
-			</Link>
-		)
-	}
 	return (
 		<>
 			{(items.length <= 6) ? (
 				<div className='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 md:gap-2 justify-around'>
 					{items.map((item, index) => (
 						<div key={item.slug}>
-							<CardSection item={item} />
+							<Link href={route('search', { [searchType]: item.slug, ...parameters })}>
+								<SimpleCard name={item.name} img={item.img} />
+							</Link>
 						</div>
 					))}
 				</div>
@@ -51,7 +45,9 @@ const CarouselSection = ({ items, searchType, parameters = {} }) => {
 					{
 						items.map((item, index) => (
 							<CarouselItem key={index} >
-								<CardSection item={item} />
+								<Link href={route('search', { [searchType]: item.slug, ...parameters })}>
+									<SimpleCard name={item.name} img={item.img} />
+								</Link>
 							</CarouselItem>
 						))
 					}

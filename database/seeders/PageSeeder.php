@@ -24,7 +24,7 @@ class PageSeeder extends Seeder
 		$images =
 			[
 				[
-					'img' => '/img/' . env('TYPE_ECOMMERCE') . '/banners/banner-carousel-1.jpg',
+					'img' => '/storage/img/banners/banner-carousel-1.jpg',
 					'alt' => 'banner-1',
 					'title' => 'banner-1',
 					'type' => 'carousel',
@@ -36,7 +36,7 @@ class PageSeeder extends Seeder
 
 				],
 				[
-					'img' => '/img/' . env('TYPE_ECOMMERCE') . '/banners/banner-carousel-2.jpg',
+					'img' => '/storage/img/banners/banner-carousel-2.jpg',
 					'alt' => 'banner-2',
 					'title' => 'banner-2',
 					'type' => 'carousel',
@@ -48,7 +48,7 @@ class PageSeeder extends Seeder
 
 				],
 				[
-					'img' => '/img/' . env('TYPE_ECOMMERCE') . '/banners/banner-carousel-3.jpg',
+					'img' => '/storage/img/banners/banner-carousel-3.jpg',
 					'alt' => 'banner-3',
 					'title' => 'banner-3',
 					'type' => 'carousel',
@@ -62,7 +62,7 @@ class PageSeeder extends Seeder
 
 				///
 				[
-					'img' => '/img/' . env('TYPE_ECOMMERCE') . '/banners/banner-home-9.jpg',
+					'img' => '/storage/img/banners/banner-home-9.jpg',
 					'alt' => 'banner-3',
 					'title' => 'banner-3',
 					'type' => 'banner',
@@ -73,7 +73,7 @@ class PageSeeder extends Seeder
 
 				],
 				[
-					'img' => '/img/' . env('TYPE_ECOMMERCE') . '/banners/banner-home-10.jpg',
+					'img' => '/storage/img/banners/banner-home-10.jpg',
 					'alt' => 'banner-3',
 					'title' => 'banner-3',
 					'type' => 'banner',
@@ -85,7 +85,7 @@ class PageSeeder extends Seeder
 				],
 				///
 				[
-					'img' => '/img/' . env('TYPE_ECOMMERCE') . '/banners/banner-section-1.png',
+					'img' => '/storage/img/banners/banner-section-1.png',
 					'alt' => 'banner-3',
 					'title' => 'banner-3',
 					'type' => 'banner',
@@ -96,7 +96,7 @@ class PageSeeder extends Seeder
 
 				],
 				[
-					'img' => '/img/' . env('TYPE_ECOMMERCE') . '/banners/banner-section-1.png',
+					'img' => '/storage/img/banners/banner-section-1.png',
 					'alt' => 'banner-3',
 					'title' => 'banner-3',
 					'type' => 'banner',
@@ -108,7 +108,7 @@ class PageSeeder extends Seeder
 				],
 
 				[
-					'img' => '/img/banner-sidebar-search.jpg',
+					'img' => '/storage/img/banner-sidebar-search.jpg',
 					'alt' => 'banner-3',
 					'title' => 'banner-3',
 					'type' => 'banner',
@@ -120,7 +120,7 @@ class PageSeeder extends Seeder
 				],
 				//
 				[
-					'img' => '/img/blog/banner_ad.jpg',
+					'img' => '/storage/img/blog/banner_ad.jpg',
 					'alt' => 'banner-3',
 					'title' => 'banner-3',
 					'type' => 'banner',

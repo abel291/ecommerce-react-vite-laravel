@@ -26,7 +26,7 @@
                             <x-table.title-image :title="'#' . $item->order->code" />
                         </td>
                         <td>
-                            {{ $item->order->user_data->name }}
+                            {{ $item->order->data->user->name }}
                         </td>
 
                         <td>

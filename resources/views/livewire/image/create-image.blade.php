@@ -4,7 +4,6 @@
             {{ $label }}
         </x-slot>
         <x-slot name="content">
-            {{ $modelName }}
             <x-form.grid>
                 <div class="lg:col-span-3">
                     <x-form.input-label-error wire:model.defer="image.alt">Alt</x-form.input-label-error>

@@ -9,6 +9,7 @@
         "barryvdh/laravel-dompdf": "^2.0",
         "blade-ui-kit/blade-heroicons": "^2.1",
         "guzzlehttp/guzzle": "^7.5",
+        "hardevine/shoppingcart": "^3.2",
         "illuminate/console": "*",
         "inertiajs/inertia-laravel": "^0.6.3",
         "laravel/breeze": "^1.20",

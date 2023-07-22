@@ -5,13 +5,11 @@ function classNames(...classes) {
 }
 const AttributeValues = ({ data, setData, attribute }) => {
 
-	// const handlerChange = (e) => {
-	// 	let target = e.target
-	// 	setData('attributes', { ...data.attributes, [attribute.slug]: target.value })
-	// }
-	const [selectedAttribute, setSelectedAttribute] = useState(data.attributes[attribute.slug])
+
+	const [selectedAttribute, setSelectedAttribute] = useState(data.attributes[attribute.name])
+
 	useEffect(() => {
-		setData('attributes', { ...data.attributes, [attribute.slug]: selectedAttribute })
+		setData('attributes', { ...data.attributes, [attribute.name]: selectedAttribute })
 	}, [selectedAttribute])
 
 	return (
@@ -36,12 +34,12 @@ const AttributeValues = ({ data, setData, attribute }) => {
 			) : (
 				<div className='flex flex-wrap gap-x-2'>
 					<RadioGroup value={selectedAttribute} onChange={setSelectedAttribute}>
-						<RadioGroup.Label className="sr-only">Choose a size</RadioGroup.Label>
+						<RadioGroup.Label className="sr-only">Choose a {attribute.name}</RadioGroup.Label>
 						<div className="grid grid-cols-4 gap-3 sm:grid-cols-8 lg:grid-cols-4">
 							{attribute.attribute_values.map((attributeValue) => (
 								<RadioGroup.Option
-									key={attribute.slug + attributeValue.slug}
-									value={attributeValue.slug}
+									key={attribute.name + attributeValue.name}
+									value={attributeValue.name}
 									disabled={!attributeValue.in_stock}
 									className={({ active }) =>
 										classNames(

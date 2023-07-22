@@ -20,7 +20,7 @@ module.exports = {
 	theme: {
 		colors: {
 			...colors,
-			primary: colors.zinc,
+			primary: colors.indigo,
 		},
 
 		container: {
@@ -29,7 +29,7 @@ module.exports = {
 				DEFAULT: "1.5rem",
 				sm: "2rem",
 				lg: "4rem",
-				xl: "4rem",
+				xl: "6rem",
 			},
 		},
 		extend: {

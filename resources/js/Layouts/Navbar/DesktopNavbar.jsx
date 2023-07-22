@@ -26,7 +26,7 @@ export default function DesktopNavbar({ navigation }) {
 	}
 	return (
 		<nav className="border-b  hidden lg:block">
-			<p className="flex h-10 items-center justify-center gradient-primary px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
+			<p className="flex h-10 items-center justify-center gradient-primary px-4 text-sm text-white sm:px-6 lg:px-8">
 				Obtenga envío gratuito en pedidos superiores a $100.000
 			</p>
 			<div className="container pt-4">
@@ -104,7 +104,7 @@ export default function DesktopNavbar({ navigation }) {
 						<Link href={route('shopping-cart.index')}>
 							<div className='group -m-2 flex items-center p-2'>
 								<ShoppingBagIcon className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500" />
-								<span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{auth.user?.shopping_cart_count || 0}</span>
+								<span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{auth.shoppingCartCount || 0}</span>
 							</div>
 						</Link>
 					</div>

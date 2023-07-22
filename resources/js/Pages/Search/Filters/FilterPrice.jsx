@@ -3,30 +3,37 @@ import { ChevronDoubleRightIcon, ChevronRightIcon } from "@heroicons/react/24/so
 
 import { useRef } from "react"
 
-const FilterPrice = ({ filtersActive, setFiltersActive }) => {
+const FilterPrice = ({ data, setData }) => {
 	const priceMinRef = useRef()
 	const priceMaxRef = useRef()
 
-	const handleClickFilterPrice = (e) => {
+	const onChange = (e) => {
 		e.preventDefault()
-
-		let newFiltersActive = filtersActive
-
-		newFiltersActive.price_min = priceMinRef.current.value
-
-		newFiltersActive.price_max = priceMaxRef.current.value
-
-		setFiltersActive({ ...newFiltersActive })
+		let target = e.target
+		setData(target.name, target.value)
 	}
+
+	function debounce(callback, wait) {
+		let timerId;
+		return (...args) => {
+			clearTimeout(timerId);
+			timerId = setTimeout(() => {
+				callback(...args);
+			}, wait);
+		};
+	}
+
+	const debouncedOnChange = debounce(onChange, 1000);
 
 	return (
 		<>
 
-			<form onSubmit={handleClickFilterPrice} className="space-y-3 text-sm">
+			<form className="space-y-3 text-sm">
 				<div className="flex gap-x-2 items-stretch">
 					<input
+						onChange={debouncedOnChange}
 						ref={priceMinRef}
-						defaultValue={filtersActive.price_min}
+						defaultValue={data.price_min}
 						name="price_min"
 						type="number"
 						min="0"
@@ -35,8 +42,9 @@ const FilterPrice = ({ filtersActive, setFiltersActive }) => {
 					/>
 
 					<input
+						onChange={debouncedOnChange}
 						ref={priceMaxRef}
-						defaultValue={filtersActive.price_max}
+						defaultValue={data.price_max}
 						name="price_max"
 						type="number"
 						min="0"

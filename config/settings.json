@@ -8,8 +8,9 @@
 		"entry": "La empresa de tecnolog\u00eda l\u00edder en comercio electr\u00f3nico y soluciones fintech de Am\u00e9rica Latina. Nuestro prop\u00f3sito es democratizar el comercio y los servicios financieros para transformar la vida de millones de personas en la regi\u00f3n."
 	},
 	"rates": {
-		"tax": "45",
-		"shipping": "9"
+		"tax": 12,
+		"shipping": 9000,
+		"freeShipping": 100000
 	},
 	"social": {
 		"facebook": "https:\/\/www.facebook.com\/Newegg",

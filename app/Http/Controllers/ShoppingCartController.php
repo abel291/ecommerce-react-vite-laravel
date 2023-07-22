@@ -2,36 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\CartEnum;
 use App\Http\Resources\CartResource;
-use App\Http\Resources\OrderResource;
 use App\Models\Product;
 use App\Rules\ShoppingCartStoreRule;
 use App\Rules\ValidateProductRule;
 use App\Services\CartService;
 use App\Services\OrderService;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Inertia\Response;
 
+/**
+ * LaravelShoppingcart https://github.com/hardevine/LaravelShoppingcart#usage
+ */
 class ShoppingCartController extends Controller
 {
-	/**
-	 * Display a listing of the resource.
-	 */
-	public function index(CartService $cart_service): Response
+
+	public function index()
 	{
-		$cart_products = auth()->user()->shoppingCart->load('product.stock', 'product.specifications')->sortByDesc('id');
+		$cart = Cart::instance(CartEnum::SHOPPING_CART->value);
 
-		$cart_products = $cart_service->refreshPrice($cart_products);
-
-		$cart_products_in_sctock = $cart_service->filterProductsInStock($cart_products);
-
-		$order = OrderService::calculateTotals($cart_products_in_sctock);
+		$total = OrderService::calculateTotal($cart->subtotal());
 
 		return Inertia::render('ShoppingCart/ShoppingCart', [
-			'shoppingCart' => CartResource::collection($cart_products),
-			'order' => new OrderResource($order),
+			'cardProducts' => CartResource::collection($cart->content()->values()),
+			'total' => $total,
 		]);
 	}
 
@@ -48,19 +45,20 @@ class ShoppingCartController extends Controller
 	/**
 	 * Store a newly created resource in storage.
 	 */
-	public function store(Request $request, CartService $cart_service): RedirectResponse
+	public function store(Request $request): RedirectResponse
 	{
-
 		$request->validate([
 			'quantity' => ['required', 'numeric', 'min:1', new ValidateProductRule, new ShoppingCartStoreRule],
 			'product_id' => ['required', 'exists:products,id'],
 		]);
 
-		$product = Product::find($request->product_id);
+		$product = Product::query()->select('id', 'name', 'price', 'img', 'price_offer', 'slug')->findOrFail($request->product_id);
 
-		$cart_service->addProduct(auth()->user(), $product, $request->quantity);
+		$options['attributes'] = CartService::formatAttributes($request['attributes']);
 
-		return to_route('shopping-cart.index')->with('success', "Agregaste a tu carrito $product->name ");
+		CartService::add(CartEnum::SHOPPING_CART->value, $product, $request->quantity, $options);
+
+		return to_route('shopping-cart.index')->with('success', "Agregaste a tu carrito $product->name");
 	}
 
 	/**
@@ -91,10 +89,13 @@ class ShoppingCartController extends Controller
 	 * @param  int  $id
 	 * @return \Inertia\Response
 	 */
-	// public function update(Request $request, $id)
-	// {
-	// 	//
-	// }
+	public function update(Request $request, $id): RedirectResponse
+	{
+		$cart = Cart::instance(CartEnum::SHOPPING_CART->value);
+		$cardProduct = $cart->content()->firstWhere('id', $id);
+		$cart->update($cardProduct->rowId, $request->quantity);
+		return to_route('shopping-cart.index')->with('success', "Carrito de compra actualizado");
+	}
 
 	/**
 	 * Remove the specified resource from storage.
@@ -103,8 +104,9 @@ class ShoppingCartController extends Controller
 	 */
 	public function destroy($id): RedirectResponse
 	{
-		auth()->user()->shoppingCart->find($id)->delete();
-
+		$cart = Cart::instance(CartEnum::SHOPPING_CART->value);
+		$cardProduct = $cart->content()->firstWhere('id', $id);
+		$cart->remove($cardProduct->rowId);
 		return to_route('shopping-cart.index')->with('success', '¡Listo! Eliminaste el producto.');
 	}
 }

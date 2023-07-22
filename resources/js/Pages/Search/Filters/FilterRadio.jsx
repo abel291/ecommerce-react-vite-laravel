@@ -1,8 +1,8 @@
-const FilterRadio = ({ options, filter, setFilter, nameInputs, title }) => {
+const FilterRadio = ({ options, data, setData, filterName }) => {
 
 	const handleChangeFilterRadio = (e) => {
 		let target = e.target
-		setFilter(target.name, target.value)
+		setData(target.name, target.value)
 	}
 
 	return (
@@ -11,10 +11,10 @@ const FilterRadio = ({ options, filter, setFilter, nameInputs, title }) => {
 				{options.map((item) => (
 					<div key={item.slug} className="flex items-center">
 						<input
-							checked={filter === item.slug}
+							checked={data.offer === item.slug}
 							type="radio"
 							className="mr-3 h-4 w-4 input-radio"
-							name={nameInputs}
+							name={filterName}
 							value={item.slug}
 							onChange={handleChangeFilterRadio}
 						/>

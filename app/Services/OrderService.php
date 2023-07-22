@@ -4,57 +4,70 @@ namespace App\Services;
 
 use App\Models\DiscountCode;
 use App\Models\Order;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Collection;
 
 class OrderService
 {
-    public static function generateCode($id): string
-    {
-        return rand(100, 999).date('mds').$id;
-    }
 
-    public static function subTotal(Collection $cart_products): float
-    {
-        return round($cart_products->sum('price_quantity'), 2);
-    }
+	public static function generateCode($id): string
+	{
+		return date('md') . str_pad(Mt_rand(1, 1000), 4, 0) . $id;
+	}
 
-    public static function calculateTotals(Collection $cart_products, DiscountCode $discount_code = null): Order
-    {
-        $tax_percent = SettingService::data()['rates']['tax'];
+	public static function calculateTotal($subtotal, $discountCode = null): array
+	{
 
-        $shipping = SettingService::data()['rates']['shipping'];
+		$taxRate = SettingService::data()['rates']['tax'];
+		$shipping = (float)	SettingService::data()['rates']['shipping'];
+		$freeShipping = (float)	SettingService::data()['rates']['freeShipping'];
 
-        $order = new Order();
+		if ($discountCode) {
+			$discountValue =  $discountCode->calculateDiscount($subtotal);
+			$discountCode->applied = $discountValue;
+		} else {
+			$discountValue = 0;
+		}
 
-        $order->sub_total = self::subTotal($cart_products);
-        $order->quantity = $cart_products->sum('quantity_selected');
+		$subtotalWithDiscount = round($subtotal - $discountValue, 2);
 
-        if ($discount_code) {
+		$tax = round($subtotalWithDiscount * ($taxRate / 100), 2);
 
-            $discount_applied = $discount_code->calculateDiscount($order->sub_total);
+		$subtotalWithTaxes = ($subtotalWithDiscount + $tax);
 
-            $order->discount_code_id = $discount_code->id;
-            $order->discount = [
-                ...$discount_code->only(['code', 'value', 'type']),
-                'applied' => $discount_applied,
-            ];
-        } else {
-            $discount_applied = 0;
-        }
+		if ($subtotalWithTaxes > $freeShipping) {
+			$shipping = 0;
+		}
 
-        $order->shipping = $shipping;
+		$total = round($subtotalWithTaxes + $shipping, 2);
 
-        $order->tax_percent = $tax_percent;
+		$total = [
+			'subtotal' => $subtotal,
+			'discount' => $discountCode,
+			'tax' => [
+				'rate' => $taxRate,
+				'value' => $tax
+			],
+			'shipping' => $shipping,
+			'total' => $total,
+		];
 
-        $order->tax_amount = self::calculateTax($order->sub_total, $order->tax_percent);
+		return $total;
+	}
+	public static function createOrderProduct($products, $quantity)
+	{
+	}
 
-        $order->total = round(($order->sub_total + $order->tax_amount + $shipping) - $discount_applied, 2);
+	public static function createOrderWithTotalCalculation($total)
+	{
 
-        return $order;
-    }
-
-    public static function calculateTax(float $sub_total, $tax): float
-    {
-        return round($sub_total * ($tax / 100), 2);
-    }
+		return new Order([
+			'sub_total' => $total['subtotal'],
+			'tax' => $total['tax'],
+			'shipping' => $total['shipping'],
+			'discount' => $total['discount'],
+			'total' => $total['total'],
+			'discount_code_id' => $total['discount'] ? $total['discount']['id'] : null,
+		]);
+	}
 }

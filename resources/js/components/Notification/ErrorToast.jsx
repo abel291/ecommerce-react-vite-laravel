@@ -4,7 +4,7 @@ import { toast } from 'react-hot-toast'
 import ContainerToast from './ContainerToast'
 
 const ErrorToast = ({ toast, onDismiss, errors = [] }) => {
-	console.log(errors)
+
 	return (
 		<ContainerToast toast={toast}>
 			<div className='p-4 bg-red-50 w-full'>

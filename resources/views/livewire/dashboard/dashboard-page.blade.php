@@ -11,7 +11,7 @@
         <h3 class="text-base font-semibold leading-6">Últimos 30 días</h3>
 
     </div>
-    <div class="grid grid-cols-1 lg:grid-cols-8 gap-5 ">
+    <div class="grid grid-cols-1 lg:grid-cols-8 gap-5">
 
         <div class="lg:col-span-2">
             <x-content class="w-full">
@@ -39,9 +39,9 @@
         </div>
 
         <div class="lg:col-span-2">
-            <x-content class="w-full">
+            <x-content class="w-full h-full ">
                 <dt class="text-gray-500 font-medium text-sm">Ingresos Brutos</dt>
-                <dd class="text-3xl text-gray-900 tracking-tight font-semibold mt-1">
+                <dd class="text-2xl text-gray-900 tracking-tight font-semibold mt-1">
                     @money($revenues)
                 </dd>
             </x-content>

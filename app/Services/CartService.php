@@ -3,64 +3,45 @@
 namespace App\Services;
 
 use App\Enums\CartEnum;
+use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Product;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Collection;
 
 class CartService
 {
-	public static function addProduct(object $user, object $product, int $quantity_selected = 1, $type = CartEnum::SHOPPIN_CART): void
+	public static function generateId($product, $attributes)
 	{
-		$user->shoppingCart()->updateOrCreate(
-			[
-				'product_id' => $product->id,
-			],
-			[
-				'name' => $product->name,
-				'type' => $type,
-				'quantity_selected' => $quantity_selected,
-				'price' => $product->price_offer,
-				'price_quantity' => self::calculatePrice($product->price_offer, $quantity_selected),
-			]
-		);
+		return $product->id;
 	}
 
-	public static function refreshPrice(Collection $cart_product): Collection
+
+	public static function add(string $keySession, object $product, int $quantity = 1, array $options = []): void
 	{
-		$cart_product->each(function (OrderProduct $item) {
-			$item->price = $item->product->price_offer;
-			$item->price_quantity = self::calculatePrice($item->product->price_offer, $item->quantity_selected);
-		});
 
-		return $cart_product;
-	}
-
-	public static function filterProductsInStock(Collection $cart): Collection
-	{
-		$cart_products_in_stock = $cart->filter(function ($cart) {
-			return $cart->product->active && ($cart->product->stock->remaining >= $cart->quantity_selected);
-		});
-
-		return $cart_products_in_stock;
-	}
-
-	public static function calculatePrice(float $price, int $quantity)
-	{
-		return round($price * $quantity, 2);
-	}
-
-	public static function generateCartProduct(Product $product, int $quantity)
-	{
-		$cart_product = new OrderProduct([
+		Cart::instance($keySession)->add([
+			'id' => self::generateId($product, $options['attributes']),
 			'name' => $product->name,
 			'price' => $product->price_offer,
-			'quantity_selected' => $quantity,
-			'price_quantity' => self::calculatePrice($product->price_offer, $quantity),
-			'data' => $product->only('name', 'slug', 'img'),
-			'product_id' => $product->id,
+			'qty' => $quantity,
+			'options' => $options
+		])->associate($product);
+	}
 
-		]);
+	public static function formatAttributes($attributes)
+	{
+		$newAttributes = [];
 
-		return $cart_product;
+		if ($attributes) {
+			foreach ($attributes as $attribute_name => $attribute_value) {
+				$newAttributes[] = [
+					'name' => $attribute_name,
+					'value' => $attribute_value,
+				];
+			}
+		}
+
+		return $newAttributes;
 	}
 }

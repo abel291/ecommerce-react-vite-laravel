@@ -2,6 +2,7 @@ import { formatDate } from '@/Helpers/helpers'
 import React from 'react'
 
 function BuyerDetails({ order }) {
+
 	return (
 		<div className="grid lg:grid-cols-12 gap-3 ">
 			<div className="lg:col-span-7">

@@ -26,7 +26,6 @@ class UserResource extends JsonResource
 			'country' => $this->country,
 			'city' => $this->city,
 			'address' => $this->address,
-			'shopping_cart_count' => $this->shopping_cart_count,
 			'role' => $this->getRoleNames()->first(),
 			'updated_at' => $this->updated_at->format('Y/m/d'),
 			'created_at' => $this->created_at->format('Y/m/d'),

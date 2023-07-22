@@ -28,8 +28,8 @@ export default function DepartmentDropdown() {
 					{({ close }) => (
 						<div className="overflow-hidden w-full rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white">
 							<div className="p-4 lg:p-7 grid  grid-cols-2  lg:grid-cols-4 gap-4 lg:gap-5 ">
-								{departments.map((department) => (
-									<div key={department.id}>
+								{departments.map((department, index) => (
+									<div key={index}>
 										<div className="flex items-start">
 
 											<div className='grow '>
@@ -40,9 +40,9 @@ export default function DepartmentDropdown() {
 												</Popover.Button>
 												<div className='grid grid-cols-1 gap-y-1.5 mt-2'>
 													{department.categories.map((category) => (
-														<Popover.Button >
+														<Popover.Button key={category.id}>
 															<Link className='text-left '
-																href={route('search', { 'category[]': category.slug, 'department[]': department.slug })} onClick={close}>
+																href={route('search', { 'categories[]': category.slug, 'departments[]': department.slug })} onClick={close}>
 																<div className="text-sm font-normal text-gray-500 hover:text-gray-800">{category.name}</div>
 															</Link>
 														</Popover.Button>

@@ -10,20 +10,17 @@ import SectionTitle from '@/Components/Sections/SectionTitle'
 import TitlePrice from './TitlePrice'
 
 export default function Product({ product, relatedProducts, attributesDefault }) {
-	//console.log(product)
+
 	let breadcrumb = [
 		{
 			title: product.department.name,
-			path: route("search", { 'department[]': product.department.slug })
+			path: route("search", { 'departments[]': product.department.slug })
 		},
 		{
 			title: product.category.name,
-			path: route("search", { 'category[]': product.category.slug })
+			path: route("search", { 'categories[]': product.category.slug, 'departments[]': product.department.slug })
 		},
-		// {
-		// 	title: product.brand.name,
-		// 	path: route("search", { 'brands[]': product.brand.slug })
-		// },
+
 		{
 			title: product.name
 		}]
@@ -33,10 +30,10 @@ export default function Product({ product, relatedProducts, attributesDefault })
 			<Breadcrumb data={breadcrumb} />
 			<div className="container ">
 				<div className="flex flex-col-reverse lg:flex-row py-content gap-8">
-					<div className=" w-full lg:w-8/12">
+					<div className=" w-full lg:w-7/12">
 						<ImagesProduct product={product} />
 					</div>
-					<div className="w-full lg:w-4/12 ">
+					<div className="w-full lg:w-5/12 ">
 						<TitlePrice product={product} />
 						<Feacture product={product} attributesDefault={attributesDefault} />
 					</div>

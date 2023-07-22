@@ -1,11 +1,12 @@
 import React from 'react'
 import FiltersSelected from './FiltersSelected'
 import { usePage } from '@inertiajs/react'
-import FilterCheckbox from './FilterCheckbox'
+import FilterButton from './FilterButton'
 import FilterPrice from './FilterPrice'
 import FilterRadio from './FilterRadio'
 import FilterContainer from './FilterContainer'
 import FilterAttribute from './FilterAttribute'
+import FilterCheckbox from './FilterCheckbox'
 
 const offers = [
 	{
@@ -25,87 +26,102 @@ const offers = [
 		slug: "40",
 	},
 ]
-const Filters = ({ filtersActive, setFiltersActive }) => {
-	const { list_departments, list_categories, list_attributes, brands } = usePage().props
+const Filters = ({ data, setData }) => {
+
+	const { listDepartments, listCategories, listAttributes } = usePage().props
+
+
+
+	const changeFilterCheckbox = (filterName, value, selected) => {
+		let optionsCheckbox = []
+		switch (filterName) {
+			case 'categories':
+				optionsCheckbox = listCategories
+				break;
+			case 'departments':
+				optionsCheckbox = listDepartments
+				break;
+		}
+
+		let optionsSelected = generateArraySlug(optionsCheckbox, value, selected)
+		setData(filterName, optionsSelected)
+	}
+
+	const generateArraySlug = (optionsCheckbox, value, selected) => {
+		return optionsCheckbox.filter((item) => {
+
+			if (item.slug == value) {
+				return selected
+			}
+			return item.selected
+
+		}).map((item) => {
+			return item.slug
+		})
+	}
+
+	const changeAttribute = (attributeSlug, value, selected) => {
+
+		const attribute = listAttributes.find(attribute => attribute.slug == attributeSlug)
+
+		const attributeValues = generateArraySlug(attribute.attribute_values, value, selected)
+
+		setData('attributes', { ...data.attributes, [attributeSlug]: attributeValues })
+	}
+
 	return (
 		<div className="divide-y divide-gray-200 space-y-5">
-
-			<div >
+			<div>
 				<FiltersSelected
-					filtersActive={filtersActive}
-					setFiltersActive={setFiltersActive}
+					data={data}
+					setData={setData}
+					changeAttribute={changeAttribute}
+					changeFilter={changeFilterCheckbox}
 				/>
 			</div>
 
+			<FilterContainer title="Departamentos">
+				<FilterCheckbox
+					optionsList={listDepartments}
+					changeFilter={changeFilterCheckbox}
+					filterName="departments"
+				/>
+			</FilterContainer>
 
-			{list_departments.length > 0 && (
-				<FilterContainer title="Departamentos" >
+			<FilterContainer title="Categorias">
+				<FilterCheckbox
+					optionsList={listCategories}
+					changeFilter={changeFilterCheckbox}
+					filterName="categories"
+				/>
+			</FilterContainer>
 
+
+			{listAttributes.map((attribute, key) => (
+				<FilterContainer key={key} title={attribute.name}>
 					<FilterCheckbox
-						optionsList={list_departments}
-						filter={filtersActive.department}
-						setFilter={setFiltersActive}
-						nameFilter="department"
-
+						optionsList={attribute.attribute_values}
+						changeFilter={changeAttribute}
+						filterName={attribute.slug}
 					/>
 				</FilterContainer>
-			)}
-
-			{list_categories.length > 0 && (
-				<FilterContainer title="Categorias">
-					<FilterCheckbox
-						optionsList={list_categories}
-						filter={filtersActive.category}
-						setFilter={setFiltersActive}
-						nameFilter="category"
-
-					/>
-				</FilterContainer>
-			)}
-
-			{/* {brands.length > 0 && (
-				<FilterContainer title="Marcas">
-
-					<FilterCheckbox
-						optionsList={brands}
-						filter={filtersActive.brands}
-						setFilter={setFiltersActive}
-						nameFilter="brands"
-
-					/>
-				</FilterContainer>
-			)} */}
-
-			<>
-				{list_attributes.map((item, index) => (
-					<FilterContainer key={index} title={item.name}>
-						<FilterCheckbox
-							optionsList={item.attribute_values}
-							filter={filtersActive.attribute_values}
-							setFilter={setFiltersActive}
-							nameFilter="attribute_values"
-						/>
-					</FilterContainer>
-				))}
-			</>
+			))}
 
 
 
 			<FilterContainer title="Precio">
-				<FilterPrice filtersActive={filtersActive} setFiltersActive={setFiltersActive} />
+				<FilterPrice data={data} setData={setData} />
 			</FilterContainer>
 
 			<FilterContainer title="Ofertas">
 				<FilterRadio
 					options={offers}
-					filter={filtersActive.offer}
-					setFilter={setFiltersActive}
-					nameInputs="offer"
+					data={data}
+					setData={setData}
+					filterName="offer"
 
 				/>
 			</FilterContainer>
-
-
 
 
 		</div >

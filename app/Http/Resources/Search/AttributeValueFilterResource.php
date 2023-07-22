@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Filters;
+namespace App\Http\Resources\Search;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CategoryFiltersResource extends JsonResource
+class AttributeValueFilterResource extends JsonResource
 {
 	/**
 	 * Transform the resource into an array.
@@ -15,9 +15,9 @@ class CategoryFiltersResource extends JsonResource
 	public function toArray(Request $request): array
 	{
 		return [
-			'id' => $this->id,
 			'name' => $this->name,
 			'slug' => $this->slug,
+			'selected' => $this->selected,
 			'products_count' => $this->products_count,
 		];
 	}

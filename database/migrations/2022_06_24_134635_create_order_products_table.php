@@ -15,13 +15,12 @@ class CreateOrderProductsTable extends Migration
 	{
 		Schema::create('order_products', function (Blueprint $table) {
 			$table->id();
-			$table->string('name');
+			//$table->string('name');
 			$table->unsignedDecimal('price', 12, 2);
-			$table->unsignedInteger('quantity_selected');
-			$table->unsignedDecimal('price_quantity', 12, 2)->nullable();
-			$table->json('data')->nullable();
-			$table->string('type', 40); // CartEnum -> shopping-cart | wish-list
-
+			$table->unsignedInteger('quantity');
+			$table->unsignedDecimal('total', 12, 2)->nullable();
+			$table->json('data');
+			$table->json('attributes')->nullable();
 			$table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
 			$table->foreignId('order_id')->nullable()->constrained()->nullOnDelete();
 			$table->foreignId('product_id')->nullable()->constrained()->nullOnDelete();

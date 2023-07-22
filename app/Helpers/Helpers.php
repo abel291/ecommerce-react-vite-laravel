@@ -16,7 +16,7 @@ class Helpers
 
 	public static function getAllCategories()
 	{
-		$category_json = "img/" . env('TYPE_ECOMMERCE') . "/department_categories.json";
+		$category_json = "products/department_categories.json";
 
 		if (Storage::fileExists($category_json)) {
 			return Storage::json($category_json);
@@ -25,13 +25,13 @@ class Helpers
 		$products = self::getAllProducts();
 
 		$data['departments'] = $products->groupBy('department')->map(function ($item, $departments_name) {
-			//$departments_name = ucfirst(Str::slug($departments_name, ' '));
+
 			return Department::factory()->make([
 				'name' => ucfirst($departments_name),
 				'slug' => Str::slug($departments_name),
 				//'entry' => $departments_name,
 				'meta_title' => $departments_name,
-				'img' =>  "/img/" . env('TYPE_ECOMMERCE') . "/departments/" . Str::slug($departments_name) . '.png',
+				'img' =>  "/storage/img/departments/" . Str::slug($departments_name) . '.png',
 				'categories' => $item->unique('category')->pluck('category')->map(function ($category) {
 					return Str::slug($category);
 				})
@@ -44,7 +44,7 @@ class Helpers
 				'name' => $category,
 				'slug' => Str::slug($category),
 				//'entry' => $departments_name,
-				'img' =>  "/img/" . env('TYPE_ECOMMERCE') . "/categories/" . Str::slug($category) . '.png',
+				'img' =>  "/storage/img/categories/" . Str::slug($category) . '.png',
 			])->toArray();
 		})->toArray();
 
@@ -60,9 +60,9 @@ class Helpers
 	public static function joinJson()
 	{
 
-		$directory_json = "img/" . env('TYPE_ECOMMERCE') . "/products_with_images.json";
+		$directory_json = "products/products_with_images.json";
 		$products = collect(Storage::json($directory_json))->map(function ($item) {
-			$item['brand'] = env('TYPE_ECOMMERCE');
+			$item['brand'] = "products";
 			return $item;
 		});
 
