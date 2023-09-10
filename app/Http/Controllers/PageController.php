@@ -53,7 +53,7 @@ class PageController extends Controller
 
 		$page = Page::with('banners')->where('type', 'offers')->firstOrFail();
 
-		$banners_top = $page->banners->where('position', 'top')->where('active', 1)->where('type', 'banner');
+
 
 		$offer_products = Product::activeInStock()->selectForCard()
 			->inOffer()->orderBy('offer', 'desc')->limit(15)->get();
@@ -83,9 +83,7 @@ class PageController extends Controller
 		return Inertia::render('Offers/Offers', [
 			'page' => $page,
 			'offerProducts' => $offer_products,
-			'offerBrands' => $offer_brands,
-			'bannersTop' => $banners_top,
-
+			//'offerBrands' => $offer_brands,
 		]);
 	}
 

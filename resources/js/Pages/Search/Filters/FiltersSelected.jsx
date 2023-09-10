@@ -119,7 +119,7 @@ const FiltersList = ({ data, setData, changeFilter, changeAttribute }) => {
 				)}
 				{data.offer && (
 					<Badge color='gray' >
-						<span className="mr-2 ">Descuento {data.offer}%</span>
+						<span className="mr-2 ">Descuentos desde {data.offer}%</span>
 						<button onClick={() => handleClickRemoveFilter("offer")}>
 							<XMarkIcon className="w-3 h-3" />
 						</button>

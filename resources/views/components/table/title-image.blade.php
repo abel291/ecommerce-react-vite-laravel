@@ -8,7 +8,7 @@
 
             @if ($title)
                 @if ($path)
-                    <a class="text-indigo-600 font-medium" target='_blank' href={{ $path }}>
+                    <a class="text-blue-500 font-medium" target='_blank' href={{ $path }}>
                         {{ $title }}
                     </a>
                 @else

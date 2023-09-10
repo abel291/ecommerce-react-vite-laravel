@@ -12,7 +12,7 @@ import CarouselBanner from '@/Components/Carousel/CarouselBanner'
 import Breadcrumb from '@/Components/Breadcrumb'
 import BreadcrumbFilters from './BreadcrumbFilters'
 
-export default function Search({ page, products, filters, breadcrumb }) {
+export default function Search({ page, products, filters, breadcrumb, banner }) {
 
 	const { data, setData, get, processing, errors, reset } = useForm(filters)
 
@@ -41,9 +41,9 @@ export default function Search({ page, products, filters, breadcrumb }) {
 
 					<div className="w-full lg:w-3/12 xl:w-3/12 2xl:w-2/12 ">
 						<Filters data={data} setData={setData} />
-						{/* <div className="py-6">
+						<div className="py-6">
 							<CarouselBanner images={banner} />
-						</div> */}
+						</div>
 					</div>
 					<div className="w-full lg:w-9/12 xl:w-9/12 2xl:w-10/12 lg:pl-10  ">
 						<div className="relative ">

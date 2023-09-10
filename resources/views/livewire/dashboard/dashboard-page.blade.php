@@ -72,13 +72,12 @@
             <x-card title="Producto mas vendido">
                 <a href="{{ route('product', $popular_product->slug) }}" target="_blank">
                     <div class="w-52 mx-auto">
-                        <img src="{{ $popular_product->img }}" alt="" class="w-full">
+                        <img src="{{ $popular_product->img }}" alt="" class="w-full rounded-lg">
                     </div>
-                    <h4 class=" font-medium">{{ $popular_product->name }}</h4>
+                    <h4 class=" font-medium mt-4">{{ $popular_product->name }}</h4>
                     <div class="mt-5 font-medium flex justify-between items-center">
                         @money($popular_product->price_offer)
-                        <a href="{{ route('dashboard.products-edit', $popular_product->id) }}"
-                            class="text-indigo-600">Ver</a>
+                        <a href="{{ route('product', $popular_product->slug) }}" class="text-indigo-600">Ver</a>
                     </div>
                 </a>
             </x-card>

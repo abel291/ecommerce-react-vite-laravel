@@ -11,18 +11,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProductInSession
 {
-	/**
-	 * Handle an incoming request.
-	 *
-	 * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-	 */
-	public function handle(Request $request, Closure $next): Response
-	{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     */
+    public function handle(Request $request, Closure $next): Response
+    {
 
-		if (Cart::instance(CartEnum::CHECKOUT->value)->count() == 0) {
-			return to_route('home')->with(['error' => 'No hay productos en el checkout']);
-		}
+        if (!session()->has(CartEnum::CHECKOUT->value)) {
+            return to_route('home')->with(['error' => 'No hay productos en el checkout']);
+        }
 
-		return $next($request);
-	}
+        return $next($request);
+    }
 }

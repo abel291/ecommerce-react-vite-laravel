@@ -33,7 +33,6 @@
                     <th>Categoria</th>
                     <th>Precio</th>
                     <th>Stock</th>
-
                     <th>Activo</th>
                     <th>Ultima actualización</th>
                     <th></th>
@@ -44,7 +43,7 @@
                     <tr class="text-sm">
 
                         <td>
-                            <x-table.title-image :img="$item->img" :title="$item->name" />
+                            <x-table.title-image :img="$item->img" :title="$item->name" :path="route('product', $item->slug)" />
 
                         </td>
 
@@ -66,7 +65,7 @@
 
                             <div class="flex items-center gap-x-1.5">
 
-                                <x-table.stock-percent :percent="$item->stock->stock_percent" />
+                                <x-table.stock-percent :stock="$item->stock" />
                                 <span class="">
                                     {{ $item->stock->remaining }}/{{ $item->stock->quantity }}
                                 </span>

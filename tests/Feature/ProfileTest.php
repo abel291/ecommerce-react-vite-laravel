@@ -1,56 +1,60 @@
 <?php
 
+use App\Models\OrderProduct;
+use App\Models\Payment;
+use App\Models\Product;
+use App\Models\Stock;
 use App\Models\User;
+use App\Services\OrderService;
+use Database\Seeders\CategorySeeder;
 
 test('profile page is displayed', function () {
-	$user = User::factory()->create();
+    $user = User::factory()->create();
+    $response = $this
+        ->actingAs($user)
+        ->get(route('profile.index'));
 
-	$response = $this
-		->actingAs($user)
-		->get(route('profile.index'));
-
-	$response->assertOk();
+    $response->assertOk();
 });
 test('profile orders page is displayed', function () {
-	$user = User::factory()->create();
-	$this->seed();
-	$response = $this
-		->actingAs($user)
-		->get(route('profile.orders'));
+    $user = User::factory()->create();
+    $response = $this
+        ->actingAs($user)
+        ->get(route('profile.orders'));
 
-	$response->assertOk();
+    $response->assertOk();
 });
 test('profile order details page is displayed', function () {
-	$this->seed();
-	$user = User::get()->random();
-	$order = $user->orders->first();
-	$response = $this
-		->actingAs($user)
-		->get(route('profile.order', $order->code));
 
-	$response->assertOk();
+    $this->seed();
+    $user = User::first();
+    $order = $user->orders->first();
+    $response = $this
+        ->actingAs($user)
+        ->get(route('profile.order', $order->code));
+
+    $response->assertOk();
 });
 
 test('profile information can be updated', function () {
-	$user = User::factory()->create();
+    $user = User::factory()->create();
+    $response = $this
+        ->actingAs($user)
+        ->patch(route('profile.account-details.update'), [
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'email_confirmation' => 'test@example.com',
+        ]);
 
-	$response = $this
-		->actingAs($user)
-		->patch(route('profile.account-details.update'), [
-			'name' => 'Test User',
-			'email' => 'test@example.com',
-			'email_confirmation' => 'test@example.com',
-		]);
+    $response
+        ->assertSessionHasNoErrors()
+        ->assertRedirect(route('profile.account-details'));
 
-	$response
-		->assertSessionHasNoErrors()
-		->assertRedirect(route('profile.account-details'));
+    $user->refresh();
 
-	$user->refresh();
-
-	$this->assertSame('Test User', $user->name);
-	$this->assertSame('test@example.com', $user->email);
-	$this->assertNull($user->email_verified_at);
+    $this->assertSame('Test User', $user->name);
+    $this->assertSame('test@example.com', $user->email);
+    $this->assertNull($user->email_verified_at);
 });
 
 // test('email verification status is unchanged when the email address is unchanged', function () {

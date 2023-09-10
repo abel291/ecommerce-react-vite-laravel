@@ -17,22 +17,4 @@ class Stock extends Model
     {
         return $this->belongsTo(Product::class);
     }
-
-    public function stockPercent(): Attribute
-    {
-        $percent = ($this->remaining * 100) / $this->quantity;
-
-        return new Attribute(
-            get: fn () => round($percent, 2)
-        );
-    }
-
-    public function IsInStock(): Attribute
-    {
-        $percent = ($this->remaining * 100) / $this->quantity;
-
-        return new Attribute(
-            get: fn () => round($percent, 2)
-        );
-    }
 }

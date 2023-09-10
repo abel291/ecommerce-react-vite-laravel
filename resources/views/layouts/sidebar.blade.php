@@ -31,11 +31,11 @@
             'route' => 'dashboard.banners',
             'icon' => 'heroicon-o-photo',
         ],
-        [
-            'title' => 'Marcas',
-            'route' => 'dashboard.brands',
-            'icon' => 'heroicon-o-tag',
-        ],
+        // [
+        //     'title' => 'Marcas',
+        //     'route' => 'dashboard.brands',
+        //     'icon' => 'heroicon-o-tag',
+        // ],
         [
             'title' => 'Categorias',
             'route' => 'dashboard.categories',
@@ -44,7 +44,7 @@
         [
             'title' => 'Codigos de descuento',
             'route' => 'dashboard.discount-codes',
-            'icon' => 'heroicon-o-currency-dollar',
+            'icon' => 'heroicon-o-ticket',
         ],
     
         [
@@ -79,7 +79,7 @@
                         @foreach ($navigations_1 as $item)
                             <li>
                                 <a href="{{ route($item['route']) }}"
-                                    class="font-semibold text-sm leading-6 rounded-md flex gap-x-3 p-2  
+                                    class="font-semibold text-sm leading-6 rounded-md flex gap-x-3 p-2
 									{{ request()->routeIs($item['route'] . '*') ? 'text-white bg-gray-800' : 'text-gray-400 hover:text-white hover:bg-gray-800' }}">
                                     @svg($item['icon'], 'w-6 h-6')
                                     {{ $item['title'] }}
@@ -96,7 +96,7 @@
                         @foreach ($navigation_2 as $item)
                             <li>
                                 <a href="{{ route($item['route']) }}"
-                                    class="font-semibold text-sm leading-6 rounded-md flex gap-x-3 p-2  
+                                    class="font-semibold text-sm leading-6 rounded-md flex gap-x-3 p-2
 											{{ request()->routeIs($item['route'] . '*') ? 'text-white bg-gray-800' : 'text-gray-400 hover:text-white hover:bg-gray-800' }}">
                                     @svg($item['icon'], 'w-6 h-6')
                                     {{ $item['title'] }}
@@ -109,7 +109,7 @@
                     <ul role="list" class="space-y-1 -mx-2">
                         <li>
                             <a href="{{ route('dashboard.settings') }}"
-                                class="font-semibold text-sm leading-6 rounded-md flex gap-x-3 p-2  
+                                class="font-semibold text-sm leading-6 rounded-md flex gap-x-3 p-2
 									{{ request()->routeIs('dashboard.settings' . '*') ? 'text-white bg-gray-800' : 'text-gray-400 hover:text-white hover:bg-gray-800' }}">
                                 @svg('heroicon-o-cog-6-tooth', 'w-6 h-6 flex-shrink-0')
                                 Ajustes

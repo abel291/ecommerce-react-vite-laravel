@@ -311,12 +311,12 @@
                     <div>
                         <div class="font-semibold">Facturado a:</div>
                         <div class="mt-2">
-                            <div>{{ $order->user_data->name }}</div>
-                            <div class="mt-1">{{ $order->user_data->email }}</div>
-                            <div class="mt-1">{{ $order->user_data->phone }}</div>
+                            <div>{{ $order->data->user->name }}</div>
+                            <div class="mt-1">{{ $order->data->user->email }}</div>
+                            <div class="mt-1">{{ $order->data->user->phone }}</div>
                             <address class="mt-1 not-italic ">
-                                {{ $order->user_data->address }}<br>
-                                {{ $order->user_data->city }}
+                                {{ $order->data->user->address }}<br>
+                                {{ $order->data->user->city }}
                             </address>
                         </div>
                     </div>
@@ -346,8 +346,8 @@
                         <tr class="border-t">
                             <td class="text-left p-3">{{ $item->name }}</td>
                             <td class="whitespace-nowrap text-left p-3">@money($item->price)</td>
-                            <td class="text-left p-3">{{ $item->quantity_selected }}</td>
-                            <td class="whitespace-nowrap text-right p-3">@money($item->price_quantity)</td>
+                            <td class="text-left p-3">{{ $item->quantity }}</td>
+                            <td class="whitespace-nowrap text-right p-3">@money($item->total)</td>
                         </tr>
                     @endforeach
                     <tr class="border-t-2">

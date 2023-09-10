@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\PostResource;
 use App\Models\Blog;
 use App\Models\Category;
+use App\Models\Page;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,6 +15,9 @@ class BlogController extends Controller
 {
 	public function blog(Request $request): Response
 	{
+		$page = Page::with('banners')->where('type', 'blog')->firstOrFail();
+		$banner = $page->banners->where('position', 'middle')->where('active', 1)->where('type', 'banner')->first();
+
 		$posts = Blog::with('category', 'author')->where('active', 1)->orderBy('id', 'desc')
 			->when($request->q, function (Builder $query) use ($request) {
 
@@ -30,11 +34,15 @@ class BlogController extends Controller
 			})->paginate(6)->withQueryString();
 
 		//dd($this->categories_blog());
+
 		return Inertia::render('Blog/Blog', [
 			'posts' => PostResource::collection($posts),
 			'recent_post' => $this->recent_post(),
 			'categories_blog' => $this->categories_blog(),
 			'filters' => $request->only(['q', 'category']),
+			'banner' => $banner,
+			'page' => $page,
+
 		]);
 	}
 

@@ -1,8 +1,7 @@
 <x-form.section-form title="Precio y descuentos">
     <x-form.grid>
         <div class="sm:col-span-3">
-            <x-form.input-group text="$" label="Precio" x-data x-mask:dynamic="$money($input)"
-                wire:model.defer="product.price" />
+            <x-form.input-group text="$" label="Precio" wire:model.defer="product.price" />
         </div>
 
         <div class="sm:col-span-3">
@@ -17,14 +16,13 @@
         </div>
         <div class="sm:col-span-3">
 
-            <x-form.input-group text="$" label="Costo" x-data x-mask:dynamic="$money($input)"
-                wire:model.defer="product.cost" />
+            <x-form.input-group text="$" label="Costo" wire:model.defer="product.cost" />
 
             <span class="text-gray-500 text-xs ">Los clientes no verán este precio.</span>
         </div>
 
         <div class="sm:col-span-3">
-            <x-form.input-label-error wire:model.defer="product.max_quantity" x-mask:dynamic="$money($input)">
+            <x-form.input-label-error wire:model.defer="product.max_quantity">
                 Cantidad
                 maxima pór compra
             </x-form.input-label-error>

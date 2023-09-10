@@ -8,26 +8,31 @@ use Spatie\Permission\Models\Role;
 
 class UserSeeder extends Seeder
 {
-	/**
-	 * Run the database seeds.
-	 *
-	 * @return void
-	 */
-	public function run()
-	{
-		User::truncate();
-		Role::truncate();
-		Role::create(['name' => 'admin']);
-		Role::create(['name' => 'customer']);
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
 
-		$user = User::factory()->create([
-			'email' => 'user@user.com',
-		]);
-		$user->assignRole('admin');
+        User::truncate();
+        Role::truncate();
+        Role::create(['name' => 'admin']);
+        Role::create(['name' => 'customer']);
 
-		$users = User::factory()->count(200)->create();
-		foreach ($users as $key => $user) {
-			$user->assignRole('customer');
-		}
-	}
+        $user = User::factory()->create([
+            'email' => 'user@user.com',
+        ]);
+        $user->assignRole('admin');
+
+        if (config('app.env') == 'testing') {
+            $users = User::factory()->count(10)->create();
+        } else {
+            $users = User::factory()->count(10)->create();
+        }
+        foreach ($users as $key => $user) {
+            $user->assignRole('customer');
+        }
+    }
 }

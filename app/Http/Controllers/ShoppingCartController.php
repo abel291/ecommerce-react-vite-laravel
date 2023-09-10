@@ -20,93 +20,99 @@ use Inertia\Inertia;
 class ShoppingCartController extends Controller
 {
 
-	public function index()
-	{
-		$cart = Cart::instance(CartEnum::SHOPPING_CART->value);
+    public function index()
+    {
+        //session()->forget(CartEnum::SHOPPING_CART->value);
 
-		$total = OrderService::calculateTotal($cart->subtotal());
+        $products = CartService::session(CartEnum::SHOPPING_CART->value);
 
-		return Inertia::render('ShoppingCart/ShoppingCart', [
-			'cardProducts' => CartResource::collection($cart->content()->values()),
-			'total' => $total,
-		]);
-	}
+        $total = OrderService::calculateTotal($products);
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return \Inertia\Response
-	 */
-	// public function create()
-	// {
-	// 	//
-	// }
+        return Inertia::render('ShoppingCart/ShoppingCart', [
+            'cardProducts' => CartResource::collection($products),
+            'total' => $total,
+        ]);
+    }
 
-	/**
-	 * Store a newly created resource in storage.
-	 */
-	public function store(Request $request): RedirectResponse
-	{
-		$request->validate([
-			'quantity' => ['required', 'numeric', 'min:1', new ValidateProductRule, new ShoppingCartStoreRule],
-			'product_id' => ['required', 'exists:products,id'],
-		]);
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Inertia\Response
+     */
+    // public function create()
+    // {
+    // 	//
+    // }
 
-		$product = Product::query()->select('id', 'name', 'price', 'img', 'price_offer', 'slug')->findOrFail($request->product_id);
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'quantity' => ['required', 'numeric', 'min:1', new ValidateProductRule, new ShoppingCartStoreRule],
+            'product_id' => ['required', 'exists:products,id'],
+        ]);
 
-		$options['attributes'] = CartService::formatAttributes($request['attributes']);
+        $product = Product::select('id', 'name', 'price', 'img', 'price_offer', 'slug', 'max_quantity')->with('stock')->findOrFail($request->product_id);
 
-		CartService::add(CartEnum::SHOPPING_CART->value, $product, $request->quantity, $options);
+        CartService::add(CartEnum::SHOPPING_CART->value, $product, $request->quantity, $request['attributes']);
 
-		return to_route('shopping-cart.index')->with('success', "Agregaste a tu carrito $product->name");
-	}
+        return to_route('shopping-cart.index')->with('success', "Agregaste a tu carrito $product->name");
+    }
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return \Inertia\Response
-	 */
-	// public function show($id)
-	// {
-	// }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Inertia\Response
+     */
+    // public function show($id)
+    // {
+    // }
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return \Inertia\Response
-	 */
-	// public function edit($id)
-	// {
-	// 	//
-	// }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Inertia\Response
+     */
+    // public function edit($id)
+    // {
+    // 	//
+    // }
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @param  int  $id
-	 * @return \Inertia\Response
-	 */
-	public function update(Request $request, $id): RedirectResponse
-	{
-		$cart = Cart::instance(CartEnum::SHOPPING_CART->value);
-		$cardProduct = $cart->content()->firstWhere('id', $id);
-		$cart->update($cardProduct->rowId, $request->quantity);
-		return to_route('shopping-cart.index')->with('success', "Carrito de compra actualizado");
-	}
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Inertia\Response
+     */
+    public function update(Request $request, $rowId): RedirectResponse
+    {
+        $request->validate([
+            'quantity' => ['required', 'numeric', 'min:1', new ValidateProductRule, new ShoppingCartStoreRule],
+            'product_id' => ['required', 'exists:products,id'],
+        ]);
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 */
-	public function destroy($id): RedirectResponse
-	{
-		$cart = Cart::instance(CartEnum::SHOPPING_CART->value);
-		$cardProduct = $cart->content()->firstWhere('id', $id);
-		$cart->remove($cardProduct->rowId);
-		return to_route('shopping-cart.index')->with('success', '¡Listo! Eliminaste el producto.');
-	}
+        $product = Product::select('id', 'name', 'price', 'img', 'price_offer', 'slug', 'max_quantity')->with('stock')->findOrFail($request->product_id);
+
+        CartService::update(CartEnum::SHOPPING_CART->value, $rowId, $request->quantity);
+
+        return to_route('shopping-cart.index')->with('success', "Carrito de compra actualizado");
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $rowId
+     */
+    public function destroy($rowId): RedirectResponse
+    {
+
+        CartService::remove(CartEnum::SHOPPING_CART->value, $rowId);
+
+        return to_route('shopping-cart.index')->with('success', '¡Listo! Eliminaste el producto.');
+    }
 }

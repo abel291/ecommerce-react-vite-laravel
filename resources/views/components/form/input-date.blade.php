@@ -9,10 +9,10 @@
     <div x-data="{ value: @entangle($attributes->wire('model')) }">
         <x-text-input id="{{ $id }}" {{ $attributes->whereDoesntStartWith('wire:model') }}
             x-ref="{{ $ref }}" x-init="$nextTick(() => {
-                flatpickr($refs.{{ $ref }}, {
+                ($refs.{{ $ref }}, {
                     locale: 'es',
                     dateFormat: 'Y-m-d',
-                    altFormat: 'F j, Y',
+                    altFormat: 'F j, Y H:i',
                     altInput: true,
                     defaultDate: value,
                     onChange: function(selectedDates, dateStr, instance) {

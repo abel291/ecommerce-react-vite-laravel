@@ -37,7 +37,7 @@ const CarouselSection = ({ items, searchType, parameters = {} }) => {
 						spaceBetween: 40,
 					},
 					1536: {
-						slidesPerView: 6,
+						slidesPerView: 5,
 						spaceBetween: 40,
 					},
 				}

@@ -11,31 +11,31 @@ use Illuminate\Support\Str;
 
 class BrandSeeder extends Seeder
 {
-	/**
-	 * Run the database seeds.
-	 *
-	 * @return void
-	 */
-	public function run()
-	{
-		Brand::truncate();
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        Brand::truncate();
 
-		$brands = Helpers::getAllBrands();
+        $brands = Helpers::getAllBrands();
 
-		$data = [];
-		$faker = Faker\Factory::create();
-		$current_date = date('Y-m-d H:i:s');
-		foreach ($brands as $key => $value) {
-			$data[$key] = [
-				'name' => ucfirst($value),
-				'slug' => Str::slug($value),
-				'img' => '/img/brands/' . Str::slug($value) . '.png',
-				'website' => $faker->url(),
-				'created_at' => $current_date,
-				'updated_at' => $current_date,
-			];
-		}
+        $data = [];
+        $faker = Faker\Factory::create();
+        $current_date = date('Y-m-d H:i:s');
+        foreach ($brands as $key => $value) {
+            $data[$key] = [
+                'name' => ucfirst($value),
+                'slug' => Str::slug($value),
+                'img' => '/img/brands/' . Str::slug($value) . '.png',
+                'website' => $faker->url(),
+                'created_at' => $current_date,
+                'updated_at' => $current_date,
+            ];
+        }
 
-		Brand::insert($data);
-	}
+        Brand::insert($data);
+    }
 }

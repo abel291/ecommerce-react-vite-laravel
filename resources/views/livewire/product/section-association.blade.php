@@ -12,8 +12,8 @@
         </div>
 
         <div class="md:col-span-2">
-            <x-form.select wire:model.defer="product.brand_id" label="Marca">
-                @foreach ($brands as $item)
+            <x-form.select wire:model.defer="product.department_id" label="Departamanto">
+                @foreach ($departments as $item)
                     <option value="{{ $item->id }}">{{ $item->name }}</option>
                 @endforeach
             </x-form.select>

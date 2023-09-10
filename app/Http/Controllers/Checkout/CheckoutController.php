@@ -19,57 +19,46 @@ use Inertia\Inertia;
 
 class CheckoutController extends Controller
 {
+    public function checkout(Request $request)
+    {
 
+        $products = CartService::session(CartEnum::CHECKOUT->value);
 
-	public function checkout(Request $request)
-	{
+        $discountCode = session()->get('discountCode');
 
-		$checkoutProducts = Cart::instance(CartEnum::CHECKOUT->value);
+        $total = OrderService::calculateTotal($products, $discountCode);
 
-		$discountCode = session()->get('discountCode');
+        $discount_codes = DiscountCode::whereDate('valid_from', '<=', now())
+            ->whereDate('valid_to', '>=', now())
+            ->where('active', 1)->inRandomOrder()->limit(5)->get();
 
-		$total = OrderService::calculateTotal($checkoutProducts->subtotal(), $discountCode);
+        $faker = Faker\Factory::create();
+        $note = $faker->paragraph(2);
 
-		$discount_codes = DiscountCode::whereDate('valid_from', '<=', now())
-			->whereDate('valid_to', '>=', now())
-			->where('active', 1)->inRandomOrder()->limit(5)->get();
-		$faker = Faker\Factory::create();
-		$note = $faker->paragraph(2);
+        return Inertia::render('Checkout/Checkout', [
+            'products' => CartResource::collection($products),
+            'total' => $total,
+            'dicountCodes' => $discount_codes,
+            'note' => $note,
+            //'clientSecret' => auth()->user()->createSetupIntent()->client_secret
+        ]);
+    }
 
-		return Inertia::render('Checkout/Checkout', [
-			'products' => CartResource::collection($checkoutProducts->content()->values()),
-			'total' => $total,
-			'dicountCodes' => $discount_codes,
-			'note' => $note,
-			//'clientSecret' => auth()->user()->createSetupIntent()->client_secret
-		]);
-	}
+    public function addSingleProduct(CheckoutProductRequest $request)
+    {
+        $product = Product::select('id', 'name', 'price', 'img', 'price_offer', 'slug', 'max_quantity')->with('stock')->find($request->product_id);
 
-	public function addSingleProduct(CheckoutProductRequest $request)
-	{
-		Cart::instance(CartEnum::CHECKOUT->value)->destroy();
+        CartService::add(CartEnum::CHECKOUT->value, $product, $request->quantity, $request['attributes']);
 
-		$product = Product::with('stock')->find($request->product_id);
+        return to_route('checkout');
+    }
 
-		$options['attributes'] = CartService::formatAttributes($request['attributes']);
+    public function addShoppingCart()
+    {
+        $products = CartService::session(CartEnum::SHOPPING_CART->value);
 
-		CartService::add(CartEnum::CHECKOUT->value, $product, $request->quantity, $options);
+        session([CartEnum::CHECKOUT->value => $products]);
 
-		return to_route('checkout');
-	}
-
-	public function addShoppingCart()
-	{
-		Cart::instance(CartEnum::CHECKOUT->value)->destroy();
-
-		$cardProducts = Cart::instance(CartEnum::SHOPPING_CART->value)->content()->values();
-
-		foreach ($cardProducts as $product) {
-
-			CartService::add(CartEnum::CHECKOUT->value, $product->model, $product->qty, $product->options->toArray());
-		}
-
-
-		return to_route('checkout');
-	}
+        return to_route('checkout');
+    }
 }

@@ -3,9 +3,9 @@
     Pedido: <span class="font-semibold"> #{{ $order->code }}</span>
 </x-slot>
 <div>
-    <x-content>
+    <x-content class="max-w-3xl mx-auto">
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 ">
+        <div class="space-y-5 divide-y divide-gray-200">
             <div>
                 <x-form.title>Detalles de la compra</x-form.title>
                 <dl class=" divide-y divide-gray-100">
@@ -40,67 +40,69 @@
                 </dl>
             </div>
 
-            <div>
+            {{-- <div>
                 <livewire:order.payment-order :order="$order" />
-            </div>
+            </div> --}}
+            <div class="pt-5">
+                <x-form.title>Items</x-form.title>
 
-        </div>
-        <div class="mt-10">
-            <x-form.title>Items</x-form.title>
+                <div class="">
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 ">
+                    <div>
+                        <ul class="divide-y ">
+                            @foreach ($order->order_products as $item)
+                                @include('livewire.order.card-product', ['item' => $item])
+                            @endforeach
 
-                <div>
+                        </ul>
+                    </div>
 
-                    <ul class="divide-y ">
-                        @foreach ($order->order_products as $item)
-                            @include('livewire.order.card-product', ['item' => $item])
-                        @endforeach
-
-                    </ul>
 
                 </div>
-                <div>
-                    <dl class="sm:max-w-sm font-medium text-sm pt-4 space-y-4 ">
-                        <div class="flex justify-between">
-                            <dt class="text-gray-500">Productos</dt>
-                            <dd class="text-gray-900 ">{{ $order->quantity }}
-                            </dd>
-                        </div>
+            </div>
+            <div class="pt-5 flex justify-end">
+                <dl class="sm:max-w-sm w-96 font-medium text-sm space-y-4 ">
+                    <div class="flex justify-between">
+                        <dt class="text-gray-500">Productos</dt>
+                        <dd class="text-gray-900 ">{{ $order->quantity }}
+                        </dd>
+                    </div>
 
 
-                        <div class="flex justify-between">
-                            <dt class="text-gray-500">Subtotal</dt>
-                            <dd class="text-gray-900 ">@money($order->sub_total)</dd>
+                    <div class="flex justify-between">
+                        <dt class="text-gray-500">Subtotal</dt>
+                        <dd class="text-gray-900 ">@money($order->sub_total)</dd>
+                    </div>
+                    @if ($order->discount)
+                        <div class="flex justify-between text-green-500">
+                            <dt>
+                                Descuento
+                                @if ($order->discount->type == 'percent')
+                                    {{ $order->discount->value }}%
+                                @endif
+                                <x-badge class="ml-2" color="gray">
+                                    {{ $order->discount->code }}
+                                </x-badge>
+                            </dt>
+                            <dd>-@money($order->discount->applied)</dd>
                         </div>
-                        @if ($order->discount)
-                            <div class="flex justify-between text-green-500">
-                                <dt>
-                                    Descuento
-                                    @if ($order->discount->type == 'percent')
-                                        {{ $order->discount->value }}%
-                                    @endif
-                                </dt>
-                                <dd>-@money($order->discount->applied)</dd>
-                            </div>
-                        @endif
-                        <div class="flex justify-between">
-                            <dt class="text-gray-500">Envio</dt>
-                            <dd class="text-gray-900 ">@money($order->shipping)</dd>
-                        </div>
-                        <div class="flex justify-between">
-                            <dt class="text-gray-500">Impuestos {{ $order->tax->rate }}%</dt>
-                            <dd class="text-gray-900 ">@money($order->tax->value)</dd>
-                        </div>
-                        <div class="flex justify-between pt-4 text-base  border-t">
-                            <dt>Total</dt>
-                            <dd class="text-gray-900 font-semibold">@money($order->total)</dd>
-                        </div>
-                    </dl>
-                </div>
-
+                    @endif
+                    <div class="flex justify-between">
+                        <dt class="text-gray-500">Envio</dt>
+                        <dd class="text-gray-900 ">@money($order->shipping)</dd>
+                    </div>
+                    <div class="flex justify-between">
+                        <dt class="text-gray-500">Impuestos {{ $order->tax_rate }}%</dt>
+                        <dd class="text-gray-900 ">@money($order->tax_value)</dd>
+                    </div>
+                    <div class="flex justify-between pt-4 text-base  border-t">
+                        <dt>Total</dt>
+                        <dd class="text-gray-900 font-semibold">@money($order->total)</dd>
+                    </div>
+                </dl>
             </div>
         </div>
+
     </x-content>
     <div class="mt-5 flex items-center justify-end gap-x-2">
         <a class="btn-secondary" href="{{ route('dashboard.orders') }}">Volver</a>

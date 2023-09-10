@@ -36,7 +36,7 @@ const ContactAddress = () => {
 				</div>
 			</div>
 			<div>
-				<img src="/img/contact-us/map.png" className="rounded-md" />
+				<img src="/storage/img/contact-us/map.png" className="rounded-md" />
 			</div>
 		</div>
 	)

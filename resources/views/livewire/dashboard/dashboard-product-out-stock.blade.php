@@ -27,7 +27,7 @@
                     <td class="text-gray-500 font-medium ">
                         <div class="flex items-center gap-x-1.5">
 
-                            <x-table.stock-percent :percent="$item->stock->stock_percent" />
+                            <x-table.stock-percent :stock="$item->stock" />
                             <span class="">
                                 {{ $item->stock->remaining }}/{{ $item->stock->quantity }}
                             </span>

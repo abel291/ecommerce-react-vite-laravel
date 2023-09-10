@@ -3,13 +3,13 @@
 
 
         <div class="md:col-span-2">
-            <x-form.input-label-error wire:model.defer="stock.quantity" x-data x-mask:dynamic="$money($input)">
+            <x-form.input-label-error wire:model.defer="stock.quantity">
                 Stock
                 (Unidad de mantenimiento de
                 existencias)</x-form.input-label-error>
         </div>
         <div class="md:col-span-2">
-            <x-form.input-label-error wire:model.defer="stock.remaining" x-data x-mask:dynamic="$money($input)">
+            <x-form.input-label-error wire:model.defer="stock.remaining">
                 Cantidad Restante
             </x-form.input-label-error>
         </div>

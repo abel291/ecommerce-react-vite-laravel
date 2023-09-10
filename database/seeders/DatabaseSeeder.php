@@ -14,31 +14,29 @@ use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
-	/**
-	 * Seed the application's database.
-	 *
-	 * @return void
-	 */
-	public function run()
-	{
+    /**
+     * Seed the application's database.
+     *
+     * @return void
+     */
+    public function run()
+    {
 
-		Cache::flush();
-		Schema::disableForeignKeyConstraints();
+        Cache::flush();
+        Schema::disableForeignKeyConstraints();
 
-		//Image::truncate();
-		$this->call([
+        Image::truncate();
+        $this->call([
 
-			UserSeeder::class,
-			PageSeeder::class,
-			CategorySeeder::class,
+            UserSeeder::class,
+            PageSeeder::class,
+            CategorySeeder::class,
+            BrandSeeder::class,
+            BlogSeeder::class,
+            ProductSeeder::class,
+            //OrderSeeder::class,
 
-			//BrandSeeder::class,
-			BlogSeeder::class,
-			ProductSeeder::class,
-
-			OrderSeeder::class,
-
-		]);
-		Schema::enableForeignKeyConstraints();
-	}
+        ]);
+        Schema::enableForeignKeyConstraints();
+    }
 }

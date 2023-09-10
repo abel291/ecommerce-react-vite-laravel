@@ -12,37 +12,37 @@ use Illuminate\Support\Str;
 
 class CategorySeeder extends Seeder
 {
-	/**
-	 * Run the database seeds.
-	 *
-	 * @return void
-	 */
-	public function run()
-	{
-		Category::truncate();
-		Department::truncate();
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        Category::truncate();
+        Department::truncate();
 
-		$data = Helpers::getAllCategories();
-		$departments = collect($data['departments']);
-		// dd($data['categories']);
-		foreach ($data['categories'] as $key => $category) {
-			Category::create($category);
-		}
-		$categories = Category::select('id', 'slug')->get();
+        $data = Helpers::getAllCategories();
+        $departments = collect($data['departments']);
 
-		foreach ($departments as $department) {
+        foreach ($data['categories'] as $key => $category) {
+            Category::create($category);
+        }
+        $categories = Category::select('id', 'slug')->get();
 
-			$department_model = Department::factory()->create([
-				'name' => $department['name'],
-				'slug' => $department['slug'],
-				'entry' => $department['entry'],
-				'meta_title' => $department['meta_title'],
-				'img' => $department['img'],
-			]);
+        foreach ($departments as $department) {
 
-			$categories_department_id = $categories->whereIn('slug', $department['categories'])->pluck('id')->values();
+            $department_model = Department::factory()->create([
+                'name' => $department['name'],
+                'slug' => $department['slug'],
+                'entry' => $department['entry'],
+                'meta_title' => $department['meta_title'],
+                'img' => $department['img'],
+            ]);
 
-			$department_model->categories()->sync($categories_department_id);
-		}
-	}
+            $categories_department_id = $categories->whereIn('slug', $department['categories'])->pluck('id')->values();
+
+            $department_model->categories()->sync($categories_department_id);
+        }
+    }
 }

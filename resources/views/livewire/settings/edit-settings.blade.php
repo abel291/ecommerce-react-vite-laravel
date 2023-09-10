@@ -59,6 +59,12 @@
                                     wire:model.defer="settings.rates.shipping" />
                             </div>
 
+                            <div class="lg:col-span-4">
+                                <x-form.input-group text="$" label="Monto minimo para envio gratis" type="number"
+                                    min="0" wire:model.defer="settings.rates.freeShipping" />
+                            </div>
+
+
                         </x-form.grid>
                     </x-card>
                     <x-card class="mt-5" title="Redes">

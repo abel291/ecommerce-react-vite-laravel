@@ -1,0 +1,7 @@
+<?php
+
+return [
+
+    'max-quantity' => env('SHOPPING_CART_MAX_QUANTITY', 50), //CANTIDAD MAXIMA DE PRODUCTOS EN EL CARRITO DE COMPRAS
+
+];

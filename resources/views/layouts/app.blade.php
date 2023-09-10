@@ -17,6 +17,8 @@
 
     @vite(['resources/css/dashboard.css', 'resources/js/dashboard.js'])
     @livewireStyles
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.0/dist/trix.css">
+    <script type="text/javascript" src="https://unpkg.com/trix@2.0.0/dist/trix.umd.min.js"></script>
 </head>
 
 <body class="antialiased text-gray-800">

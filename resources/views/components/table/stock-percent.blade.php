@@ -1,17 +1,17 @@
-@props(['percent'])
+@props(['stock'])
 @php
-    
+    $percent = ($stock->remaining * 100) / $stock->quantity;
     switch (true) {
         case $percent <= 20:
-            $color = 'bg-red-500';
+            $color = 'bg-red-300';
             break;
     
         case $percent <= 50:
-            $color = 'bg-yellow-400';
+            $color = 'bg-yellow-200';
             break;
     
         default:
-            $color = 'bg-gray-500';
+            $color = 'bg-green-300';
             break;
     }
 @endphp

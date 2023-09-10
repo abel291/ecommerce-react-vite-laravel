@@ -25,8 +25,7 @@
                             label="Descripcion pequeña" />
                     </div>
                     <div class="lg:col-span-6">
-                        <x-form.textarea rows="6" wire:model.defer="product.description_max"
-                            label="Descripcion Amplia" />
+                        <x-form.trix wire:model.defer="product.description_max" label="Descripcion Amplia" />
 
                     </div>
 

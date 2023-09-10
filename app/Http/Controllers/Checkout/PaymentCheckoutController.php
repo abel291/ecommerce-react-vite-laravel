@@ -18,73 +18,74 @@ use Illuminate\Support\Facades\DB;
 
 class PaymentCheckoutController extends Controller
 {
-	public function purchase(OrderUserRequest $request)
-	{
+    public function purchase(OrderUserRequest $request)
+    {
 
-		$checkoutProducts = Cart::instance(CartEnum::CHECKOUT->value);
-		$products = $checkoutProducts->content()->values();
+        $products = CartService::session(CartEnum::CHECKOUT->value);
+        $user = auth()->user();
+        $discountCode = session()->get('discountCode');
+        $total = OrderService::calculateTotal($products, $discountCode);
 
-		$user = auth()->user();
+        try {
+            DB::beginTransaction();
 
-		$discountCode = session()->get('discountCode');
-		$total = OrderService::calculateTotal($checkoutProducts->subtotal(), $discountCode);
+            $order = OrderService::createOrderWithTotalCalculation($total);
+            $order->quantity = $products->sum('quantity');
+            $order->code = OrderService::generateCode($user->id);
+            $order->data = [
+                'user' => $request->only('name', 'address', 'phone', 'email', 'city', 'note'),
+            ];
+            $order->user_id = $user->id;
+            $order->save();
 
-		try {
-			DB::beginTransaction();
+            $order_products = $products->values()->map(function ($product) use ($user) {
+                return [
+                    'price' => $product['price_offer'],
+                    'quantity' => $product['quantity'],
+                    'total' => $product['total'],
+                    'data' => [
+                        'name' => $product['name'],
+                        'slug' => $product['slug'],
+                        'img' => $product['img'],
+                    ],
+                    'attributes' => $product['attributes'],
+                    'user_id' => $user->id,
+                    'product_id' => $product['id'],
+                ];
+            });
+            $order->order_products()->createMany($order_products);
 
-			$order = OrderService::createOrderWithTotalCalculation($total);
-			$order->quantity = $checkoutProducts->count();
-			$order->code = OrderService::generateCode($user->id);
-			$order->data = [
-				'user' => $request->only('name', 'address', 'phone', 'email', 'city', 'note'),
-			];
-			$order->user_id = $user->id;
-			$order->save();
+            // $paymentCharge = PaymentService::charger($user, $order, $request->paymentMethodId);
 
-			$order_products = $products->values()->map(function ($product) use ($user) {
-				return [
-					'price' => $product->price,
-					'quantity' => $product->qty,
-					'total' => $product->total(),
-					'data' => $product->model->only('name', 'slug', 'img'),
-					'attributes' => $product->options->attributes,
-					'user_id' => $user->id,
-					'product_id' => $product->model->id,
-				];
-			});
-			$order->order_products()->createMany($order_products);
+            $payment = new Payment([
+                'status' => PaymentStatus::SUCCESSFUL,
+                'method' => PaymentMethodEnum::CARD,
+                // 'reference' => $paymentCharge->id,
+                'reference' => 'payment',
+            ]);
 
-			// $paymentCharge = PaymentService::charger($user, $order, $request->paymentMethodId);
+            $order->payment()->save($payment);
 
-			$payment = new Payment([
-				'status' => PaymentStatus::SUCCESSFUL,
-				'method' => PaymentMethodEnum::CARD,
-				// 'reference' => $paymentCharge->id,
-				'reference' => 'payment',
-			]);
+            //checkout clean
+            session()->forget(CartEnum::CHECKOUT->value);
 
-			$order->payment()->save($payment);
+            DB::commit();
+        } catch (\Stripe\Exception\CardException $e) {
 
-			//checkout clean
-			Cart::instance(CartEnum::CHECKOUT->value)->destroy();
+            DB::rollback();
 
-			DB::commit();
-		} catch (\Stripe\Exception\CardException $e) {
+            return back()->withErrors(['card' => $e->getMessage()]);
+        } catch (Exception $e) {
 
-			DB::rollback();
+            DB::rollback();
 
-			return back()->withErrors(['card' => $e->getMessage()]);
-		} catch (Exception $e) {
+            return back()->withErrors(['card' => $e->getMessage()]);
+        }
 
-			DB::rollback();
+        session()->forget(['cart_products', 'discount_code', 'order']);
 
-			return back()->withErrors(['card' => $e->getMessage()]);
-		}
+        $message = 'Tu pedido llega entre ' . now()->addDays(2)->isoFormat('DD') . ' y el ' . now()->addDays(7)->isoFormat('DD \d\e MMMM');
 
-		session()->forget(['cart_products', 'discount_code', 'order']);
-
-		$message = 'Tu pedido llega entre ' . now()->addDays(2)->isoFormat('DD') . ' y el ' . now()->addDays(7)->isoFormat('DD \d\e MMMM');
-
-		return to_route('profile.order', $order->code)->with(['success' => $message]);
-	}
+        return to_route('profile.order', $order->code)->with(['success' => $message]);
+    }
 }

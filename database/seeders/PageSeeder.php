@@ -19,7 +19,7 @@ class PageSeeder extends Seeder
 
 		$contact = Page::factory()->create(['type' => 'contact', 'title' => 'Contáctenos']);
 		$search = Page::factory()->create(['type' => 'search', 'title' => 'Busqueda']);
-		$blog = Page::factory()->create(['type' => 'blog', 'title' => 'Blog']);
+		$blog = Page::factory()->create(['type' => 'blog', 'title' => 'Desde el blog']);
 
 		$images =
 			[
@@ -30,7 +30,7 @@ class PageSeeder extends Seeder
 					'type' => 'carousel',
 					'sort' => 1,
 					'position' => 'top',
-					'link' => route('search', ['department' => ['hombre']]),
+					'link' => route('search', ['categories' => ['calzado']]),
 					'model_id' => $home->id,
 					'model_type' => 'App\Models\Page',
 
@@ -42,7 +42,7 @@ class PageSeeder extends Seeder
 					'type' => 'carousel',
 					'sort' => 2,
 					'position' => 'top',
-					'link' => route('search', ['department' => ['mujer']]),
+					'link' => route('search', ['department' => ['mujer'], 'categories' => ['ropa-interior-y-de-dormir']]),
 					'model_id' => $home->id,
 					'model_type' => 'App\Models\Page',
 
@@ -67,7 +67,7 @@ class PageSeeder extends Seeder
 					'title' => 'banner-3',
 					'type' => 'banner',
 					'position' => 'top',
-					'link' => route('search', ['department' => ['mujer'], 'category' => ['calzado']]),
+					'link' => route('search', ['categories' => ['pantalones']]),
 					'model_id' => $home->id,
 					'model_type' => 'App\Models\Page',
 
@@ -78,14 +78,14 @@ class PageSeeder extends Seeder
 					'title' => 'banner-3',
 					'type' => 'banner',
 					'position' => 'top',
-					'link' => route('search', ['department' => ['hombre'], 'category' => ['calzado']]),
+					'link' => route('search', ['categories' => ['camisas']]),
 					'model_id' => $home->id,
 					'model_type' => 'App\Models\Page',
 
 				],
 				///
 				[
-					'img' => '/storage/img/banners/banner-section-1.png',
+					'img' => '/storage/img/banners/banner-section-1.jpg',
 					'alt' => 'banner-3',
 					'title' => 'banner-3',
 					'type' => 'banner',
@@ -96,36 +96,36 @@ class PageSeeder extends Seeder
 
 				],
 				[
-					'img' => '/storage/img/banners/banner-section-1.png',
+					'img' => '/storage/img/banners/banner-section-2.jpg',
 					'alt' => 'banner-3',
 					'title' => 'banner-3',
 					'type' => 'banner',
 					'position' => 'below',
-					'link' => route('search', ['category' => ['camisetas']]),
+					'link' => route('search', ['categories' => ['camisetas']]),
 					'model_id' => $home->id,
 					'model_type' => 'App\Models\Page',
 
 				],
 
 				[
-					'img' => '/storage/img/banner-sidebar-search.jpg',
+					'img' => '/storage/img/banners/banner-sidebar-search.jpg',
 					'alt' => 'banner-3',
 					'title' => 'banner-3',
 					'type' => 'banner',
 					'position' => 'middle',
-					'link' => 'https://www.logitechstore.com.ar/Gaming/Volantes',
+					'link' => '/product/vestido-mujer-mc-negro-poliester-30170882-10',
 					'model_id' => $search->id,
 					'model_type' => 'App\Models\Page',
 
 				],
 				//
 				[
-					'img' => '/storage/img/blog/banner_ad.jpg',
+					'img' => '/storage/img/banners/banner-blog.jpg',
 					'alt' => 'banner-3',
 					'title' => 'banner-3',
 					'type' => 'banner',
 					'position' => 'middle',
-					'link' => 'https://c1.neweggimages.com/WebResource/Themes/Nest/ne_features_pcbuilder.jpg',
+					'link' => route('search', ['categories' => 'blusas']),
 					'model_id' => $blog->id,
 					'model_type' => 'App\Models\Page',
 
