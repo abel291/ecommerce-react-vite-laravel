@@ -1,6 +1,6 @@
 # Ecommerce Laravel Inertiajs React
 
-Tienda el linea de venta de hardware , construida en React y Laravel
+Tienda el linea de venta de ropa , construida en React y Laravel
 
 ## Screenshot 🖥️️
 
