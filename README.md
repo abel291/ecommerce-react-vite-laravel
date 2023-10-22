@@ -1,7 +1,7 @@
 # Ecommerce Laravel Inertiajs React
 
 Tienda el linea de venta de ropa , construida en React y Laravel
-
+- Images -> https://github.com/abel291/db-images-ecommerce-clothes
 ## Screenshot 🖥️️
 
 ![screenshot-1](/public/screenshot/screenshot-1.png)
