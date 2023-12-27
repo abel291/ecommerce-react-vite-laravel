@@ -24,17 +24,15 @@ class DatabaseSeeder extends Seeder
 
         Cache::flush();
         Schema::disableForeignKeyConstraints();
-
         Image::truncate();
         $this->call([
-
             UserSeeder::class,
             PageSeeder::class,
             CategorySeeder::class,
             BrandSeeder::class,
             BlogSeeder::class,
             ProductSeeder::class,
-            //OrderSeeder::class,
+            // OrderSeeder::class,
 
         ]);
         Schema::enableForeignKeyConstraints();

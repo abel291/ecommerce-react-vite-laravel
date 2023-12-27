@@ -69,18 +69,25 @@
         </div>
 
         <div class="lg:col-span-2 ">
+
             <x-card title="Producto mas vendido">
-                <a href="{{ route('product', $popular_product->slug) }}" target="_blank">
-                    <div class="w-52 mx-auto">
-                        <img src="{{ $popular_product->img }}" alt="" class="w-full rounded-lg">
-                    </div>
-                    <h4 class=" font-medium mt-4">{{ $popular_product->name }}</h4>
-                    <div class="mt-5 font-medium flex justify-between items-center">
-                        @money($popular_product->price_offer)
-                        <a href="{{ route('product', $popular_product->slug) }}" class="text-indigo-600">Ver</a>
-                    </div>
-                </a>
+                @if ($popular_product)
+                    <a href="{{ route('product', $popular_product->slug) }}" target="_blank">
+                        <div class="w-52 mx-auto">
+                            <img src="{{ $popular_product->img }}" alt="" class="w-full rounded-lg">
+                        </div>
+                        <h4 class=" font-medium mt-4">{{ $popular_product->name }}</h4>
+                        <div class="mt-5 font-medium flex justify-between items-center">
+                            @money($popular_product->price_offer)
+                            <a href="{{ route('product', $popular_product->slug) }}" class="text-indigo-600">Ver</a>
+                        </div>
+                    </a>
+                @else
+                    <p class="text-gray-500 text-xs">no disponible</p>
+                @endif
             </x-card>
+
+
         </div>
 
         <div class="lg:col-span-8 ">

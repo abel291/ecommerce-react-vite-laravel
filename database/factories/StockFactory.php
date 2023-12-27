@@ -19,7 +19,7 @@ class StockFactory extends Factory
 
         return [
             'quantity' => rand(40, 50),
-            'remaining' => rand(0, 50),
+            'remaining' => rand(10, 50),
             'supplier' => $this->faker->words(7, true),
             'barcode' => $this->faker->ean8(),
         ];

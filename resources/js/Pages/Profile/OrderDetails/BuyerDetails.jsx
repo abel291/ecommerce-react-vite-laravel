@@ -59,7 +59,7 @@ const OrderDetailsList = ({ title, children }) => {
             <dt className=" font-semibold text-gray-800">
                 {title}:
             </dt>
-            <dd className="text-gray-800 mt-1">
+            <dd className="text-gray-800 mt-1 text-sm">
                 {children}
             </dd>
         </dl>

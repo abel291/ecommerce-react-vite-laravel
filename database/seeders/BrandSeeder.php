@@ -19,23 +19,10 @@ class BrandSeeder extends Seeder
     public function run()
     {
         Brand::truncate();
-
-        $brands = Helpers::getAllBrands();
-
-        $data = [];
-        $faker = Faker\Factory::create();
-        $current_date = date('Y-m-d H:i:s');
-        foreach ($brands as $key => $value) {
-            $data[$key] = [
-                'name' => ucfirst($value),
-                'slug' => Str::slug($value),
-                'img' => '/img/brands/' . Str::slug($value) . '.png',
-                'website' => $faker->url(),
-                'created_at' => $current_date,
-                'updated_at' => $current_date,
-            ];
-        }
-
-        Brand::insert($data);
+        Brand::factory()->create([
+            'name' => 'no brand',
+            'slug' => 'no-brand',
+            'img' => '',
+        ]);
     }
 }

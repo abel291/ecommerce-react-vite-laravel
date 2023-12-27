@@ -21,16 +21,15 @@ class CategorySeeder extends Seeder
     {
         Category::truncate();
         Department::truncate();
-
-        $data = Helpers::getAllCategories();
-        $departments = collect($data['departments']);
+        $data = Storage::json("clothes/department_categories.json");
 
         foreach ($data['categories'] as $key => $category) {
             Category::create($category);
         }
+
         $categories = Category::select('id', 'slug')->get();
 
-        foreach ($departments as $department) {
+        foreach ($data['departments'] as $department) {
 
             $department_model = Department::factory()->create([
                 'name' => $department['name'],

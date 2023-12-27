@@ -6,8 +6,8 @@ import Badge from "../Badge"
 const CardProduct = ({ product, badge = "" }) => {
     return (
         <Link key={product.id} href={route('product', product.slug)}
-            className="relative block max-w-md mx-auto rounded-md overflow-hidden transition duration-200 ease-in-out transform hover:-translate-y-1 md:hover:-translate-y-1.5 hover:shadow-lg " >
-            {/*  */}
+            className="relative block max-w-md mx-auto rounded-md overflow-hidden transition duration-200 ease-in-out transform hover:-translate-y-1 md:hover:-translate-y-1.5 hover:shadow " >
+
             <div className="h-full flex flex-col">
                 <div className="flex items-center justify-center relative  overflow-hidden md:h-80">
                     {/* {product.offer > 0 && (
@@ -15,7 +15,7 @@ const CardProduct = ({ product, badge = "" }) => {
 							<span className=" bg-green-600 border-transparent   text-white inline-flex items-center rounded-md  px-2 py-1 text-xs font-semibold  ring-1 ring-inset" >{product.offer}%</span>
 						</div>
 					)} */}
-                    <img src={product.thumb} alt={product.slug} className="w-full h-full object-cover object-top rounded-b-md hover:rounded-none " />
+                    <img src={product.thumb} alt={product.slug} className="object-cover h-full  rounded-md hover:rounded-b-none " />
                 </div>
 
                 <div className="grow flex flex-col px-4 py-6">

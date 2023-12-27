@@ -19,6 +19,7 @@ use App\Models\Stock;
 use Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProductSeeder extends Seeder
@@ -42,19 +43,17 @@ class ProductSeeder extends Seeder
 
         $departments = Department::select('id', 'name')->get()->pluck('id', 'name');
 
-        $brands = Brand::select('id', 'name', 'slug')->get()->pluck('id', 'slug');
-
-        $products = Helpers::getAllProducts();
+        $products = collect(Storage::json("clothes/products_with_images.json"))->shuffle();
 
         if (config('app.env') == 'testing') {
-            $products = $products->random(20);
+            $products = collect($products)->random(20);
         }
 
         $faker = Faker\Factory::create();
 
         foreach ($products as $key => $product) {
 
-            $price = $product['price'] / 4500;
+            $price = $product['price'] / 4000;
 
             $offer = rand(0, 1) ? $faker->randomElement([10, 20, 30, 40, 50]) : 0;
 
@@ -68,7 +67,7 @@ class ProductSeeder extends Seeder
                 ->has(Stock::factory()->count(1))
                 ->create([
                     'name' => $product['name'],
-                    'slug' => Str::slug($product['name'], '-') . rand(0, 999),
+                    'slug' => Str::slug($product['name'], '-') . rand(0, 99999),
                     'img' => $product['img'],
                     'thumb' => $product['thumb'],
                     //'description_min' => $product['entry'],
@@ -80,10 +79,12 @@ class ProductSeeder extends Seeder
                     'department_id' => $departments[$product['department']],
                     'category_id' => $categories[$product['category']],
                     'sub_category_id' => null,
-                    'brand_id' => $brands[$product['brand']],
+                    'brand_id' => null //$brands[$product['brand']],
                 ]);
 
             $product_model->images()->createMany($product['images']);
+
+            //specifications
             $specifications = [];
             foreach ($product['specifications'] as $key => $item) {
                 foreach ($item['table'] as $key => $table) {
@@ -98,6 +99,7 @@ class ProductSeeder extends Seeder
             }
             $product_model->specifications()->createMany($specifications);
 
+            //attributes
             foreach ($product['attributes'] as  $item) {
 
                 $product_attribute = Attribute::create([
@@ -119,8 +121,5 @@ class ProductSeeder extends Seeder
                 $product_attribute->attribute_values()->createMany($attribute_values);
             }
         }
-    }
-    public static function addAttribute($product, $attributes_array)
-    {
     }
 }
