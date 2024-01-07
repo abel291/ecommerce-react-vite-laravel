@@ -56,7 +56,7 @@
                             {{ $item->value }}
                         </td>
 
-                        <td class="text-gray-500 font-medium ">
+                        <td class="text-neutral-500 font-medium ">
                             <x-badge-active :active="$item->active" />
                         </td>
                         <td>

@@ -47,7 +47,7 @@
 
                         </td>
 
-                        <td class="text-gray-500 ">
+                        <td class="text-neutral-500 ">
                             <x-badge class="bg-blue-100 text-blue-700 capitalize whitespace-nowrap">
                                 {{ $item->category->name }}
                             </x-badge>
@@ -56,12 +56,12 @@
                         <td class=" whitespace-nowrap">
 
                             @if ($item->offer)
-                                <span class="block line-through text-gray-400 text-xs">@money($item->price)</span>
+                                <span class="block line-through text-neutral-400 text-xs">@money($item->price)</span>
                             @endif
                             <span class="block text-grayu-700 font-medium">@money($item->price_offer)</span>
                         </td>
 
-                        <td class="text-gray-500 font-medium ">
+                        <td class="text-neutral-500 font-medium ">
 
                             <div class="flex items-center gap-x-1.5">
 
@@ -72,7 +72,7 @@
                             </div>
                         </td>
 
-                        <td class="text-gray-500 font-medium ">
+                        <td class="text-neutral-500 font-medium ">
 
                             <x-badge-active :active="$item->active" />
                         </td>

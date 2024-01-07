@@ -8,8 +8,8 @@
     @endif
 
     <div
-        class="overflow-hidden flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md mt-2">
-        <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">{{ $text }}</span>
+        class="overflow-hidden flex rounded-md shadow-sm ring-1 ring-inset ring-neutral-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md mt-2">
+        <span class="flex select-none items-center pl-3 text-neutral-500 sm:text-sm">{{ $text }}</span>
         <input {{ $disabled ? 'disabled' : '' }} {!! $attributes->merge([
             'type' => 'text',
             'class' => 'input-form mt-0  ring-0 focus:ring-0 border-0 bg-transparent',

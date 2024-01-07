@@ -69,7 +69,7 @@
                                     {{ $item->valid_to->isoFormat('DD MMM YYYY') }}
                                 </span>
                             </div>
-                            <div class="text-gray-600 text-xs mt-1">
+                            <div class="text-neutral-600 text-xs mt-1">
                                 {{ $item->valid_from->diffInDays($item->valid_to) }} dia(s)
                             </div>
                         </td>

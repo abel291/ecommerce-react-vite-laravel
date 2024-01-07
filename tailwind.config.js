@@ -31,6 +31,9 @@ module.exports = {
             },
         },
         extend: {
+            fontFamily: {
+                sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+            },
             //accordion search filters
             transitionProperty: {
                 'height': 'height',

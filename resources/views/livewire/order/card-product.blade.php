@@ -10,7 +10,7 @@
             <div class=" inline-grid grid-cols-2 mt-1 gap-x-2 gap-y-1 text-xs">
                 @foreach ($item->attributes as $attribute)
                     <div>{{ $attribute->name }}</div>
-                    <div class="text-gray-500">{{ $attribute->value }}</div>
+                    <div class="text-neutral-500">{{ $attribute->value }}</div>
                 @endforeach
             </div>
 
@@ -19,12 +19,12 @@
         </div>
     </div>
     <div class="flex flex-col gap-y-1 items-end">
-        <p class="text-gray-900 whitespace-nowrap">@money($item->total)</p>
-        <p class="text-gray-500 whitespace-nowrap font-normal">
+        <p class="text-neutral-900 whitespace-nowrap">@money($item->total)</p>
+        <p class="text-neutral-500 whitespace-nowrap font-normal">
             {{ $item->quantity }} unidades.
         </p>
         @if ($item->quantity > 1)
-            <p class="text-gray-500 mt-1 text-xs">
+            <p class="text-neutral-500 mt-1 text-xs">
                 @money($item->price) por unidad.
             </p>
         @endif

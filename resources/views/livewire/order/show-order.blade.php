@@ -5,10 +5,10 @@
 <div>
     <x-content class="max-w-3xl mx-auto">
 
-        <div class="space-y-5 divide-y divide-gray-200">
+        <div class="space-y-5 divide-y divide-neutral-200">
             <div>
                 <x-form.title>Detalles de la compra</x-form.title>
-                <dl class=" divide-y divide-gray-100">
+                <dl class=" divide-y divide-neutral-100">
 
                     <x-list-description title="Codigo" :desc="$order->code">
                         <x-slot:desc>
@@ -63,15 +63,15 @@
             <div class="pt-5 flex justify-end">
                 <dl class="sm:max-w-sm w-96 font-medium text-sm space-y-4 ">
                     <div class="flex justify-between">
-                        <dt class="text-gray-500">Productos</dt>
-                        <dd class="text-gray-900 ">{{ $order->quantity }}
+                        <dt class="text-neutral-500">Productos</dt>
+                        <dd class="text-neutral-900 ">{{ $order->quantity }}
                         </dd>
                     </div>
 
 
                     <div class="flex justify-between">
-                        <dt class="text-gray-500">Subtotal</dt>
-                        <dd class="text-gray-900 ">@money($order->sub_total)</dd>
+                        <dt class="text-neutral-500">Subtotal</dt>
+                        <dd class="text-neutral-900 ">@money($order->sub_total)</dd>
                     </div>
                     @if ($order->discount)
                         <div class="flex justify-between text-green-500">
@@ -88,16 +88,16 @@
                         </div>
                     @endif
                     <div class="flex justify-between">
-                        <dt class="text-gray-500">Envio</dt>
-                        <dd class="text-gray-900 ">@money($order->shipping)</dd>
+                        <dt class="text-neutral-500">Envio</dt>
+                        <dd class="text-neutral-900 ">@money($order->shipping)</dd>
                     </div>
                     <div class="flex justify-between">
-                        <dt class="text-gray-500">Impuestos {{ $order->tax_rate }}%</dt>
-                        <dd class="text-gray-900 ">@money($order->tax_value)</dd>
+                        <dt class="text-neutral-500">Impuestos {{ $order->tax_rate }}%</dt>
+                        <dd class="text-neutral-900 ">@money($order->tax_value)</dd>
                     </div>
                     <div class="flex justify-between pt-4 text-base  border-t">
                         <dt>Total</dt>
-                        <dd class="text-gray-900 font-semibold">@money($order->total)</dd>
+                        <dd class="text-neutral-900 font-semibold">@money($order->total)</dd>
                     </div>
                 </dl>
             </div>

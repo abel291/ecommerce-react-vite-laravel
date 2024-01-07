@@ -23,7 +23,7 @@
                         $tableNamesHead = [
                             'img' => 'Image',
                             'title' => 'Titulo',
-                        
+
                             'sort' => 'orden',
                             'active' => 'Visible',
                             'updated_at' => 'Ultima actualización',
@@ -43,16 +43,16 @@
                             <x-table.image :img="$item->img" :title="$item->title" />
                         </td>
 
-                        <td class="text-gray-500">
+                        <td class="text-neutral-500">
                             {{ $item->title }}
                         </td>
 
 
-                        <td class="text-gray-500">
+                        <td class="text-neutral-500">
                             {{ $item->sort }}
                         </td>
 
-                        <td class="text-gray-500 font-medium ">
+                        <td class="text-neutral-500 font-medium ">
                             <x-badge-active :active="$item->active" />
                         </td>
 

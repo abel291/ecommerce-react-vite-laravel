@@ -42,8 +42,8 @@
                         </td>
 
                         <td>
-                            <span class="block text-gray-500">{{ $item->social1 }}</span>
-                            <span class="block text-gray-500">{{ $item->social2 }}</span>
+                            <span class="block text-neutral-500">{{ $item->social1 }}</span>
+                            <span class="block text-neutral-500">{{ $item->social2 }}</span>
                         </td>
 
 

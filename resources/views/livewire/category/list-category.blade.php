@@ -29,6 +29,7 @@
                     @php
                         $tableNamesHead = [
                             'name' => 'Nombre',
+                            'products_count' => 'Cantidad',
                             'type' => 'Tipo',
                             //'entry' => 'Descipcion',
                             'active' => 'Visible',
@@ -50,12 +51,15 @@
                             <x-table.title-image :img="$item->img" :title="$item->name" :sub-title="$item->slug"
                                 :path="route('search', ['categories[]' => $item->slug])" />
                         </td>
+                        <td>
+                            {{ $item->products_count }}
+                        </td>
 
                         <td>
                             @include('livewire.category.badge-category-type')
                         </td>
 
-                        <td class="text-gray-500 font-medium ">
+                        <td class="text-neutral-500 font-medium ">
 
                             <x-badge-active :active="$item->active" />
                         </td>

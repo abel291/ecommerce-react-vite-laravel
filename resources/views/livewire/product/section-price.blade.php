@@ -18,7 +18,7 @@
 
             <x-form.input-group text="$" label="Costo" wire:model.defer="product.cost" />
 
-            <span class="text-gray-500 text-xs ">Los clientes no verán este precio.</span>
+            <span class="text-neutral-500 text-xs ">Los clientes no verán este precio.</span>
         </div>
 
         <div class="sm:col-span-3">

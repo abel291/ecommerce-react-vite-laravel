@@ -35,8 +35,8 @@
             <div class="bg-white rounded-lg overflow-hidden shadow-xl sm:w-full {{ $modalSize }} ">
 
 
-                <div class="px-7 py-7 ">
-                    <div class="text-lg font-medium">
+                <div class="p-6">
+                    <div class="title">
                         {{ $title }}
                     </div>
 
@@ -49,12 +49,13 @@
                             {{ $content }}
                         </div>
                     </div>
+                    <div class="mt-6 text-right">
+                        {{ $footer }}
+                    </div>
                 </div>
 
 
-                <div class="px-6 py-4 bg-gray-100 text-right">
-                    {{ $footer }}
-                </div>
+
             </div>
 
 

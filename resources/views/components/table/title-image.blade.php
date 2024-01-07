@@ -12,13 +12,13 @@
                         {{ $title }}
                     </a>
                 @else
-                    <div class="font-medium text-gray-800">
+                    <div class="font-medium text-neutral-800">
                         {{ $title }}
                     </div>
                 @endif
             @endif
             @if ($subTitle)
-                <div class="mt-0.5 text-gray-500 text-xs">
+                <div class="mt-0.5 text-neutral-500 text-xs">
                     {{ $subTitle }}
                 </div>
             @endif

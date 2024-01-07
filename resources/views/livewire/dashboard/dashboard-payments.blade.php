@@ -1,11 +1,9 @@
-<x-card>
-    <x-slot:title>
-        <div class="lg:flex justify-between">
-            <span>Ultimas transacciones</span>
-            <a class="font-medium text-indigo-600 text-sm" href="{{ route('dashboard.orders') }}">Ver mas</a>
-        </div>
-    </x-slot:title>
-    <div>
+<x-content>
+    <div class="lg:flex justify-between">
+        <h3 class="title">Ultimas transacciones</h3>
+        <a class="font-medium text-indigo-600 text-sm" href="{{ route('dashboard.orders') }}">Ver mas</a>
+    </div>
+    <div class="mt-6">
         <table class="table-list table-auto w-full">
             <thead>
                 <tr>
@@ -51,4 +49,4 @@
             </tbody>
         </table>
     </div>
-</x-card>
+</x-content>

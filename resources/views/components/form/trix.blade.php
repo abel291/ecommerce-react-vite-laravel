@@ -18,7 +18,7 @@
 
         <input id="{{ $id }}" type="hidden" value="">
         <trix-editor id="{{ $trid_id }}"
-            class="block w-full shadow-sm rounded-md border-0 ring-1 focus:ring-2 ring-gray-300  focus:ring-primary sm:text-sm overflow-y-scroll max-h-[400px] min-h-[200px] page-description ring-inset  sm:leading-6 "
+            class="block w-full shadow-sm rounded-md border-0 ring-1 focus:ring-2 ring-neutral-300  focus:ring-primary sm:text-sm overflow-y-scroll max-h-[400px] min-h-[200px] page-description ring-inset  sm:leading-6 "
             x-ref='trix' input="{{ $id }}"></trix-editor>
     </div>
     <x-input-error :model="$id" />

@@ -1,7 +1,7 @@
 @section('title', 'Dashboard')
 
 <x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+    <h2 class="font-semibold text-xl text-neutral-800 dark:text-neutral-200 leading-tight">
         {{ __('Dashboard') }}
     </h2>
 </x-slot>
@@ -9,59 +9,58 @@
 <div class="grid grid-cols-1 gap-5">
     <div>
         <h3 class="text-base font-semibold leading-6">Últimos 30 días</h3>
-
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-8 gap-5">
 
         <div class="lg:col-span-2">
-            <x-content class="w-full">
-                <dt class="text-gray-500 font-medium text-sm">Registros de usuarios</dt>
-                <dd class="text-3xl text-gray-900 tracking-tight font-semibold mt-1">
+            <x-card class="w-full">
+                <dt class="text-neutral-500 font-medium text-sm">Registros de usuarios</dt>
+                <dd class="text-3xl text-neutral-900 tracking-tight font-semibold mt-1">
                     {{ number_format($users_register->count()) }}</dd>
-            </x-content>
+            </x-card>
         </div>
 
         <div class="lg:col-span-2">
-            <x-content class="w-full">
-                <dt class="text-gray-500 font-medium text-sm">Ordenes Completadas</dt>
-                <dd class="text-3xl text-gray-900 tracking-tight font-semibold mt-1">
+            <x-card class="w-full">
+                <dt class="text-neutral-500 font-medium text-sm">Ordenes Completadas</dt>
+                <dd class="text-3xl text-neutral-900 tracking-tight font-semibold mt-1">
                     {{ number_format($orders_completed->count()) }}</dd>
-            </x-content>
+            </x-card>
         </div>
 
         <div class="lg:col-span-2">
-            <x-content class="w-full">
-                <dt class="text-gray-500 font-medium text-sm">Productos vendidos</dt>
-                <dd class="text-3xl text-gray-900 tracking-tight font-semibold mt-1">
+            <x-card class="w-full">
+                <dt class="text-neutral-500 font-medium text-sm">Productos vendidos</dt>
+                <dd class="text-3xl text-neutral-900 tracking-tight font-semibold mt-1">
                     {{ number_format($products_quantity) }}
                 </dd>
-            </x-content>
+            </x-card>
         </div>
 
         <div class="lg:col-span-2">
-            <x-content class="w-full h-full ">
-                <dt class="text-gray-500 font-medium text-sm">Ingresos Brutos</dt>
-                <dd class="text-2xl text-gray-900 tracking-tight font-semibold mt-1">
+            <x-card class="w-full h-full ">
+                <dt class="text-neutral-500 font-medium text-sm">Ingresos Brutos</dt>
+                <dd class="text-2xl text-neutral-900 tracking-tight font-semibold mt-1">
                     @money($revenues)
                 </dd>
-            </x-content>
+            </x-card>
         </div>
 
         <div class="lg:col-span-4 ">
-            <x-card>
-                <x-slot:title>Registros de usuarios mensual ({{ now()->isoFormat('MMMM') }}) </x-slot:title>
-                <div class="lg:h-96 chart-container " style="position: relative; width:100%">
+            <x-content>
+                <h3 class="title">Registros de usuarios mensual ({{ now()->isoFormat('MMMM') }}) </h3>
+                <div class="mt-6 lg:h-96 chart-container " style="position: relative; width:100%">
                     <canvas id="chart-register-users" class="w-full"></canvas>
                 </div>
-            </x-card>
+            </x-content>
         </div>
         <div class="lg:col-span-4 ">
-            <x-card title="Ventas por categoria">
-
-                <div class="lg:h-96 chart-container " style="position: relative; width:100%">
+            <x-content>
+                <h3 class="title">Ventas por categoria </h3>
+                <div class="mt-6 lg:h-96 chart-container " style="position: relative; width:100%">
                     <canvas id="chart-order-category" class="w-full"></canvas>
                 </div>
-            </x-card>
+            </x-content>
 
         </div>
         <div class="lg:col-span-6 ">
@@ -70,7 +69,8 @@
 
         <div class="lg:col-span-2 ">
 
-            <x-card title="Producto mas vendido">
+            <x-content>
+                <h3 class="title mb-6">Producto mas vendido </h3>
                 @if ($popular_product)
                     <a href="{{ route('product', $popular_product->slug) }}" target="_blank">
                         <div class="w-52 mx-auto">
@@ -83,9 +83,9 @@
                         </div>
                     </a>
                 @else
-                    <p class="text-gray-500 text-xs">no disponible</p>
+                    <p class="text-neutral-500 text-xs">no disponible</p>
                 @endif
-            </x-card>
+            </x-content>
 
 
         </div>

@@ -1,4 +1,5 @@
-<x-card title="Productos con poco stock">
+<x-content>
+    <h3 class="title mb-6">Productos con poco stock </h3>
     <x-table.table :data="$products_out_stock" wire:target="previousPage,nextPage, gotoPage">
 
         <thead>
@@ -24,7 +25,7 @@
                         </div>
                     </td>
 
-                    <td class="text-gray-500 font-medium ">
+                    <td class="text-neutral-500 font-medium ">
                         <div class="flex items-center gap-x-1.5">
 
                             <x-table.stock-percent :stock="$item->stock" />
@@ -39,4 +40,4 @@
         </tbody>
 
     </x-table.table>
-</x-card>
+</x-content>

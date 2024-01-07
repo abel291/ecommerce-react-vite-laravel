@@ -2,14 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* :root {
     font-family: "Inter", sans-serif !important;
 }
 @supports (font-variation-settings: normal) {
     :root {
         font-family: "Inter var", sans-serif !important;
     }
-}
+} */
 @layer utilities {
     .py-content {
         @apply py-8 md:py-10 lg:py-12 xl:py-14;
@@ -27,8 +27,9 @@
 }
 @layer base {
     .title-section {
-        @apply text-2xl font-semibold text-gray-800;
+        @apply text-2xl font-semibold text-neutral-800;
     }
+
     .btn {
         @apply inline-flex  justify-center items-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
     }
@@ -37,29 +38,29 @@
     }
 
     .btn-secondary {
-        @apply bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50;
+        @apply bg-white text-neutral-900 ring-1 ring-inset ring-neutral-300 hover:bg-neutral-50;
     }
 
     .select-form,
     .input-form,
     .input-textarea {
-        @apply block w-full rounded-md border-0 py-2 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 text-sm;
+        @apply block w-full rounded-md border-0 py-2 px-3 text-neutral-900 ring-1 ring-inset ring-neutral-300 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 text-sm;
     }
     .input-radio {
-        @apply h-4 w-4 border-gray-300 text-primary-600 focus:ring-primary-600;
+        @apply h-4 w-4 border-neutral-300 text-primary-600 focus:ring-primary-600;
     }
     .input-checkbox {
-        @apply h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-600;
+        @apply h-4 w-4 rounded border-neutral-300 text-primary-600 focus:ring-primary-600;
     }
 
     .table-list {
         @apply w-full;
     }
     .table-list thead tr {
-        @apply bg-gray-100;
+        @apply bg-neutral-100;
     }
     .table-list thead tr th {
-        @apply text-gray-800 bg-gray-100 p-4 text-start font-semibold;
+        @apply text-neutral-800 bg-neutral-100 p-4 text-start font-semibold;
     }
     .table-list thead tr th:first-child {
         @apply rounded-tl-lg;
@@ -77,7 +78,7 @@
         @apply text-right;
     }
     .dropdown-link {
-        @apply block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-800 transition duration-150 ease-in-out;
+        @apply block w-full px-4 py-2 text-left text-sm leading-5 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none focus:bg-neutral-100 dark:focus:bg-neutral-800 transition duration-150 ease-in-out;
     }
 }
 

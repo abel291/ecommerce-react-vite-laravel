@@ -1,6 +1,6 @@
 <div>
     <x-form.title>Datos de pago</x-form.title>
-    <dl class=" divide-y divide-gray-100">
+    <dl class=" divide-y divide-neutral-100">
 
         <x-list-description title="Codigo" :desc="$order->code">
             <x-slot:title>Methodo de pago</x-slot:title>
@@ -22,7 +22,7 @@
                 @if ($order->payment->reference)
                     {{ $order->payment->reference }}
                 @else
-                    <span class="text-gray-500 ">sin referencia</span>
+                    <span class="text-neutral-500 ">sin referencia</span>
                 @endif
             </x-slot:desc>
         </x-list-description>

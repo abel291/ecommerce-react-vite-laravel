@@ -1,4 +1,5 @@
 @props(['data']) {{-- //collection --}}
+
 <div {{ $attributes->class('relative sm:rounded-lg ') }}>
     <div {{ $attributes->whereStartsWith('wire:target') }} class="absolute inset-0 z-10" wire:loading>
         {{-- <div class=" flex justify-center mt-10">
@@ -16,7 +17,7 @@
         </div>
     @else
         <div class="text-center">
-            <span class=" text-sm text-gray-500">No hay registros disponibles</span>
+            <span class=" text-sm text-neutral-500">No hay registros disponibles</span>
         </div>
     @endif
 

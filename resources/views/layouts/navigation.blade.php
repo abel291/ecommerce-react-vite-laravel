@@ -1,16 +1,16 @@
 <nav x-data="{ openSidebar: false }" x-on:resize.window="
 if(window.innerWidth > 768 && openSidebar ){openSidebar=false}
 "
-    x-init="" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+    x-init="" class="bg-white dark:bg-neutral-800 border-b border-neutral-100 dark:border-neutral-700">
     <!-- Primary Navigation Menu -->
-    <div class=" mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="items-center hidden md:flex">
-                <x-application-logo />
+                {{-- <x-application-logo /> --}}
             </div>
             <div class="-mr-2 flex items-center md:hidden">
                 <button x-on:click="openSidebar=!openSidebar" aria-controls="default-sidebar" type="button"
-                    class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">
+                    class="inline-flex items-center justify-center p-2 rounded-md text-neutral-400 dark:text-neutral-500 hover:text-neutral-500 dark:hover:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-900 focus:outline-none focus:bg-neutral-100 dark:focus:bg-neutral-900 focus:text-neutral-500 dark:focus:text-neutral-400 transition duration-150 ease-in-out">
                     <x-heroicon-o-bars-3 class="w-6 h-6" />
                 </button>
                 <div class="relative">
@@ -50,7 +50,7 @@ if(window.innerWidth > 768 && openSidebar ){openSidebar=false}
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
-                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-neutral-500 dark:text-neutral-400 bg-white dark:bg-neutral-800 hover:text-neutral-700 dark:hover:text-neutral-300 focus:outline-none transition ease-in-out duration-150">
                             <div>{{ Auth::user()->name }}</div>
 
                             <div class="ml-1">
@@ -98,10 +98,10 @@ if(window.innerWidth > 768 && openSidebar ){openSidebar=false}
         </div>
 
         <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
+        <div class="pt-4 pb-1 border-t border-neutral-200 dark:border-neutral-600">
             <div class="px-4">
-                <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                <div class="font-medium text-base text-neutral-800 dark:text-neutral-200">{{ Auth::user()->name }}</div>
+                <div class="font-medium text-sm text-neutral-500">{{ Auth::user()->email }}</div>
             </div>
 
             <div class="mt-3 space-y-1">

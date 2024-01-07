@@ -34,23 +34,23 @@
                             <x-table.title-image :title="$item->name" :sub-title="$item->email" />
 
                         </td>
-                        <td class="text-gray-500 ">
+                        <td class="text-neutral-500 ">
                             {{ $item->phone }}
                         </td>
 
-                        <td class="text-gray-500 ">
+                        <td class="text-neutral-500 ">
                             {{ $item->country }} - {{ $item->city }}
                         </td>
 
-                        <td class="text-gray-500 ">
+                        <td class="text-neutral-500 ">
                             @php
                                 switch ($item->getRoleNames()->first()) {
                                     case 'admin':
                                         $color = 'bg-green-100 text-green-600 ring-green-600/20';
                                         break;
-                                
+
                                     default:
-                                        $color = 'bg-gray-100 text-gray-600 ring-gray-500/10';
+                                        $color = 'bg-neutral-100 text-neutral-600 ring-neutral-500/10';
                                         break;
                                 }
                             @endphp

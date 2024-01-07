@@ -56,7 +56,7 @@ class CreateUser extends Component
 
     public function save()
     {
-        dd('save');
+
         $this->validate();
         $user = $this->user;
         $this->user->password = Hash::make($this->password);
@@ -66,7 +66,7 @@ class CreateUser extends Component
         $this->emit('resetListUser');
         $this->dispatchBrowserEvent('notification', [
             'title' => 'Usuario Agregado',
-            'subtitle' => 'El usuario  <b>'.$this->user->name.'</b>  fue  Agregado correctamente',
+            'subtitle' => 'El usuario  <b>' . $this->user->name . '</b>  fue  Agregado correctamente',
         ]);
         $this->open = false;
     }
@@ -80,8 +80,7 @@ class CreateUser extends Component
 
     public function update()
     {
-        dd('update');
-        $this->rules['user.email'] = 'required|email|unique:users,email,'.$this->user->id.',id';
+        $this->rules['user.email'] = 'required|email|unique:users,email,' . $this->user->id . ',id';
         $this->rules['password'] = 'sometimes|string|min:6|max:200|confirmed';
 
         $this->validate();
@@ -112,7 +111,7 @@ class CreateUser extends Component
         $this->emit('renderListUser');
         $this->dispatchBrowserEvent('notification', [
             'title' => 'Usuario Eliminado',
-            'subtitle' => 'El usuario  <b>'.$name.'</b>  fue quitado de la lista',
+            'subtitle' => 'El usuario  <b>' . $name . '</b>  fue quitado de la lista',
         ]);
     }
 

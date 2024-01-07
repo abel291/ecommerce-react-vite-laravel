@@ -1,13 +1,13 @@
 @props(['date'])
 <div class="text-sm">
-    <div class="whitespace-nowrap font-medium uppercase text-gray-600 ">
+    <div class="whitespace-nowrap font-medium uppercase text-neutral-600 ">
         {!! $date->isoFormat('DD MMM YYYY hh:mm A') !!}
 
     </div>
 
     {{-- 20 MIN --}}
     {{-- <div class="flex items-center gap-x-4 mt-1">
-        <span class=" text-gray-500 block">
+        <span class=" text-neutral-500 block">
             {!! $date->diffForHumans() !!}
         </span>
         @if (now()->diffInMinutes($date) < 120)
