@@ -1,7 +1,7 @@
 # Ecommerce Laravel Inertiajs React
 
 Tienda el linea de venta de ropa , construida en React y Laravel
-- Images -> https://github.com/abel291/db-images-ecommerce-clothes
+- Imagenes(400mb) + json con una lista de productos (se requiere para ejecutar los seeder) -> https://github.com/abel291/db-images-ecommerce-clothes
 ## Screenshot 🖥️️
 
 ![screenshot-1](/public/screenshot/screenshot-1.png)
@@ -22,16 +22,12 @@ Tienda el linea de venta de ropa , construida en React y Laravel
 
 ![screenshot-1](/public/screenshot/screenshot-9.png)
 
-![screenshot-1](/public/screenshot/screenshot-10.png)
+Screenshot Dashboard
 
-![screenshot-1](/public/screenshot/screenshot-11.png)
+![screenshot-1](/public/screenshot/screenshot-dashboard-1.png)
 
-![screenshot-1](/public/screenshot/screenshot-12.png)
+![screenshot-2](/public/screenshot/screenshot-dashboard-2.png)
 
-![screenshot-1](/public/screenshot/screenshot-13.png)
+![screenshot-3](/public/screenshot/screenshot-dashboard-3.png)
 
-![screenshot-1](/public/screenshot/screenshot-14.png)
-
-![screenshot-1](/public/screenshot/screenshot-movil-1.png)
-
-![screenshot-1](/public/screenshot/screenshot-movil-2.png)
+![screenshot-4](/public/screenshot/screenshot-dashboard-4.png)
