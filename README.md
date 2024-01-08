@@ -35,3 +35,13 @@ Tienda el linea de venta de ropa , construida en React y Laravel
 ![screenshot-1](/public/screenshot/screenshot-movil-1.png)
 
 ![screenshot-1](/public/screenshot/screenshot-movil-2.png)
+
+Screenshot Dashboard 🖥️️
+
+![screenshot-1](/public/screenshot/screenshot-dashboard-1.png)
+
+![screenshot-1](/public/screenshot/screenshot-dashboard-2.png)
+
+![screenshot-1](/public/screenshot/screenshot-dashboard-3.png)
+
+![screenshot-1](/public/screenshot/screenshot-dashboard-4.png)
