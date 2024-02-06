@@ -1,0 +1,185 @@
+{
+    "departments": {
+        "Mujer": {
+            "name": "Mujer",
+            "slug": "mujer",
+            "img": "/img/departments/mujer.png",
+            "entry": "Tempore totam ut sit expedita quam ea enim. Libero nihil illum nulla vero modi quaerat. Quae distinctio blanditiis non. Voluptas quia amet esse quia. Fugiat porro voluptas fugiat et est ea.",
+            "active": 1,
+            "meta_title": "Mujer",
+            "categories": [
+                "camisetas",
+                "pantalones",
+                "abrigos",
+                "blusas",
+                "bermudas-y-pantalonetas",
+                "leggings",
+                "vestidos",
+                "ropa-interior-y-de-dormir",
+                "faldas",
+                "ropa-deportiva",
+                "camisas",
+                "calzado",
+                "enterizos"
+            ]
+        },
+        "Hombre": {
+            "name": "Hombre",
+            "slug": "hombre",
+            "img": "/img/departments/hombre.png",
+            "entry": "Veniam fugit amet dolorum ipsa. A occaecati quidem est aliquam tempore nulla iure. Laudantium sed quibusdam amet neque et. Nobis et esse dolorem omnis.",
+            "active": 1,
+            "meta_title": "Hombre",
+            "categories": [
+                "ropa-interior-y-de-dormir",
+                "camisetas",
+                "ropa-deportiva",
+                "camisas",
+                "bermudas-y-pantalonetas",
+                "pantalones",
+                "abrigos",
+                "calzado"
+            ]
+        },
+        "Nina": {
+            "name": "Nina",
+            "slug": "nina",
+            "img": "/img/departments/nina.png",
+            "entry": "Dolorum sint odio ut rem id harum. Voluptas corrupti consequatur aut provident quia ab. Voluptas in omnis qui asperiores. Aut qui nam laborum nam. Qui quasi optio sit voluptates eligendi iusto.",
+            "active": 1,
+            "meta_title": "Nina",
+            "categories": [
+                "pantalones",
+                "camisetas",
+                "ropa-deportiva",
+                "abrigos",
+                "leggings",
+                "faldas",
+                "blusas",
+                "ropa-interior-y-de-dormir"
+            ]
+        },
+        "Nino": {
+            "name": "Nino",
+            "slug": "nino",
+            "img": "/img/departments/nino.png",
+            "entry": "Ipsam itaque voluptatem ratione et impedit voluptate. Debitis delectus quod velit ut et. Harum quia doloribus sunt facilis et.",
+            "active": 1,
+            "meta_title": "Nino",
+            "categories": [
+                "ropa-interior-y-de-dormir",
+                "ropa-deportiva",
+                "camisetas",
+                "bermudas-y-pantalonetas",
+                "abrigos",
+                "pantalones"
+            ]
+        }
+    },
+    "categories": [
+        {
+            "name": "Camisetas",
+            "slug": "camisetas",
+            "img": "/img/categories/camisetas.png",
+            "entry": "Et vel modi vitae quo. Tempora inventore ipsam quia qui aut. Quis doloribus placeat porro consequatur dolorum nihil quae quis. Quas sed numquam amet quos dolore voluptas vel.",
+            "active": 1,
+            "type": "product"
+        },
+        {
+            "name": "Pantalones",
+            "slug": "pantalones",
+            "img": "/img/categories/pantalones.png",
+            "entry": "Velit voluptatibus quod atque odit vero. Est ad eum eaque aperiam mollitia. Molestias blanditiis maxime perspiciatis vel. Sint cumque adipisci quia repellat reiciendis.",
+            "active": 1,
+            "type": "product"
+        },
+        {
+            "name": "Abrigos",
+            "slug": "abrigos",
+            "img": "/img/categories/abrigos.png",
+            "entry": "Eaque quia culpa molestiae id quo nulla. Reprehenderit distinctio culpa perspiciatis blanditiis nisi ducimus. Id eveniet possimus aut cumque reprehenderit in. Voluptas quo fuga saepe beatae.",
+            "active": 1,
+            "type": "product"
+        },
+        {
+            "name": "Ropa interior y de dormir",
+            "slug": "ropa-interior-y-de-dormir",
+            "img": "/img/categories/ropa-interior-y-de-dormir.png",
+            "entry": "Magnam dolor et non accusamus illo. Sed voluptas voluptas sint dolores magni quas eius ut. Impedit debitis dolores dicta at excepturi qui earum.",
+            "active": 1,
+            "type": "product"
+        },
+        {
+            "name": "Ropa deportiva",
+            "slug": "ropa-deportiva",
+            "img": "/img/categories/ropa-deportiva.png",
+            "entry": "Quaerat cumque deleniti aperiam perferendis repellendus veritatis. Sapiente totam qui et ea voluptatem enim. Doloribus et quia nulla cumque ut dolor praesentium. Culpa voluptatem laboriosam qui porro iusto.",
+            "active": 1,
+            "type": "product"
+        },
+        {
+            "name": "Blusas",
+            "slug": "blusas",
+            "img": "/img/categories/blusas.png",
+            "entry": "Unde odio dolorum temporibus beatae corrupti fugiat enim. Eius eveniet repellendus harum adipisci. Et odio dicta non non cum cupiditate voluptate. Tempore impedit necessitatibus id quia. Quis qui veniam sit at pariatur magni.",
+            "active": 1,
+            "type": "product"
+        },
+        {
+            "name": "Camisas",
+            "slug": "camisas",
+            "img": "/img/categories/camisas.png",
+            "entry": "Saepe aut error eos recusandae. Et aut officia porro quae. Impedit molestias ducimus sit. Repudiandae amet aperiam earum voluptatem doloribus.",
+            "active": 1,
+            "type": "product"
+        },
+        {
+            "name": "Bermudas y pantalonetas",
+            "slug": "bermudas-y-pantalonetas",
+            "img": "/img/categories/bermudas-y-pantalonetas.png",
+            "entry": "Dolores ut illo harum. Veritatis vero quis atque inventore non tempore. Ipsa vero odit minima vel quia error et. Dolorum quia ratione praesentium quod dolores ut.",
+            "active": 1,
+            "type": "product"
+        },
+        {
+            "name": "Leggings",
+            "slug": "leggings",
+            "img": "/img/categories/leggings.png",
+            "entry": "Eum praesentium enim labore in reprehenderit qui. Porro sapiente voluptas voluptas provident nostrum. Inventore aut aperiam sapiente non cupiditate. Eaque odio soluta impedit error dolores magni.",
+            "active": 1,
+            "type": "product"
+        },
+        {
+            "name": "Vestidos",
+            "slug": "vestidos",
+            "img": "/img/categories/vestidos.png",
+            "entry": "Repellendus fugiat beatae iure odit nemo beatae. Molestias culpa est magni molestias. Iure rem hic hic.",
+            "active": 1,
+            "type": "product"
+        },
+        {
+            "name": "Faldas",
+            "slug": "faldas",
+            "img": "/img/categories/faldas.png",
+            "entry": "Quod quam est nemo iusto in est animi. Dolor ipsa eos consequatur vel rem eum. Totam et aut molestiae perferendis quos. Aliquid est veritatis dolorum dolor culpa voluptatem. Sint nisi consequuntur sit libero.",
+            "active": 1,
+            "type": "product"
+        },
+        {
+            "name": "Calzado",
+            "slug": "calzado",
+            "img": "/img/categories/calzado.png",
+            "entry": "Dolore porro fugit sed unde in veritatis non. Quis accusamus officiis id sed. Totam accusamus non cupiditate dolorum corporis quibusdam tenetur.",
+            "active": 1,
+            "type": "product"
+        },
+        {
+            "name": "Enterizos",
+            "slug": "enterizos",
+            "img": "/img/categories/enterizos.png",
+            "entry": "Qui vitae quia sequi nisi dolorem. Aut hic est mollitia deserunt maiores suscipit. Sapiente consequatur aperiam necessitatibus culpa.",
+            "active": 1,
+            "type": "product"
+        }
+    ]
+}
