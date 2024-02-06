@@ -8,6 +8,7 @@ use App\Models\Department;
 use App\Models\Image;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -24,14 +25,15 @@ class DatabaseSeeder extends Seeder
 
         Cache::flush();
         Schema::disableForeignKeyConstraints();
-        Image::truncate();
+
         $this->call([
+            JsonDataSeeder::class,
             UserSeeder::class,
             PageSeeder::class,
-            CategorySeeder::class,
-            BrandSeeder::class,
+            // CategorySeeder::class,
+            // BrandSeeder::class,
             BlogSeeder::class,
-            ProductSeeder::class,
+            // ProductSeeder::class,
             // OrderSeeder::class,
 
         ]);

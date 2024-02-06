@@ -24,15 +24,19 @@ class UserSeeder extends Seeder
         $user = User::factory()->create([
             'email' => 'user@user.com',
         ]);
+
         $user->assignRole('admin');
 
         if (config('app.env') == 'testing') {
-            $users = User::factory()->count(10)->create();
+            User::factory()->count(10)->create()
+                ->each(function (User $user) {
+                    $user->assignRole('client');
+                });
         } else {
-            $users = User::factory()->count(100)->create();
-        }
-        foreach ($users as $user) {
-            $user->assignRole('client');
+            User::factory()->count(100)->create()
+                ->each(function (User $user) {
+                    $user->assignRole('client');
+                });
         }
     }
 }

@@ -43,7 +43,7 @@ class ProductSeeder extends Seeder
 
         $departments = Department::select('id', 'name')->get()->pluck('id', 'name');
 
-        $products = collect(Storage::json("clothes/products_with_images.json"))->shuffle();
+        $products = collect(Storage::json("data/products_with_images.json"))->shuffle();
 
         if (config('app.env') == 'testing') {
             $products = collect($products)->random(20);

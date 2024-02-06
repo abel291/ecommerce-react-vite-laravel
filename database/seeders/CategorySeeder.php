@@ -21,7 +21,7 @@ class CategorySeeder extends Seeder
     {
         Category::truncate();
         Department::truncate();
-        $data = Storage::json("clothes/department_categories.json");
+        $data = Storage::json("data/department_categories.json");
 
         foreach ($data['categories'] as $key => $category) {
             Category::create($category);
