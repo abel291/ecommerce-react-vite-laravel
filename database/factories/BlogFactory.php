@@ -10,25 +10,25 @@ use Illuminate\Support\Str;
  */
 class BlogFactory extends Factory
 {
-	/**
-	 * Define the model's default state.
-	 *
-	 * @return array<string, mixed>
-	 */
-	public function definition(): array
-	{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
 
-		return [
-			'title' => ucfirst($this->faker->sentence()),
-			'slug' => Str::slug($this->faker->sentence()),
-			'meta_title' => ucfirst($this->faker->words(2, true)),
-			'meta_desc' => $this->faker->sentence(),
-			'img' => '/storage/img/blog/post-' . rand(1, 10) . '.jpg',
-			'thum' => '/storage/img/blog/post-' . rand(1, 10) . '.jpg',
-			'entry' => $this->faker->paragraph(),
-			'desc' => $this->faker->text(800),
-			'active' => 1,
+        return [
+            'title' => ucfirst($this->faker->sentence()),
+            'slug' => Str::slug($this->faker->sentence()),
+            'meta_title' => ucfirst($this->faker->words(2, true)),
+            'meta_desc' => $this->faker->sentence(),
+            'img' => '/storage/clothes/blog/post-' . rand(1, 10) . '.jpg',
+            'thum' => '/storage/clothes/blog/post-' . rand(1, 10) . '.jpg',
+            'entry' => $this->faker->paragraph(),
+            'desc' => $this->faker->text(800),
+            'active' => 1,
 
-		];
-	}
+        ];
+    }
 }

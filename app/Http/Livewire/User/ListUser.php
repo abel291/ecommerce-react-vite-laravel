@@ -48,6 +48,7 @@ class ListUser extends Component
     public function render()
     {
         $list = User::where('name', 'like', '%' . $this->search . '%')
+            ->whereNot('id', auth()->user()->id)
             ->orderBy($this->sortBy, $this->sortDirection)
             ->paginate(20);
 

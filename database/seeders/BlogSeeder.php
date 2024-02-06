@@ -19,7 +19,7 @@ class BlogSeeder extends Seeder
         Author::truncate();
         //
         $authors = Author::factory()->count(rand(10, 20))->create();
-        $categories = Category::select('id', 'name')->get();
+        $categories = Category::where('type', 'blog')->select('id', 'name')->get();
         $faker = Faker\Factory::create();
         Blog::factory()->count(rand(10, 20))
             ->state(function (array $attributes) use ($authors, $categories, $faker) {

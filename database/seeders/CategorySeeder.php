@@ -43,5 +43,10 @@ class CategorySeeder extends Seeder
 
             $department_model->categories()->sync($categories_department_id);
         }
+
+        //blog
+        Category::factory()->count(5)->create([
+            'type' => 'blog'
+        ]);
     }
 }

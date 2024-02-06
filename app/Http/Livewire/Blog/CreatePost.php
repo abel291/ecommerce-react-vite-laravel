@@ -63,8 +63,8 @@ class CreatePost extends Component
 
     public function save()
     {
-        //$this->rules['thum'] = "required|sometimes|image|max:2024|mimes:jpeg,jpg,png";
-        //$this->rules['img'] = "required|sometimes|image|max:2024|mimes:jpeg,jpg,png";
+        $this->rules['thum'] = "required|sometimes|image|max:2024|mimes:jpeg,jpg,png";
+        $this->rules['img'] = "required|sometimes|image|max:2024|mimes:jpeg,jpg,png";
         //dd($this->post);
         $this->validate();
         DB::transaction(function () {
@@ -88,7 +88,7 @@ class CreatePost extends Component
 
     public function update()
     {
-        $this->rules['post.slug'] = 'required|unique:blog,slug,'.$this->post->id.',id';
+        $this->rules['post.slug'] = 'required|unique:blog,slug,' . $this->post->id . ',id';
         $this->validate();
         $blog = $this->post;
 

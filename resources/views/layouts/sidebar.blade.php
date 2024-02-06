@@ -75,8 +75,8 @@
     ];
 @endphp
 <div class="w-72 flex bg-neutral-900 z-40 ">
-    <div class=" flex flex-col overflow-y-auto w-full gap-y-5 ">
-        <div class="flex items-center gap-[13px] px-6 py-5">
+    <div class=" flex flex-col overflow-y-auto w-full gap-y-3 ">
+        <div class="flex items-center gap-[13px] px-6 py-3">
             <x-application-logo class="block w-auto fill-current text-white dark:text-neutral-200" />
         </div>
         <nav class="flex flex-col flex-1 divide-y divide-neutral-600/10">

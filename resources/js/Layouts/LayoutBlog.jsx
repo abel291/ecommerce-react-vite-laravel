@@ -24,11 +24,11 @@ export default function LayoutBlog({ children, breadcrumb = [], bannerText = nul
 
     return (
         <Layout>
-            <Head title={page.meta_title} />
             <Breadcrumb data={breadcrumb} />
-
             <div className="container ">
-                <Hero title={page.title} entry="Este es el blog donde encontrarás todo lo que necesitas para cuidar y mejorar tu computadora!" />
+                {page && (
+                    <Hero title={page.title} entry="Este es el blog donde encontrarás todo lo que necesitas para cuidar y mejorar tu computadora!" />
+                )}
                 <div className='py-content'>
                     <div className="flex flex-col 2xl:flex-row gap-10">
                         <div className="w-full  2xl:w-9/12">

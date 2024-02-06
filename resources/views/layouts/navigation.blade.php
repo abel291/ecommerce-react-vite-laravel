@@ -3,7 +3,7 @@ if(window.innerWidth > 768 && openSidebar ){openSidebar=false}
 "
     x-init="" class="bg-white dark:bg-neutral-800 border-b border-neutral-100 dark:border-neutral-700">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto ">
         <div class="flex justify-between h-16">
             <div class="items-center hidden md:flex">
                 {{-- <x-application-logo /> --}}
@@ -44,29 +44,27 @@ if(window.innerWidth > 768 && openSidebar ){openSidebar=false}
                     </div>
                 </div>
             </div>
-
+            {{-- inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-neutral-500 dark:text-neutral-400 bg-white dark:bg-neutral-800 hover:text-neutral-700 dark:hover:text-neutral-300 focus:outline-none transition ease-in-out duration-150 --}}
             <!-- Settings Dropdown -->
             <div class="flex items-center ml-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button
-                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-neutral-500 dark:text-neutral-400 bg-white dark:bg-neutral-800 hover:text-neutral-700 dark:hover:text-neutral-300 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
-
-                            <div class="ml-1">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                        clip-rule="evenodd" />
-                                </svg>
+                        <button class=" w-full flex justify-between items-center">
+                            <div class="flex items-center gap-x-3">
+                                <div class="bg-neutral-200 h-8 w-8 rounded flex items-center justify-center">
+                                    <x-heroicon-s-user class="w-4 h-4 text-neutral-500" />
+                                </div>
+                                <div class="text-sm font-medium leading-6 text-neutral-950 dark:text-white">
+                                    {{ Auth::user()->name }}</div>
                             </div>
+                            <x-heroicon-m-chevron-down class="ml-3 h-5 w-5 text-neutral-600" />
+
                         </button>
 
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.index')">
+                        <x-dropdown-link :href="route('dashboard.profile.edit')">
                             {{ __('Perfil') }}
                         </x-dropdown-link>
 

@@ -53,7 +53,7 @@ class ProductSeeder extends Seeder
 
         foreach ($products as $key => $product) {
 
-            $price = $product['price'] / 4000;
+            $price = $product['price'];
 
             $offer = rand(0, 1) ? $faker->randomElement([10, 20, 30, 40, 50]) : 0;
 
