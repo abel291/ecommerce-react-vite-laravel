@@ -1,3 +1,7 @@
+actualización en progreso
+-laravel 10 -> 11
+-se agregara filament
+
 # Ecommerce Laravel Inertiajs React
 
 Tienda el linea de venta de ropa , construida en React y Laravel
