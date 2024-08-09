@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ImageResource;
 use App\Http\Resources\ProductResource;
-use App\Models\Attribute;
-use App\Models\AttributeProduct;
-use App\Models\AttributeValue;
+
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Page;
@@ -45,7 +43,6 @@ class PageController extends Controller
             'bannersBottom' => ImageResource::collection($banners_bottom),
             'categoriesProductCount' => $categories_product_count,
             'brands' => $brands,
-
         ]);
     }
 

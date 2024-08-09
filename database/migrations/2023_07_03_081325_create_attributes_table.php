@@ -25,17 +25,18 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('skus', function (Blueprint $table) {
+        Schema::create('presentations', function (Blueprint $table) {
             $table->id();
             $table->string('code')->comment('The actual alpha-numeric SKU code');
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
-            $table->string('quantity')->default(0);
+            $table->unsignedInteger('stock');
+            $table->string('value')->nullable();
             $table->timestamps();
         });
 
-        Schema::create('attribute_value_sku', function (Blueprint $table) {
+        Schema::create('attribute_value_presentation', function (Blueprint $table) {
             $table->foreignId('attribute_value_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('sku_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('presentation_id')->constrained()->cascadeOnDelete();
         });
     }
 
@@ -46,7 +47,7 @@ return new class extends Migration
     {
         Schema::dropIfExists('attributes');
         Schema::dropIfExists('attribute_values');
-        Schema::dropIfExists('skus');
-        Schema::dropIfExists('attribute_value_sku');
+        Schema::dropIfExists('presentations');
+        Schema::dropIfExists('attribute_value_presentation');
     }
 };

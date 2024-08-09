@@ -47,10 +47,10 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             BrandSeeder::class,
             BlogSeeder::class,
-            AttributeSeeder::class,
+            // AttributeSeeder::class,
             ProductSeeder::class,
-            SkuSeeder::class,
-            OrderSeeder::class,
+            PresentationSeeder::class,
+            // OrderSeeder::class,
 
         ]);
         Schema::enableForeignKeyConstraints();

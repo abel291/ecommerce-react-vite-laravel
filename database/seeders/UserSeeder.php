@@ -28,25 +28,11 @@ class UserSeeder extends Seeder
 
         $user->assignRole('admin');
 
-        if (config('app.env') == 'testing') {
-            User::factory()->count(10)->create()
-                ->each(function (User $user) {
-                    $user->assignRole('client');
-                });
-        } else {
-
-            for ($i = 0; $i < 100; $i++) {
-
-                $date = fake()->dateTimeInInterval('-12 month', 'now');
-
-                $user = User::factory()->make();
-                $days = rand(1, 360);
-                $created_at = Carbon::now()->subDays($days);
-                $user->created_at = $created_at;
-                $user->updated_at = $created_at;
-                $user->save(['timestamps' => false]);
+        User::factory()->count(1)->create([
+            'created_at' => fake()->dateTimeBetween('-12 month')
+        ])
+            ->each(function (User $user) {
                 $user->assignRole('client');
-            }
-        }
+            });
     }
 }

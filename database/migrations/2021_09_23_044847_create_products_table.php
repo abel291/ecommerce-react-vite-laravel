@@ -22,9 +22,9 @@ class CreateProductsTable extends Migration
             $table->text('description_max')->nullable();
             $table->decimal('thumb')->nullable();
             $table->string('img')->nullable();
-            $table->decimal('price')->default(0);
+            $table->decimal('old_price')->nullable();
             $table->unsignedTinyInteger('offer')->nullable();
-            $table->decimal('price_offer')->nullable();
+            $table->decimal('price')->default(0);
             $table->unsignedSmallInteger('max_quantity');
             $table->boolean('featured')->default(false);
             $table->boolean('active')->default(true);

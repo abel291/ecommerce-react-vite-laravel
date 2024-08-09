@@ -45,7 +45,7 @@ class ProductSeeder extends Seeder
         $departments = Department::select('id', 'name')->get()->pluck('id', 'name');
         $brands = Brand::select('id', 'name')->get()->pluck('id', 'name');
 
-        $products = collect(Storage::json(env('DB_FAKE_PRODUCTS')))->shuffle();
+        $products = collect(Storage::json(env('DB_FAKE_PRODUCTS')))->take(20);
 
         if (config('app.env') == 'testing') {
             $products = collect($products)->random(20);
@@ -54,11 +54,15 @@ class ProductSeeder extends Seeder
         $images_array = [];
         foreach ($products as $key => $product) {
 
-            $price = $product['price'];
-
-            $offer = rand(0, 1) ? fake()->randomElement([10, 20, 30, 40, 50]) : 0;
-
-            $price_offer = $price - ($price * ($offer / 100));
+            if (rand(0, 2)) {
+                $old_price = $product['price'];
+                $offer = fake()->randomElement([10, 20, 30, 40, 50]);
+                $price = $old_price - ($old_price * ($offer / 100));
+            } else {
+                $offer = null;
+                $old_price = null;
+                $price = $product['price'];
+            }
 
             $this->command->info(($key + 1) . ' - ' . $product['name']);
 
@@ -68,10 +72,10 @@ class ProductSeeder extends Seeder
                 'slug' => Str::slug($product['name'], '-') . fake()->bothify('####'),
                 'img' => $product['img'],
                 'thumb' => $product['thumb'],
-                'price' => $price,
+                'old_price' => $old_price,
                 'offer' => $offer,
-                'price_offer' => $price_offer,
-                'max_quantity' => rand(12, 24),
+                'price' => $price,
+                'max_quantity' => rand(6, 12),
                 'department_id' => $departments[$product['department']],
                 'category_id' => $categories[$product['category']],
                 'brand_id' => $brands[$product['brand']],

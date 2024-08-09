@@ -43,9 +43,9 @@ class Product extends Model
         return $this->belongsTo(Department::class);
     }
 
-    public function skus(): HasMany
+    public function presentations(): HasMany
     {
-        return $this->hasMany(Sku::class);
+        return $this->hasMany(Presentation::class);
     }
 
     public function category(): BelongsTo
@@ -102,24 +102,19 @@ class Product extends Model
             'order_id'
         );
     }
-
-    public function stock(): hasOne
-    {
-        return $this->hasOne(Stock::class);
-    }
-
     public function calculateOffer()
     {
         if ($this->offer) {
-            $this->price_offer = round($this->price * ((100 - $this->offer) / 100), 2);
+            $this->old_price = $this->price;
+            $this->price = round($this->old_price * ((100 - $this->offer) / 100), 2);
         } else {
-            $this->price_offer = $this->price;
+            $this->price = $this->price;
         }
     }
 
     public function scopeInStock(Builder $query): void
     {
-        $query->whereRelation('stock', 'remaining', '>', 0);
+        $query->whereRelation('presentations', 'stock', '>', 0);
     }
 
     public function scopeSelectForCard(Builder $query): void
