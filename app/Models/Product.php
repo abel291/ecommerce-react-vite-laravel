@@ -119,7 +119,7 @@ class Product extends Model
 
     public function scopeSelectForCard(Builder $query): void
     {
-        $query->select('id', 'slug', 'thumb', 'name', 'offer', 'price', 'price_offer', 'department_id', 'category_id');
+        $query->select('id', 'slug', 'thumb', 'name', 'offer', 'price', 'old_price', 'department_id', 'category_id');
     }
 
     public function scopeBestSeller(Builder $query): void

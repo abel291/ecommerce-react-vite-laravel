@@ -2,7 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Brand;
+use App\Models\Department;
+use App\Services\SettingService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -32,8 +36,43 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                'user' => $request->user() ? [
+                    'role' => $request->user()->getRoleNames()->first(),
+                    ...$request->user()
+                ] : null,
             ],
+            'departments' => function () {
+                return Cache::remember('categories', 3600, function () {
+                    $departments = Department::select('id', 'name', 'slug', 'img', 'icon')
+                        ->active(true)
+                        ->with(['categories' => function ($query) {
+                            $query->active();
+                        }])
+                        ->withCount(['categories' => function ($query) {
+                            $query->active();
+                        }])
+                        ->withCount('products')
+                        ->orderBy('products_count', 'desc')
+                        ->get();
+
+                    return $departments;
+                });
+            },
+            'brands' => function () {
+                return Cache::remember('brands', 3600, function () {
+                    return Brand::whereActive(true)->select('id', 'name', 'slug', 'img')->get();
+                });
+            },
+            'flash' => [
+                'success' => fn() => $request->session()->get('success'),
+                'error' => fn() => $request->session()->get('error'),
+                'subscribe' => fn() => $request->session()->get('subscribe'),
+            ],
+            'settings' => function () {
+                return Cache::rememberForever('settings', function () {
+                    return SettingService::data();
+                });
+            },
         ];
     }
 }

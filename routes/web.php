@@ -46,52 +46,52 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-// Route::middleware('auth')->group(function () {
+Route::middleware('auth')->group(function () {
 
-//     Route::prefix('profile')->name('profile.')->group(function () {
+    Route::prefix('profile')->name('profile.')->group(function () {
 
-//         Route::controller(ProfileController::class)->group(function () {
+        Route::controller(ProfileController::class)->group(function () {
 
-//             Route::get('/', 'index')->name('index');
+            Route::get('/', 'index')->name('index');
 
-//             Route::get('/account-details', 'accountDetails')->name('account-details');
-//             Route::patch('/account-details', 'update')->name('account-details.update');
-//             Route::get('/change-password', 'changePassword')->name('password');
-//             Route::put('/change-password', 'passwordUpdate')->name('password-update');
-//         });
+            Route::get('/account-details', 'accountDetails')->name('account-details');
+            Route::patch('/account-details', 'update')->name('account-details.update');
+            Route::get('/change-password', 'changePassword')->name('password');
+            Route::put('/change-password', 'passwordUpdate')->name('password-update');
+        });
 
-//         Route::controller(ProfileOrderController::class)->group(function () {
+        Route::controller(ProfileOrderController::class)->group(function () {
 
-//             Route::get('/my-orders', 'orders')->name('orders');
-//             Route::get('/order/{code}', 'orderDetails')->name('order');
-//             Route::get('/order-pdf/{code}', 'invoicePdf')->name('invoice');
-//         });
-//     });
+            Route::get('/my-orders', 'orders')->name('orders');
+            Route::get('/order/{code}', 'orderDetails')->name('order');
+            Route::get('/order-pdf/{code}', 'invoicePdf')->name('invoice');
+        });
+    });
 
-//     Route::resource('shopping-cart', ShoppingCartController::class)->only([
-//         'index',
-//         'store',
-//         'update',
-//         'destroy',
-//     ]);
+    Route::resource('shopping-cart', ShoppingCartController::class)->only([
+        'index',
+        'store',
+        'update',
+        'destroy',
+    ]);
 
-//     Route::controller(CheckoutController::class)->group(function () {
+    Route::controller(CheckoutController::class)->group(function () {
 
-//         Route::get('/checkout', 'checkout')->name('checkout')->middleware(ProductInSession::class);
+        Route::get('/checkout', 'checkout')->name('checkout')->middleware(ProductInSession::class);
 
-//         Route::post('/checkout/add-single-product', 'addSingleProduct')->name('checkout.add-single-product');
+        Route::post('/checkout/add-single-product', 'addSingleProduct')->name('checkout.add-single-product');
 
-//         Route::get('/checkout/add-shopping-cart', 'addShoppingCart')->name('checkout.add-shopping-cart');
-//     });
+        Route::get('/checkout/add-shopping-cart', 'addShoppingCart')->name('checkout.add-shopping-cart');
+    });
 
-//     Route::controller(DiscountCheckoutController::class)->middleware(ProductInSession::class)->group(function () {
-//         Route::post('/checkout/discount', 'applyDiscount')->name('checkout.apply-discount');
-//         Route::get('/checkout/delete/discount', 'removeDiscount')->name('checkout.remove-discount');
-//     });
+    Route::controller(DiscountCheckoutController::class)->middleware(ProductInSession::class)->group(function () {
+        Route::post('/checkout/discount', 'applyDiscount')->name('checkout.apply-discount');
+        Route::get('/checkout/delete/discount', 'removeDiscount')->name('checkout.remove-discount');
+    });
 
-//     Route::controller(PaymentCheckoutController::class)->middleware(ProductInSession::class)->group(function () {
-//         Route::post('/purchase', 'purchase')->name('purchase');
-//     });
-// });
+    Route::controller(PaymentCheckoutController::class)->middleware(ProductInSession::class)->group(function () {
+        Route::post('/purchase', 'purchase')->name('purchase');
+    });
+});
 
 require __DIR__ . '/auth.php';

@@ -1,6 +1,7 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
-
+import lineClamp from '@tailwindcss/line-clamp';
+import colors from 'tailwindcss/colors'
 /** @type {import('tailwindcss').Config} */
 export default {
     content: [
@@ -11,12 +12,50 @@ export default {
     ],
 
     theme: {
+        colors: {
+            ...colors,
+            primary: colors.emerald,
+        },
+
+        container: {
+            center: true,
+            padding: {
+                DEFAULT: "1.5rem",
+                sm: "2rem",
+                lg: "4rem",
+                xl: "6rem",
+            },
+        },
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Inter var', ...defaultTheme.fontFamily.sans],
             },
+            //accordion search filters
+            transitionProperty: {
+                'height': 'height',
+            },
+            //animation toast
+            animation: {
+                enter: 'enter 200ms ease-out',
+                'slide-in': 'slide-in 1.2s cubic-bezier(.41,.73,.51,1.02)',
+                leave: 'leave 150ms ease-in forwards',
+            },
+            keyframes: {
+                enter: {
+                    '0%': { transform: 'scale(0.9)', opacity: 0 },
+                    '100%': { transform: 'scale(1)', opacity: 1 },
+                },
+                leave: {
+                    '0%': { transform: 'scale(1)', opacity: 1 },
+                    '100%': { transform: 'scale(0.9)', opacity: 0 },
+                },
+                'slide-in': {
+                    '0%': { transform: 'translateY(-100%)' },
+                    '100%': { transform: 'translateY(0)' },
+                },
+            }
         },
     },
 
-    plugins: [forms],
+    plugins: [forms, lineClamp],
 };

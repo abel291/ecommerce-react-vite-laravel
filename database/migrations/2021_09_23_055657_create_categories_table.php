@@ -23,6 +23,7 @@ class CreateCategoriesTable extends Migration
             $table->boolean('active')->default(true);
             $table->string('type')->index()->default('product'); //product , blog
             $table->foreignId('department_id')->nullable()->constrained()->nullOnDelete();
+
             $table->timestamps();
         });
 

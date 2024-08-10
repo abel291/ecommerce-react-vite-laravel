@@ -45,7 +45,7 @@ class ProductSeeder extends Seeder
         $departments = Department::select('id', 'name')->get()->pluck('id', 'name');
         $brands = Brand::select('id', 'name')->get()->pluck('id', 'name');
 
-        $products = collect(Storage::json(env('DB_FAKE_PRODUCTS')))->take(20);
+        $products = collect(Storage::json(DatabaseSeeder::getPathProductJson()))->shuffle()->take(20);
 
         if (config('app.env') == 'testing') {
             $products = collect($products)->random(20);

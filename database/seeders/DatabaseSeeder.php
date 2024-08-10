@@ -43,16 +43,24 @@ class DatabaseSeeder extends Seeder
         $this->call([
             // JsonDataSeeder::class,
             UserSeeder::class,
-            PageSeeder::class,
             CategorySeeder::class,
             BrandSeeder::class,
             BlogSeeder::class,
-            // AttributeSeeder::class,
             ProductSeeder::class,
             PresentationSeeder::class,
+            PageSeeder::class,
+            // AttributeSeeder::class,
             // OrderSeeder::class,
 
         ]);
         Schema::enableForeignKeyConstraints();
+    }
+
+    public static function getPathProductJson()
+    {
+        return match (env('ECOMMERCE_TYPE')) {
+            'clothes' => '/products/products-clothes.json',
+            'pc' => '/products/products-pc.json',
+        };
     }
 }

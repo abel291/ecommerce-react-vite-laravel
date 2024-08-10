@@ -18,7 +18,6 @@ class BlogSeeder extends Seeder
     {
         Blog::truncate();
         Author::truncate();
-        Image::where('model_type', 'App\Models\Page')->delete();
 
         $authors = Author::factory()->count(rand(10, 20))->create();
         $categories = Category::where('type', 'blog')->select('id', 'name')->get();

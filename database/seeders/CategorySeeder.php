@@ -22,7 +22,7 @@ class CategorySeeder extends Seeder
         Category::truncate();
         Department::truncate();
 
-        $products = collect(Storage::json(env('DB_FAKE_PRODUCTS')));
+        $products = collect(Storage::json(DatabaseSeeder::getPathProductJson()));
 
         $departments = $products->pluck('department')->unique()->map(function ($item) {
 
@@ -30,9 +30,8 @@ class CategorySeeder extends Seeder
             return Department::factory()->make([
                 'name' => $item,
                 'slug' => $slug,
-                'img' => "/img/departments/$slug.png",
-                'created_at' => now(),
-                'updated_at' => now(),
+                'icon' => "/img/" . env('ECOMMERCE_TYPE') . "/departments/icon-$slug.png",
+                'img' => "/img/" . env('ECOMMERCE_TYPE') . "/departments/$slug.png",
             ]);
         });
 
@@ -48,9 +47,7 @@ class CategorySeeder extends Seeder
             return Category::factory()->make([
                 'name' => $item['category'],
                 'slug' => $slug,
-                'img' => "img/categories/$slug.png",
-                'created_at' => now(),
-                'updated_at' => now(),
+                'img' => "/img/" . env('ECOMMERCE_TYPE') . "/categories/$slug.png",
                 'department_id' => $departments[$item['department']]
             ]);
         });

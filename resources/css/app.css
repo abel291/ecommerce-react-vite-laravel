@@ -1,3 +1,90 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* :root {
+    font-family: "Inter", sans-serif !important;
+}
+@supports (font-variation-settings: normal) {
+    :root {
+        font-family: "Inter var", sans-serif !important;
+    }
+} */
+@layer utilities {
+    .py-content {
+        @apply py-10 md:py-12 lg:py-14 xl:py-16;
+    }
+
+    .pb-content {
+        @apply pb-10 md:pb-12 lg:pb-14 xl:pb-16;
+    }
+    .pt-content {
+        @apply pt-10 md:pt-12 lg:pt-14 xl:pt-16;
+    }
+    .gradient-primary {
+        @apply to-primary-700  bg-gradient-to-l from-primary-600;
+    }
+}
+@layer base {
+    .title-section {
+        @apply text-2xl font-semibold text-neutral-800;
+    }
+
+    .btn {
+        @apply rounded-md px-3.5 py-2.5 text-sm font-semibold shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2  ;
+    }
+    .btn-primary {
+        @apply bg-primary-600 text-white hover:bg-primary-500 focus-visible:outline-indigo-600;
+    }
+
+    .btn-secondary {
+        @apply bg-white text-neutral-900 ring-1 ring-inset ring-neutral-300 hover:bg-neutral-50;
+    }
+
+    .select-form,
+    .input-form,
+    .input-textarea {
+        @apply block w-full rounded-md border-0 py-2.5 px-3 text-neutral-900 ring-1 ring-inset ring-neutral-300 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 text-sm;
+    }
+    .input-radio {
+        @apply h-4 w-4 border-neutral-300 text-primary-600 focus:ring-primary-600;
+    }
+    .input-checkbox {
+        @apply h-4 w-4 rounded border-neutral-300 text-primary-600 focus:ring-primary-600;
+    }
+
+    .table-list {
+        @apply w-full;
+    }
+    .table-list thead tr {
+        @apply bg-neutral-100;
+    }
+    .table-list thead tr th {
+        @apply text-neutral-800 bg-neutral-100 p-4 text-start font-semibold;
+    }
+    .table-list thead tr th:first-child {
+        @apply rounded-tl-lg;
+    }
+    .table-list thead tr th:last-child {
+        @apply rounded-tr-lg text-right;
+    }
+    .table-list tbody {
+        @apply divide-y;
+    }
+    .table-list tbody tr td {
+        @apply px-3 py-3.5 text-start;
+    }
+    .table-list tbody tr td:last-child {
+        @apply text-right;
+    }
+    .dropdown-link {
+        @apply block w-full px-4 py-2 text-left text-sm leading-5 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none focus:bg-neutral-100 dark:focus:bg-neutral-800 transition duration-150 ease-in-out;
+    }
+}
+
+.swiper-slide {
+    height: auto !important;
+}
+.swiper-button-disabled {
+    display: none;
+}

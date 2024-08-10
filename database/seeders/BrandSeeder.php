@@ -20,13 +20,13 @@ class BrandSeeder extends Seeder
     public function run()
     {
         Brand::truncate();
-        $products = collect(Storage::json(env('DB_FAKE_PRODUCTS')));
+        $products = collect(Storage::json(DatabaseSeeder::getPathProductJson()));
         $brands = $products->pluck('brand')->unique()->map(function ($item) {
             $slug = Str::slug($item);
             return [
                 'name' => $item,
                 'slug' => $slug,
-                'img' => "/img/brands/$slug.png",
+                'img' => "/img/" . env('ECOMMERCE_TYPE') . "/brands/$slug.png",
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
