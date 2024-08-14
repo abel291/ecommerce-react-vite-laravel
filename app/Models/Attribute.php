@@ -13,9 +13,9 @@ class Attribute extends Model
 
     use HasFactory;
 
-    public function products(): HasMany
+    public function product(): BelongsTo
     {
-        return $this->hasMany(Product::class);
+        return $this->belongsTo(Product::class);
     }
 
     public function attribute_values(): HasMany

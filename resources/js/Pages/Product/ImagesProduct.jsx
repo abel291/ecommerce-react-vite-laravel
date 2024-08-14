@@ -14,8 +14,8 @@ const ImagesProduct = ({ product }) => {
     return (
         <div className="">
             <div className="w-full ">
-                <div className="flex items-center justify-center h-[600px]">
-                    <img ref={imgShowRef} className="rounded-lg max-h-full " src={allImages[0].img} alt="" />
+                <div className="flex justify-center h-[400px]">
+                    <img ref={imgShowRef} className="object-contain " src={allImages[0].img} alt="" />
                 </div>
             </div>
             <div className="w-full  mt-5 ">
@@ -25,9 +25,9 @@ const ImagesProduct = ({ product }) => {
                         <button
                             onClick={() => handleClickImg(image.img)}
                             key={image.id}
-                            className="p-1 rounded-lg h-20 lg:h-28  flex justify-center items-center "
+                            className="p-1 rounded-lg h-20 w-20  flex justify-center items-center "
                         >
-                            <img src={image.img} alt={image.alt} className="max-h-full rounded" />
+                            <img src={image.img} alt={image.alt} className="max-h-full rounded object-contain" />
                         </button>
                     ))}
                 </div>

@@ -57,9 +57,11 @@ class PageController extends Controller
             ->inOffer()->orderBy('offer', 'desc')->limit(15)->get();
 
         $categories = Category::active()
-            ->withCount(['products' => function ($query) {
-                $query->activeInStock()->inOffer();
-            }])
+            ->withCount([
+                'products' => function ($query) {
+                    $query->activeInStock()->inOffer();
+                }
+            ])
             ->whereHas('products', function ($query) {
                 $query->activeInStock()->inOffer();
             })
@@ -68,9 +70,11 @@ class PageController extends Controller
             ->get();
 
         $offer_brands = Brand::select('name', 'slug', 'img')->active()
-            ->withCount(['products' => function ($query) {
-                $query->activeInStock()->inOffer()->orderBy('offer', 'desc');
-            }])
+            ->withCount([
+                'products' => function ($query) {
+                    $query->activeInStock()->inOffer()->orderBy('offer', 'desc');
+                }
+            ])
             ->whereHas('products', function ($query) {
                 $query->activeInStock()->inOffer();
             })
@@ -97,14 +101,9 @@ class PageController extends Controller
     public function product($slug)
     {
         $product = Product::where('slug', $slug)
-            ->with('attributes.attribute_values', 'images', 'category', 'department', 'stock', 'brand')
-            ->with(['specifications' => function ($query) {
-                $query->where('active', 1);
-            }])
+            ->with('images', 'category', 'department', 'brand', 'presentations', 'specifications.specification_values')
+
             ->activeInStock()->firstOrFail();
-
-        $product->setRelation('specifications', $product->specifications->groupBy('type'));
-
 
 
         $related_products = Product::activeInStock()
@@ -115,13 +114,10 @@ class PageController extends Controller
 
         $attributesDefault = [];
 
-        foreach ($product->attributes as $attribute) {
-            $attributesDefault[$attribute->name] = $attribute->attribute_values->where('in_stock', 1)->first()->name;
-        }
 
         return Inertia::render('Product/Product', [
             'product' => new ProductResource($product),
-            'attributesDefault' => $attributesDefault,
+            // 'attributesDefault' => $attributesDefault,
             'relatedProducts' => ProductResource::collection($related_products),
         ]);
     }

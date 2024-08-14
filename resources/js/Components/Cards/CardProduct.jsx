@@ -7,15 +7,17 @@ const CardProduct = ({ product, badge = "" }) => {
         <Link
             key={product.id}
             href={route("product", product.slug)}
-            className="relative block max-w-md mx-auto rounded-md overflow-hidden transition duration-200 ease-in-out transform hover:-translate-y-1 md:hover:-translate-y-1.5 hover:shadow "
+            className="relative block max-w-md mx-auto group  overflow-hidden rounded-lg transition duration-200 ease-in-out transform hover:-translate-y-1 md:hover:-translate-y-1.5 hover:shadow "
         >
             <div className="h-full flex flex-col">
-                <div className="h-56 px-2 flex items-center justify-center relative  ">
-                    <img
-                        src={product.thumb}
-                        alt={product.slug}
-                        className="  max-w-full max-h-full"
-                    />
+                <div >
+                    <div className="aspect-square flex justify-center">
+                        <img
+                            src={product.thumb}
+                            alt={product.slug}
+                            className="object-scale-down rounded-md group-hover:rounded-none "
+                        />
+                    </div>
                 </div>
                 <div className="grow flex flex-col px-4 py-6">
                     <h2

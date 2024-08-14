@@ -18,8 +18,8 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->unique()->index();
-            $table->text('description_min')->nullable();
-            $table->text('description_max')->nullable();
+            $table->text('entry')->nullable();
+            $table->text('description')->nullable();
             $table->decimal('thumb')->nullable();
             $table->string('img')->nullable();
             $table->decimal('old_price')->nullable();

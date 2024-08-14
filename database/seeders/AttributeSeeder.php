@@ -4,11 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\Attribute;
 use App\Models\AttributeOption;
-use App\Models\Author;
-use App\Models\Blog;
-use App\Models\Category;
-use App\Models\Product;
-use App\Models\Sku;
+use App\Models\AttributeValue;
+use Illuminate\Support\Str;
 
 use Illuminate\Database\Seeder;
 use Faker;
@@ -21,9 +18,29 @@ class AttributeSeeder extends Seeder
      */
     public function run(): void
     {
-        Sku::truncate();
+        Attribute::truncate();
+        AttributeValue::truncate();
 
-        foreach (Product::with('attributes.attribute_values') as $key => $product) {
+        $attributes = collect(Storage::json(DatabaseSeeder::getPathProductJson()))
+            ->pluck('attributes')
+            ->collapse()
+            ->groupBy('name')->map(function ($attribute) {
+
+                $attribute_values = $attribute->pluck('value')->collapse()->unique()->map(function ($value) {
+                    return [
+                        'name' => $value,
+                        // 'slug' => Str::slug($value)
+                    ];
+                })->values();
+                return $attribute_values;
+            });
+
+        foreach ($attributes as $name_attribute => $attribute_values) {
+            $attribute = Attribute::create([
+                'name' => $name_attribute,
+                // 'slug' => Str::slug($name_attribute),
+            ]);
+            $attribute->attribute_values()->createMany($attribute_values);
         }
     }
 }

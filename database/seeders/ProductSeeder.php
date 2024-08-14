@@ -11,6 +11,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Department;
 use App\Models\Image;
+use App\Models\Presentation;
 use App\Models\Product;
 use App\Models\ProductAttribute;
 use App\Models\ProductAttributeValue;
@@ -37,22 +38,22 @@ class ProductSeeder extends Seeder
         Product::truncate();
         Specification::truncate();
         SpecificationValue::truncate();
-        Attribute::truncate();
-        AttributeValue::truncate();
+
         Image::where('model_type', 'App\Models\Product')->delete();
 
         $categories = Category::select('id', 'name')->get()->pluck('id', 'name');
         $departments = Department::select('id', 'name')->get()->pluck('id', 'name');
         $brands = Brand::select('id', 'name')->get()->pluck('id', 'name');
 
-        $products = collect(Storage::json(DatabaseSeeder::getPathProductJson()))->shuffle()->take(20);
+        $products = collect(Storage::json(DatabaseSeeder::getPathProductJson()))->shuffle();
 
         if (config('app.env') == 'testing') {
-            $products = collect($products)->random(20);
+            $products = collect($products);
         }
 
         $images_array = [];
-        foreach ($products as $key => $product) {
+        $products_array = [];
+        foreach ($products as $product_key => $product) {
 
             if (rand(0, 2)) {
                 $old_price = $product['price'];
@@ -64,26 +65,29 @@ class ProductSeeder extends Seeder
                 $price = $product['price'];
             }
 
-            $this->command->info(($key + 1) . ' - ' . $product['name']);
+            $this->command->info($product_key . ' - ' . $product['name']);
 
-            Product::create([
+            array_push($products_array, [
                 'id' => $product['id'],
                 'name' => $product['name'],
                 'slug' => Str::slug($product['name'], '-') . fake()->bothify('####'),
                 'img' => $product['img'],
                 'thumb' => $product['thumb'],
                 'old_price' => $old_price,
+                'entry' => fake()->text(250),
+                'description' => fake()->text(800),
                 'offer' => $offer,
                 'price' => $price,
                 'max_quantity' => rand(6, 12),
                 'department_id' => $departments[$product['department']],
                 'category_id' => $categories[$product['category']],
                 'brand_id' => $brands[$product['brand']],
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
 
             // --images
-            $images_array = [];
-            foreach ($product['images'] as  $images) {
+            foreach ($product['images'] as $images) {
                 array_push($images_array, [
                     ...$images,
                     'model_type' => 'App\Models\Product',
@@ -92,47 +96,16 @@ class ProductSeeder extends Seeder
                     'updated_at' => now(),
                 ]);
             }
-            Image::insert($images_array);
 
-            // --specifications
-            foreach ($product['specifications'] as  $specification) {
-
-                $specification_model = Specification::create([
-                    'name' => $specification['title'],
-                    'product_id' => $product['id'],
-                ]);
-
-                $specification_values = [];
-                foreach ($specification['table'] as $specification_value) {
-                    array_push($specification_values, [
-                        ...$specification_value,
-                        'specification_id' => $specification_model->id,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]);
-                }
-                SpecificationValue::insert($specification_values);
-            }
-
-            // --attributes
-            foreach ($product['attributes'] as  $attribute) {
-
-                $attribute_model = Attribute::create([
-                    'name' => $attribute['name'],
-                    'product_id' => $product['id'],
-                ]);
-
-                $attribute_values = [];
-                foreach ($attribute['value'] as $value) {
-                    array_push($attribute_values, [
-                        'value' => $value,
-                        'attribute_id' => $attribute_model->id,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]);
-                }
-                AttributeValue::insert($attribute_values);
+            if (count($products_array) > 1000) {
+                Image::insert($images_array);
+                Product::insert($products_array);
+                $images_array = [];
+                $products_array = [];
             }
         }
+        Image::insert($images_array);
+        Product::insert($products_array);
+
     }
 }

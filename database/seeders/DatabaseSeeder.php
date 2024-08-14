@@ -41,15 +41,17 @@ class DatabaseSeeder extends Seeder
         Schema::disableForeignKeyConstraints();
 
         $this->call([
-            // JsonDataSeeder::class,
+                // JsonDataSeeder::class,
             UserSeeder::class,
             CategorySeeder::class,
             BrandSeeder::class,
             BlogSeeder::class,
+            AttributeSeeder::class,
             ProductSeeder::class,
-            PresentationSeeder::class,
             PageSeeder::class,
-            // AttributeSeeder::class,
+            SpecificationSeeder::class,
+            PresentationSeeder::class,
+
             // OrderSeeder::class,
 
         ]);

@@ -1,6 +1,6 @@
-import { Link, usePage } from "@inertiajs/react"
-import Suscribe from "./Suscribe"
-import ApplicationLogo from "@/Components/ApplicationLogo"
+import { Link, usePage } from "@inertiajs/react";
+import Suscribe from "./Suscribe";
+import ApplicationLogo from "@/Components/ApplicationLogo";
 import SocilaMediaIcon from "./SocilaMediaIcon";
 import SubscribeNewsletter from "./SubscribeNewsletter";
 
@@ -9,7 +9,7 @@ const Footer = () => {
 
     const footerItems = [
         {
-            name: 'Contacto',
+            name: "Contacto",
             links: [
                 {
                     title: settings.company.email,
@@ -19,67 +19,69 @@ const Footer = () => {
                 },
                 {
                     title: settings.company.phone,
-                }
-            ]
+                },
+            ],
         },
         {
-            name: 'Porque elegirnos',
+            name: "Porque elegirnos",
             links: [
                 {
-                    title: 'Envío y Entrega',
-                    path: '/shipping-delivery'
+                    title: "Envío y Entrega",
+                    path: "/shipping-delivery",
                 },
                 {
-                    title: 'Devoluciones y cambios',
-                    path: '/return-exchanges'
+                    title: "Devoluciones y cambios",
+                    path: "/return-exchanges",
                 },
                 {
-                    title: 'Preguntas frecuentes y ayudas',
-                    path: '/faq'
-                }
-            ]
+                    title: "Preguntas frecuentes y ayudas",
+                    path: "/faq",
+                },
+            ],
         },
         {
-            name: 'Top Categorias',
+            name: "Top Categorias",
             links: [
                 {
-                    title: 'Teclados',
-                    path: route('search', { 'categories[]': "teclados" })
+                    title: "Teclados",
+                    path: route("search", { "categories[]": "teclados" }),
                 },
                 {
-                    title: 'Mouses',
-                    path: route('search', { 'categories[]': "mouses" })
+                    title: "Mouses",
+                    path: route("search", { "categories[]": "mouses" }),
                 },
                 {
-                    title: ' Procesadores',
-                    path: route('search', { 'categories[]': "procesadores" })
+                    title: " Procesadores",
+                    path: route("search", { "categories[]": "procesadores" }),
                 },
                 {
-                    title: ' Ram',
-                    path: route('search', { 'categories[]': "ram" })
-                }]
+                    title: " Ram",
+                    path: route("search", { "categories[]": "ram" }),
+                },
+            ],
         },
         {
-            name: 'Legales',
+            name: "Legales",
             links: [
                 {
-                    title: 'Teclados',
-                    path: route('search', { 'categories[]': "teclados" })
+                    title: "Teclados",
+                    path: route("search", { "categories[]": "teclados" }),
                 },
                 {
-                    title: 'Mouses',
-                    path: route('search', { 'categories[]': "mouses" })
+                    title: "Mouses",
+                    path: route("search", { "categories[]": "mouses" }),
                 },
                 {
-                    title: ' Procesadores',
-                    path: route('search', { 'categories[]': "procesadores" })
+                    title: " Procesadores",
+                    path: route("search", { "categories[]": "procesadores" }),
                 },
                 {
-                    title: ' Ram',
-                    path: route('search', { 'categories[]': "ram" })
-                }]
-        }
-    ]
+                    title: " Ram",
+                    path: route("search", { "categories[]": "ram" }),
+                },
+            ],
+        },
+    ];
     return (
         <>
             {/* <div className="container py-content">
@@ -99,12 +101,15 @@ const Footer = () => {
                             </p>
                         </div> */}
                             {footerItems.map((item, key) => (
-                                <ItemFooter title={item.name}>
+                                <ItemFooter key={key} title={item.name}>
                                     <ul className="space-y-3">
                                         {item.links.map((link, key) => (
-                                            <li >
+                                            <li key={key}>
                                                 {link.path ? (
-                                                    <Link href={link.path} className="block hover:opacity-100 opacity-90" >
+                                                    <Link
+                                                        href={link.path}
+                                                        className="block hover:opacity-100 opacity-90"
+                                                    >
                                                         {link.title}
                                                     </Link>
                                                 ) : (
@@ -115,41 +120,43 @@ const Footer = () => {
                                     </ul>
                                 </ItemFooter>
                             ))}
-                            <ItemFooter title="Suscribite a nuestras promociones" className="col-span-2 ">
+                            <ItemFooter
+                                title="Suscribite a nuestras promociones"
+                                className="col-span-2 "
+                            >
                                 <div className="space-y-4">
                                     <p className="text-gray-500">
-                                        Las últimas noticias, artículos y recursos, enviados a su bandeja de entrada semanalmente.
+                                        Las últimas noticias, artículos y
+                                        recursos, enviados a su bandeja de
+                                        entrada semanalmente.
                                     </p>
                                     <SubscribeNewsletter />
                                 </div>
                             </ItemFooter>
-
                         </div>
 
-                        <div className="border-t border-white/10 py-4 text-xs" >
+                        <div className="border-t border-white/10 py-4 text-xs">
                             <div className="flex items-center justify-between text-gray-500 ">
                                 <p>
-                                    © 2024 {settings.company.name}. All rights reserved.
+                                    © 2024 {settings.company.name}. All rights
+                                    reserved.
                                 </p>
                                 <SocilaMediaIcon />
                             </div>
                         </div>
-                    </div >
+                    </div>
                 </div>
-
-            </footer >
+            </footer>
         </>
-    )
-}
+    );
+};
 export const ItemFooter = ({ title, children, className }) => {
     return (
         <div className={className}>
-            <h4 className='mt-2 font-medium'>{title}</h4>
-            <div className='mt-2 lg:mt-5 '>
-                {children}
-            </div>
+            <h4 className="mt-2 font-medium">{title}</h4>
+            <div className="mt-2 lg:mt-5 ">{children}</div>
         </div>
-    )
-}
+    );
+};
 
-export default Footer
+export default Footer;

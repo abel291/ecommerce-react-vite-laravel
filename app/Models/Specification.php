@@ -20,7 +20,7 @@ class Specification extends Model
     {
         return $this->belongsTo(Product::class);
     }
-    public function specificationValues(): HasMany
+    public function specification_values(): HasMany
     {
         return $this->hasMany(SpecificationValue::class);
     }

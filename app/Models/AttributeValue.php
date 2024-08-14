@@ -17,8 +17,9 @@ class AttributeValue extends Model
         return $this->belongsTo(Attribute::class);
     }
 
-    public function skus(): BelongsToMany
+    public function presentations(): BelongsToMany
     {
-        return $this->belongsToMany(Sku::class);
+        return $this->belongsToMany(Presentation::class);
     }
+
 }
