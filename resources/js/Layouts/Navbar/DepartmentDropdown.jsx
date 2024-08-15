@@ -18,10 +18,10 @@ export default function DepartmentDropdown() {
 
             <PopoverPanel transition
 
-                className="absolute inset-x-0 z-20 mt-5 max-w-3xl w-full transition duration-200 ease-in-out [--anchor-gap:var(--spacing-5)] data-[closed]:-translate-y-1 data-[closed]:opacity-0" >
+                className="absolute inset-x-0 z-20 mt-5 max-w-4xl w-full transition duration-200 ease-in-out [--anchor-gap:var(--spacing-5)] data-[closed]:-translate-y-1 data-[closed]:opacity-0" >
                 {({ close }) => (
                     <div className="overflow-hidden w-full rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white">
-                        <div className="p-4 lg:p-7 flex flex-wrap gap-4 lg:gap-8 ">
+                        <div className="p-4 lg:p-7 flex flex-wrap gap-4 lg:gap-8 justify-around ">
                             {departments.map((department, index) => (
                                 <div key={index}>
                                     <div className="flex items-start text-sm">

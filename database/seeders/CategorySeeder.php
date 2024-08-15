@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Department;
 use App\Models\Specification;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -21,6 +22,7 @@ class CategorySeeder extends Seeder
     {
         Category::truncate();
         Department::truncate();
+        DB::table('category_department')->truncate();
 
         $products = collect(Storage::json(DatabaseSeeder::getPathProductJson()));
 
@@ -39,20 +41,38 @@ class CategorySeeder extends Seeder
 
         //////////////////////////////////
 
-        $departments = Department::select('id', 'name')->get()->pluck('id', 'name');
 
-        $categories = $products->unique('category')->map(function ($item) use ($departments) {
 
-            $slug = Str::slug($item['category']);
-            return Category::factory()->make([
-                'name' => $item['category'],
-                'slug' => $slug,
+        $categories = $products->pluck('category')->unique()->map(function ($category_name) {
+
+            $slug = Str::slug($category_name);
+
+            return [
+                'name' => ucfirst($category_name),
+                'slug' => Str::slug($category_name),
+                'entry' => fake()->text(250),
+                'type' => 'product',
                 'img' => "/img/" . env('ECOMMERCE_TYPE') . "/categories/$slug.png",
-                'department_id' => $departments[$item['department']]
-            ]);
+            ];
         });
 
         Category::insert($categories->toArray());
+
+
+        $departments = Department::select('id', 'name')->get()->pluck('id', 'name');
+        $categories = Category::select('id', 'name')->get()->pluck('id', 'name');
+
+        $category_department = [];
+        foreach ($products as $product) {
+            $category_department[] = [
+                'category_id' => $categories[$product['category']],
+                'department_id' => $departments[$product['department']],
+            ];
+        }
+
+        $category_department = collect($category_department)->unique();
+
+        DB::table('category_department')->insert($category_department->toArray());
 
         Category::factory()->count(5)->create([
             'type' => 'blog'
