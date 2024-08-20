@@ -16,12 +16,12 @@ const ShoppingCart = ({ cardProducts, total }) => {
         <Layout>
             <Head title="Carrito de compras" />
             <div className="container relative">
-                <div className="space-y-4 max-w-4xl mx-auto">
+                <div className="space-y-4 max-w-5xl mx-auto">
                     <SectionList title="Carrito de compra">
                         {/* <TitleContent text={"Carrito de compra (" + cartProducts.cardProducts.length + ")"} /> */}
                         <div className=" divide-y divide-gray-200">
                             {cardProducts.map((product) => (
-                                <CartProduct cardProduct={product} key={product.rowId} />
+                                <CartProduct cardProduct={product} key={product.presentation.id} />
                             ))}
                         </div>
 

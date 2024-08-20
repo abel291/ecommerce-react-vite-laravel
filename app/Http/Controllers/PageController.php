@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ImageResource;
+use App\Http\Resources\PageResource;
+use App\Http\Resources\PresentationResource;
 use App\Http\Resources\ProductResource;
-
+use App\Models\Attribute;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Page;
+use App\Models\Presentation;
 use App\Models\Product;
 use App\Models\Specification;
 use Inertia\Inertia;
@@ -18,9 +22,9 @@ class PageController extends Controller
     {
         $page = Page::with('banners')->where('type', 'home')->firstOrFail();
 
-        $bestSeller = Product::selectForCard()->bestSeller()->activeInStock()->limit(15)->get();
+        $bestSeller = Product::activeInStock()->selectForCard()->bestSeller()->limit(15)->get();
 
-        $newProducts = Product::orderBy('id', 'desc')->activeInStock()->selectForCard()->limit(10)->get();
+        $newProducts = Product::activeInStock()->selectForCard()->orderBy('id', 'desc')->limit(10)->get();
 
         $banners = $page->banners->where('active', 1);
 
@@ -29,19 +33,17 @@ class PageController extends Controller
         $banners_medium = $banners->where('position', 'middle');
         $banners_bottom = $banners->where('position', 'below');
 
-        $categories_product_count = Category::withMoreProducts()
-            ->limit(12)
-            ->get();
-        $brands = Brand::where('active', 1)->select('name', 'slug', 'img')->get();
+        $categories = Category::active()->where('in_home', 1)->get();
+        $brands = Brand::active()->select('name', 'slug', 'img')->get();
         return Inertia::render('Home/Home', [
-            'page' => $page,
+            'page' => new PageResource($page),
             'bestSeller' => ProductResource::collection($bestSeller),
             'newProducts' => ProductResource::collection($newProducts),
             'carouselTop' => ImageResource::collection($carousel_top),
             'bannersTop' => ImageResource::collection($banners_top),
             'bannersMedium' => ImageResource::collection($banners_medium),
             'bannersBottom' => ImageResource::collection($banners_bottom),
-            'categoriesProductCount' => $categories_product_count,
+            'categoriesProductCount' => CategoryResource::collection($categories),
             'brands' => $brands,
         ]);
     }
@@ -50,8 +52,6 @@ class PageController extends Controller
     {
 
         $page = Page::with('banners')->where('type', 'offers')->firstOrFail();
-
-
 
         $offer_products = Product::activeInStock()->selectForCard()
             ->inOffer()->orderBy('offer', 'desc')->limit(15)->get();
@@ -100,24 +100,48 @@ class PageController extends Controller
 
     public function product($slug)
     {
+
         $product = Product::where('slug', $slug)
-            ->with('images', 'category', 'department', 'brand', 'presentations', 'specifications.specification_values')
-
-            ->activeInStock()->firstOrFail();
-
+            ->with('images', 'category', 'department', 'brand', 'specifications.specification_values')
+            ->activeInStock()
+            ->firstOrFail();
 
         $related_products = Product::activeInStock()
+            ->selectForCard()
             ->where('id', '!=', $product->id)
             ->where('category_id', $product->category_id)
-            ->where('department_id', $product->department_id)
+            // ->where('department_id', $product->department_id)
             ->inRandomOrder()->limit(12)->get();
 
-        $attributesDefault = [];
 
+        $presentations = Presentation::with('color:id,name,hex', 'size:id,name')
+            ->where('product_id', $product->id)
+            ->get();
+
+        $colors = $presentations->groupBy('color_attribute_id')->map(function ($presentationsGroupBy) {
+            return [
+                ...$presentationsGroupBy[0]->color->toArray(),
+                'default' => $presentationsGroupBy->contains('default', 1)
+            ];
+        })->values()->toArray();
+
+        $sizes = $presentations->map(function ($presentation) {
+            return [
+                'id' => $presentation->size->id,
+                'name' => $presentation->size->name,
+                'default' => $presentation->default,
+                'colorId' => $presentation->color_attribute_id,
+                'code' => $presentation->code,
+                'stock' => $presentation->stock,
+            ];
+        })->values()->toArray();
+
+        // dd($sizes);
 
         return Inertia::render('Product/Product', [
             'product' => new ProductResource($product),
-            // 'attributesDefault' => $attributesDefault,
+            'colors' => $colors,
+            'sizes' => $sizes,
             'relatedProducts' => ProductResource::collection($related_products),
         ]);
     }

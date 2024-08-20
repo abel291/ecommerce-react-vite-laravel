@@ -2,7 +2,7 @@ import SectionTitle from '@/Components/Sections/SectionTitle'
 import React from 'react'
 
 const Specifications = ({ specifications }) => {
-    console.log(specifications)
+
     return (
         <>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-4 gap-y-8 mt-8">

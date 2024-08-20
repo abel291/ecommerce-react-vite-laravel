@@ -3,7 +3,7 @@ import Pagination from "@/Components/Pagination";
 import Layout from "@/Layouts/Layout";
 import { Transition } from "@headlessui/react";
 import { Head, router, useForm, usePage } from "@inertiajs/react";
-import React from "react";
+import React, { createContext } from "react";
 
 import { useState, useEffect, useRef } from "react";
 
@@ -12,14 +12,11 @@ import CarouselBanner from "@/Components/Carousel/CarouselBanner";
 import Breadcrumb from "@/Components/Breadcrumb";
 import BreadcrumbFilters from "./BreadcrumbFilters";
 
-export default function Search({
-    page,
-    products,
-    filters,
-    breadcrumb,
-    banner,
-}) {
-    const { data, setData, get, processing, errors, reset } = useForm(filters);
+export const SearchContext = createContext();
+
+export default function Search({ page, products, filters, breadcrumb, banner, }) {
+
+    const form = useForm(filters);
 
     const first = useRef(true);
 
@@ -28,23 +25,27 @@ export default function Search({
             first.current = false;
             return;
         }
-        // console.log(data);
-        get("search", { preserveScroll: true });
-    }, [data]);
+
+        form.get("search", { preserveScroll: true });
+    }, [form.data]);
 
     return (
         <Layout>
             <Head title={page.meta_title}></Head>
             <Breadcrumb data={breadcrumb} />
+
             <div className="container py-content">
-                <div className="flex lg:flex-row flex-col-reverse  ">
-                    <div className="w-full lg:w-3/12 xl:w-3/12 2xl:w-2/12 ">
-                        <Filters data={data} setData={setData} />
+                <div className="flex lg:flex-row flex-col-reverse lg:gap-x-10 ">
+                    <div className="w-full lg:w-3/12 xl:w-3/12 2xl:w-3/12 ">
+                        <SearchContext.Provider value={form}>
+                            <Filters />
+                        </SearchContext.Provider>
                         <div className="py-6 mt-4">
                             <CarouselBanner images={banner} />
                         </div>
+
                     </div>
-                    <div className="w-full lg:w-9/12 xl:w-9/12 2xl:w-10/12 lg:pl-10  ">
+                    <div className="w-full lg:w-9/12 xl:w-9/12 2xl:w-10/12  ">
                         <div className="relative ">
                             <div className="flex items-start justify-between">
                                 <h2 className="font-bold text-2xl ">
@@ -54,21 +55,22 @@ export default function Search({
                                     </label>
                                 </h2>
                                 <div className="flex flex-col items-end gap-x-2  md:flex-row md:items-center justify-end">
+                                    <span className="whitespace-nowrap block text-sm">Ordenar Por:</span>
                                     <select
                                         onChange={(e) =>
-                                            setData("sortBy", e.target.value)
+                                            form.setData("sortBy", e.target.value)
                                         }
                                         className="py-2 select-form text-sm flex-none"
                                         name="sortBy"
-                                        defaultValue={data.sortBy}
+                                        defaultValue={form.data.sortBy}
                                     >
-                                        <option value="">Ordenar Por:</option>
+
                                         <option value="">Mas relevantes</option>
                                         <option value="price_asc">
-                                            Menor precio
+                                            Precio menor
                                         </option>
                                         <option value="price_desc">
-                                            Mayor precio
+                                            Precio mayor
                                         </option>
                                     </select>
                                 </div>
@@ -77,21 +79,21 @@ export default function Search({
                                 {products.data.length ? (
                                     <div className="relative">
                                         <>
-                                            <div className="">
-                                                <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 md:gap-x-6 md:gap-y-6 ">
-                                                    {products.data.map(
-                                                        (item) => (
-                                                            <CardProduct
-                                                                key={item.id}
-                                                                product={item}
-                                                            />
-                                                        )
-                                                    )}
-                                                </div>
+
+                                            <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 md:gap-x-6 md:gap-y-6 ">
+                                                {products.data.map(
+                                                    (item) => (
+                                                        <CardProduct
+                                                            key={item.id}
+                                                            product={item}
+                                                        />
+                                                    )
+                                                )}
                                             </div>
+
                                             {products.meta.total >
                                                 products.meta.per_page && (
-                                                    <div>
+                                                    <div className="mt-10">
                                                         <Pagination
                                                             paginator={
                                                                 products.meta

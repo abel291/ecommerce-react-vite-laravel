@@ -31,8 +31,8 @@ export default function DesktopNavbar({ navigation }) {
                 </p>
             )}
 
-            <div className="container pt-4 text-neutral-700">
-                <div className='relative text-sm grid grid-cols-12 gap-x-5  items-center'>
+            <div className="container pt-4 text-neutral-700 text-sm">
+                <div className='relative  grid grid-cols-12 gap-x-5  items-center'>
                     <div className='col-span-3'>
                         <ApplicationLogo />
                     </div>
@@ -56,40 +56,33 @@ export default function DesktopNavbar({ navigation }) {
                             </form>
                         </div>
                     </div>
-
-                    <div className="flex items-center font-medium md:col-span-9 ">
-                        <div className='py-5 pb-3'>
+                </div>
+                <div className='h-14 pt-2 flex justify-between items-center '>
+                    <div className="flex items-center ">
+                        <div >
                             <DepartmentDropdown />
                         </div>
                         <div className='hidden xl:block'>
-                            <div className=' ml-5 flex gap-x-5'>
+                            <div className=' ml-5 flex gap-x-4'>
                                 {departments.map((item) => (
-                                    <Link key={item.slug} href={route('department', item.slug)}
-                                        className={
-                                            (route().current('department', item.slug)
-                                                ? 'border-primary-600 text-primary-600 font-semibold '
-                                                : 'border-transparent  font-medium ') +
-                                            '  whitespace-nowrap border-b-2 px-0 py-5 pb-3  block'}>
+                                    <LinkNavbar key={item.slug} href={route('department', item.slug)}
+                                        active={route().current('department', item.slug)}>
                                         {item.name}
-                                    </Link>
+                                    </LinkNavbar>
                                 ))}
                                 {navigation.map((item, key) => (
-                                    <Link key={key} href={route(item.href)}
-                                        className={
-                                            (route().current(item.href)
-                                                ? 'border-primary-600 text-primary-600 '
-                                                : 'border-transparent  ') +
-                                            '  whitespace-nowrap border-b-2 px-0 py-5 pb-3 font-medium  block '}>
+                                    <LinkNavbar key={key} href={route(item.href)}
+                                        active={route().current(item.href)}>
                                         {item.name}
-                                    </Link>
+                                    </LinkNavbar>
                                 ))}
                             </div>
                         </div>
                     </div>
-                    <div className="flex gap-x-5 items-center ml-auto md:col-span-3 ">
+                    <div className="flex gap-x-5 items-center ">
                         {auth.user ? (
                             <ProfileDropdown>
-                                <button className="inline-flex items-center rounded-md font-medium ">
+                                <button className="inline-flex items-center">
                                     {auth.user.name}
                                     <ChevronUpDownIcon className="w-5 h-5 ml-1 -mr-1 " aria-hidden="true" />
                                 </button>
@@ -97,10 +90,10 @@ export default function DesktopNavbar({ navigation }) {
                         ) : (
 
                             <>
-                                <div className="flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-4">
-                                    <Link href={route('login')} className=" font-medium  hover:">Acceder</Link>
-                                    <span className="h-6 w-px bg-neutral-400" aria-hidden="true"></span>
-                                    <Link href={route('register')} className=" font-medium  hover:">Crear cuenta</Link>
+                                <div className="flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-2">
+                                    <Link href={route('login')} className="  hover:">Acceder</Link>
+                                    <span className="h-4 w-px bg-neutral-400" aria-hidden="true"></span>
+                                    <Link href={route('register')} className="  hover:">Crear cuenta</Link>
                                 </div>
                             </>
                         )}
@@ -108,12 +101,24 @@ export default function DesktopNavbar({ navigation }) {
                         <Link href={route('shopping-cart.index')}>
                             <div className='group -m-2 flex items-center p-2'>
                                 <ShoppingBagIcon className="h-6 w-6 flex-shrink-0  group-hover:" />
-                                <span className="ml-2 text-sm font-medium  group-hover:">{auth.shoppingCartCount || 0}</span>
+                                <span className="ml-2 text-sm  group-hover:">{auth.shoppingCartCount || 0}</span>
                             </div>
                         </Link>
                     </div>
                 </div>
             </div>
-        </nav >
+        </nav>
+    )
+}
+function LinkNavbar({ children, active, ...props }) {
+    return (
+        <Link {...props}
+            className={
+                (active
+                    ? 'border-primary-600/50 text-primary-600 font-medium border-b-2'
+                    : '') +
+                ' whitespace-nowrap block '}>
+            {children}
+        </Link>
     )
 }

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Helpers\Helpers;
+use App\Models\Attribute\ColorAttribute;
 use App\Models\Category;
 use App\Models\Department;
 use App\Models\Image;
@@ -22,14 +23,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $products = collect(Storage::json('/products/products-clothes-old.json'))->map(function ($item, $key) {
+        // $products = collect(Storage::json('/products/products-clothes-old.json'))->shuffle()->map(function ($item, $key) {
         //     $item['id'] = $key + 1;
         //     return $item;
         // })->toArray();
 
         // Storage::put("/products/products-clothes.json", json_encode($products, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
 
-        // $products = collect(Storage::json('/products/products-pc-old.json'))->map(function ($item, $key) {
+        // $products = collect(Storage::json('/products/products-pc-old.json'))->shuffle()->map(function ($item, $key) {
         //     $item['id'] = $key + 1;
         //     return $item;
         // })->toArray();
@@ -37,11 +38,14 @@ class DatabaseSeeder extends Seeder
         // Storage::put("/products/products-pc.json", json_encode($products, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
 
 
+
+
         Cache::flush();
         Schema::disableForeignKeyConstraints();
-
+        ini_set('memory_limit', '256M');
         $this->call([
-                // JsonDataSeeder::class,
+            // JsonDataSeeder::class,
+
             UserSeeder::class,
             CategorySeeder::class,
             BrandSeeder::class,
@@ -50,19 +54,18 @@ class DatabaseSeeder extends Seeder
             ProductSeeder::class,
             PageSeeder::class,
             SpecificationSeeder::class,
-            PresentationSeeder::class,
-
+            PresentationAttributeSeeder::class,
             // OrderSeeder::class,
 
         ]);
         Schema::enableForeignKeyConstraints();
+
+        // $colors = ColorAttribute::select('name', 'slug', 'hex')->get();
+        // Storage::put("/products/colors.json", json_encode($colors, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
     }
 
     public static function getPathProductJson()
     {
-        return match (env('ECOMMERCE_TYPE')) {
-            'clothes' => '/products/products-clothes.json',
-            'pc' => '/products/products-pc.json',
-        };
+        return '/products/products-clothes.json';
     }
 }

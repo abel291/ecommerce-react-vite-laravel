@@ -20,9 +20,9 @@ class SpecificationSeeder extends Seeder
     {
         Specification::truncate();
         SpecificationValue::truncate();
-        $products = Product::pluck('id')->toArray();
+        // $products = Product::pluck('id')->toArray();
 
-        $products = collect(Storage::json(DatabaseSeeder::getPathProductJson()))->whereIn('id', $products);
+        $products = collect(Storage::json(DatabaseSeeder::getPathProductJson()))->shuffle();
         $specifications = $products->map(function ($product) {
 
 
@@ -58,7 +58,7 @@ class SpecificationSeeder extends Seeder
                 ]);
             }
 
-            if (count($specifications_value_array) > 300) {
+            if (count($specifications_value_array) > 100) {
                 Specification::insert($specifications_array);
                 SpecificationValue::insert($specifications_value_array);
                 $specifications_array = [];

@@ -17,7 +17,7 @@ class OrderService
     public static function subtotal($products): float
     {
         $sub_total = $products->sum(function ($product) {
-            return $product->quantity * $product->price_offer;
+            return $product->quantity * $product->price;
         });
 
         return $sub_total;
@@ -36,7 +36,6 @@ class OrderService
                 'user' => $user->only('name', 'address', 'phone', 'email', 'city'),
             ],
             'discount_code_id' => $discountCode?->id
-
         ]);
     }
     public static function calculateTotal($products, $discountCode = null): array
@@ -73,24 +72,16 @@ class OrderService
             'shipping' => $shipping,
             'total' => $total,
         ];
-
         return $total;
     }
 
-    public static function formatOrderProduct($product, $quantity, $skuCode, $user)
+    public static function formatOrderProduct($product, $quantity, $user)
     {
-        $attributes = $product->skus->firstWhere('code', $skuCode)->attribute_values->map(function ($attribute_value) {
-            return [
-                'name' => $attribute_value->attribute->name,
-                'value' => $attribute_value->value
-            ];
-        });
         return [
-            'price' => $product->price_offer,
+            'price' => $product->price,
             'quantity' => $quantity,
-            'total' => round($product->price_offer * $quantity),
-            'data' => $product->only('id', 'name', 'slug', 'img', 'price', 'offer', 'price_offer'),
-            'attributes' => $attributes,
+            'total' => round($product->price * $quantity),
+            'data' => $product->only('id', 'name', 'slug', 'img', 'old_price', 'offer', 'price'),
             'user_id' => $user->id,
             'product_id' => $product->id,
         ];
@@ -98,7 +89,6 @@ class OrderService
 
     // public static function createOrderWithTotalCalculation($total)
     // {
-
     //     return new Order([
     //         'sub_total' => $total['sub_total'],
     //         'tax_rate' => $total['tax_rate'],

@@ -4,6 +4,7 @@ import lineClamp from '@tailwindcss/line-clamp';
 import colors from 'tailwindcss/colors'
 /** @type {import('tailwindcss').Config} */
 export default {
+    darkMode: 'selector',
     content: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
@@ -24,7 +25,7 @@ export default {
                 sm: "2rem",
                 lg: "3rem",
                 xl: "2rem",
-                '2xl': '6rem',
+                '2xl': '10rem',
             },
         },
         extend: {
@@ -33,7 +34,7 @@ export default {
             },
             //accordion search filters
             transitionProperty: {
-                'height': 'height',
+                'max-height': 'max-height',
             },
             //animation toast
             animation: {

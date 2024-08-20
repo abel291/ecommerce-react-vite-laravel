@@ -3,98 +3,84 @@
 namespace App\Services;
 
 use App\Enums\CartEnum;
-use App\Models\Order;
-use App\Models\OrderProduct;
+use App\Models\Presentation;
 use App\Models\Product;
-use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class CartService
 {
 
-    public static function session($keySession)
+    public static function session($keySession = CartEnum::SHOPPING_CART): array
     {
-        return session($keySession, collect([]));
+        return session($keySession->value, []);
     }
 
-    public static function generateRowId($product, $attributes = [])
+    public static function add(CartEnum $cardType, $product_id, $code_presentation, $quantity): void
     {
-        $rowId = $product->id;
-        foreach ($attributes as $name => $value) {
-            $rowId .= Str::slug($name . $value, '');
-        }
-        return $rowId;
+
+        $sessionProducts = self::session($cardType);
+
+        $sessionProducts[$code_presentation] = [
+            'product_id' => $product_id,
+            'code_presentation' => $code_presentation,
+            'quantity' => $quantity,
+        ];
+
+
+        session([$cardType->value => $sessionProducts]);
     }
-
-    public static function total_price_quantity($amount, $quantity)
-    {
-        return round($amount * $quantity, 2);
-    }
-
-
-    public static function add(string $keySession, object $product, int $quantity = 1, array $attributes = []): void
+    public static function products(CartEnum $cardEnum = CartEnum::SHOPPING_CART): Collection
     {
 
-        $products = self::session($keySession);
+        $sessionProducts = collect(self::session($cardEnum));
 
-        $rowId = self::generateRowId($product, $attributes);
+        $products_id = $sessionProducts->pluck('product_id')->toArray();
 
-        $productExist = $products->firstWhere('rowId', $rowId);
+        $codes_presentation = $sessionProducts->pluck('code_presentation')->toArray();
 
-        if ($productExist) {
-            $products = self::changeTotalProduct($products, $rowId, $quantity);
-        } else {
-            $product = [
-                'rowId' => $rowId,
-                'id' => $product->id,
-                'name' => $product->name,
-                'slug' => $product->slug,
-                'img' => $product->img,
-                'price' => $product->price,
-                'price_offer' => $product->price_offer,
-                'quantity' => $quantity,
-                'max_quantity' => min($product->max_quantity, $product->stock->remaining),
-                'total' => self::total_price_quantity($product->price_offer, $quantity),
-                'attributes' => self::formatAttributes($attributes)
-            ];
 
-            $products->push($product);
-        }
 
-        session([$keySession => $products]);
-    }
-    public static function changeTotalProduct($products, string $rowId, int $quantity)
-    {
+        $selectProduct = ['id', 'name', 'slug', 'thumb', 'price', 'offer', 'old_price', 'max_quantity'];
+        $products = Product::select($selectProduct)
+            ->active()
+            ->withWhereHas('presentations', function ($query) use ($codes_presentation) {
+                $query->where('stock', '>', 0)
+                    ->whereIn('code', $codes_presentation)
+                    ->with('color:id,name', 'size:id,name');
+            })->find($products_id)->map(function ($product) use ($sessionProducts, $selectProduct) {
 
-        $products = $products->map(function ($productInCart) use ($rowId, $quantity) {
-            if ($productInCart['rowId'] == $rowId) {
-                $productInCart['quantity'] = $quantity;
-                $productInCart['total'] = self::total_price_quantity($productInCart['price_offer'], $quantity);
-            }
-            return $productInCart;
-        });
+                $presentation = $product->presentations[0];
+                $quantity = $sessionProducts[$presentation->code]['quantity'];
+                return [
+                    ...$product->only($selectProduct),
+                    'quantity' => $quantity,
+                    'total' => round($product->price * $quantity),
+                    'presentation' => $presentation->only(['id', 'name', 'code', 'stock', 'color', 'size'])
+                ];
+            });
+
         return $products;
     }
 
-    public static function update(string $keySession, string $rowId, int $quantity = 1): void
+
+    // public static function update(string $keySession, string $rowId, int $quantity = 1): void
+    // {
+    //     $products = self::session($keySession);
+
+    //     $products = self::changeTotalProduct($products, $rowId, $quantity);
+
+    //     session([$keySession => $products]);
+    // }
+
+    public static function remove(CartEnum $cardEnum, int $codePresentation): void
     {
-        $products = self::session($keySession);
+        $products = self::session($cardEnum);
 
-        $products = self::changeTotalProduct($products, $rowId, $quantity);
+        unset($products[$codePresentation]);
 
-        session([$keySession => $products]);
-    }
-
-    public static function remove(string $keySession, string $rowId): void
-    {
-        $products = self::session($keySession);
-
-        $products = $products = $products->filter(function ($product) use ($rowId) {
-            return $product['rowId'] != $rowId;
-        });
-
-        session([$keySession => $products]);
+        session([$cardEnum->value => $products]);
     }
 
     public static function formatAttributes($attributes)

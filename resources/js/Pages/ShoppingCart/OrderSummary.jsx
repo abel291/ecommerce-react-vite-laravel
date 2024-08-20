@@ -11,7 +11,7 @@ const OrderSummary = ({ total }) => {
             <div className="inline-block space-y-3">
                 <div className=" grid grid-cols-2 gap-x-4">
                     <div className="text-gray-600 ">Sub total</div>
-                    <div className=" font-medium">{formatCurrency(total.subtotal)}</div>
+                    <div className=" font-medium">{formatCurrency(total.sub_total)}</div>
                 </div>
                 <div className=" grid grid-cols-2 gap-x-4">
                     <div className="text-gray-600 ">Impuestos {total.tax_rate}%</div>

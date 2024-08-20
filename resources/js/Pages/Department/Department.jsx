@@ -39,8 +39,16 @@ function Department({ department, offertProduct, bestSellersProduct, categories 
                     {categories.map((category) => (
                         <div className="">
                             <SectionTitle title={category.name} />
-                            <div className="mt-8">
-                                <CarouselProduct products={category.products} />
+                            <div className="mt-6">
+                                <GridProduct>
+                                    {category.products.map((item) => (
+                                        <CardProduct
+                                            key={item.id}
+                                            product={item}
+                                            productNew={true}
+                                        />
+                                    ))}
+                                </GridProduct>
                             </div>
                         </div>
 
@@ -48,10 +56,10 @@ function Department({ department, offertProduct, bestSellersProduct, categories 
                 </div>
 
                 <div className="flex justify-center">
-                    <Link className="btn btn-secondary" href={route('search', { 'departments[]': department.slug })} > Ver mas productos</Link>
+                    <Link className="btn btn-secondary" href={route('search', { 'departments[]': department.id })} > Ver mas productos</Link>
                 </div>
             </div>
-        </Layout >
+        </Layout>
     )
 }
 

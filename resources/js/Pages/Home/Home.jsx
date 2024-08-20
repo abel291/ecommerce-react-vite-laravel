@@ -43,6 +43,21 @@ export default function Home({
                             </div>
                         ))}
                     </div>
+
+                    <SectionList title={"Categorias"}>
+                        <CarouselSection
+                            items={categoriesProductCount}
+                            searchType="categories[]"
+                        />
+                    </SectionList>
+
+
+                    {bannersMedium.length > 0 && (
+                        <div className="py-content ">
+                            <Banner image={bannersMedium[0]} />
+                        </div>
+                    )}
+
                     {bestSeller.length > 0 && (
                         <SectionList title="Los mas vendidos">
                             <GridProduct>
@@ -55,19 +70,6 @@ export default function Home({
                             </GridProduct>
                         </SectionList>
                     )}
-
-                    {bannersMedium.length > 0 && (
-                        <div className="py-content ">
-                            <Banner image={bannersMedium[0]} />
-                        </div>
-                    )}
-
-                    <SectionList title={"Categorias"}>
-                        <CarouselSection
-                            items={categoriesProductCount}
-                            searchType="categories[]"
-                        />
-                    </SectionList>
 
                     <SectionList title={"Los recién llegados"}>
                         <div className=" py-2 relative">

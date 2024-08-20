@@ -33,28 +33,27 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        Cache::flush();
+
+
         return [
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user() ? [
                     'role' => $request->user()->getRoleNames()->first(),
-                    ...$request->user()
+                    ...$request->user()->only(['name', 'email'])
                 ] : null,
             ],
             'departments' => function () {
                 return Cache::remember('categories', 3600, function () {
                     $departments = Department::select('id', 'name', 'slug', 'img', 'icon')
-                        ->active(true)
+                        ->active()
                         ->with(['categories' => function ($query) {
-                            $query->active();
+                            $query->select('id', 'name', 'slug')->active();
                         }])
-                        ->withCount(['categories' => function ($query) {
-                            $query->active();
-                        }])
-                        ->withCount('products')
-                        ->orderBy('products_count', 'desc')
-                        ->get();
 
+                        ->get();
+                    // dd($departments);
                     return $departments;
                 });
             },

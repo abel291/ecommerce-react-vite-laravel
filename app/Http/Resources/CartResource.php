@@ -25,7 +25,7 @@ class CartResource extends JsonResource
             'quantity' => $this['quantity'],
             'maxQuantity' => $this['max_quantity'],
             'total' => $this['total'],
-            'attributes' => $this['attributes'],
+            'presentation' => $this['presentation'],
         ];
     }
 }

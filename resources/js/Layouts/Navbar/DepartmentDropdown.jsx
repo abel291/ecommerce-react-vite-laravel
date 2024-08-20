@@ -13,20 +13,20 @@ export default function DepartmentDropdown() {
                     <span>Categorias</span>
                     <ChevronDownIcon className="h-4 w-4 ml-1" />
                 </div>
-            </PopoverButton >
+            </PopoverButton>
 
 
             <PopoverPanel transition
 
-                className="absolute inset-x-0 z-20 mt-5 max-w-4xl w-full transition duration-200 ease-in-out [--anchor-gap:var(--spacing-5)] data-[closed]:-translate-y-1 data-[closed]:opacity-0" >
+                className="absolute  z-20 mt-5 max-w-4xl w-full transition duration-200 ease-in-out [--anchor-gap:var(--spacing-5)] data-[closed]:-translate-y-1 data-[closed]:opacity-0" >
                 {({ close }) => (
                     <div className="overflow-hidden w-full rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white">
-                        <div className="p-4 lg:p-7 flex flex-wrap gap-4 lg:gap-8 justify-around ">
+                        <div className="p-4 lg:p-7 flex flex-wrap gap-4 justify-around ">
                             {departments.map((department, index) => (
                                 <div key={index}>
                                     <div className="flex items-start text-sm">
                                         <div className='grow '>
-                                            <Link href={route('department', department.slug)} onClick={close}
+                                            <Link href={route('department', department.name)} onClick={close}
                                                 className='flex items-center gap-x-1 '>
                                                 {/* <img src={department.icon} className='w-5' /> */}
                                                 <p id="Clothing-heading" class="font-medium text-gray-900">{department.name}</p>
@@ -36,8 +36,8 @@ export default function DepartmentDropdown() {
                                                 <li>
                                                     {department.categories.map((category) => (
                                                         <Link key={category.id}
-                                                            href={route('search', { 'categories[]': category.slug, 'departments[]': department.slug })} onClick={close}
-                                                            className='text-left flex py-1 items-center font-normal text-gray-500 hover:text-gray-800'>
+                                                            href={route('search', { 'categories[]': category.id, 'departments[]': department.id })} onClick={close}
+                                                            className='text-left flex py-1 items-center  text-gray-500 hover:text-gray-800'>
 
                                                             {category.name}
                                                         </Link>
@@ -46,8 +46,6 @@ export default function DepartmentDropdown() {
                                             </ul>
                                         </div>
                                     </div>
-
-
 
                                 </div>
                             ))}

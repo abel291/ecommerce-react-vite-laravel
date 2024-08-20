@@ -26,19 +26,19 @@ const FilterCheckbox = ({
                 {optionsList.map((item, index) => (
                     <div key={index} className="flex items-center">
                         <input
-                            id={item.name}
-                            checked={optionsChecked.includes(item.name)}
+                            id={filterName + item.id}
+                            checked={optionsChecked.includes(item.id.toString())}
                             type="checkbox"
                             className="rounded mr-3 h-4 w-4 input-checkbox"
                             name={filterName}
-                            value={item.name}
+                            value={item.id}
                             onChange={handleChange}
                         />
-                        <label className=" text-gray-600 " htmlFor={item.name}>
+                        <label className=" text-gray-600 " htmlFor={filterName + item.id}>
                             {item.name}
-                            <span className="text-xs text-gray-500 ml-1 font-light">
+                            {/* <span className="text-xs text-gray-500 ml-1 font-light">
                                 ({item.products_count})
-                            </span>
+                            </span> */}
                         </label>
                     </div>
                 ))}

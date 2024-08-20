@@ -2,9 +2,51 @@ import Badge from "@/Components/Badge";
 import { formatCurrency } from "@/Helpers/helpers";
 import { AdjustmentsVerticalIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, router, usePage } from "@inertiajs/react";
-import { FilterTitle } from "./Filters";
 
-const FiltersList = ({ data, setData, changeFilterAttributes }) => {
+import { useContext, useEffect, useState } from "react";
+import { SearchContext } from "../Search";
+
+const FiltersSelected = ({ data, setData, changeFilterAttributes }) => {
+    const form = useContext(SearchContext);
+    const { listDepartments, listCategories, listColors, listSizes } = usePage().props;
+
+    const [filtersSelected, setFiltersSelected] = useState({})
+    // const [typeCardProduct, setTypeCardProduct] = useState('')
+
+    useEffect(() => {
+        let newFiltersSelected = {}
+
+        newFiltersSelected.categories = listCategories.filter((category) => {
+            return form.data.categories.includes(category.id.toString())
+        })
+        newFiltersSelected.departments = listDepartments.filter((department) => {
+            return form.data.departments.includes(department.id.toString())
+        })
+
+        newFiltersSelected.colors = listColors.filter((color) => {
+            return form.data.colors.includes(color.id.toString())
+        })
+        newFiltersSelected.sizes = listSizes.filter((size) => {
+            return form.data.sizes.includes(size.id.toString())
+        })
+
+        // newFiltersSelected.attributes = Object.entries(form.data.attributes).map(([attribute_slug, values_selected]) => {
+
+        //     let attribute = listAttributes.find((item) => item.slug == attribute_slug);
+
+        //     attribute.attribute_values = attribute.attribute_values.filter((attribute_value) => {
+        //         return values_selected.includes(attribute_value.id.toString())
+        //     })
+        //     return attribute
+
+        // })
+
+        console.log(newFiltersSelected.colors)
+
+        setFiltersSelected(newFiltersSelected);
+
+    }, []);
+
 
 
     const handleClickRemoveItemFilter = (filterName, value) => {
@@ -41,45 +83,57 @@ const FiltersList = ({ data, setData, changeFilterAttributes }) => {
                         </button>
                     </Badge>
                 )}
-                {data.departments &&
-                    data.departments.map((department, index) => (
+                {filtersSelected.departments &&
+                    filtersSelected.departments.map((department, index) => (
                         <Badge color="gray" key={"department" + index}>
-                            <span className="mr-2 up">{department}</span>
+                            <span className="mr-2 up">{department.name}</span>
                             <button
-                                onClick={() => handleClickRemoveItemFilter("departments", department)}
+                                onClick={() => handleClickRemoveItemFilter("departments", department.id)}
                             >
                                 <XMarkIcon className="w-3 h-3" />
                             </button>
                         </Badge>
                     ))}
-                {data.categories &&
-                    data.categories.map((category, index) => (
+                {filtersSelected.categories &&
+                    filtersSelected.categories.map((category, index) => (
                         <Badge color="gray" key={"category" + index}>
-                            <span className="mr-2 up">{category}</span>
+                            <span className="mr-2 up">{category.name}</span>
                             <button
-                                onClick={() => handleClickRemoveItemFilter("categories", category)}>
+                                onClick={() => handleClickRemoveItemFilter("categories", category.id)}>
                                 <XMarkIcon className="w-3 h-3" />
                             </button>
                         </Badge>
                     ))}
 
-
-                {data.attributes && (
-                    Object.entries(data.attributes).map(([attribute, value], index) => (
-                        <Badge color="gray" key={"attribute_value" + value}>
-                            <span className="mr-2 up">
-                                {attribute} {value}
-                            </span>
-                            <button onClick={() => removeAttribute(attribute, value)}>
+                {filtersSelected.colors &&
+                    filtersSelected.colors.map((color, index) => (
+                        <Badge color="gray" key={"color" + index}>
+                            <span style={{ background: color.hex }} className="rounded-full size-3 mr-1"></span>
+                            <span className="mr-2 up">{color.name}</span>
+                            <button
+                                onClick={() => handleClickRemoveItemFilter("colors", color.id)}>
                                 <XMarkIcon className="w-3 h-3" />
                             </button>
                         </Badge>
                     ))
+                }
+
+
+                {filtersSelected.attributes && (
+                    filtersSelected.attributes.map((attribute, index) => (
+                        attribute.attribute_values.map((value) => (
+                            <Badge color="gray" key={"attribute_value" + value.name + index}>
+                                <span className="mr-2 up capitalize">
+                                    {attribute.name} {value.name}
+                                </span>
+                                <button onClick={() => removeAttribute(attribute.slug, value.id)}>
+                                    <XMarkIcon className="w-3 h-3" />
+                                </button>
+                            </Badge>
+                        ))
+
+                    ))
                 )}
-
-
-
-
 
                 {/* {data.brands.length > 0 &&
                     data.brands.map((item) => (
@@ -122,7 +176,10 @@ const FiltersList = ({ data, setData, changeFilterAttributes }) => {
                 {
                     data.sortBy && (
                         <Badge color="gray">
-                            <span className="mr-2 capitalize">{data.sortBy}</span>
+                            <span className="mr-2 capitalize">
+                                {data.sortBy == 'price_asc' && 'Precio mayor'}
+                                {data.sortBy == 'price_desc' && 'Precio menor'}
+                            </span>
                             <button
                                 onClick={() => setData("sortBy", null)}
                             >
@@ -151,4 +208,4 @@ const FiltersList = ({ data, setData, changeFilterAttributes }) => {
     );
 };
 
-export default FiltersList;
+export default FiltersSelected;

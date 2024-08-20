@@ -30,11 +30,16 @@ const CarouselProduct = ({ products }) => {
                         slidesPerView: 4,
                         spaceBetween: 15,
                     },
+                    1536: {
+                        slidesPerView: 5,
+                        spaceBetween: 20,
+                    },
+
 
                 }}
             >
                 {products.map((product) => (
-                    <CarouselItem className="h-auto pb-1 " key={product.slug}>
+                    <CarouselItem className="h-auto pb-1 " key={product.id}>
                         <CardProduct product={product} />
                     </CarouselItem>
                 ))}

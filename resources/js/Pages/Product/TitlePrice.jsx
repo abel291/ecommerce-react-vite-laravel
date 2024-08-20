@@ -19,7 +19,8 @@ const TitlePrice = ({ product }) => {
                     {product.offer != 0 && <div className="inline-block text-green-500  ">{product.offer}%</div>}
                 </div>
             </div>
-            <p className="mt-6">{product.entry}</p></>
+            <p className="mt-6">{product.entry}</p>
+        </>
     )
 }
 

@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Attribute;
+use App\Models\Attribute\ColorAttribute;
+use App\Models\Attribute\SizeAttribute;
 use App\Models\AttributeOption;
 use App\Models\AttributeValue;
 use Illuminate\Support\Str;
@@ -18,29 +20,50 @@ class AttributeSeeder extends Seeder
      */
     public function run(): void
     {
-        Attribute::truncate();
-        AttributeValue::truncate();
+        ColorAttribute::truncate();
+        SizeAttribute::truncate();
+
+        $colors = [];
+        $sizes = [];
 
         $attributes = collect(Storage::json(DatabaseSeeder::getPathProductJson()))
             ->pluck('attributes')
-            ->collapse()
-            ->groupBy('name')->map(function ($attribute) {
+            ->collapse()->groupBy('name')->map(function ($attribute, $attribute_name) {
 
-                $attribute_values = $attribute->pluck('value')->collapse()->unique()->map(function ($value) {
-                    return [
-                        'name' => $value,
-                        // 'slug' => Str::slug($value)
-                    ];
-                })->values();
+                $attribute = $attribute->pluck('value')->collapse()->unique();
+
+                switch ($attribute_name) {
+                    case 'Color':
+                        $attribute_values = $attribute->map(function ($value) {
+                            return [
+                                'name' => $value,
+                                'hex' => fake()->hexColor(),
+                                'slug' => Str::slug($value)
+                            ];
+                        });
+                        break;
+
+                    case 'Talla':
+                        $attribute_values = $attribute->map(function ($value) {
+                            return [
+                                'name' => $value,
+                                'slug' => Str::slug($value)
+                            ];
+                        });
+
+                    default:
+
+                        break;
+                }
                 return $attribute_values;
-            });
+            })->toArray();
 
-        foreach ($attributes as $name_attribute => $attribute_values) {
-            $attribute = Attribute::create([
-                'name' => $name_attribute,
-                // 'slug' => Str::slug($name_attribute),
-            ]);
-            $attribute->attribute_values()->createMany($attribute_values);
+        foreach ($attributes as  $attribute_name => $attribute_value) {
+
+            match ($attribute_name) {
+                'Color' => ColorAttribute::insert($attribute_value),
+                'Talla' => SizeAttribute::insert($attribute_value),
+            };
         }
     }
 }

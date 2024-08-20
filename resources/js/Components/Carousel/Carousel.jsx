@@ -15,9 +15,9 @@ const Carousel = ({ children, spaceBetween = 20, ...props }) => {
                 modules={[Navigation, Autoplay]}
                 spaceBetween={spaceBetween}
                 //slidesPerView={slidesPerView}
-                autoplay={{
-                    delay: 5000,
-                }}
+                // autoplay={{
+                //     delay: 5000,
+                // }}
                 pagination={{
                     clickable: true,
                 }}

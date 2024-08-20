@@ -1,13 +1,15 @@
 import { formatCurrency } from "@/Helpers/helpers";
 import { Link } from "@inertiajs/react";
 import Badge from "../Badge";
+import ProductPriceOffer from "../ProductPriceOffer";
 
-const CardProduct = ({ product, badge = "" }) => {
+const CardProduct = ({ product, }) => {
+
     return (
         <Link
             key={product.id}
             href={route("product", product.slug)}
-            className="relative block max-w-md mx-auto group  overflow-hidden rounded-lg transition duration-200 ease-in-out transform hover:-translate-y-1 md:hover:-translate-y-1.5 hover:shadow "
+            className="relative block max-w-md mx-auto group h-full overflow-hidden rounded-lg transition duration-200 ease-in-out transform hover:-translate-y-1 md:hover:-translate-y-1.5 hover:shadow "
         >
             <div className="h-full flex flex-col">
                 <div >
@@ -19,41 +21,25 @@ const CardProduct = ({ product, badge = "" }) => {
                         />
                     </div>
                 </div>
-                <div className="grow flex flex-col px-4 py-6">
+                <div className="grow flex flex-col px-4 pt-6 pb-4 space-y-3">
                     <h2
-                        className="text-heading text-sm md:text-sm "
+                        className="text-heading text-sm md:text-sm line-clamp-2 "
                         alt={product.name}
                         title={product.name}
                     >
                         {product.name}
                     </h2>
 
-                    {/* <p className="mt-3  text-sm leading-normal xl:leading-relaxed line-clamp-2 text-gray-600">
-						{product.description_min}
-					</p> */}
+                    <div className="flex gap-x-2 items-center flex-wrap ">
+                        {product.colors.map((color) => (
+                            <div className="size-6 p-[3px] ring-1 ring-black/20 rounded-full flex items-center">
+                                <span style={{ background: color.hex }} aria-hidden="true" className="w-full h-full rounded-full  inline-block "></span>
+                            </div>
+                        ))}
+                    </div>
 
-                    <div className="pt-2 grow flex items-end justify-between ">
-                        <div>
-                            {product.offer > 0 ? (
-                                <>
-                                    <div className="text-xs text-gray-400 line-through">
-                                        {formatCurrency(product.old_price)}
-                                    </div>
-                                    <div className="flex items-center">
-                                        <div className="text-lg inline-block mr-2 font-semibold">
-                                            {formatCurrency(product.price)}
-                                        </div>
-                                        <div className="inline-block text-green-500 text-xs font-semibold">
-                                            {product.offer}%
-                                        </div>
-                                    </div>
-                                </>
-                            ) : (
-                                <div className="mr-2 text-lg font-semibold">
-                                    {formatCurrency(product.price)}
-                                </div>
-                            )}
-                        </div>
+                    <div className=" grow flex items-end justify-between ">
+                        <ProductPriceOffer price={product.price} old_price={product.old_price} offer={product.offer} />
                     </div>
                 </div>
             </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Attribute\ColorAttribute;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -26,10 +27,11 @@ class ProductResource extends JsonResource
             'offer' => $this->offer,
             'price' => $this->price,
             'max_quantity' => $this->max_quantity,
-            'skus' => $this->whenLoaded('skus'),
+
             'featured' => $this->featured,
             'specifications' => $this->whenLoaded('specifications'),
             'attributes' => AttributeResource::collection($this->whenLoaded('attributes')),
+            'colors' => ColorAttributeResource::collection($this->whenLoaded('colors')),
             'images' => $this->whenLoaded('images'),
             'category' => $this->whenLoaded('category'),
             'department' => $this->whenLoaded('department'),

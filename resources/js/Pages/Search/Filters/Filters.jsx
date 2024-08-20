@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import FiltersSelected from "./FiltersSelected";
 import { usePage } from "@inertiajs/react";
-import FilterButton from "./FilterButton";
-import FilterPrice from "./FilterPrice";
-import FilterRadio from "./FilterRadio";
+
 import FilterContainer from "./FilterContainer";
 
 import FilterCheckbox from "./FilterCheckbox";
-import FilterAttributes from "./FilterAttributes";
+import { SearchContext } from "../Search";
+import FilterPrice from "./FilterPrice";
+
 
 const offers = [
     {
@@ -27,19 +27,20 @@ const offers = [
         slug: "40",
     },
 ];
-const Filters = ({ data, setData }) => {
+const Filters = () => {
 
-    const { listDepartments, listCategories, listAttributes, listBrands } =
-        usePage().props;
+    const form = useContext(SearchContext);
+
+    const { listDepartments, listCategories, listColors, listSizes, listBrands } = usePage().props;
 
     const changeFilterCheckbox = (filterName, optionsChecked) => {
-        setData(filterName, optionsChecked);
+        form.setData(filterName, optionsChecked);
     };
 
     const changeFilterAttributes = (attributeName, newAttributeValues) => {
 
-        setData("attributes", {
-            ...data.attributes,
+        form.setData("attributes", {
+            ...form.data.attributes,
             [attributeName]: newAttributeValues,
         });
     };
@@ -49,57 +50,72 @@ const Filters = ({ data, setData }) => {
 
             <div className="pb-5">
                 <FiltersSelected
-                    data={data}
-                    setData={setData}
+                    data={form.data}
+                    setData={form.setData}
                     changeFilterAttributes={changeFilterAttributes}
                     changeFilter={changeFilterCheckbox}
                 />
             </div>
-            {data.departments.length == 0 && (
-                <FilterContainer title="Departamentos">
-                    <FilterCheckbox
-                        optionsList={listDepartments}
-                        optionsChecked={data.departments || []}
-                        changeFilterCheckbox={changeFilterCheckbox}
-                        filterName="departments"
-                    />
-                </FilterContainer>
-            )}
-            {data.categories.length == 0 && (
-                <FilterContainer title="Categorias">
-                    <FilterCheckbox
-                        optionsList={listCategories}
-                        optionsChecked={data.categories || []}
-                        changeFilterCheckbox={changeFilterCheckbox}
-                        filterName="categories"
-                    />
-                </FilterContainer>
-            )}
 
-            {listAttributes.map((attribute, key) => (
-                !data.attributes[attribute.name] && (
-                    <FilterContainer key={key} title={attribute.name}>
-                        <FilterCheckbox
-                            optionsList={attribute.attribute_values}
-                            optionsChecked={
-                                (data.attributes && data.attributes[attribute.name]) || []
-                            }
-                            changeFilterCheckbox={changeFilterAttributes}
-                            filterName={attribute.name}
-                        />
-                    </FilterContainer>
-                )
-            ))}
-            {/*
-            <FilterContainer title="Precio">
-                <FilterPrice data={data} setData={setData} />
+            <FilterContainer title="Departamentos">
+                <FilterCheckbox
+                    optionsList={listDepartments}
+                    optionsChecked={form.data.departments || []}
+                    changeFilterCheckbox={changeFilterCheckbox}
+                    filterName="departments"
+                />
             </FilterContainer>
 
-            <FilterContainer title="Ofertas">
+            <FilterContainer title="Categorias">
+                <FilterCheckbox
+                    optionsList={listCategories}
+                    optionsChecked={form.data.categories || []}
+                    changeFilterCheckbox={changeFilterCheckbox}
+                    filterName="categories"
+                />
+            </FilterContainer>
+
+            <FilterContainer title="Colores">
+                <FilterCheckbox
+                    optionsList={listColors}
+                    optionsChecked={form.data.colors || []}
+                    changeFilterCheckbox={changeFilterCheckbox}
+                    filterName="colors"
+                />
+            </FilterContainer>
+
+            <FilterContainer title="Tallas">
+                <FilterCheckbox
+                    optionsList={listSizes}
+                    optionsChecked={form.data.sizes || []}
+                    changeFilterCheckbox={changeFilterCheckbox}
+                    filterName="sizes"
+                />
+            </FilterContainer>
+
+
+            {/* {listAttributes.map((attribute, key) => (
+                <FilterContainer key={key} title={attribute.name} defaultOpen={true}>
+                    <FilterCheckbox
+                        optionsList={attribute.attribute_values}
+                        optionsChecked={
+                            (form.data.attributes && form.data.attributes[attribute.slug]) || []
+                        }
+                        changeFilterCheckbox={changeFilterAttributes}
+                        filterName={attribute.slug}
+                    />
+                </FilterContainer>
+            ))} */}
+
+            <FilterContainer title="Precio">
+                <FilterPrice data={form.data} setData={form.setData} />
+            </FilterContainer>
+
+            {/* <FilterContainer title="Ofertas">
                 <FilterRadio
                     options={offers}
                     data={data}
-                    setData={setData}
+                    setData={form.setData}
                     filterName="offer"
                 />
             </FilterContainer>

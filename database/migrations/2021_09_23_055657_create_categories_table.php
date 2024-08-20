@@ -21,6 +21,7 @@ class CreateCategoriesTable extends Migration
             $table->string('img')->nullable();
             $table->string('entry')->nullable();
             $table->boolean('active')->default(true);
+            $table->boolean('in_home')->default(true);
             $table->string('type')->index()->default('product'); //product , blog
             $table->timestamps();
         });

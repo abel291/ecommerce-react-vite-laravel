@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\PaymentStatus;
 use App\Models\Attribute;
+use App\Models\Attribute\ColorAttribute;
 use Gloudemans\Shoppingcart\Contracts\Buyable;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -49,6 +50,11 @@ class Product extends Model
         return $this->hasMany(Presentation::class);
     }
 
+    public function presentation(): HasOne
+    {
+        return $this->hasOne(Presentation::class)->where('default', 1);
+    }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
@@ -58,8 +64,6 @@ class Product extends Model
     {
         return $this->morphMany(Image::class, 'model');
     }
-
-
 
     public function brand(): BelongsTo
     {
@@ -84,6 +88,12 @@ class Product extends Model
     {
         return $this->hasMany(OrderProduct::class)->has('order');
     }
+
+    public function colors(): BelongsToMany
+    {
+        return $this->belongsToMany(ColorAttribute::class, 'presentations')->distinct();
+    }
+
 
     public function orders(): HasManyThrough
     {
@@ -113,7 +123,18 @@ class Product extends Model
 
     public function scopeSelectForCard(Builder $query): void
     {
-        $query->select('id', 'slug', 'thumb', 'name', 'offer', 'price', 'old_price', 'department_id', 'category_id');
+        $query->select(
+            'id',
+            'slug',
+            'thumb',
+            'name',
+            'offer',
+            'price',
+            'old_price',
+            'department_id',
+            'category_id'
+        )
+            ->with('colors');
     }
 
     public function scopeBestSeller(Builder $query): void
@@ -158,56 +179,58 @@ class Product extends Model
             //     $query->orWhere('slug', 'like', '%' . $filters['q'] . '%');
             //     $query->orWhere('description_min', 'like', '%' . $filters['q'] . '%');
             // })
-            // ->when($filters['q'], function (Builder $query) use ($filters) {
-            //     $query->where(function ($query) use ($filters) {
-            //         $query->orWhere('name', 'like', '%' . $filters['q'] . '%');
-            //         $query->orWhere('slug', 'like', '%' . $filters['q'] . '%');
-            //         $query->orWhere('description_min', 'like', '%' . $filters['q'] . '%');
-            //     });
-            // })
-            ->when($filters['departments'], function (Builder $query) use ($filters) {
-
-                $query->whereHas('department', function (Builder $sub_query) use ($filters) {
-                    $sub_query->where('name', $filters['departments'][0]);
+            ->when($filters['q'], function (Builder $query) use ($filters) {
+                $query->where(function ($query) use ($filters) {
+                    $query->orWhere('name', 'like', '%' . $filters['q'] . '%');
+                    $query->orWhere('slug', 'like', '%' . $filters['q'] . '%');
+                    $query->orWhere('description_min', 'like', '%' . $filters['q'] . '%');
                 });
+            })
+            ->when($filters['departments'], function (Builder $query) use ($filters) {
+                $query->whereIn('department_id', $filters['departments']);
+                // $query->whereHas('department', function (Builder $sub_query) use ($filters) {
+                //     $sub_query->whereIn('id', $filters['departments']);
+                // });
             })
 
             ->when($filters['categories'], function (Builder $query) use ($filters) {
-                $query->whereHas('category', function (Builder $sub_query) use ($filters) {
-                    $sub_query->where('name', $filters['categories'][0]);
+                $query->whereIn('category_id', $filters['categories']);
+                // $query->whereHas('category', function (Builder $sub_query) use ($filters) {
+                //     $sub_query->whereIn('id', $filters['categories']);
+                // });
+            })
+
+            ->when(($filters['colors'] || $filters['sizes']), function (Builder $query) use ($filters) {
+
+                $query->whereHas('presentation', function (Builder $sub_query) use ($filters) {
+                    $sub_query->when($filters['colors'], function (Builder $query) use ($filters) {
+                        $query->whereIn('color_attribute_id', $filters['colors']);
+                    })
+                        ->when($filters['sizes'], function (Builder $query) use ($filters) {
+                            $query->whereIn('size_attribute_id', $filters['sizes']);
+                        });
                 });
             })
 
-            // ->when($filters['brands'], function (Builder $query) use ($filters) {
-            //     $query->whereHas('brand', function (Builder $sub_query) use ($filters) {
-            //         $sub_query->whereIn('name', $filters['brands']);
-            //     });
-            // })
+            ->when($filters['price_min'], function (Builder $query) use ($filters) {
+                $query->where('price', '>=', $filters['price_min']);
+            })
 
-            // ->when($filters['price_min'], function (Builder $query) use ($filters) {
-            //     $query->where('price', '>=', $filters['price_min']);
-            // })
+            ->when($filters['price_max'], function (Builder $query) use ($filters) {
+                $query->where('price', '<=', $filters['price_max']);
+            })
 
-            // ->when($filters['price_max'], function (Builder $query) use ($filters) {
-            //     $query->where('price', '<=', $filters['price_max']);
-            // })
-
-            // ->when($filters['offer'], function (Builder $query) use ($filters) {
-            //     $query->where('offer', '>=', $filters['offer']);
-            // })
+            ->when($filters['offer'], function (Builder $query) use ($filters) {
+                $query->where('offer', '>=', $filters['offer']);
+            })
             ->when($filters['attributes'], function (Builder $query) use ($filters) {
 
-                $attribute_values = collect($filters['attributes'])->values()->toArray();
+                $attribute_values = collect($filters['attributes']);
 
-                $attribute_values_id = AttributeValue::whereIn('name', $attribute_values)->pluck('id')->toArray();
-
-                $query->whereHas('presentations', function ($query) use ($attribute_values_id) {
-                    $query->withCount([
-                        'attribute_values' => function ($query) use ($attribute_values_id) {
-                            $query->whereIn('id', $attribute_values_id);
-                        }
-                    ])->where('attribute_values_count', '>=', count($attribute_values_id))
-                    ;
+                $query->whereHas('presentations', function ($query) use ($attribute_values) {
+                    $query->withCount(['attribute_values' => function ($query) use ($attribute_values) {
+                        $query->whereIn('id', $attribute_values->collapse());
+                    }])->where('attribute_values_count', '>=', count($attribute_values));
                 });
             })
 
