@@ -16,31 +16,30 @@ const Checkout = ({ products, total }) => {
             <Head title='Checkout' />
             <CheckoutProvider>
                 <div className="py-content container">
-                    <div className="lg:flex lg:gap-x-8 ">
-                        <div className="w-full lg:w-7/12 xl:w-7/12">
+                    <div className="lg:flex lg:gap-x-16 ">
+                        <div className="w-full lg:w-7/12 xl:w-6/12">
                             <div className="max-w-2xl mx-auto">
                                 <form className="divide-y">
                                     <div className="pb-8">
-                                        <h2 className="title-section mb-8">Dirección de Envío</h2>
+
                                         <div>
                                             <ShippingAddress />
                                         </div>
                                     </div>
                                     <div className="py-8">
-                                        <h2 className="title-section mb-8">Metodos de pago</h2>
+                                        <h3 className="text-lg font-medium mb-4">Metodos de pago</h3>
                                         <div>
                                             <Elements stripe={stripePromise}>
                                                 <PaymentForm />
                                             </Elements>
-
                                         </div>
                                     </div>
 
                                 </form>
                             </div>
                         </div>
-                        <div className="w-full lg:w-5/12 xl:w-5/12">
-                            <h2 className="title-section mb-4">Su pedido </h2>
+                        <div className="w-full lg:w-5/12 xl:w-6/12">
+                            <h3 className="block  font-medium  text-lg mb-4">Resumen del pedido</h3>
                             <div>
                                 <OrderSummary products={products} total={total} />
                             </div>

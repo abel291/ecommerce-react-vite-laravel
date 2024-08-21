@@ -55,7 +55,7 @@ class ProductSeeder extends Seeder
         $products_array = [];
         foreach ($products as $product_key => $product) {
 
-            if (rand(0, 2)) {
+            if (rand(0, 5)) {
                 $old_price = $product['price'];
                 $offer = fake()->randomElement([10, 20, 30, 40, 50]);
                 $price = $old_price - ($old_price * ($offer / 100));
@@ -106,6 +106,5 @@ class ProductSeeder extends Seeder
         }
         Image::insert($images_array);
         Product::insert($products_array);
-
     }
 }

@@ -17,7 +17,7 @@ const ButtonsProcessing = ({ form }) => {
     }
 
     const handleClickBuyProduct = () => {
-        post(route('checkout.add-single-product'), {
+        form.post(route('checkout.add-single-product'), {
             preserveScroll: true,
             onStart: visit => { setProcessing('checkout') },
             onFinish: visit => { setProcessing('') },

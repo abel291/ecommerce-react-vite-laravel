@@ -27,10 +27,8 @@ class OrderSeeder extends Seeder
         Order::truncate();
         OrderProduct::truncate();
         Payment::truncate();
-        DiscountCode::truncate();
         OrderProduct::whereNotNull('order_id')->delete();
         $users = User::get();
-        $discountCodes = DiscountCode::factory()->count(30)->create();
 
         foreach ($users->multiply(3) as $user) {
 

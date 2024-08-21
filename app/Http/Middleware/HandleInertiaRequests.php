@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Models\Brand;
 use App\Models\Department;
+use App\Services\CartService;
 use App\Services\SettingService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -41,20 +42,19 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user() ? [
                     'role' => $request->user()->getRoleNames()->first(),
-                    ...$request->user()->only(['name', 'email'])
+                    ...$request->user()->only(['name', 'email', 'phone', 'country', 'city', 'address'])
                 ] : null,
+                'shoppingCartCount' => count(CartService::session())
             ],
             'departments' => function () {
                 return Cache::remember('categories', 3600, function () {
-                    $departments = Department::select('id', 'name', 'slug', 'img', 'icon')
+                    return Department::select('id', 'name', 'slug', 'img', 'icon')
                         ->active()
                         ->with(['categories' => function ($query) {
                             $query->select('id', 'name', 'slug')->active();
                         }])
 
                         ->get();
-                    // dd($departments);
-                    return $departments;
                 });
             },
             'brands' => function () {

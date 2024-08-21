@@ -55,6 +55,7 @@ class DatabaseSeeder extends Seeder
             PageSeeder::class,
             SpecificationSeeder::class,
             PresentationAttributeSeeder::class,
+            DiscountCodeSeeder::class
             // OrderSeeder::class,
 
         ]);

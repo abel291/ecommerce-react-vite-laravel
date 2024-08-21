@@ -42,7 +42,7 @@ class PresentationAttributeSeeder extends Seeder
 
             foreach ($product['attributes'] as  $attribute) {
                 match ($attribute['name']) {
-                    'Color' => $colors = [...$attribute['value'], ...$colors_names->random(rand(1, 4))->toArray()],
+                    'Color' => $colors = [...$attribute['value'], ...$colors_names->random(rand(1, 2))->toArray()],
                     'Talla' => $sizes = $attribute['value'],
                 };
             }

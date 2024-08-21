@@ -40,26 +40,38 @@ class CartService
 
         $codes_presentation = $sessionProducts->pluck('code_presentation')->toArray();
 
-
-
         $selectProduct = ['id', 'name', 'slug', 'thumb', 'price', 'offer', 'old_price', 'max_quantity'];
-        $products = Product::select($selectProduct)
-            ->active()
-            ->withWhereHas('presentations', function ($query) use ($codes_presentation) {
-                $query->where('stock', '>', 0)
-                    ->whereIn('code', $codes_presentation)
-                    ->with('color:id,name', 'size:id,name');
-            })->find($products_id)->map(function ($product) use ($sessionProducts, $selectProduct) {
+        // $products = Product::select($selectProduct)
+        //     ->active()
+        //     ->withWhereHas('presentations', function ($query) use ($codes_presentation) {
+        //         $query;
+        //     })->find($products_id)->map(function ($product) use ($sessionProducts, $selectProduct) {
 
-                $presentation = $product->presentations[0];
+        //         $presentation = $product->presentations[0];
+        //         $quantity = $sessionProducts[$presentation->code]['quantity'];
+        //         return [
+        //             ...$product->only($selectProduct),
+        //             'quantity' => $quantity,
+        //             'total' => round($product->price * $quantity),
+        //             'presentation' => $presentation->only(['id', 'name', 'code', 'stock', 'color', 'size'])
+        //         ];
+        //     });
+
+        $products = Presentation::where('stock', '>', 0)
+            ->whereIn('code', $codes_presentation)
+            ->with('color:id,name', 'size:id,name')
+            ->withWhereHas('product', function ($query) use ($selectProduct) {
+                $query->select($selectProduct)->active();
+            })->get()->map(function ($presentation) use ($sessionProducts, $selectProduct) {
+
                 $quantity = $sessionProducts[$presentation->code]['quantity'];
                 return [
-                    ...$product->only($selectProduct),
+                    ...$presentation->product->only($selectProduct),
                     'quantity' => $quantity,
-                    'total' => round($product->price * $quantity),
+                    'total' => round($presentation->product->price * $quantity),
                     'presentation' => $presentation->only(['id', 'name', 'code', 'stock', 'color', 'size'])
                 ];
-            });
+            });;
 
         return $products;
     }
