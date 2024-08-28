@@ -29,7 +29,7 @@ class PageSeeder extends Seeder
         $images =
             [
                 [
-                    'img' => '/img/' . env('ECOMMERCE_TYPE') . '/banners/banner-carousel-1.jpg',
+                    'img' => '/img/banners/banner-carousel-1.jpg',
                     'alt' => 'banner-1',
                     'title' => 'banner-1',
                     'type' => 'carousel',
@@ -41,7 +41,7 @@ class PageSeeder extends Seeder
 
                 ],
                 [
-                    'img' => '/img/' . env('ECOMMERCE_TYPE') . '/banners/banner-carousel-2.jpg',
+                    'img' => '/img/banners/banner-carousel-2.jpg',
                     'alt' => 'banner-2',
                     'title' => 'banner-2',
                     'type' => 'carousel',
@@ -53,7 +53,7 @@ class PageSeeder extends Seeder
 
                 ],
                 [
-                    'img' => '/img/' . env('ECOMMERCE_TYPE') . '/banners/banner-carousel-3.jpg',
+                    'img' => '/img/banners/banner-carousel-3.jpg',
                     'type' => 'carousel',
                     'sort' => 3,
                     'position' => 'top',
@@ -64,7 +64,7 @@ class PageSeeder extends Seeder
                 ],
 
                 [
-                    'img' => '/img/' . env('ECOMMERCE_TYPE') . '/banners/banner-home-9.jpg',
+                    'img' => '/img/banners/banner-home-9.jpg',
                     'type' => 'banner',
                     'position' => 'top',
                     'link' => route('search', ['categories' => [$categories->random()->slug]]),
@@ -73,7 +73,7 @@ class PageSeeder extends Seeder
 
                 ],
                 [
-                    'img' => '/img/' . env('ECOMMERCE_TYPE') . '/banners/banner-home-10.jpg',
+                    'img' => '/img/banners/banner-home-10.jpg',
                     'type' => 'banner',
                     'position' => 'top',
                     'link' => route('search', ['categories' => [$categories->random()->slug]]),
@@ -83,7 +83,7 @@ class PageSeeder extends Seeder
                 ],
                 ///
                 [
-                    'img' => '/img/' . env('ECOMMERCE_TYPE') . '/banners/banner-section-1.jpg',
+                    'img' => '/img/banners/banner-section-1.jpg',
                     'type' => 'banner',
                     'position' => 'middle',
                     'link' => route('search', ['categories' => [$categories->random()->slug]]),
@@ -92,7 +92,7 @@ class PageSeeder extends Seeder
 
                 ],
                 [
-                    'img' => '/img/' . env('ECOMMERCE_TYPE') . '/banners/banner-section-2.jpg',
+                    'img' => '/img/banners/banner-section-2.jpg',
                     'type' => 'banner',
                     'position' => 'below',
                     'link' => route('product', $products->random()->slug),
@@ -101,7 +101,7 @@ class PageSeeder extends Seeder
 
                 ],
                 [
-                    'img' => '/img/' . env('ECOMMERCE_TYPE') . '/banners/banner-sidebar-search.jpg',
+                    'img' => '/img/banners/banner-sidebar-search.jpg',
                     'type' => 'banner',
                     'position' => 'middle',
                     'link' => route('product', $products->random()->slug),
@@ -111,7 +111,7 @@ class PageSeeder extends Seeder
                 ],
 
                 [
-                    'img' => '/img/' . env('ECOMMERCE_TYPE') . '/banners/banner-blog.jpg',
+                    'img' => '/img/banners/banner-blog.jpg',
                     'type' => 'banner',
                     'position' => 'middle',
                     'link' => route('offers'),

@@ -41,8 +41,6 @@ class CategorySeeder extends Seeder
 
         //////////////////////////////////
 
-
-
         $categories = $products->pluck('category')->unique()->map(function ($category_name) {
 
             $slug = Str::slug($category_name);
@@ -52,7 +50,7 @@ class CategorySeeder extends Seeder
                 'slug' => Str::slug($category_name),
                 'entry' => fake()->text(250),
                 'type' => 'product',
-                'img' => "/img/" . env('ECOMMERCE_TYPE') . "/categories/$slug.png",
+                'img' => "/img/categories/$slug.png",
             ];
         });
 

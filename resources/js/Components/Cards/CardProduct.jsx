@@ -15,7 +15,7 @@ const CardProduct = ({ product, }) => {
                 <div >
                     <div className="aspect-square flex justify-center">
                         <img
-                            src={product.thumb}
+                            src={product.sku.thumb}
                             alt={product.slug}
                             className="object-scale-down rounded-md group-hover:rounded-none "
                         />
@@ -31,9 +31,9 @@ const CardProduct = ({ product, }) => {
                     </h2>
 
                     <div className="flex gap-x-2 items-center flex-wrap ">
-                        {product.colors.map((color) => (
+                        {product.skus.map((sku) => (
                             <div className="size-6 p-[3px] ring-1 ring-black/20 rounded-full flex items-center">
-                                <span style={{ background: color.hex }} aria-hidden="true" className="w-full h-full rounded-full  inline-block "></span>
+                                <span style={{ backgroundImage: "url(" + sku.color.img + ")" }} aria-hidden="true" className="w-full h-full rounded-full  inline-block "></span>
                             </div>
                         ))}
                     </div>

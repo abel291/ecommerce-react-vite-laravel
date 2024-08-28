@@ -22,10 +22,10 @@ class PageController extends Controller
     {
         $page = Page::with('banners')->where('type', 'home')->firstOrFail();
 
-        $bestSeller = Product::activeInStock()->selectForCard()->bestSeller()->limit(15)->get();
+        $bestSeller = Product::activeInStock()->selectForCard()->limit(15)->get();
 
         $newProducts = Product::activeInStock()->selectForCard()->orderBy('id', 'desc')->limit(10)->get();
-
+        // dd($bestSeller[0]->sku);
         $banners = $page->banners->where('active', 1);
 
         $carousel_top = $banners->where('position', 'top')->where('type', 'carousel');

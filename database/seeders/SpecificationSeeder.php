@@ -23,39 +23,30 @@ class SpecificationSeeder extends Seeder
         // $products = Product::pluck('id')->toArray();
 
         $products = collect(Storage::json(DatabaseSeeder::getPathProductJson()))->shuffle();
-        $specifications = $products->map(function ($product) {
 
-
-            return collect($product['specifications'])->map(function ($specification) use ($product) {
-
-                return [
-                    'product_id' => $product['id'],
-                    ...$specification
-                ];
-            });
-        })->collapse()->values();
-
+        $specification_id = 1;
         $specifications_array = [];
         $specifications_value_array = [];
+        foreach ($products as $product) {
+            foreach ($product['specifications'] as $specification) {
 
-        foreach ($specifications as $key => $specification) {
-            $specification_id = $key + 1;
-
-            array_push($specifications_array, [
-                'id' => $specification_id,
-                'name' => $specification['title'],
-                'product_id' => $specification['product_id'],
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-
-            foreach ($specification['table'] as $specification_value) {
-                array_push($specifications_value_array, [
-                    ...$specification_value,
-                    'specification_id' => $specification_id,
+                array_push($specifications_array, [
+                    'id' => $specification_id,
+                    'name' => $specification['title'],
+                    'product_id' => $product['id'],
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
+                foreach ($specification['values'] as $specification_value) {
+                    array_push($specifications_value_array, [
+                        'specification_id' => $specification_id,
+                        'name' => $specification_value['title'],
+                        'value' => $specification_value['values'],
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
+                $specification_id++;
             }
 
             if (count($specifications_value_array) > 100) {
@@ -66,8 +57,12 @@ class SpecificationSeeder extends Seeder
                 // $this->command->info("Specification " . $specification_id);
             }
 
+
         }
         Specification::insert($specifications_array);
         SpecificationValue::insert($specifications_value_array);
+
+
+
     }
 }

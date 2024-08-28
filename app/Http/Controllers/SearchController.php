@@ -2,28 +2,28 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Http\Resources\ColorAttributeResource;
+use App\Http\Resources\ColorResource;
 use App\Http\Resources\ProductResource;
-use App\Http\Resources\Search\AttributeFilterResource;
+
 use App\Http\Resources\Search\CategoryFilterResource;
-use App\Http\Resources\Search\SearchResource;
-use App\Http\Resources\SizeAttributeResource;
-use App\Models\Attribute;
-use App\Models\Attribute\ColorAttribute;
-use App\Models\Attribute\SizeAttribute;
-use App\Models\AttributeValue;
+
+use App\Http\Resources\SizeResource;
+
 use App\Models\Category;
+use App\Models\Color;
 use App\Models\Department;
 use App\Models\Page;
-use App\Models\Presentation;
+
 use App\Models\Product;
-use App\Services\SearchProductService;
+use App\Models\Size;
+
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
+
 use Inertia\Inertia;
-use Illuminate\Support\Str;
+
 
 class SearchController extends Controller
 {
@@ -48,7 +48,6 @@ class SearchController extends Controller
             'categories' => $request->input('categories', []),
             'colors' => $request->input('colors', []),
             'sizes' => $request->input('sizes', []),
-            'attributes' => [],
             'price_min' => $request->input('price_min', ''),
             'price_max' => $request->input('price_max', ''),
             'brands' => $request->input('brands', []),
@@ -86,7 +85,7 @@ class SearchController extends Controller
             }
         )->get();
 
-        $listColors = ColorAttribute::whereHas(
+        $listColors = Color::whereHas(
             'products',
             function ($query) use ($filters) {
                 $query->withFilters([
@@ -96,7 +95,7 @@ class SearchController extends Controller
             }
         )->orderBy('slug')->get();
 
-        $listSizes = SizeAttribute::whereHas(
+        $listSizes = Size::whereHas(
             'products',
             function ($query) use ($filters) {
                 $query->withFilters([
@@ -116,8 +115,8 @@ class SearchController extends Controller
             'filters' => $filters,
             'listDepartments' => CategoryFilterResource::collection($listDepartments),
             'listCategories' => CategoryFilterResource::collection($listCategories),
-            'listColors' => ColorAttributeResource::collection($listColors),
-            'listSizes' => SizeAttributeResource::collection($listSizes),
+            'listColors' => ColorResource::collection($listColors),
+            'listSizes' => SizeResource::collection($listSizes),
             'listBrands' => [], //$listBrands,
             'products' => ProductResource::collection($products),
             'page' => $page,

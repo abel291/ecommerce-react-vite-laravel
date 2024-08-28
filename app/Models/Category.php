@@ -33,7 +33,6 @@ class Category extends Model
         return $this->hasMany(Product::class)->limit(12);
     }
 
-
     public function departments(): BelongsToMany
     {
         return $this->belongsToMany(Department::class);

@@ -20,8 +20,8 @@ class CreateProductsTable extends Migration
             $table->string('slug')->unique()->index();
             $table->text('entry')->nullable();
             $table->text('description')->nullable();
-            $table->decimal('thumb')->nullable();
-            $table->string('img')->nullable();
+            // $table->decimal('thumb')->nullable();
+            // $table->string('img')->nullable();
             $table->decimal('old_price')->nullable();
             $table->unsignedTinyInteger('offer')->nullable();
             $table->decimal('price')->default(0);
@@ -33,6 +33,8 @@ class CreateProductsTable extends Migration
             $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });
+
+
     }
 
     /**
@@ -43,5 +45,6 @@ class CreateProductsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('products');
+
     }
 }

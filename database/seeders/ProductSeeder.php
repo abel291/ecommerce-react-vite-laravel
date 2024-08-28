@@ -39,7 +39,7 @@ class ProductSeeder extends Seeder
         Specification::truncate();
         SpecificationValue::truncate();
 
-        Image::where('model_type', 'App\Models\Product')->delete();
+        // Image::where('model_type', 'App\Models\Product')->delete();
 
         $categories = Category::select('id', 'name')->get()->pluck('id', 'name');
         $departments = Department::select('id', 'name')->get()->pluck('id', 'name');
@@ -48,10 +48,10 @@ class ProductSeeder extends Seeder
         $products = collect(Storage::json(DatabaseSeeder::getPathProductJson()))->shuffle();
 
         if (config('app.env') == 'testing') {
-            $products = collect($products);
+            $products = $products->take(20);
         }
 
-        $images_array = [];
+        // $images_array = [];
         $products_array = [];
         foreach ($products as $product_key => $product) {
 
@@ -70,9 +70,9 @@ class ProductSeeder extends Seeder
             array_push($products_array, [
                 'id' => $product['id'],
                 'name' => $product['name'],
-                'slug' => Str::slug($product['name'], '-') . fake()->bothify('####'),
-                'img' => $product['img'],
-                'thumb' => $product['thumb'],
+                'slug' => Str::slug($product['name']) . "-" . $product['id'],
+                // 'img' => $product['img'],
+                // 'thumb' => $product['thumb'],
                 'old_price' => $old_price,
                 'entry' => fake()->text(250),
                 'description' => fake()->text(800),
@@ -81,30 +81,21 @@ class ProductSeeder extends Seeder
                 'max_quantity' => rand(6, 12),
                 'department_id' => $departments[$product['department']],
                 'category_id' => $categories[$product['category']],
-                'brand_id' => $brands[$product['brand']],
-                'created_at' => now(),
-                'updated_at' => now(),
+                // 'brand_id' => $brands[$product['brand']],
+                'created_at' => fake()->dateTimeBetween('-2 days', 'now'),
+                'updated_at' => fake()->dateTimeBetween('-2 days', 'now'),
             ]);
 
-            // --images
-            foreach ($product['images'] as $images) {
-                array_push($images_array, [
-                    ...$images,
-                    'model_type' => 'App\Models\Product',
-                    'model_id' => $product['id'],
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
-            }
+
 
             if (count($products_array) > 1000) {
-                Image::insert($images_array);
+                // Image::insert($images_array);
                 Product::insert($products_array);
-                $images_array = [];
+                // $images_array = [];
                 $products_array = [];
             }
         }
-        Image::insert($images_array);
+        // Image::insert($images_array);
         Product::insert($products_array);
     }
 }

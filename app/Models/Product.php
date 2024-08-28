@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Enums\PaymentStatus;
-use App\Models\Attribute;
-use App\Models\Attribute\ColorAttribute;
-use Gloudemans\Shoppingcart\Contracts\Buyable;
+
+
+
 use Illuminate\Database\Eloquent\Builder;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,20 +23,9 @@ class Product extends Model
 
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'slug',
-        'description_min',
-        'description_max',
-        'availables',
-        'price',
-        'price',
-        'cost',
-        'img',
-    ];
+
 
     protected $casts = [
-        'price' => 'float',
         'price' => 'float',
     ];
 
@@ -44,15 +33,20 @@ class Product extends Model
     {
         return $this->belongsTo(Department::class);
     }
-
-    public function presentations(): HasMany
+    public function skus(): HasMany
     {
-        return $this->hasMany(Presentation::class);
+        return $this->hasMany(Sku::class);
+
+    }
+    public function variants(): HasMany
+    {
+        return $this->hasMany(Variant::class);
+
     }
 
-    public function presentation(): HasOne
+    public function variant()
     {
-        return $this->hasOne(Presentation::class)->where('default', 1);
+        return $this->hasOne(Variant::class)->orWhere('default', 1);
     }
 
     public function category(): BelongsTo
@@ -89,12 +83,6 @@ class Product extends Model
         return $this->hasMany(OrderProduct::class)->has('order');
     }
 
-    public function colors(): BelongsToMany
-    {
-        return $this->belongsToMany(ColorAttribute::class, 'presentations')->distinct();
-    }
-
-
     public function orders(): HasManyThrough
     {
         return $this->hasManyThrough(
@@ -118,7 +106,7 @@ class Product extends Model
 
     public function scopeInStock(Builder $query): void
     {
-        $query->whereRelation('presentations', 'stock', '>', 0);
+        $query->whereRelation('variants.skus', 'stock', '>', 0);
     }
 
     public function scopeSelectForCard(Builder $query): void
@@ -134,7 +122,7 @@ class Product extends Model
             'department_id',
             'category_id'
         )
-            ->with('colors');
+            ->with('variant.color');
     }
 
     public function scopeBestSeller(Builder $query): void
@@ -228,9 +216,11 @@ class Product extends Model
                 $attribute_values = collect($filters['attributes']);
 
                 $query->whereHas('presentations', function ($query) use ($attribute_values) {
-                    $query->withCount(['attribute_values' => function ($query) use ($attribute_values) {
-                        $query->whereIn('id', $attribute_values->collapse());
-                    }])->where('attribute_values_count', '>=', count($attribute_values));
+                    $query->withCount([
+                        'attribute_values' => function ($query) use ($attribute_values) {
+                            $query->whereIn('id', $attribute_values->collapse());
+                        }
+                    ])->where('attribute_values_count', '>=', count($attribute_values));
                 });
             })
 

@@ -1,0 +1,272 @@
+[
+    {
+        "name": "Gris",
+        "slug": "gris",
+        "hex": "#feb950"
+    },
+    {
+        "name": "Beige",
+        "slug": "beige",
+        "hex": "#4f3246"
+    },
+    {
+        "name": "Azul",
+        "slug": "azul",
+        "hex": "#149853"
+    },
+    {
+        "name": "Blanco",
+        "slug": "blanco",
+        "hex": "#05befe"
+    },
+    {
+        "name": "Negro",
+        "slug": "negro",
+        "hex": "#5377e1"
+    },
+    {
+        "name": "Rojo",
+        "slug": "rojo",
+        "hex": "#fd56a2"
+    },
+    {
+        "name": "Verde",
+        "slug": "verde",
+        "hex": "#67d603"
+    },
+    {
+        "name": "Azul oscuro",
+        "slug": "azul-oscuro",
+        "hex": "#cc0104"
+    },
+    {
+        "name": "Negro Jaspe",
+        "slug": "negro-jaspe",
+        "hex": "#2e6b25"
+    },
+    {
+        "name": "Colores Surtido",
+        "slug": "colores-surtido",
+        "hex": "#4db2f8"
+    },
+    {
+        "name": "Rosado",
+        "slug": "rosado",
+        "hex": "#a1e7b3"
+    },
+    {
+        "name": "Azul claro",
+        "slug": "azul-claro",
+        "hex": "#98a10f"
+    },
+    {
+        "name": "Rosa",
+        "slug": "rosa",
+        "hex": "#93fc2f"
+    },
+    {
+        "name": "Morado",
+        "slug": "morado",
+        "hex": "#345010"
+    },
+    {
+        "name": "Naranja",
+        "slug": "naranja",
+        "hex": "#4e1735"
+    },
+    {
+        "name": "Beige Oscuro",
+        "slug": "beige-oscuro",
+        "hex": "#49a6e1"
+    },
+    {
+        "name": "Amarillo",
+        "slug": "amarillo",
+        "hex": "#1f7561"
+    },
+    {
+        "name": "Café",
+        "slug": "cafe",
+        "hex": "#4f9655"
+    },
+    {
+        "name": "Gris Jaspe",
+        "slug": "gris-jaspe",
+        "hex": "#ec58e3"
+    },
+    {
+        "name": "Fucsia",
+        "slug": "fucsia",
+        "hex": "#bdabe3"
+    },
+    {
+        "name": "Vino",
+        "slug": "vino",
+        "hex": "#2608c4"
+    },
+    {
+        "name": "Rosado Claro",
+        "slug": "rosado-claro",
+        "hex": "#6569b9"
+    },
+    {
+        "name": "Turquesa",
+        "slug": "turquesa",
+        "hex": "#fc61d3"
+    },
+    {
+        "name": "Coral",
+        "slug": "coral",
+        "hex": "#3f04ee"
+    },
+    {
+        "name": "Plata",
+        "slug": "plata",
+        "hex": "#c83d74"
+    },
+    {
+        "name": "Blanco Natural",
+        "slug": "blanco-natural",
+        "hex": "#482048"
+    },
+    {
+        "name": "Hortensia",
+        "slug": "hortensia",
+        "hex": "#381c54"
+    },
+    {
+        "name": "Vinotinto",
+        "slug": "vinotinto",
+        "hex": "#1e2dd7"
+    },
+    {
+        "name": "Café Oscuro",
+        "slug": "cafe-oscuro",
+        "hex": "#6a54fc"
+    },
+    {
+        "name": "Lila",
+        "slug": "lila",
+        "hex": "#3de428"
+    },
+    {
+        "name": "Azu Oscuro",
+        "slug": "azu-oscuro",
+        "hex": "#eb3cb9"
+    },
+    {
+        "name": "Azul Rey",
+        "slug": "azul-rey",
+        "hex": "#828d53"
+    },
+    {
+        "name": "Azul Binado",
+        "slug": "azul-binado",
+        "hex": "#c46426"
+    },
+    {
+        "name": "Crema",
+        "slug": "crema",
+        "hex": "#55489f"
+    },
+    {
+        "name": "Blanco Puntos",
+        "slug": "blanco-puntos",
+        "hex": "#5adf52"
+    },
+    {
+        "name": "Azul Medio",
+        "slug": "azul-medio",
+        "hex": "#0dd029"
+    },
+    {
+        "name": "Verde oscuro",
+        "slug": "verde-oscuro",
+        "hex": "#2d18b0"
+    },
+    {
+        "name": "Terracota",
+        "slug": "terracota",
+        "hex": "#748eb8"
+    },
+    {
+        "name": "Rosadoflores",
+        "slug": "rosadoflores",
+        "hex": "#744dfa"
+    },
+    {
+        "name": "Grisflores",
+        "slug": "grisflores",
+        "hex": "#711e2d"
+    },
+    {
+        "name": "Negro Binado",
+        "slug": "negro-binado",
+        "hex": "#99b5e7"
+    },
+    {
+        "name": "Turqueza",
+        "slug": "turqueza",
+        "hex": "#bf7fd7"
+    },
+    {
+        "name": "Blancoflores",
+        "slug": "blancoflores",
+        "hex": "#06f37e"
+    },
+    {
+        "name": "Morada",
+        "slug": "morada",
+        "hex": "#c6b4d9"
+    },
+    {
+        "name": "Azul Rey Jaspe",
+        "slug": "azul-rey-jaspe",
+        "hex": "#3dd77e"
+    },
+    {
+        "name": "Vino Puntos",
+        "slug": "vino-puntos",
+        "hex": "#80d8e7"
+    },
+    {
+        "name": "Verde claro",
+        "slug": "verde-claro",
+        "hex": "#3aa614"
+    },
+    {
+        "name": "Gris Claro",
+        "slug": "gris-claro",
+        "hex": "#8dcd9c"
+    },
+    {
+        "name": "Azul rey",
+        "slug": "azul-rey",
+        "hex": "#0e83a8"
+    },
+    {
+        "name": "Marsala",
+        "slug": "marsala",
+        "hex": "#d11313"
+    },
+    {
+        "name": "Azulflores",
+        "slug": "azulflores",
+        "hex": "#54e3db"
+    },
+    {
+        "name": "Verde Militar",
+        "slug": "verde-militar",
+        "hex": "#b67093"
+    },
+    {
+        "name": "Terra",
+        "slug": "terra",
+        "hex": "#7704af"
+    },
+    {
+        "name": "Crudo",
+        "slug": "crudo",
+        "hex": "#8fa24a"
+    }
+]
