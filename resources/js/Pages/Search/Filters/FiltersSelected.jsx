@@ -117,6 +117,18 @@ const FiltersSelected = ({ data, setData, changeFilterAttributes }) => {
                         </Badge>
                     ))
                 }
+                {filtersSelected.sizes &&
+                    filtersSelected.sizes.map((size, index) => (
+                        <Badge color="gray" key={"size" + index}>
+
+                            <span className="mr-2 up">Talla {size.name}</span>
+                            <button
+                                onClick={() => handleClickRemoveItemFilter("sizes", size.id)}>
+                                <XMarkIcon className="w-3 h-3" />
+                            </button>
+                        </Badge>
+                    ))
+                }
 
 
                 {filtersSelected.attributes && (
@@ -177,8 +189,8 @@ const FiltersSelected = ({ data, setData, changeFilterAttributes }) => {
                     data.sortBy && (
                         <Badge color="gray">
                             <span className="mr-2 capitalize">
-                                {data.sortBy == 'price_asc' && 'Precio mayor'}
-                                {data.sortBy == 'price_desc' && 'Precio menor'}
+                                {data.sortBy == 'price_desc' && 'Precio mayor'}
+                                {data.sortBy == 'price_asc' && 'Precio menor'}
                             </span>
                             <button
                                 onClick={() => setData("sortBy", null)}

@@ -15,7 +15,7 @@ export default {
     theme: {
         colors: {
             ...colors,
-            primary: colors.emerald,
+            primary: colors.red,
         },
 
         container: {
@@ -25,7 +25,7 @@ export default {
                 sm: "2rem",
                 lg: "3rem",
                 xl: "2rem",
-                '2xl': '10rem',
+                '2xl': '4rem',
             },
         },
         extend: {

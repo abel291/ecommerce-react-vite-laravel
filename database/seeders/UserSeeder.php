@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
 
         $user->assignRole('admin');
 
-        User::factory()->count(1)->create([
+        User::factory()->count(100)->create([
             'created_at' => fake()->dateTimeBetween('-12 month')
         ])
             ->each(function (User $user) {

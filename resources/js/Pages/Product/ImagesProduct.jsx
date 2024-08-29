@@ -8,29 +8,26 @@ const ImagesProduct = ({ product }) => {
 
     const allImages = [{
         id: 'principal-image',
-        alt: product.slug,
-        img: product.img,
-    }, ...product.images]
+        alt: product.variant.slug,
+        img: product.variant.img,
+    }, ...product.variant.images]
     return (
-        <div className="">
-            <div className="w-full ">
-                <div className="flex justify-center h-[400px]">
-                    <img ref={imgShowRef} className="object-contain " src={allImages[0].img} alt="" />
-                </div>
-            </div>
-            <div className="w-full  mt-5 ">
-                <div className="flex justify-center gap-2 flex-wrap">
+        <div className="flex  gap-x-4">
 
-                    {allImages.map((image) => (
-                        <button
-                            onClick={() => handleClickImg(image.img)}
-                            key={image.id}
-                            className="p-1 rounded-lg h-20 w-20  flex justify-center items-center "
-                        >
-                            <img src={image.img} alt={image.alt} className="max-h-full rounded object-contain" />
-                        </button>
-                    ))}
-                </div>
+            <div className="space-y-4">
+
+                {allImages.map((image) => (
+                    <button
+                        onClick={() => handleClickImg(image.img)}
+                        key={image.id}
+                        className="w-28  flex justify-center items-center "
+                    >
+                        <img src={image.img} alt={image.alt} className="max-h-full object-contain rounded-sm" />
+                    </button>
+                ))}
+            </div>
+            <div>
+                <img ref={imgShowRef} className="w-full max-w-full rounded-sm" src={allImages[0].img} alt="" />
             </div>
 
         </div>

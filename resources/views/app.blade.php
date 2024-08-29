@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title inertia>{{ config('app.name', 'Laravel') }}</title>
-
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <!-- Fonts -->
     <link rel="preconnect" href="https://rsms.me/">
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
@@ -18,7 +18,7 @@
     @inertiaHead
 </head>
 
-<body class="antialiased text-gray-800 bg-white">
+<body class="antialiased text-gray-900 bg-white">
     @inertia
 </body>
 

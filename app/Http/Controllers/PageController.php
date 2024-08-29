@@ -7,6 +7,8 @@ use App\Http\Resources\ImageResource;
 use App\Http\Resources\PageResource;
 use App\Http\Resources\PresentationResource;
 use App\Http\Resources\ProductResource;
+use App\Http\Resources\VariantProductResource;
+use App\Http\Resources\VariantResource;
 use App\Models\Attribute;
 use App\Models\Brand;
 use App\Models\Category;
@@ -14,6 +16,8 @@ use App\Models\Page;
 use App\Models\Presentation;
 use App\Models\Product;
 use App\Models\Specification;
+use App\Models\Variant;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class PageController extends Controller
@@ -22,12 +26,15 @@ class PageController extends Controller
     {
         $page = Page::with('banners')->where('type', 'home')->firstOrFail();
 
-        $bestSeller = Product::activeInStock()->selectForCard()->limit(15)->get();
+        $bestSeller = Product::available()->selectForCard()->orderBy('updated_at', 'desc')->limit(15)->get();
 
-        $newProducts = Product::activeInStock()->selectForCard()->orderBy('id', 'desc')->limit(10)->get();
-        // dd($bestSeller[0]->sku);
+        $newProducts = Product::available()->selectForCard()->orderBy('updated_at', 'desc')->limit(10)->get();
+        // dd($newProducts);
+        // $bestSeller = Product::available()->selectForCard()->limit(15)->get();
+
+        // $newProducts = Product::available()->selectForCard()->orderBy('id', 'desc')->limit(10)->get();
+
         $banners = $page->banners->where('active', 1);
-
         $carousel_top = $banners->where('position', 'top')->where('type', 'carousel');
         $banners_top = $banners->where('position', 'top')->where('type', 'banner');
         $banners_medium = $banners->where('position', 'middle');
@@ -35,6 +42,7 @@ class PageController extends Controller
 
         $categories = Category::active()->where('in_home', 1)->get();
         $brands = Brand::active()->select('name', 'slug', 'img')->get();
+
         return Inertia::render('Home/Home', [
             'page' => new PageResource($page),
             'bestSeller' => ProductResource::collection($bestSeller),
@@ -98,50 +106,63 @@ class PageController extends Controller
         ]);
     }
 
-    public function product($slug)
+    public function product(Request $request, $slug)
     {
+        $colorSlug = $request->color;
 
         $product = Product::where('slug', $slug)
-            ->with('images', 'category', 'department', 'brand', 'specifications.specification_values')
-            ->activeInStock()
-            ->firstOrFail();
+            ->with('images', 'category', 'department', 'brand', 'specifications.specification_values', 'variants.color')
 
-        $related_products = Product::activeInStock()
+            ->withWhereHas('variant', function ($query) use ($colorSlug) {
+                $query->active()
+                    ->with('sizes', 'images')
+                    // ->whereRelation('sizes', 'stock', '>', 0)
+                    // ->orWhere('default', 1)
+                    ->when($colorSlug, function ($query) use ($colorSlug) {
+                        $query->withWhereHas('color', function ($query) use ($colorSlug) {
+                            $query->where('slug', $colorSlug);
+                        });
+                    }, function ($query) {
+                        $query->with('color');
+                    });
+            })->firstOrFail();
+
+        $related_products = Product::available()
             ->selectForCard()
             ->where('id', '!=', $product->id)
             ->where('category_id', $product->category_id)
-            // ->where('department_id', $product->department_id)
+            ->where('department_id', $product->department_id)
             ->inRandomOrder()->limit(12)->get();
 
 
-        $presentations = Presentation::with('color:id,name,hex', 'size:id,name')
-            ->where('product_id', $product->id)
-            ->get();
+        // $presentations = Presentation::with('color:id,name,hex', 'size:id,name')
+        //     ->where('product_id', $product->id)
+        //     ->get();
 
-        $colors = $presentations->groupBy('color_attribute_id')->map(function ($presentationsGroupBy) {
-            return [
-                ...$presentationsGroupBy[0]->color->toArray(),
-                'default' => $presentationsGroupBy->contains('default', 1)
-            ];
-        })->values()->toArray();
+        // $colors = $presentations->groupBy('color_attribute_id')->map(function ($presentationsGroupBy) {
+        //     return [
+        //         ...$presentationsGroupBy[0]->color->toArray(),
+        //         'default' => $presentationsGroupBy->contains('default', 1)
+        //     ];
+        // })->values()->toArray();
 
-        $sizes = $presentations->map(function ($presentation) {
-            return [
-                'id' => $presentation->size->id,
-                'name' => $presentation->size->name,
-                'default' => $presentation->default,
-                'colorId' => $presentation->color_attribute_id,
-                'code' => $presentation->code,
-                'stock' => $presentation->stock,
-            ];
-        })->values()->toArray();
+        // $sizes = $presentations->map(function ($presentation) {
+        //     return [
+        //         'id' => $presentation->size->id,
+        //         'name' => $presentation->size->name,
+        //         'default' => $presentation->default,
+        //         'colorId' => $presentation->color_attribute_id,
+        //         'code' => $presentation->code,
+        //         'stock' => $presentation->stock,
+        //     ];
+        // })->values()->toArray();
 
         // dd($sizes);
 
         return Inertia::render('Product/Product', [
             'product' => new ProductResource($product),
-            'colors' => $colors,
-            'sizes' => $sizes,
+            // 'colors' => $colors,
+            // 'sizes' => $sizes,
             'relatedProducts' => ProductResource::collection($related_products),
         ]);
     }

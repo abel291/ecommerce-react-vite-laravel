@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\CartEnum;
 use App\Models\Presentation;
 use App\Models\Product;
+use App\Models\Variant;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -17,14 +18,14 @@ class CartService
         return session($keySession->value, []);
     }
 
-    public static function add(CartEnum $cardType, $product_id, $code_presentation, $quantity): void
+    public static function add(CartEnum $cardType, $variandRef, $variantSizeId, $quantity): void
     {
 
         $sessionProducts = self::session($cardType);
 
-        $sessionProducts[$code_presentation] = [
-            'product_id' => $product_id,
-            'code_presentation' => $code_presentation,
+        $sessionProducts[$variantSizeId] = [
+            'variandRef' => $variandRef,
+            'variantSizeId' => $variantSizeId,
             'quantity' => $quantity,
         ];
 
@@ -36,9 +37,7 @@ class CartService
 
         $sessionProducts = collect(self::session($cardEnum));
 
-        $products_id = $sessionProducts->pluck('product_id')->toArray();
-
-        $codes_presentation = $sessionProducts->pluck('code_presentation')->toArray();
+        $variantSizeId = $sessionProducts->pluck('variantSizeId')->toArray();
 
         $selectProduct = ['id', 'name', 'slug', 'thumb', 'price', 'offer', 'old_price', 'max_quantity'];
         // $products = Product::select($selectProduct)
@@ -57,7 +56,11 @@ class CartService
         //         ];
         //     });
 
-        $products = Presentation::where('stock', '>', 0)
+        $products = Variant::
+        // where('stock', '>', 0)
+            ->withWhereHas('sizes', function ($query) use ($selectProduct) {
+                $query->select($selectProduct)->active();
+            })
             ->whereIn('code', $codes_presentation)
             ->with('color:id,name', 'size:id,name')
             ->withWhereHas('product', function ($query) use ($selectProduct) {

@@ -31,7 +31,7 @@ class OrderService
             ...$order_array,
             'quantity' => $orderProducts->sum('quantity'),
             'code' => self::generateCode($user->id),
-            'user_id' => $orderProducts[0]['user_id'],
+            'user_id' => $user->id,
             'data' => [
                 'user' => $user->only('name', 'address', 'phone', 'email', 'city'),
             ],
@@ -75,15 +75,21 @@ class OrderService
         return $total;
     }
 
-    public static function formatOrderProduct($product, $quantity, $user)
+    public static function formatOrderProduct($presentation, $quantity)
     {
+        $product = $presentation->product;
         return [
+            'name' => $product->name,
             'price' => $product->price,
             'quantity' => $quantity,
             'total' => round($product->price * $quantity),
-            'data' => $product->only('id', 'name', 'slug', 'img', 'old_price', 'offer', 'price'),
-            'user_id' => $user->id,
+            'data' => [
+                'color' => $presentation->color->name,
+                'size' => $presentation->size->name,
+                'product' => $product->only('slug', 'img', 'old_price', 'offer', 'price')
+            ],
             'product_id' => $product->id,
+            'presentation_id' => $presentation->id,
         ];
     }
 

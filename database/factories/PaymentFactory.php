@@ -19,7 +19,7 @@ class PaymentFactory extends Factory
     public function definition(): array
     {
         return [
-            'status' => $this->faker->randomElement(PaymentStatus::cases()),
+            // 'status' => $this->faker->randomElement(PaymentStatus::cases()),
             'method' => $this->faker->randomElement(PaymentMethodEnum::cases()),
             'reference' => $this->faker->numerify('##########'),
         ];

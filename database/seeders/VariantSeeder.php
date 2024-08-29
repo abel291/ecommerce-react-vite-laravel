@@ -27,7 +27,7 @@ class VariantSeeder extends Seeder
     public function run(): void
     {
         Variant::truncate();
-        Sku::truncate();
+        DB::table('size_variant')->truncate();
         Image::where('model_type', 'App\Models\Variant')->delete();
 
         $products = collect(Storage::json(DatabaseSeeder::getPathProductJson()));
@@ -36,18 +36,23 @@ class VariantSeeder extends Seeder
         // dd($colors->sortKeys());
         $variant_id = 0;
         $variant_array = [];
-        $sku_array = [];
+        $size_variant_array = [];
         $images_array = [];
         foreach ($products as $key => $product) {
             foreach ($product['colors'] as $key => $color) {
+                $color_id = $colors[$color['color']['name']];
+                $ref = str_pad($product['id'], 4, "0", STR_PAD_LEFT) . '-' . str_pad($color_id, 3, "0", STR_PAD_LEFT);
 
                 array_push($variant_array, [
                     'id' => $variant_id,
+                    'ref' =>  $ref,
                     'default' => $key == 0,
-                    'color_id' => $colors[$color['color']['name']],
+                    'color_id' => $color_id,
                     'product_id' => $product['id'],
                     'img' => $color['img'],
                     'thumb' => $color['thumb'],
+                    'created_at' => fake()->dateTimeBetween('-2 days', 'now'),
+                    'updated_at' => fake()->dateTimeBetween('-2 days', 'now'),
                 ]);
 
                 foreach ($color['images'] as $image) {
@@ -59,7 +64,7 @@ class VariantSeeder extends Seeder
                     ]);
                 }
                 foreach ($product['sizes'] as $size) {
-                    array_push($sku_array, [
+                    array_push($size_variant_array, [
                         'stock' => rand(0, 1) * rand(10, 300),
                         'product_id' => $product['id'],
                         'variant_id' => $variant_id,
@@ -67,23 +72,26 @@ class VariantSeeder extends Seeder
 
                     ]);
                 }
-
                 $variant_id++;
             }
-            if (count($variant_array) > 50) {
+
+
+
+            if (count($variant_array) > 500) {
                 Variant::insert($variant_array);
                 Image::insert($images_array);
-                Sku::insert($sku_array);
+                DB::table('size_variant')->insert($size_variant_array);
                 $variant_array = [];
-                $sku_array = [];
+                $size_variant_array = [];
                 $images_array = [];
-                $this->command->info("SKU " . $variant_id);
+                $this->command->info($product['id']);
             }
-
         }
+        // dd(collect($variant_array)->duplicates('ref'));
+
 
         Variant::insert($variant_array);
         Image::insert($images_array);
-        Sku::insert($sku_array);
+        DB::table('size_variant')->insert($size_variant_array);
     }
 }

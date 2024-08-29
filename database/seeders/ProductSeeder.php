@@ -73,7 +73,7 @@ class ProductSeeder extends Seeder
                 'slug' => Str::slug($product['name']) . "-" . $product['id'],
                 // 'img' => $product['img'],
                 // 'thumb' => $product['thumb'],
-                'old_price' => $old_price,
+                'old_price' => $product['entry'],
                 'entry' => fake()->text(250),
                 'description' => fake()->text(800),
                 'offer' => $offer,
@@ -82,8 +82,8 @@ class ProductSeeder extends Seeder
                 'department_id' => $departments[$product['department']],
                 'category_id' => $categories[$product['category']],
                 // 'brand_id' => $brands[$product['brand']],
-                'created_at' => fake()->dateTimeBetween('-2 days', 'now'),
-                'updated_at' => fake()->dateTimeBetween('-2 days', 'now'),
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
 
 

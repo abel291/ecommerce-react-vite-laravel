@@ -51,12 +51,12 @@ class ShoppingCartController extends Controller
     {
 
         $request->validate([
-            'product_id' => ['required', 'exists:products,id'],
-            'codePresentation' => ['required', 'exists:presentations,code', new ValidateProductRule, new ShoppingCartStoreRule],
+            'variandRef' => ['required', 'exists:variants,ref'],
+            'variantSizeId' => ['required', 'exists:variant_size,id', new ValidateProductRule, new ShoppingCartStoreRule],
             'quantity' => ['required', 'numeric', 'min:1'],
         ]);
 
-        CartService::add(CartEnum::SHOPPING_CART, $request->product_id, $request->codePresentation, $request->quantity);
+        CartService::add(CartEnum::SHOPPING_CART, $request->variandRef, $request->variantSizeId, $request->quantity);
 
         $product = Product::select('name')->find($request->product_id);
         return to_route('shopping-cart.index')->with('success', "Agregaste a tu carrito $product->name");

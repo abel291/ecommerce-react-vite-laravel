@@ -20,7 +20,7 @@ export default function Home({
     bannersBottom,
     categoriesProductCount,
 }) {
-    console.log(bannersTop);
+    // console.log(bannersTop);
     return (
         <>
             <Head title={page.meta_title} />
@@ -51,7 +51,6 @@ export default function Home({
                         />
                     </SectionList>
 
-
                     {bannersMedium.length > 0 && (
                         <div className="py-content ">
                             <Banner image={bannersMedium[0]} />
@@ -61,10 +60,10 @@ export default function Home({
                     {bestSeller.length > 0 && (
                         <SectionList title="Los mas vendidos">
                             <GridProduct>
-                                {bestSeller.map((product) => (
+                                {bestSeller.map((variant) => (
                                     <CardProduct
-                                        key={product.id}
-                                        product={product}
+                                        key={variant.id}
+                                        product={variant}
                                     />
                                 ))}
                             </GridProduct>
@@ -72,12 +71,12 @@ export default function Home({
                     )}
 
                     <SectionList title={"Los recién llegados"}>
-                        <div className=" py-2 relative">
+                        <div className="py-2 relative">
                             <GridProduct>
-                                {newProducts.map((item) => (
+                                {newProducts.map((variant) => (
                                     <CardProduct
-                                        key={item.id}
-                                        product={item}
+                                        key={variant.id}
+                                        product={variant}
                                         productNew={true}
                                     />
                                 ))}

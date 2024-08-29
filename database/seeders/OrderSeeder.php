@@ -7,6 +7,7 @@ use App\Models\DiscountCode;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Payment;
+use App\Models\Presentation;
 use App\Models\Product;
 use App\Models\User;
 use App\Services\CartService;
@@ -27,28 +28,19 @@ class OrderSeeder extends Seeder
         Order::truncate();
         OrderProduct::truncate();
         Payment::truncate();
-        OrderProduct::whereNotNull('order_id')->delete();
-        $users = User::get();
 
+        $users = User::get();
+        $discountCodes = DiscountCode::get();
         foreach ($users->multiply(3) as $user) {
 
             $max_quantity_selected = rand(1, 10);
-
-            $orderProducts = Product::select('id', 'slug', 'img', 'name', 'price', 'offer', 'price_offer', 'max_quantity')
-                ->active()
-                ->with('skus.attribute_values.attribute')
-                // ->withWhereHas('skus', function ($query) use ($max_quantity_selected) {
-                //     $query->where('quantity', '>=', $max_quantity_selected);
-                // })
+            $orderProducts = Presentation::where('stock', '>=', $max_quantity_selected)
+                ->with('product:id,slug,img,name,price,offer,old_price,max_quantity', 'color:id,name', 'size:id,name')
                 ->limit(rand(2, 5))
                 ->inRandomOrder()
-                ->get()
-                ->filter(function ($item) {
-                    return $item->skus->where('quantity', '>', 0)->count();
-                })
-                ->map(function ($product) use ($max_quantity_selected, $user) {
+                ->get()->map(function ($presentation) use ($max_quantity_selected) {
                     $quantity = rand(1, $max_quantity_selected);
-                    return OrderService::formatOrderProduct($product, $quantity, $product->skus->random()->code, $user);
+                    return OrderService::formatOrderProduct($presentation, $quantity);
                 });
 
 

@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->string('status');
             $table->string('method')->nullable();
             $table->json('data')->nullable();
             $table->string('reference', 30)->nullable();

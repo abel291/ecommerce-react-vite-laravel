@@ -23,8 +23,6 @@ class Product extends Model
 
     use HasFactory;
 
-
-
     protected $casts = [
         'price' => 'float',
     ];
@@ -33,20 +31,19 @@ class Product extends Model
     {
         return $this->belongsTo(Department::class);
     }
-    public function skus(): HasMany
-    {
-        return $this->hasMany(Sku::class);
 
-    }
     public function variants(): HasMany
     {
         return $this->hasMany(Variant::class);
-
     }
 
-    public function variant()
+    public function variantDefault()
     {
         return $this->hasOne(Variant::class)->orWhere('default', 1);
+    }
+    public function variant()
+    {
+        return $this->hasOne(Variant::class);
     }
 
     public function category(): BelongsTo
@@ -94,27 +91,31 @@ class Product extends Model
             'order_id'
         );
     }
-    public function calculateOffer()
+    public function scopeAvailable(Builder $query): void
     {
-        if ($this->offer) {
-            $this->old_price = $this->price;
-            $this->price = round($this->old_price * ((100 - $this->offer) / 100), 2);
-        } else {
-            $this->price = $this->price;
-        }
+        $query->inStock();
     }
 
-    public function scopeInStock(Builder $query): void
+    public function scopeInStock(Builder $query, $colorSlug = null): void
     {
-        $query->whereRelation('variants.skus', 'stock', '>', 0);
+        $query->withWhereHas('variant', function ($query) use ($colorSlug) {
+
+            $query->active()->whereRelation('sizes', 'stock', '>', 0)->orWhere('default', 1)
+
+                ->withWhereHas('color', function ($query) use ($colorSlug) {
+
+                    if ($colorSlug) {
+                        $query->where('slug', $colorSlug);
+                    }
+                });
+        });
     }
 
     public function scopeSelectForCard(Builder $query): void
     {
         $query->select(
-            'id',
+            'products.id',
             'slug',
-            'thumb',
             'name',
             'offer',
             'price',
@@ -122,7 +123,7 @@ class Product extends Model
             'department_id',
             'category_id'
         )
-            ->with('variant.color');
+            ->with('variants.color');
     }
 
     public function scopeBestSeller(Builder $query): void
@@ -146,27 +147,14 @@ class Product extends Model
     }
 
 
-    public function scopeActive(Builder $query): void
-    {
-        $query->where('active', 1);
-    }
 
-    public function scopeActiveInStock($query): void
-    {
-        $this->active()->inStock();
-    }
 
     public function scopeWithFilters($query, $filters)
     {
 
         return $query
-            ->activeInStock()
+            ->selectForCard()
 
-            // ->where(function ($query) use ($filters) {
-            //     $query->orWhere('name', 'like', '%' . $filters['q'] . '%');
-            //     $query->orWhere('slug', 'like', '%' . $filters['q'] . '%');
-            //     $query->orWhere('description_min', 'like', '%' . $filters['q'] . '%');
-            // })
             ->when($filters['q'], function (Builder $query) use ($filters) {
                 $query->where(function ($query) use ($filters) {
                     $query->orWhere('name', 'like', '%' . $filters['q'] . '%');
@@ -188,16 +176,22 @@ class Product extends Model
                 // });
             })
 
-            ->when(($filters['colors'] || $filters['sizes']), function (Builder $query) use ($filters) {
+            ->when($filters['colors'] || $filters['sizes'], function (Builder $query) use ($filters) {
 
-                $query->whereHas('presentation', function (Builder $sub_query) use ($filters) {
-                    $sub_query->when($filters['colors'], function (Builder $query) use ($filters) {
-                        $query->whereIn('color_attribute_id', $filters['colors']);
+                $query->withWhereHas('variant', function ($query) use ($filters) {
+
+                    $query->with('color')->when($filters['colors'], function ($query) use ($filters) {
+
+                        $query->whereIn('color_id', $filters['colors']);
                     })
-                        ->when($filters['sizes'], function (Builder $query) use ($filters) {
-                            $query->whereIn('size_attribute_id', $filters['sizes']);
+                        ->when($filters['sizes'], function ($query) use ($filters) {
+                            $query->whereHas('sizesAvailable', function ($query) use ($filters) {
+                                $query->whereIn('sizes.id', $filters['sizes']);
+                            });
                         });
                 });
+            }, function ($query) {
+                $query->inStock();
             })
 
             ->when($filters['price_min'], function (Builder $query) use ($filters) {
@@ -211,24 +205,22 @@ class Product extends Model
             ->when($filters['offer'], function (Builder $query) use ($filters) {
                 $query->where('offer', '>=', $filters['offer']);
             })
-            ->when($filters['attributes'], function (Builder $query) use ($filters) {
+            // ->when($filters['attributes'], function (Builder $query) use ($filters) {
 
-                $attribute_values = collect($filters['attributes']);
+            //     $attribute_values = collect($filters['attributes']);
 
-                $query->whereHas('presentations', function ($query) use ($attribute_values) {
-                    $query->withCount([
-                        'attribute_values' => function ($query) use ($attribute_values) {
-                            $query->whereIn('id', $attribute_values->collapse());
-                        }
-                    ])->where('attribute_values_count', '>=', count($attribute_values));
-                });
-            })
-
+            //     $query->whereHas('presentations', function ($query) use ($attribute_values) {
+            //         $query->withCount([
+            //             'attribute_values' => function ($query) use ($attribute_values) {
+            //                 $query->whereIn('id', $attribute_values->collapse());
+            //             }
+            //         ])->where('attribute_values_count', '>=', count($attribute_values));
+            //     });
+            // })
             ->when($filters['sortBy'], function (Builder $query) use ($filters) {
                 $sorBy = $filters['sortBy'] == 'price_desc' ? 'desc' : 'asc';
-                $query->orderBy('products.price', $sorBy);
-            }, function ($query) {
-                $query->orderBy('products.id', 'desc');
-            });
+                $query->orderBy('price', $sorBy);
+            })
+        ;
     }
 }

@@ -10,7 +10,8 @@ use App\Http\Resources\ProductResource;
 use App\Http\Resources\Search\CategoryFilterResource;
 
 use App\Http\Resources\SizeResource;
-
+use App\Http\Resources\VariantProductResource;
+use App\Http\Resources\VariantResource;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\Department;
@@ -18,8 +19,8 @@ use App\Models\Page;
 
 use App\Models\Product;
 use App\Models\Size;
-
-
+use App\Models\Variant;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 use Inertia\Inertia;
@@ -105,7 +106,23 @@ class SearchController extends Controller
             }
         )->orderBy('slug')->get();
 
-        $products = Product::selectForCard()->withFilters($filters)->paginate(24)->withQueryString();
+        // $products = Product::selectForCard()->withFilters($filters)->paginate(24)->withQueryString();
+
+        $products = Product::withFilters($filters)->paginate(24)->withQueryString();
+
+        // dd($products);
+
+        // when($filters['colors'], function (Builder $query) use ($filters) {
+        //     $query->whereIn('color_id', $filters['colors']);
+        // })
+        //     // ->when($filters['sizes'], function (Builder $query) use ($filters) {
+        //     //     $query->whereHas('sizes', function ($query) {
+        //     //         $query->whereIn('id')->where('pivot.stock', '>', 0);
+        //     //     });
+        //     // })
+        //     ->withWhereHas('product', function ($query) use ($filters) {
+        //         $query->withFilters($filters);
+        //     })->paginate(24)->withQueryString();
 
         // $breadcrumb = SearchProductService::generateBreadcrumb($filters);
 

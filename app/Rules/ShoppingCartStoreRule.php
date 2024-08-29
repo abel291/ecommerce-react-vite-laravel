@@ -5,6 +5,7 @@ namespace App\Rules;
 use App\Enums\CartEnum;
 use App\Models\Presentation;
 use App\Models\Product;
+use App\Models\Variant;
 use App\Services\CartService;
 use Closure;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -42,16 +43,14 @@ class ShoppingCartStoreRule implements DataAwareRule, ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $quantity = $this->data['quantity'];
-        $product_id = $this->data['product_id'];
-        $codePresentation = $this->data['codePresentation'];
+        $variandRef = $this->data['variandRef'];
 
-        $presentation = Presentation::withWhereHas('product', function ($query) {
-            $query->select('id', 'max_quantity')->active();
-        })->where('code', $codePresentation)->first();
+        $product = Product::select('id', 'max_quantity')
+            ->whereHas('variant', function ($query) use ($variandRef) {
+                $query->active()->where('ref', $variandRef);
+            })->first();
 
-        $product = $presentation->product;
-
-        $max_items = env('SHOPPING_CART_MAX_QUANTITY', 10);
+        $max_items = config('shopping-cart.max-quantity');
 
         $cart = CartService::session();
 

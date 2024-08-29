@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\PaymentStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,6 +17,7 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('code', 20);
+            $table->string('status', 20)->default(PaymentStatus::SUCCESSFUL->value);
             $table->unsignedInteger('quantity');
             $table->decimal('sub_total', 12, 2);
             $table->json('discount', 12, 2)->nullable();
@@ -29,6 +31,22 @@ class CreateOrdersTable extends Migration
             $table->timestamp('refund_at')->nullable();
             $table->timestamps();
         });
+
+        Schema::create('order_products', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->decimal('old_price')->nullable();
+            $table->unsignedTinyInteger('offer')->nullable();
+            $table->decimal('price')->default(0);
+            $table->unsignedInteger('quantity');
+            $table->decimal('total', 12, 2)->nullable();
+            $table->foreignId('order_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('product_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('presentation_id')->nullable()->constrained()->nullOnDelete();
+
+            $table->json('data');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -39,5 +57,6 @@ class CreateOrdersTable extends Migration
     public function down()
     {
         Schema::dropIfExists('orders');
+        Schema::dropIfExists('order_products');
     }
 }
