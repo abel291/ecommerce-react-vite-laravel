@@ -33,7 +33,7 @@ export default function Product({ product, relatedProducts, colors, sizes }) {
             <Head title={product.name} />
             <Breadcrumb data={breadcrumb} />
             <div className="container ">
-                <div className="flex flex-col-reverse lg:flex-row py-content gap-8">
+                <div className="flex flex-col-reverse lg:flex-row py-content gap-10">
                     <div className=" w-full lg:w-7/12">
                         <ImagesProduct product={product} />
                     </div>
@@ -43,7 +43,7 @@ export default function Product({ product, relatedProducts, colors, sizes }) {
                             {product.name}
                         </h2>
 
-                        <span className='text-gray-400 block mt-2 '>REF {product.variant.ref}</span>
+                        <span className='text-gray-400 block mt-2  '>REF {product.variant.ref}</span>
 
                         <div className="mt-6 tracking-tight">
                             {product.offer &&

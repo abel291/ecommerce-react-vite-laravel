@@ -30,6 +30,7 @@ class ProductResource extends JsonResource
             'featured' => $this->featured,
             'specifications' => $this->whenLoaded('specifications'),
             'attributes' => AttributeResource::collection($this->whenLoaded('attributes')),
+            'skus' => SkuResource::collection($this->whenLoaded('skus')),
             'variants' => VariantResource::collection($this->whenLoaded('variants')),
             'variant' => new VariantResource($this->whenLoaded('variant')),
             'category' => $this->whenLoaded('category'),

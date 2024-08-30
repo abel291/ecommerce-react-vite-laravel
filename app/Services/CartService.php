@@ -19,12 +19,16 @@ class CartService
         return session($keySession->value, []);
     }
 
-    public static function add(CartEnum $cardType, $variandRef, $variantSizeId, $quantity): void
+    public static function add(CartEnum $cardType, $skuId, $quantity): void
     {
 
         $sessionProducts = self::session($cardType);
 
-        $sessionProducts[$variantSizeId] = $quantity;
+        if ($quantity == 0) {
+            unset($sessionProducts[$skuId]);
+        } else {
+            $sessionProducts[$skuId] = $quantity;
+        }
 
 
         session([$cardType->value => $sessionProducts]);
@@ -59,7 +63,7 @@ class CartService
             ->whereIn('id', $skusId)
             ->with('size:id,name')
             ->withWhereHas('variant', function ($query) use ($selectProduct) {
-                $query->with('color:id,name')->active();
+                $query->with('color:id,name,slug')->active();
             })
             ->withWhereHas('product', function ($query) use ($selectProduct) {
                 $query->select($selectProduct);
@@ -70,17 +74,16 @@ class CartService
                 $quantity = $skuIdQuantity[$sku->id];
                 return [
                     ...$sku->product->only($selectProduct),
-                    'sku_id' => $sku->id,
+                    'skuId' => $sku->id,
                     'stock' => $sku->stock,
                     'quantity' => $quantity,
                     'total' => round($sku->product->price * $quantity),
-                    'size' => $sku->size->name,
+                    'size' => $sku->size,
                     'color' => $sku->variant->color,
                     'thumb' => $sku->variant->thumb,
                     // 'variant' => $sku->only(['id', 'ref', 'thumb'])
                 ];
-            });
-        ;
+            });;
 
         return $products;
     }
@@ -95,11 +98,11 @@ class CartService
     //     session([$keySession => $products]);
     // }
 
-    public static function remove(CartEnum $cardEnum, int $codePresentation): void
+    public static function remove(CartEnum $cardEnum, int $skuId): void
     {
         $products = self::session($cardEnum);
 
-        unset($products[$codePresentation]);
+        unset($products[$skuId]);
 
         session([$cardEnum->value => $products]);
     }

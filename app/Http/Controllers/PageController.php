@@ -24,11 +24,12 @@ class PageController extends Controller
 {
     public function home()
     {
+
         $page = Page::with('banners')->where('type', 'home')->firstOrFail();
 
-        $bestSeller = Product::inStock()->selectForCard()->orderBy('updated_at', 'desc')->limit(15)->get();
+        $bestSeller = Product::inStock()->card()->orderBy('updated_at', 'desc')->limit(15)->get();
 
-        $newProducts = Product::inStock()->selectForCard()->orderBy('updated_at', 'desc')->limit(10)->get();
+        $newProducts = Product::inStock()->card()->orderBy('updated_at', 'desc')->limit(10)->get();
         // dd($newProducts);
         // $bestSeller = Product::available()->selectForCard()->limit(15)->get();
 
@@ -111,24 +112,30 @@ class PageController extends Controller
         $colorSlug = $request->color;
 
         $product = Product::where('slug', $slug)
-            ->with('images', 'category', 'department', 'brand', 'specifications.specification_values', 'variants.color')
-
+            ->with('images', 'category', 'department', 'brand', 'specifications.specification_values')
             ->withWhereHas('variant', function ($query) use ($colorSlug) {
-                $query->active()
-                    ->with('sizes', 'images')
-                    // ->whereRelation('sizes', 'stock', '>', 0)
-                    // ->orWhere('default', 1)
-                    ->when($colorSlug, function ($query) use ($colorSlug) {
-                        $query->withWhereHas('color', function ($query) use ($colorSlug) {
-                            $query->where('slug', $colorSlug);
-                        });
-                    }, function ($query) {
-                        $query->with('color');
-                    });
-            })->firstOrFail();
+                $query->active()->with('skus.size', 'images');
 
-        $related_products = Product::available()
-            ->selectForCard()
+                if ($colorSlug) {
+                    $query->withWhereHas('color', function ($query) use ($colorSlug) {
+                        $query->where('slug', $colorSlug);
+                    });
+                } else {
+                    $query->whereRelation('skus', 'stock', '>', 0);
+                }
+            })
+            ->withWhereHas('variants', function ($query) {
+                $query->active()->with('color')->sumStock();
+            })
+            ->firstOrFail();
+
+        $product->variants->transform(function ($item, int $key) {
+            $item->inStock = $item->skus->sum('stock') > 0;
+            return $item;
+        });
+
+        $related_products = Product::inStock()
+            ->card()
             ->where('id', '!=', $product->id)
             ->where('category_id', $product->category_id)
             ->where('department_id', $product->department_id)

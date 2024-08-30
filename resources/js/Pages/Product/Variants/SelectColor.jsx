@@ -1,27 +1,58 @@
-import Badge from '@/Components/Badge'
-import { Radio, RadioGroup } from '@headlessui/react'
+
 import { Link } from '@inertiajs/react'
 import React from 'react'
+
 
 const SelectColor = ({ product }) => {
     return (
         <div>
-            {/* <h3 className="text-sm font-medium text-gray-900 mb-2">Variantes:</h3> */}
+            <h3 className="text-sm font-medium text-gray-900 mb-4">Variantes</h3>
             <div className='flex gap-4 flex-wrap'>
                 {product.variants.map((variant) => (
-                    <Link
-                        preserveScroll
-                        key={variant.id}
-                        href={route("product", { slug: product.slug, color: variant.color.slug })}
-                        className={"rounded-sm overflow-hidden " + (product.variant.id == variant.id && "ring-2 ring-primary-500 ")}
-                    >
-                        <img
-                            className={(' w-20 rounded-sm object-cover object-top overflow-hidden')}
-                            src={variant.thumb}
-                            alt={variant.color.name}
-                            title={variant.color.name}
-                        />
-                    </Link>
+                    variant.stock > 0 ? (
+                        <Link
+                            preserveScroll
+                            key={variant.id}
+                            href={route("product", { slug: product.slug, color: variant.color.slug })}
+                            className={"rounded-md overflow-hidden  " +
+                                (
+                                    product.variant.id == variant.id
+                                        ? "ring-2 ring-primary-500 "
+                                        : 'hover:ring-2 hover:ring-primary-500'
+                                )}
+                        >
+                            <img
+                                className={(' w-16  object-cover object-top overflow-hidden')}
+                                src={variant.thumb}
+                                alt={variant.color.name}
+                                title={variant.color.name}
+                            />
+                        </Link>
+                    ) : (
+                        <div className='relative'>
+                            <img
+                                className={(' w-16 rounded-sm object-cover object-top overflow-hidden opacity-60')}
+                                src={variant.thumb}
+                                alt={variant.color.name}
+                                title={variant.color.name}
+                            />
+                            <span
+                                aria-hidden="true"
+                                className="pointer-events-none absolute -inset-px rounded-md border-2 border-gray-300"
+                            >
+                                <svg
+                                    stroke="currentColor"
+                                    viewBox="0 0 100 100"
+                                    preserveAspectRatio="none"
+                                    className="absolute inset-0 h-full w-full stroke-2 text-gray-300"
+                                >
+                                    <line x1={0} x2={100} y1={100} y2={0} vectorEffect="non-scaling-stroke" />
+                                </svg>
+                            </span>
+                        </div>
+
+
+                    )
                 ))}
             </div>
         </div>

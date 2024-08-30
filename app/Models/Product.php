@@ -46,6 +46,24 @@ class Product extends Model
         return $this->hasOne(Variant::class);
     }
 
+    public function sku()
+    {
+        return $this->hasOne(Sku::class);
+    }
+    public function skuInStock()
+    {
+        return $this->sku()->where('stock', '>', 0);
+    }
+
+    public function skus()
+    {
+        return $this->hasMany(Sku::class);
+    }
+    public function skusInStock()
+    {
+        return $this->skus()->where('stock', '>', 0);
+    }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
@@ -91,19 +109,15 @@ class Product extends Model
             'order_id'
         );
     }
-    public function scopeAvailable(Builder $query): void
-    {
-        $query->inStock();
-    }
 
     public function scopeInStock(Builder $query, $colorSlug = null): void
     {
         $query->withWhereHas('variant', function ($query) use ($colorSlug) {
 
-            $query->active()->whereRelation('skus', 'stock', '>', 0)->orWhere('default', 1)
-
+            $query->active()
+                ->whereRelation('skus', 'stock', '>', 0)
+                ->orWhere('default', 1)
                 ->withWhereHas('color', function ($query) use ($colorSlug) {
-
                     if ($colorSlug) {
                         $query->where('slug', $colorSlug);
                     }
@@ -111,7 +125,7 @@ class Product extends Model
         });
     }
 
-    public function scopeSelectForCard(Builder $query): void
+    public function scopeCard(Builder $query): void
     {
         $query->select(
             'products.id',

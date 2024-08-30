@@ -10,6 +10,10 @@
         font-family: "Inter var", sans-serif !important;
     }
 } */
+
+#nprogress .bar {
+    height: 5px !important;
+}
 @layer utilities {
     .py-content {
         @apply py-10 md:py-12 lg:py-14 xl:py-16;

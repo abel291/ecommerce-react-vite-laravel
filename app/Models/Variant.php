@@ -48,6 +48,10 @@ class Variant extends model
     {
         $query->with('color')->inStock()->productAvailable();
     }
+    public function scopeSumStock(Builder $query): void
+    {
+        $query->withSum('skus as stock', 'stock');
+    }
 
     public function scopeActive(Builder $query): void
     {
@@ -57,7 +61,7 @@ class Variant extends model
     public function scopeInStock(Builder $query): void
     {
         $query
-            ->has('sizesAvailable')
+            ->whereHas('skuAvailable')
             ->orWhere('default', 1);
     }
 

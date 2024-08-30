@@ -2,7 +2,7 @@ import { MinusIcon, PlusIcon } from '@heroicons/react/24/solid'
 import { useForm } from '@inertiajs/react'
 import React, { useEffect } from 'react'
 
-const SelectQuantity = ({ maxQuantity, form, selectedSize }) => {
+const SelectQuantity = ({ maxQuantity, form, selectedSkuSize }) => {
 
     const handleClickQuantity = (i) => {
         switch (i) {
@@ -40,7 +40,7 @@ const SelectQuantity = ({ maxQuantity, form, selectedSize }) => {
                     </div>
 
                     <div className="flex items-center">
-                        <span className=" text-sm font-light text-gray-400">( {selectedSize ? selectedSize.stock : 0} disponibles )</span>
+                        <span className=" text-sm font-light text-gray-400">( {selectedSkuSize ? selectedSkuSize.stock : 0} disponibles )</span>
                     </div>
                 </div>
                 <span className='text-xs text-gray-400'>Max unidades por compra : {maxQuantity}</span>

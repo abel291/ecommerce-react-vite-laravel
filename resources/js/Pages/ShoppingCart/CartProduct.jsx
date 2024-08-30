@@ -8,10 +8,13 @@ import CartAttributes from "./CartAttributes";
 import { useEffect, useRef } from "react";
 import ProductPriceOffer from "@/Components/ProductPriceOffer";
 const ProductsCart = ({ cardProduct }) => {
+
+
     const { data, setData, delete: destroy, post, processing, errors } = useForm({
         quantity: cardProduct.quantity,
-        sku_id: cardProduct.sku_id,
+        skuId: cardProduct.skuId,
     })
+
 
     const handleChangeQuantity = (e) => {
         let quantity = e.target.value
@@ -19,7 +22,7 @@ const ProductsCart = ({ cardProduct }) => {
     }
 
     const handleClickRemoveItem = () => {
-        destroy(route('shopping-cart.destroy', cardProduct.sku_id), {
+        destroy(route('shopping-cart.destroy', cardProduct.skuId), {
             preserveScroll: true,
         })
     }
@@ -38,7 +41,7 @@ const ProductsCart = ({ cardProduct }) => {
     }, [data])
     return (
         <div className="relative">
-            <div className={" py-6 w-full relative "}>
+            <div className={" py-5 w-full relative "}>
                 {processing && (
                     <div className="absolute inset-0 opacity-70 bg-white z-10 flex justify-center items-center">
                         <Spinner />
@@ -47,9 +50,9 @@ const ProductsCart = ({ cardProduct }) => {
 
                 <div className="grid grid-cols-12 gap-6 md:gap-4 items-stretch h-24">
                     <div className="col-span-5 md:col-span-1">
-                        <Link href={route('product', { slug: cardProduct.slug })}>
+                        <Link href={route('product', { slug: cardProduct.slug, color: cardProduct.color.slug })}>
                             <div className=" flex items-center justify-center h-full">
-                                <img className=" md:max-h-28 lg:max-h-28 max-w-full" src={cardProduct.thumb} alt={cardProduct.name} />
+                                <img className=" md:max-h-28 lg:max-h-28 max-w-full object-cover" src={cardProduct.thumb} alt={cardProduct.name} />
                             </div>
                         </Link>
                     </div>
@@ -59,8 +62,8 @@ const ProductsCart = ({ cardProduct }) => {
                                 <h3>{cardProduct.name}</h3>
                             </div>
                             <div className="divide-x flex items-center text-sm ">
-                                <div className=" text-gray-500 pr-2">{cardProduct.color.name}</div>
-                                <div className=" text-gray-500 pl-2">{cardProduct.size.name}</div>
+                                <div className=" text-gray-500 pr-2">Color {cardProduct.color.name}</div>
+                                <div className=" text-gray-500 pl-2">Talla {cardProduct.size.name}</div>
                             </div>
 
                         </div>
@@ -72,7 +75,7 @@ const ProductsCart = ({ cardProduct }) => {
                                 name="quantity"
                                 disabled={processing}
                                 onChange={handleChangeQuantity}
-                                value={data.quantity}
+                                value={cardProduct.quantity}
                             >
                                 {[...Array(cardProduct.max_quantity).keys()].map((i) => (
                                     <option key={i} value={i + 1}>

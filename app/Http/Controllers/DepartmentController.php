@@ -6,6 +6,7 @@ use App\Http\Resources\ProductResource;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Department;
+use App\Models\Product;
 use Inertia\Inertia;
 
 class DepartmentController extends Controller
@@ -15,19 +16,18 @@ class DepartmentController extends Controller
 
         $department = Department::active()->where('slug', $department)->firstOrFail();
 
-        $offers_product = $department->products()->selectForCard()->activeInStock()
-            ->inOffer()->limit(15)->get();
+        // $offers_product = $department->products()->selectForCard()->activeInStock()
+        //     ->inOffer()->limit(15)->get();
 
-        $best_sellers_product = $department->products()
-            ->selectForCard()
-            ->activeInStock()
-            ->bestSeller()
-            ->limit(10)
-            ->get();
+        $offers_product = Product::where('department_id', $department->id)->selectForCard()->inStock()->inOffer()->limit(15)->get();
+
+        $best_sellers_product = Product::where('department_id', $department->id)->selectForCard()->inStock()->inOffer()->limit(10)->get();
+
+
 
         $categories = Category::active()
             ->withWhereHas('products', function ($query) use ($department) {
-                $query->selectForCard()->activeInStock()->where('department_id', $department->id)->limit(10);
+                $query->selectForCard()->inStock()->where('department_id', $department->id)->limit(10);
             })->get();
 
 

@@ -78,7 +78,7 @@ class ProductSeeder extends Seeder
                 'description' => fake()->text(800),
                 'offer' => $offer,
                 'price' => $price,
-                'max_quantity' => rand(6, 12),
+                'max_quantity' => rand(1, 300),
                 'department_id' => $departments[$product['department']],
                 'category_id' => $categories[$product['category']],
                 // 'brand_id' => $brands[$product['brand']],
@@ -88,7 +88,7 @@ class ProductSeeder extends Seeder
 
 
 
-            if (count($products_array) > 1000) {
+            if (count($products_array) > 100) {
                 // Image::insert($images_array);
                 Product::insert($products_array);
                 // $images_array = [];

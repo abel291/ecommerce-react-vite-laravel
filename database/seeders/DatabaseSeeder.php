@@ -27,12 +27,12 @@ class DatabaseSeeder extends Seeder
 
         Cache::flush();
         Schema::disableForeignKeyConstraints();
-        ini_set('memory_limit', '256M');
+        ini_set('memory_limit', '500M');
         $this->call([
-                // JsonDataSeeder::class,
+            // JsonDataSeeder::class,
             UserSeeder::class,
             CategorySeeder::class,
-                // BrandSeeder::class,
+            // BrandSeeder::class,
             BlogSeeder::class,
             ColorSizeSeeder::class,
             ProductSeeder::class,

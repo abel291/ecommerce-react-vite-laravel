@@ -5,6 +5,7 @@ namespace App\Rules;
 use App\Enums\CartEnum;
 use App\Models\Presentation;
 use App\Models\Product;
+use App\Models\Sku;
 use App\Models\Variant;
 use App\Services\CartService;
 use Closure;
@@ -43,12 +44,15 @@ class ShoppingCartStoreRule implements DataAwareRule, ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $quantity = $this->data['quantity'];
-        $variandRef = $this->data['variandRef'];
+        $skuId = $this->data['skuId'];
 
         $product = Product::select('id', 'max_quantity')
-            ->whereHas('variant', function ($query) use ($variandRef) {
-                $query->active()->where('ref', $variandRef);
+            ->whereRelation('variant', 'active', '=', 1)
+            ->whereHas('skus', function ($query) use ($skuId) {
+                $query->where('id', $skuId);
             })->first();
+
+        $sku = Sku::with('product:id,max_quantity')->find($skuId);
 
         $max_items = config('shopping-cart.max-quantity');
 
@@ -59,7 +63,11 @@ class ShoppingCartStoreRule implements DataAwareRule, ValidationRule
         }
 
         if ($quantity > $product->max_quantity) {
-            $fail("La cantidad maxima que puedes llevar de este producto es de: $product->max_quantity unidade(s)");
+            $fail("La cantidad maxima que puedes llevar de este producto es de:  $product->max_quantity  unidade(s)");
+        }
+
+        if ($quantity > $sku->stock) {
+            $fail("La cantidad disponible que puedes llevar de este producto es de: $sku->stock  unidade(s)");
         }
     }
 }

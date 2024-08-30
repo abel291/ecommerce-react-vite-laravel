@@ -19,9 +19,9 @@ const ShoppingCart = ({ products, total }) => {
                 <div className="space-y-4 max-w-5xl mx-auto">
                     <SectionList title="Carrito de compra">
                         {/* <TitleContent text={"Carrito de compra (" + cartProducts.cardProducts.length + ")"} /> */}
-                        <div className=" divide-y divide-gray-200">
+                        <div className=" divide-y divide-gray-200 ">
                             {products.map((product) => (
-                                <CartProduct cardProduct={product} key={product.sku_id} />
+                                <CartProduct cardProduct={product} key={product.skuId} />
                             ))}
                         </div>
 

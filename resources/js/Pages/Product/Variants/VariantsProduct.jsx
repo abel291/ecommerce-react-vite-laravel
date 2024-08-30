@@ -1,84 +1,65 @@
 import React, { createContext, useEffect, useState } from 'react'
 import SelectColor from './SelectColor';
-import SelectSize from './SelectSize';
+import SelectSkuSize from './SelectSkuSize';
 import SelectQuantity from './SelectQuantity';
 import { Link, useForm } from '@inertiajs/react';
 import ButtonsProcessing from './ButtonsProcessing';
 
 const VariantsProduct = ({ product }) => {
 
-
-    // const [selectedColor, setSelectedColor] = useState(colors.find((color) => color.default))
-
-    // const [sizesColor, setsizesColor] = useState([])
-
-    const [selectedSize, setSelectedSize] = useState(null)
+    const [selectedSkuSize, setSelectedSkuSize] = useState(null)
 
     const form = useForm({
         quantity: 1,
-        variandRef: product.variant.ref,
-        variantSizeId: null
+        skuId: null
     })
 
-    // useEffect(() => {
-    //     let sizesColor = sizes.filter(item => item.colorId == selectedColor.id)
 
-    //     setsizesColor(sizesColor);
 
-    //     let newselectedSize = sizesColor.find((size) => {
-    //         return (size.default && size.stock > 0) || size.stock > 0
-    //     })
-
-    //     if (newselectedSize) {
-    //         setSelectedSize(newselectedSize);
-    //     } else {
-    //         setSelectedSize(null);
-    //     }
-
-    // }, [selectedColor])
     useEffect(() => {
+        console.log(product.variants[0])
 
-
-        let newselectedSize = product.variant.sizes.find((size) => {
-            return size.stock > 0
+        let newSelectedSkuSize = product.variant.skus.find((sku) => {
+            return sku.stock > 0
         })
 
-        if (newselectedSize) {
-            setSelectedSize(newselectedSize);
+        if (newSelectedSkuSize) {
+            setSelectedSkuSize(newSelectedSkuSize);
         }
 
     }, [])
 
     useEffect(() => {
 
-        if (selectedSize) {
+        if (selectedSkuSize) {
             form.setData(data => ({
                 ...data,
                 quantity: 1,
-                variantSizeId: selectedSize.id
+                skuId: selectedSkuSize.id
             }));
 
         } else {
             form.setData(data => ({
                 ...data,
                 quantity: 1,
-                variantSizeId: null
+                skuId: null
             }));
         }
 
-
-
-    }, [selectedSize])
+    }, [selectedSkuSize])
 
 
     return (
         <div className='space-y-6'>
 
-            <SelectColor product={product} />
+            {product.variants.length > 1 && (
+                <SelectColor product={product} />
+            )}
+            {product.variant.skus.length > 1 && (
 
-            <SelectSize sizes={product.variant.sizes} selectedSize={selectedSize} setSelectedSize={setSelectedSize} />
-
-            <SelectQuantity maxQuantity={product.max_quantity} selectedSize={selectedSize} form={form} />
+                <SelectSkuSize skuSizes={product.variant.skus} selectedSkuSize={selectedSkuSize} setSelectedSkuSize={setSelectedSkuSize} />
+            )}
+            <SelectQuantity maxQuantity={product.max_quantity} selectedSkuSize={selectedSkuSize} form={form} />
 
             <ButtonsProcessing form={form} />
 
