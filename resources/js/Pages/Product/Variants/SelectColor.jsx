@@ -16,7 +16,7 @@ const SelectColor = ({ product }) => {
                         className={"rounded-sm overflow-hidden " + (product.variant.id == variant.id && "ring-2 ring-primary-500 ")}
                     >
                         <img
-                            className={(' w-24 rounded-sm object-cover object-top overflow-hidden')}
+                            className={(' w-20 rounded-sm object-cover object-top overflow-hidden')}
                             src={variant.thumb}
                             alt={variant.color.name}
                             title={variant.color.name}

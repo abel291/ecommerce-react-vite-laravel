@@ -10,8 +10,7 @@ import ProductPriceOffer from "@/Components/ProductPriceOffer";
 const ProductsCart = ({ cardProduct }) => {
     const { data, setData, delete: destroy, post, processing, errors } = useForm({
         quantity: cardProduct.quantity,
-        product_id: cardProduct.id,
-        codePresentation: cardProduct.presentation.code,
+        sku_id: cardProduct.sku_id,
     })
 
     const handleChangeQuantity = (e) => {
@@ -20,7 +19,7 @@ const ProductsCart = ({ cardProduct }) => {
     }
 
     const handleClickRemoveItem = () => {
-        destroy(route('shopping-cart.destroy', cardProduct.presentation.code), {
+        destroy(route('shopping-cart.destroy', cardProduct.sku_id), {
             preserveScroll: true,
         })
     }
@@ -32,7 +31,7 @@ const ProductsCart = ({ cardProduct }) => {
             return;
         }
 
-        post(route('shopping-cart.store', cardProduct.rowId), {
+        post(route('shopping-cart.store'), {
             preserveScroll: true,
         })
 
@@ -60,8 +59,8 @@ const ProductsCart = ({ cardProduct }) => {
                                 <h3>{cardProduct.name}</h3>
                             </div>
                             <div className="divide-x flex items-center text-sm ">
-                                <div className=" text-gray-500 pr-2">{cardProduct.presentation.color.name}</div>
-                                <div className=" text-gray-500 pl-2">{cardProduct.presentation.size.name}</div>
+                                <div className=" text-gray-500 pr-2">{cardProduct.color.name}</div>
+                                <div className=" text-gray-500 pl-2">{cardProduct.size.name}</div>
                             </div>
 
                         </div>
@@ -83,7 +82,7 @@ const ProductsCart = ({ cardProduct }) => {
                             </select>
 
                             <div className=" text-gray-400 text-xs mt-2 space-y-1">
-                                <span className="block">{cardProduct.presentation.stock} disponibles</span>
+                                <span className="block">{cardProduct.stock} disponibles</span>
 
                             </div>
 

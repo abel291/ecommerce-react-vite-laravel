@@ -36,7 +36,7 @@ export default function Search({ page, products, filters, breadcrumb, banner, })
 
             <div className="container py-content">
                 <div className="flex lg:flex-row flex-col-reverse lg:gap-x-10 ">
-                    <div className="w-full lg:w-3/12 xl:w-3/12 2xl:w-2/12 ">
+                    <div className="w-full lg:w-3/12 xl:w-2/12 2xl:w-2/12 ">
                         <SearchContext.Provider value={form}>
                             <Filters />
                         </SearchContext.Provider>
@@ -45,7 +45,7 @@ export default function Search({ page, products, filters, breadcrumb, banner, })
                         </div>
 
                     </div>
-                    <div className="w-full lg:w-9/12 xl:w-9/12 2xl:w-10/12  ">
+                    <div className="w-full lg:w-9/12 xl:w-10/12 2xl:w-10/12  ">
                         <div className="relative ">
                             <div className="flex items-start justify-between">
                                 <h2 className="font-bold text-2xl ">
@@ -79,7 +79,7 @@ export default function Search({ page, products, filters, breadcrumb, banner, })
                                 {products.data.length ? (
                                     <div className="relative">
                                         <>
-                                            <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 md:gap-x-6 md:gap-y-6 ">
+                                            <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-4 md:gap-x-6 md:gap-y-6 ">
                                                 {products.data.map(
                                                     (item) => (
                                                         <CardProduct

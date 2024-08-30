@@ -6,7 +6,7 @@ import PrimaryButton from "@/Components/PrimaryButton"
 import { Head, Link, useForm } from "@inertiajs/react"
 import { formatCurrency } from "@/Helpers/helpers"
 
-const ShoppingCart = ({ cardProducts, total }) => {
+const ShoppingCart = ({ products, total }) => {
 
     const { get, processing } = useForm();
     const handleClickCheckout = () => {
@@ -20,12 +20,12 @@ const ShoppingCart = ({ cardProducts, total }) => {
                     <SectionList title="Carrito de compra">
                         {/* <TitleContent text={"Carrito de compra (" + cartProducts.cardProducts.length + ")"} /> */}
                         <div className=" divide-y divide-gray-200">
-                            {cardProducts.map((product) => (
-                                <CartProduct cardProduct={product} key={product.presentation.id} />
+                            {products.map((product) => (
+                                <CartProduct cardProduct={product} key={product.sku_id} />
                             ))}
                         </div>
 
-                        {cardProducts.length ? (
+                        {products.length ? (
                             <>
                                 <div>
                                     <OrderSummary total={total} />

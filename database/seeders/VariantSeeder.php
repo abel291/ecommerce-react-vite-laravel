@@ -27,7 +27,7 @@ class VariantSeeder extends Seeder
     public function run(): void
     {
         Variant::truncate();
-        DB::table('size_variant')->truncate();
+        Sku::truncate();
         Image::where('model_type', 'App\Models\Variant')->delete();
 
         $products = collect(Storage::json(DatabaseSeeder::getPathProductJson()));
@@ -36,7 +36,7 @@ class VariantSeeder extends Seeder
         // dd($colors->sortKeys());
         $variant_id = 0;
         $variant_array = [];
-        $size_variant_array = [];
+        $skus_array = [];
         $images_array = [];
         foreach ($products as $key => $product) {
             foreach ($product['colors'] as $key => $color) {
@@ -45,7 +45,7 @@ class VariantSeeder extends Seeder
 
                 array_push($variant_array, [
                     'id' => $variant_id,
-                    'ref' =>  $ref,
+                    'ref' => $ref,
                     'default' => $key == 0,
                     'color_id' => $color_id,
                     'product_id' => $product['id'],
@@ -64,7 +64,7 @@ class VariantSeeder extends Seeder
                     ]);
                 }
                 foreach ($product['sizes'] as $size) {
-                    array_push($size_variant_array, [
+                    array_push($skus_array, [
                         'stock' => rand(0, 1) * rand(10, 300),
                         'product_id' => $product['id'],
                         'variant_id' => $variant_id,
@@ -80,9 +80,9 @@ class VariantSeeder extends Seeder
             if (count($variant_array) > 500) {
                 Variant::insert($variant_array);
                 Image::insert($images_array);
-                DB::table('size_variant')->insert($size_variant_array);
+                Sku::insert($skus_array);
                 $variant_array = [];
-                $size_variant_array = [];
+                $skus_array = [];
                 $images_array = [];
                 $this->command->info($product['id']);
             }
@@ -92,6 +92,6 @@ class VariantSeeder extends Seeder
 
         Variant::insert($variant_array);
         Image::insert($images_array);
-        DB::table('size_variant')->insert($size_variant_array);
+        Sku::insert($skus_array);
     }
 }

@@ -30,13 +30,18 @@ class Variant extends model
     {
         return $this->belongsTo(Product::class);
     }
+    public function skus(): HasMany
+    {
+        return $this->hasMany(Sku::class);
+    }
+    public function skuAvailable()
+    {
+        return $this->skus()->where('stock', '>', 0);
+    }
+
     public function sizes(): BelongsToMany
     {
-        return $this->belongsToMany(Size::class)->withPivot('stock');
-    }
-    public function sizesAvailable(): BelongsToMany
-    {
-        return $this->belongsToMany(Size::class)->wherePivot('stock', '>', 0);
+        return $this->belongsToMany(Size::class, 'skus')->withPivot('stock');
     }
 
     public function scopeAvailable(Builder $query): void
@@ -70,9 +75,11 @@ class Variant extends model
             // ->when($filters['colors'], function (Builder $query) use ($filters) {
             //     $query->whereIn('color_id', $filters['colors']);
             // })
-            ->with(['product' => function ($query) {
-                $query->with('variants.color')->orderByDesc('price');
-            }])
+            ->with([
+                'product' => function ($query) {
+                    $query->with('variants.color')->orderByDesc('price');
+                }
+            ])
             // ->when($filters['sizes'], function (Builder $query) use ($filters) {
             //     $query->whereHas('sizesAvailable', function ($query) use ($filters) {
             //         $query->whereIn('sizes.id', $filters['sizes']);

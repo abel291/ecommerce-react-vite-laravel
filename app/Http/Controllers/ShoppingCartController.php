@@ -29,7 +29,7 @@ class ShoppingCartController extends Controller
         $total = OrderService::calculateTotal($products);
         // dd($products);
         return Inertia::render('ShoppingCart/ShoppingCart', [
-            'cardProducts' => $products,
+            'products' => $products,
             'total' => $total,
         ]);
     }
@@ -51,8 +51,7 @@ class ShoppingCartController extends Controller
     {
 
         $request->validate([
-            'variandRef' => ['required', 'exists:variants,ref'],
-            'variantSizeId' => ['required', 'exists:variant_size,id', new ValidateProductRule, new ShoppingCartStoreRule],
+            'skuId' => ['required', 'exists:skus,id', new ValidateProductRule, new ShoppingCartStoreRule],
             'quantity' => ['required', 'numeric', 'min:1'],
         ]);
 

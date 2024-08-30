@@ -100,7 +100,7 @@ class Product extends Model
     {
         $query->withWhereHas('variant', function ($query) use ($colorSlug) {
 
-            $query->active()->whereRelation('sizes', 'stock', '>', 0)->orWhere('default', 1)
+            $query->active()->whereRelation('skus', 'stock', '>', 0)->orWhere('default', 1)
 
                 ->withWhereHas('color', function ($query) use ($colorSlug) {
 

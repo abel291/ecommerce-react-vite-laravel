@@ -26,9 +26,9 @@ class PageController extends Controller
     {
         $page = Page::with('banners')->where('type', 'home')->firstOrFail();
 
-        $bestSeller = Product::available()->selectForCard()->orderBy('updated_at', 'desc')->limit(15)->get();
+        $bestSeller = Product::inStock()->selectForCard()->orderBy('updated_at', 'desc')->limit(15)->get();
 
-        $newProducts = Product::available()->selectForCard()->orderBy('updated_at', 'desc')->limit(10)->get();
+        $newProducts = Product::inStock()->selectForCard()->orderBy('updated_at', 'desc')->limit(10)->get();
         // dd($newProducts);
         // $bestSeller = Product::available()->selectForCard()->limit(15)->get();
 

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\CartEnum;
 use App\Models\Presentation;
 use App\Models\Product;
+use App\Models\Sku;
 use App\Models\Variant;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
@@ -23,11 +24,7 @@ class CartService
 
         $sessionProducts = self::session($cardType);
 
-        $sessionProducts[$variantSizeId] = [
-            'variandRef' => $variandRef,
-            'variantSizeId' => $variantSizeId,
-            'quantity' => $quantity,
-        ];
+        $sessionProducts[$variantSizeId] = $quantity;
 
 
         session([$cardType->value => $sessionProducts]);
@@ -35,11 +32,10 @@ class CartService
     public static function products(CartEnum $cardEnum = CartEnum::SHOPPING_CART): Collection
     {
 
-        $sessionProducts = collect(self::session($cardEnum));
+        $skuIdQuantity = self::session($cardEnum);
+        $skusId = array_keys($skuIdQuantity);
 
-        $variantSizeId = $sessionProducts->pluck('variantSizeId')->toArray();
-
-        $selectProduct = ['id', 'name', 'slug', 'thumb', 'price', 'offer', 'old_price', 'max_quantity'];
+        $selectProduct = ['id', 'name', 'slug', 'price', 'offer', 'old_price', 'max_quantity'];
         // $products = Product::select($selectProduct)
         //     ->active()
         //     ->withWhereHas('presentations', function ($query) use ($codes_presentation) {
@@ -56,25 +52,35 @@ class CartService
         //         ];
         //     });
 
-        $products = Variant::
-        // where('stock', '>', 0)
-            ->withWhereHas('sizes', function ($query) use ($selectProduct) {
-                $query->select($selectProduct)->active();
+        $products = Sku::where('stock', '>', 0)
+            // ->withWhereHas('sizes', function ($query) use ($selectProduct) {
+            //     $query->select($selectProduct)->active();
+            // })
+            ->whereIn('id', $skusId)
+            ->with('size:id,name')
+            ->withWhereHas('variant', function ($query) use ($selectProduct) {
+                $query->with('color:id,name')->active();
             })
-            ->whereIn('code', $codes_presentation)
-            ->with('color:id,name', 'size:id,name')
             ->withWhereHas('product', function ($query) use ($selectProduct) {
-                $query->select($selectProduct)->active();
-            })->get()->map(function ($presentation) use ($sessionProducts, $selectProduct) {
+                $query->select($selectProduct);
+            })
+            ->get()
+            ->map(function ($sku) use ($skuIdQuantity, $selectProduct) {
 
-                $quantity = $sessionProducts[$presentation->code]['quantity'];
+                $quantity = $skuIdQuantity[$sku->id];
                 return [
-                    ...$presentation->product->only($selectProduct),
+                    ...$sku->product->only($selectProduct),
+                    'sku_id' => $sku->id,
+                    'stock' => $sku->stock,
                     'quantity' => $quantity,
-                    'total' => round($presentation->product->price * $quantity),
-                    'presentation' => $presentation->only(['id', 'name', 'code', 'stock', 'color', 'size'])
+                    'total' => round($sku->product->price * $quantity),
+                    'size' => $sku->size->name,
+                    'color' => $sku->variant->color,
+                    'thumb' => $sku->variant->thumb,
+                    // 'variant' => $sku->only(['id', 'ref', 'thumb'])
                 ];
-            });;
+            });
+        ;
 
         return $products;
     }

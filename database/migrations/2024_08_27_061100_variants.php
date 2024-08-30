@@ -23,7 +23,7 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('size_variant', function (Blueprint $table) {
+        Schema::create('skus', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('stock')->default(0);
             $table->foreignId('variant_id')->constrained()->cascadeOnDelete();
@@ -40,6 +40,6 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::dropIfExists('variants');
-        Schema::dropIfExists('size_variant');
+        Schema::dropIfExists('skus');
     }
 };

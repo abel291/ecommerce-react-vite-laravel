@@ -4,6 +4,7 @@ namespace App\Rules;
 
 use App\Models\Presentation;
 use App\Models\Product;
+use App\Models\Sku;
 use App\Models\Variant;
 use Closure;
 use Illuminate\Contracts\Validation\DataAwareRule;
@@ -40,20 +41,17 @@ class ValidateProductRule implements DataAwareRule, ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $quantity = $this->data['quantity'];
-        $variandRef = $this->data['variandRef'];
-        $variantSizeId = $this->data['variantSizeId'];
+        $skuId = $this->data['skuId'];
 
-        $variant = Variant::active()->where('ref', $variandRef)
-            ->withWhereHas('sizes', function ($query) use ($variantSizeId) {
-                $query->find($variantSizeId);
-            })
-            ->first();
+        $sku = Sku::where('stock', '>', 0)
+            ->whereRelation('variant', 'active', '=', 1)
+            ->find($skuId);
 
-        if (!$variant) {
+        if (!$sku) {
             $fail('Este producto no esta disponible');
         }
 
-        if ($quantity > $variant->sizes->first()->stock) {
+        if ($quantity > $sku->sizes->first()->stock) {
             $fail('No hay stock suficiente para este producto');
         }
     }
