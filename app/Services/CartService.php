@@ -40,29 +40,11 @@ class CartService
         $skusId = array_keys($skuIdQuantity);
 
         $selectProduct = ['id', 'name', 'slug', 'price', 'offer', 'old_price', 'max_quantity'];
-        // $products = Product::select($selectProduct)
-        //     ->active()
-        //     ->withWhereHas('presentations', function ($query) use ($codes_presentation) {
-        //         $query;
-        //     })->find($products_id)->map(function ($product) use ($sessionProducts, $selectProduct) {
-
-        //         $presentation = $product->presentations[0];
-        //         $quantity = $sessionProducts[$presentation->code]['quantity'];
-        //         return [
-        //             ...$product->only($selectProduct),
-        //             'quantity' => $quantity,
-        //             'total' => round($product->price * $quantity),
-        //             'presentation' => $presentation->only(['id', 'name', 'code', 'stock', 'color', 'size'])
-        //         ];
-        //     });
 
         $products = Sku::where('stock', '>', 0)
-            // ->withWhereHas('sizes', function ($query) use ($selectProduct) {
-            //     $query->select($selectProduct)->active();
-            // })
             ->whereIn('id', $skusId)
             ->with('size:id,name')
-            ->withWhereHas('variant', function ($query) use ($selectProduct) {
+            ->withWhereHas('variant', function ($query) {
                 $query->with('color:id,name,slug')->active();
             })
             ->withWhereHas('product', function ($query) use ($selectProduct) {
@@ -73,7 +55,7 @@ class CartService
 
                 $quantity = $skuIdQuantity[$sku->id];
                 return [
-                    ...$sku->product->only($selectProduct),
+                    ...$sku->product->toArray(),
                     'skuId' => $sku->id,
                     'stock' => $sku->stock,
                     'quantity' => $quantity,
@@ -83,20 +65,11 @@ class CartService
                     'thumb' => $sku->variant->thumb,
                     // 'variant' => $sku->only(['id', 'ref', 'thumb'])
                 ];
-            });;
+            });
+        ;
 
         return $products;
     }
-
-
-    // public static function update(string $keySession, string $rowId, int $quantity = 1): void
-    // {
-    //     $products = self::session($keySession);
-
-    //     $products = self::changeTotalProduct($products, $rowId, $quantity);
-
-    //     session([$keySession => $products]);
-    // }
 
     public static function remove(CartEnum $cardEnum, int $skuId): void
     {

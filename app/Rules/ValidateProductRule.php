@@ -44,7 +44,7 @@ class ValidateProductRule implements DataAwareRule, ValidationRule
         $skuId = $this->data['skuId'];
 
         $sku = Sku::where('stock', '>', 0)
-            ->whereRelation('variant', 'active',  1)
+            ->whereRelation('variant', 'active', 1)
             ->find($skuId);
 
         if (!$sku) {

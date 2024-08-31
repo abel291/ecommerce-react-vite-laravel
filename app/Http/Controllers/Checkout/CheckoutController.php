@@ -48,14 +48,13 @@ class CheckoutController extends Controller
     public function addSingleProduct(Request $request)
     {
         $request->validate([
-            'product_id' => ['required', 'exists:products,id'],
-            'codePresentation' => ['required', 'exists:presentations,code', new ValidateProductRule],
+            'skuId' => ['required', 'exists:skus,id', new ValidateProductRule],
             'quantity' => ['required', 'numeric', 'min:1'],
         ]);
 
         session()->forget(CartEnum::CHECKOUT->value);
 
-        CartService::add(CartEnum::CHECKOUT, $request->product_id, $request->codePresentation, $request->quantity);
+        CartService::add(CartEnum::CHECKOUT, $request->skuId, $request->quantity);
 
         return to_route('checkout');
     }

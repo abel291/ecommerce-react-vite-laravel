@@ -17,7 +17,7 @@ const Checkout = ({ products, total }) => {
             <CheckoutProvider>
                 <div className="py-content container">
                     <div className="lg:flex lg:gap-x-16 ">
-                        <div className="w-full lg:w-7/12 xl:w-6/12">
+                        <div className="w-full lg:w-8/12 xl:w-6/12 2xl:w-6/12">
                             <div className="max-w-2xl mx-auto">
                                 <form className="divide-y">
                                     <div className="pb-8">
@@ -26,19 +26,19 @@ const Checkout = ({ products, total }) => {
                                             <ShippingAddress />
                                         </div>
                                     </div>
-                                    <div className="py-8">
+                                    {/* <div className="py-8">
                                         <h3 className="text-lg font-medium mb-4">Metodos de pago</h3>
                                         <div>
                                             <Elements stripe={stripePromise}>
                                                 <PaymentForm />
                                             </Elements>
                                         </div>
-                                    </div>
+                                    </div> */}
 
                                 </form>
                             </div>
                         </div>
-                        <div className="w-full lg:w-5/12 xl:w-6/12">
+                        <div className="w-full lg:w-4/12 xl:w-6/12 2xl:w-6/12">
                             <h3 className="block  font-medium  text-lg mb-4">Resumen del pedido</h3>
                             <div>
                                 <OrderSummary products={products} total={total} />

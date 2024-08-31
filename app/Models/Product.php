@@ -167,7 +167,7 @@ class Product extends Model
     {
 
         return $query
-            ->selectForCard()
+            ->card()
 
             ->when($filters['q'], function (Builder $query) use ($filters) {
                 $query->where(function ($query) use ($filters) {

@@ -90,7 +90,7 @@ class Variant extends model
             //     });
             // })
             // ->withWhereHas('product', function ($query) use ($filters) {
-            //     $query->selectForCard();
+            //     $query->card();
             // })
         ;
     }

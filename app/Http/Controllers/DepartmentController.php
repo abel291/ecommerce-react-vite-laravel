@@ -16,18 +16,18 @@ class DepartmentController extends Controller
 
         $department = Department::active()->where('slug', $department)->firstOrFail();
 
-        // $offers_product = $department->products()->selectForCard()->activeInStock()
+        // $offers_product = $department->products()->card()->activeInStock()
         //     ->inOffer()->limit(15)->get();
 
-        $offers_product = Product::where('department_id', $department->id)->selectForCard()->inStock()->inOffer()->limit(15)->get();
+        $offers_product = Product::where('department_id', $department->id)->card()->inStock()->inOffer()->limit(15)->get();
 
-        $best_sellers_product = Product::where('department_id', $department->id)->selectForCard()->inStock()->inOffer()->limit(10)->get();
+        $best_sellers_product = Product::where('department_id', $department->id)->card()->inStock()->inOffer()->limit(10)->get();
 
 
 
         $categories = Category::active()
             ->withWhereHas('products', function ($query) use ($department) {
-                $query->selectForCard()->inStock()->where('department_id', $department->id)->limit(10);
+                $query->card()->inStock()->where('department_id', $department->id)->limit(10);
             })->get();
 
 

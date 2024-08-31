@@ -31,9 +31,9 @@ class PageController extends Controller
 
         $newProducts = Product::inStock()->card()->orderBy('updated_at', 'desc')->limit(10)->get();
         // dd($newProducts);
-        // $bestSeller = Product::available()->selectForCard()->limit(15)->get();
+        // $bestSeller = Product::available()->card()->limit(15)->get();
 
-        // $newProducts = Product::available()->selectForCard()->orderBy('id', 'desc')->limit(10)->get();
+        // $newProducts = Product::available()->card()->orderBy('id', 'desc')->limit(10)->get();
 
         $banners = $page->banners->where('active', 1);
         $carousel_top = $banners->where('position', 'top')->where('type', 'carousel');
@@ -62,7 +62,7 @@ class PageController extends Controller
 
         $page = Page::with('banners')->where('type', 'offers')->firstOrFail();
 
-        $offer_products = Product::activeInStock()->selectForCard()
+        $offer_products = Product::activeInStock()->card()
             ->inOffer()->orderBy('offer', 'desc')->limit(15)->get();
 
         $categories = Category::active()

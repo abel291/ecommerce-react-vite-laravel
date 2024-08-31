@@ -106,7 +106,7 @@ class SearchController extends Controller
             }
         )->orderBy('slug')->get();
 
-        // $products = Product::selectForCard()->withFilters($filters)->paginate(24)->withQueryString();
+        // $products = Product::card()->withFilters($filters)->paginate(24)->withQueryString();
 
         $products = Product::withFilters($filters)->paginate(24)->withQueryString();
 
