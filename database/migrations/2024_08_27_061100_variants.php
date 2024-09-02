@@ -16,7 +16,12 @@ return new class extends Migration {
             $table->boolean('default')->default(0);
             $table->string('img');
             $table->string('thumb');
-            $table->boolean('active')->default(1);
+            $table->unsignedSmallInteger('max_quantity');
+            $table->decimal('old_price')->nullable();
+            $table->unsignedTinyInteger('offer')->nullable();
+            $table->decimal('price')->default(0);
+            $table->boolean('featured')->default(false);
+            $table->boolean('active')->default(true);
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->foreignId('color_id')->constrained()->cascadeOnDelete();
             $table->index(['product_id', 'color_id']);
@@ -28,7 +33,7 @@ return new class extends Migration {
             $table->unsignedInteger('stock')->default(0);
             $table->foreignId('variant_id')->constrained()->cascadeOnDelete();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('size_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('size_id')->nullable()->constrained()->nullOnDelete();
             $table->index(['variant_id', 'product_id', 'size_id']);
             $table->timestamps();
         });

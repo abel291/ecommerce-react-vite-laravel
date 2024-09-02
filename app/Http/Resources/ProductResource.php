@@ -21,22 +21,14 @@ class ProductResource extends JsonResource
             'slug' => $this->slug,
             'entry' => $this->entry,
             'description' => $this->description,
-            'img' => $this->img,
-            'thumb' => $this->thumb,
-            'old_price' => $this->old_price,
-            'offer' => $this->offer,
-            'price' => $this->price,
-            'max_quantity' => $this->max_quantity,
-            'featured' => $this->featured,
             'specifications' => $this->whenLoaded('specifications'),
             'attributes' => AttributeResource::collection($this->whenLoaded('attributes')),
             'skus' => SkuResource::collection($this->whenLoaded('skus')),
             'variants' => VariantResource::collection($this->whenLoaded('variants')),
-            'variant' => new VariantResource($this->whenLoaded('variant')),
+            // 'variant' => new VariantResource($this->whenLoaded('variant')),
             'category' => $this->whenLoaded('category'),
             'department' => $this->whenLoaded('department'),
             'brand' => $this->whenLoaded('brand'),
-            'active' => $this->active,
         ];
     }
 }

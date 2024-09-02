@@ -13,28 +13,16 @@ class CreateProductsTable extends Migration
      */
     public function up()
     {
-
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('slug')->unique()->index();
-            $table->text('entry')->nullable();
+            $table->text('entry');
             $table->text('description')->nullable();
-            // $table->decimal('thumb')->nullable();
-            // $table->string('img')->nullable();
-            $table->decimal('old_price')->nullable();
-            $table->unsignedTinyInteger('offer')->nullable();
-            $table->decimal('price')->default(0);
-            $table->unsignedSmallInteger('max_quantity');
-            $table->boolean('featured')->default(false);
-            $table->boolean('active')->default(true);
-            $table->foreignId('brand_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('department_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
             $table->timestamps();
         });
-
-
     }
 
     /**
@@ -45,6 +33,5 @@ class CreateProductsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('products');
-
     }
 }

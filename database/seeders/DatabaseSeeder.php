@@ -24,19 +24,32 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
+        // $products = collect(Storage::json(DatabaseSeeder::getPathProductJson()))->toArray();
+
+        // $variants_id = count($products) + 1;
+        // foreach ($products as $product_key => $product) {
+        //     foreach ($product['variants'] as $variantKey => $variant) {
+        //         $products[$product_key]['variants'][$variantKey]['id'] = $variants_id;
+        //         $variants_id++;
+        //     }
+        // }
+
+        // Storage::put('/products/productWithImages2.json', json_encode($products, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+
+
 
         Cache::flush();
         Schema::disableForeignKeyConstraints();
         ini_set('memory_limit', '500M');
         $this->call([
-            // JsonDataSeeder::class,
             UserSeeder::class,
             CategorySeeder::class,
-            // BrandSeeder::class,
             BlogSeeder::class,
             ColorSizeSeeder::class,
             ProductSeeder::class,
             VariantSeeder::class,
+            SkuSeeder::class,
+            AttributeSeeder::class,
             PageSeeder::class,
             SpecificationSeeder::class,
             DiscountCodeSeeder::class
@@ -48,6 +61,6 @@ class DatabaseSeeder extends Seeder
 
     public static function getPathProductJson()
     {
-        return '/products/productWithImages.json';
+        return '/products/productWithImages2.json';
     }
 }

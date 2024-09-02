@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ProductResource;
+use App\Http\Resources\VariantProductResource;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Department;
 use App\Models\Product;
+use App\Models\Variant;
 use Inertia\Inertia;
 
 class DepartmentController extends Controller
@@ -19,9 +21,13 @@ class DepartmentController extends Controller
         // $offers_product = $department->products()->card()->activeInStock()
         //     ->inOffer()->limit(15)->get();
 
-        $offers_product = Product::where('department_id', $department->id)->card()->inStock()->inOffer()->limit(15)->get();
+        $offers_product = Variant::whereHas('product', function ($query) use ($department) {
+            $query->where('department_id', $department->id);
+        })->card()->activeInStock()->inOffer()->limit(15)->get();
 
-        $best_sellers_product = Product::where('department_id', $department->id)->card()->inStock()->inOffer()->limit(10)->get();
+        $best_sellers_product = Variant::whereHas('product', function ($query) use ($department) {
+            $query->where('department_id', $department->id);
+        })->card()->inStock()->inOffer()->limit(10)->get();
 
 
 
@@ -44,8 +50,8 @@ class DepartmentController extends Controller
 
         return Inertia::render('Department/Department', [
             'department' => $department,
-            'offertProduct' => ProductResource::collection($offers_product),
-            'bestSellersProduct' => $best_sellers_product,
+            'offertProducts' => VariantProductResource::collection($offers_product),
+            'bestSellersProducts' => VariantProductResource::collection($best_sellers_product),
             'categories' => $categories,
 
         ]);

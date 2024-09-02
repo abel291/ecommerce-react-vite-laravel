@@ -21,7 +21,6 @@ class ColorSizeSeeder extends Seeder
         Size::truncate();
 
         $colors = collect(Storage::json('products/colors.json'))->values()->toArray();
-
         Color::insert($colors);
 
         $sizes = collect(Storage::json(DatabaseSeeder::getPathProductJson()))->pluck('sizes')->collapse()->unique()
@@ -32,6 +31,5 @@ class ColorSizeSeeder extends Seeder
                 ];
             })->toArray();
         Size::insert($sizes);
-
     }
 }

@@ -34,10 +34,10 @@ export default function Home({
                         {bannersTop.map((item) => (
                             <div key={item.img}>
                                 <a href={item.link} target="blank">
-                                    <img
-                                        className="h-full mx-auto object-cover w-full rounded-lg overflow-hidden"
+                                    <img className="h-full mx-auto object-cover w-full rounded-lg overflow-hidden"
                                         src={item.img}
                                         alt={item.alt}
+
                                     />
                                 </a>
                             </div>
@@ -61,9 +61,7 @@ export default function Home({
                         <SectionList title="Los mas vendidos">
                             <GridProduct>
                                 {bestSeller.map((variant) => (
-                                    <CardProduct
-                                        key={variant.id}
-                                        product={variant}
+                                    <CardProduct key={variant.id} productVariant={variant}
                                     />
                                 ))}
                             </GridProduct>
@@ -74,11 +72,7 @@ export default function Home({
                         <div className="py-2 relative">
                             <GridProduct>
                                 {newProducts.map((variant) => (
-                                    <CardProduct
-                                        key={variant.id}
-                                        product={variant}
-                                        productNew={true}
-                                    />
+                                    <CardProduct key={variant.id} productVariant={variant} productNew={true} />
                                 ))}
                             </GridProduct>
                         </div>

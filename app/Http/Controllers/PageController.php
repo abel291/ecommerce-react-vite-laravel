@@ -27,14 +27,9 @@ class PageController extends Controller
 
         $page = Page::with('banners')->where('type', 'home')->firstOrFail();
 
-        $bestSeller = Product::inStock()->card()->orderBy('updated_at', 'desc')->limit(15)->get();
-
-        $newProducts = Product::inStock()->card()->orderBy('updated_at', 'desc')->limit(10)->get();
-        // dd($newProducts);
-        // $bestSeller = Product::available()->card()->limit(15)->get();
-
-        // $newProducts = Product::available()->card()->orderBy('id', 'desc')->limit(10)->get();
-
+        $bestSeller = Variant::activeInStock()->card()->orderBy('updated_at', 'desc')->limit(15)->get();
+        $newProducts = Variant::activeInStock()->card()->orderBy('updated_at', 'desc')->limit(10)->get();
+        // dd($bestSeller[0]);
         $banners = $page->banners->where('active', 1);
         $carousel_top = $banners->where('position', 'top')->where('type', 'carousel');
         $banners_top = $banners->where('position', 'top')->where('type', 'banner');
@@ -46,8 +41,8 @@ class PageController extends Controller
 
         return Inertia::render('Home/Home', [
             'page' => new PageResource($page),
-            'bestSeller' => ProductResource::collection($bestSeller),
-            'newProducts' => ProductResource::collection($newProducts),
+            'bestSeller' => VariantProductResource::collection($bestSeller),
+            'newProducts' => VariantProductResource::collection($newProducts),
             'carouselTop' => ImageResource::collection($carousel_top),
             'bannersTop' => ImageResource::collection($banners_top),
             'bannersMedium' => ImageResource::collection($banners_medium),

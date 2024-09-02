@@ -10,8 +10,8 @@ import BannerText from '@/Components/Carousel/BannerText'
 import Breadcrumb from '@/Components/Breadcrumb'
 import SectionTitle from '@/Components/Sections/SectionTitle'
 
-function Department({ department, offertProduct, bestSellersProduct, categories }) {
-
+function Department({ department, offertProducts, bestSellersProducts, categories }) {
+    // console.log(offertProducts[0])
     return (
         <Layout>
             <Head title={department.meta_title} />
@@ -26,14 +26,14 @@ function Department({ department, offertProduct, bestSellersProduct, categories 
 
             <div className="container">
                 <SectionList title="Top Ofertas">
-                    <CarouselProduct products={offertProduct} />
+                    <CarouselProduct productVariants={offertProducts} />
                 </SectionList>
 
-                {bestSellersProduct.length > 0 && (
+                {/* {bestSellersProduct.length > 0 && (
                     <SectionList title="Los mas vendidos">
-                        <CarouselProduct products={bestSellersProduct} />
+                        <CarouselProduct productVariants={bestSellersProduct} />
                     </SectionList>
-                )}
+                )} */}
 
                 <div className='space-y-10'>
                     {categories.map((category) => (
@@ -44,7 +44,7 @@ function Department({ department, offertProduct, bestSellersProduct, categories 
                                     {category.products.map((item) => (
                                         <CardProduct
                                             key={item.id}
-                                            product={item}
+                                            productVariant={item}
                                             productNew={true}
                                         />
                                     ))}

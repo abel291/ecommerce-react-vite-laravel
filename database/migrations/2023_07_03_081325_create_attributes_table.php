@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('attribute_values', static function (Blueprint $table) {
+        Schema::create('attribute_options', static function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('slug')->index();
@@ -26,11 +26,9 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('attribute_value_product', function (Blueprint $table) {
-            $table->foreignId('attribute_value_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
-            // $table->foreignId('product_id')->constrained()->cascadeOnDelete();
-            $table->index(['attribute_value_id', 'product_id']);
+        Schema::create('attribute_option_product', static function (Blueprint $table) {
+            $table->foreignId('product_id')->constrained();
+            $table->foreignId('attribute_option_id')->constrained();
         });
     }
 
@@ -40,7 +38,7 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::dropIfExists('attributes');
-        Schema::dropIfExists('attribute_values');
-        Schema::dropIfExists('attribute_value_product');
+        Schema::dropIfExists('attribute_options');
+        Schema::dropIfExists('attribute_option_product');
     }
 };

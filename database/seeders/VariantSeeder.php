@@ -9,6 +9,7 @@ use App\Models\AttributeOption;
 use App\Models\AttributeValue;
 use App\Models\Color;
 use App\Models\Image;
+use App\Models\Product;
 use App\Models\Size;
 use App\Models\Sku;
 use App\Models\Variant;
@@ -26,72 +27,66 @@ class VariantSeeder extends Seeder
      */
     public function run(): void
     {
-        Variant::truncate();
+
         Sku::truncate();
+        Variant::where('type')->delete();
         Image::where('model_type', 'App\Models\Variant')->delete();
 
         $products = collect(Storage::json(DatabaseSeeder::getPathProductJson()));
         $colors = Color::pluck('id', 'name');
-        $sizes = Size::pluck('id', 'name');
-        // dd($colors->sortKeys());
-        $variant_id = 0;
-        $variant_array = [];
-        $skus_array = [];
+        $product_variant_array = [];
         $images_array = [];
+
         foreach ($products as $key => $product) {
-            foreach ($product['colors'] as $key => $color) {
-                $color_id = $colors[$color['color']['name']];
+            foreach ($product['variants'] as  $variant) {
+
+                $color_id = $colors[$variant['color']['name']];
                 $ref = str_pad($product['id'], 4, "0", STR_PAD_LEFT) . '-' . str_pad($color_id, 3, "0", STR_PAD_LEFT);
 
-                array_push($variant_array, [
-                    'id' => $variant_id,
+                if (rand(0, 5)) {
+                    $old_price = $product['price'];
+                    $offer = fake()->randomElement([10, 20, 30, 40, 50]);
+                    $price = $old_price - ($old_price * ($offer / 100));
+                } else {
+                    $offer = null;
+                    $old_price = null;
+                    $price = $product['price'];
+                }
+                array_push($product_variant_array, [
+                    'id' => $variant['id'],
                     'ref' => $ref,
-                    'default' => $key == 0,
+                    'old_price' => $old_price,
+                    'offer' => $offer,
+                    'price' => $price,
+                    'img' => $variant['img'],
+                    'thumb' => $variant['thumb'],
+                    'max_quantity' => rand(1, 300),
+                    'featured' => boolval(rand(0, 6)),
                     'color_id' => $color_id,
                     'product_id' => $product['id'],
-                    'img' => $color['img'],
-                    'thumb' => $color['thumb'],
                     'created_at' => fake()->dateTimeBetween('-2 days', 'now'),
                     'updated_at' => fake()->dateTimeBetween('-2 days', 'now'),
                 ]);
 
-                foreach ($color['images'] as $image) {
+                foreach ($variant['images'] as $image) {
                     array_push($images_array, [
                         'img' => $image,
-                        'model_type' => 'App\Models\Variant',
-                        'model_id' => $variant_id,
-
+                        'model_type' => 'App\Models\Product',
+                        'model_id' => $variant['id'],
                     ]);
+                    $this->command->info($variant['id']);
                 }
-                foreach ($product['sizes'] as $size) {
-                    array_push($skus_array, [
-                        'stock' => rand(0, 1) * rand(10, 300),
-                        'product_id' => $product['id'],
-                        'variant_id' => $variant_id,
-                        'size_id' => $sizes[$size],
-
-                    ]);
-                }
-                $variant_id++;
             }
 
-
-
-            if (count($variant_array) > 500) {
-                Variant::insert($variant_array);
+            if (count($product_variant_array) > 500) {
+                Variant::insert($product_variant_array);
                 Image::insert($images_array);
-                Sku::insert($skus_array);
-                $variant_array = [];
-                $skus_array = [];
+                $product_variant_array = [];
                 $images_array = [];
-                $this->command->info($product['id']);
             }
         }
-        // dd(collect($variant_array)->duplicates('ref'));
 
-
-        Variant::insert($variant_array);
+        Variant::insert($product_variant_array);
         Image::insert($images_array);
-        Sku::insert($skus_array);
     }
 }

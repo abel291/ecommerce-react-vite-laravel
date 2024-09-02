@@ -155,10 +155,7 @@ class Product extends Model
             ->orderBy('orders_count', 'desc');
     }
 
-    public function scopeInOffer(Builder $query): void
-    {
-        $query->where('offer', '!=', 0);
-    }
+
 
 
 

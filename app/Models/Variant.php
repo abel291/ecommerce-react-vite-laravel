@@ -43,11 +43,18 @@ class Variant extends model
     {
         return $this->belongsToMany(Size::class, 'skus')->withPivot('stock');
     }
-
-    public function scopeAvailable(Builder $query): void
+    public function scopeInOffer(Builder $query): void
     {
-        $query->with('color')->inStock()->productAvailable();
+        $query->where('offer', '!=', 0);
     }
+
+    public function scopeCard(Builder $query): void
+    {
+        $query->with(['color', 'product' => function ($query) {
+            $query->select('id', 'name', 'slug')->with('variants.color');
+        }]);
+    }
+
     public function scopeSumStock(Builder $query): void
     {
         $query->withSum('skus as stock', 'stock');
@@ -60,9 +67,7 @@ class Variant extends model
 
     public function scopeInStock(Builder $query): void
     {
-        $query
-            ->whereHas('skuAvailable')
-            ->orWhere('default', 1);
+        $query->whereRelation('skus', 'stock', '>', 0);
     }
 
     public function scopeActiveInStock($query): void
