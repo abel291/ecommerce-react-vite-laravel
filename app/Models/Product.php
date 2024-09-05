@@ -31,39 +31,15 @@ class Product extends Model
     {
         return $this->belongsTo(Department::class);
     }
-
-    public function variants(): HasMany
-    {
-        return $this->hasMany(Variant::class);
-    }
-
-    public function variantDefault()
-    {
-        return $this->hasOne(Variant::class)->orWhere('default', 1);
-    }
-    public function variant()
-    {
-        return $this->hasOne(Variant::class);
-    }
-
     public function sku()
     {
         return $this->hasOne(Sku::class);
-    }
-    public function skuInStock()
-    {
-        return $this->sku()->where('stock', '>', 0);
     }
 
     public function skus()
     {
         return $this->hasMany(Sku::class);
     }
-    public function skusInStock()
-    {
-        return $this->skus()->where('stock', '>', 0);
-    }
-
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
@@ -72,6 +48,21 @@ class Product extends Model
     public function images(): MorphMany
     {
         return $this->morphMany(Image::class, 'model');
+    }
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class, 'parent_id');
+    }
+
+    public function color(): BelongsTo
+    {
+        return $this->belongsTo(Color::class);
+    }
+
+    public function variants(): HasMany
+    {
+        return $this->hasMany(Product::class, 'parent_id');
     }
 
     public function brand(): BelongsTo
@@ -109,20 +100,28 @@ class Product extends Model
             'order_id'
         );
     }
-
-    public function scopeInStock(Builder $query, $colorSlug = null): void
+    public function scopeVariant(Builder $query): void
     {
-        $query->withWhereHas('variant', function ($query) use ($colorSlug) {
+        $query->whereNotNull('parent_id');
+    }
+    public function scopeInOffer(Builder $query): void
+    {
+        $query->where('offer', '!=', 0);
+    }
 
-            $query->active()
-                ->whereRelation('skus', 'stock', '>', 0)
-                ->orWhere('default', 1)
-                ->withWhereHas('color', function ($query) use ($colorSlug) {
-                    if ($colorSlug) {
-                        $query->where('slug', $colorSlug);
-                    }
-                });
-        });
+    public function scopeActive(Builder $query): void
+    {
+        $query->where('active', 1);
+    }
+
+    public function scopeInStock(Builder $query): void
+    {
+        $query->whereRelation('skus', 'stock', '>', 0);
+    }
+
+    public function scopeActiveInStock($query): void
+    {
+        $query->active()->inStock();
     }
 
     public function scopeCard(Builder $query): void
@@ -131,28 +130,32 @@ class Product extends Model
             'products.id',
             'slug',
             'name',
+            'thumb',
+            'ref',
             'offer',
             'price',
             'old_price',
             'department_id',
-            'category_id'
+            'color_id',
+            'category_id',
+            'parent_id',
+            'updated_at'
         )
-            ->with('variants.color');
+            ->with([
+                'product' => function ($query) {
+                    $query->select('id', 'parent_id')->with('variants.color');
+                }
+            ])
+        ;
     }
 
     public function scopeBestSeller(Builder $query): void
     {
         $query->withCount([
             'orders' => function ($query) {
-                $query->whereHas('payment', function (Builder $query) {
-                    $query->where('status', PaymentStatus::SUCCESSFUL);
-                });
-            }
-        ])
-            ->whereHas('orders.payment', function ($query) {
                 $query->where('status', PaymentStatus::SUCCESSFUL);
-            })
-            ->orderBy('orders_count', 'desc');
+            }
+        ])->orderBy('orders_count', 'desc');
     }
 
 
@@ -164,7 +167,7 @@ class Product extends Model
     {
 
         return $query
-            ->card()
+            ->activeInStock()
 
             ->when($filters['q'], function (Builder $query) use ($filters) {
                 $query->where(function ($query) use ($filters) {
@@ -175,34 +178,20 @@ class Product extends Model
             })
             ->when($filters['departments'], function (Builder $query) use ($filters) {
                 $query->whereIn('department_id', $filters['departments']);
-                // $query->whereHas('department', function (Builder $sub_query) use ($filters) {
-                //     $sub_query->whereIn('id', $filters['departments']);
-                // });
             })
 
             ->when($filters['categories'], function (Builder $query) use ($filters) {
                 $query->whereIn('category_id', $filters['categories']);
-                // $query->whereHas('category', function (Builder $sub_query) use ($filters) {
-                //     $sub_query->whereIn('id', $filters['categories']);
-                // });
             })
 
-            ->when($filters['colors'] || $filters['sizes'], function (Builder $query) use ($filters) {
+            ->when($filters['colors'], function (Builder $query) use ($filters) {
+                $query->whereIn('color_id', $filters['colors']);
+            })
 
-                $query->withWhereHas('variant', function ($query) use ($filters) {
-
-                    $query->with('color')->when($filters['colors'], function ($query) use ($filters) {
-
-                        $query->whereIn('color_id', $filters['colors']);
-                    })
-                        ->when($filters['sizes'], function ($query) use ($filters) {
-                            $query->whereHas('sizesAvailable', function ($query) use ($filters) {
-                                $query->whereIn('sizes.id', $filters['sizes']);
-                            });
-                        });
+            ->when($filters['sizes'], function (Builder $query) use ($filters) {
+                $query->whereHas('skus', function ($query) use ($filters) {
+                    $query->whereIn('size_id', $filters['sizes']);
                 });
-            }, function ($query) {
-                $query->inStock();
             })
 
             ->when($filters['price_min'], function (Builder $query) use ($filters) {

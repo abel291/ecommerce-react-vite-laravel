@@ -8,9 +8,9 @@ import SectionTitle from "@/Components/Sections/SectionTitle";
 import Carousel, { CarouselItem } from "@/Components/Carousel/Carousel";
 import GridProduct from "@/Components/Grids/GridProduct";
 
-const CarouselProduct = ({ productVariants }) => {
-    console.log(productVariants)
-    return productVariants.length > 5 ? (
+const CarouselProduct = ({ products }) => {
+
+    return products.length > 5 ? (
         <div>
             <Carousel
                 centeredSlides={false}
@@ -39,17 +39,17 @@ const CarouselProduct = ({ productVariants }) => {
 
                 }}
             >
-                {productVariants.map((variant, index) => (
-                    <CarouselItem className="h-auto pb-1 " key={index}>
-                        {/* <CardProduct productVariant={variant} /> */}
+                {products.map((product,) => (
+                    <CarouselItem className="h-auto pb-1 " key={product.ref}>
+                        <CardProduct product={product} />
                     </CarouselItem>
                 ))}
             </Carousel>
         </div>
     ) : (
         <GridProduct>
-            {productVariants.map((variant, index) => (
-                {/* <CardProduct productVariant={variant} key={index} /> */ }
+            {products.map((product,) => (
+                <CardProduct product={product} key={product.ref} />
             ))}
         </GridProduct>
     );

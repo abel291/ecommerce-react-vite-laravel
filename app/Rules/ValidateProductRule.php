@@ -43,11 +43,13 @@ class ValidateProductRule implements DataAwareRule, ValidationRule
         $quantity = $this->data['quantity'];
         $skuId = $this->data['skuId'];
 
-        $sku = Sku::where('stock', '>', 0)
-            ->whereRelation('variant', 'active', 1)
-            ->find($skuId);
+        $product = Product::select('id')
+            ->active()
+            ->withWhereHas('sku', function ($query) use ($skuId) {
+                $query->where('stock', '>', 0)->where('id', $skuId);
+            })->first();
 
-        if (!$sku) {
+        if (!$product) {
             $fail('Este producto no esta disponible');
         }
 

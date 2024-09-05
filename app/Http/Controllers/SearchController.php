@@ -5,40 +5,26 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ColorAttributeResource;
 use App\Http\Resources\ColorResource;
+use App\Http\Resources\ProductCardResource;
 use App\Http\Resources\ProductResource;
 
 use App\Http\Resources\Search\CategoryFilterResource;
 
 use App\Http\Resources\SizeResource;
-use App\Http\Resources\VariantProductResource;
-use App\Http\Resources\VariantResource;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\Department;
 use App\Models\Page;
-
 use App\Models\Product;
 use App\Models\Size;
-use App\Models\Variant;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-
 use Inertia\Inertia;
-
 
 class SearchController extends Controller
 {
     public function search(Request $request)
     {
-        // dd(Department::select('id', 'name', 'slug', 'img', 'icon')
-        //     ->active()
-        //     ->with(['categories' => function ($query) {
-        //         $query->active();
-        //     }])
 
-        //     ->get());
-
-        // Cache::flush();
         $page = Page::with('banners')->where('type', 'search')->firstOrFail();
 
         $banner = $page->banners->where('position', 'middle')->where('type', 'banner');
@@ -96,7 +82,7 @@ class SearchController extends Controller
             }
         )->orderBy('slug')->get();
 
-        $listSizes = Size::whereHas(
+        $listSizes = Size::select('sizes.id', 'slug', 'name')->whereHas(
             'products',
             function ($query) use ($filters) {
                 $query->withFilters([
@@ -108,7 +94,7 @@ class SearchController extends Controller
 
         // $products = Product::card()->withFilters($filters)->paginate(24)->withQueryString();
 
-        $products = Product::withFilters($filters)->paginate(24)->withQueryString();
+        $products = Product::variant()->card()->withFilters($filters)->paginate(24)->withQueryString();
 
         // dd($products);
 
@@ -135,7 +121,7 @@ class SearchController extends Controller
             'listColors' => ColorResource::collection($listColors),
             'listSizes' => SizeResource::collection($listSizes),
             'listBrands' => [], //$listBrands,
-            'products' => ProductResource::collection($products),
+            'products' => ProductCardResource::collection($products),
             'page' => $page,
             'banner' => $banner,
             // 'breadcrumb' => $breadcrumb,

@@ -34,15 +34,14 @@ class SkuSeeder extends Seeder
         $sku_id = 1;
         $skus_array = [];
 
-        foreach ($products as  $product) {
-            foreach ($product['variants'] as  $variant) {
+        foreach ($products as $product) {
+            foreach ($product['variants'] as $variant) {
 
                 if ($product['sizes']) {
-                    foreach ($product['sizes'] as  $size) {
+                    foreach ($product['sizes'] as $size) {
                         array_push($skus_array, [
                             'id' => $sku_id,
-                            'variant_id' => $variant['id'],
-                            'product_id' => $product['id'],
+                            'product_id' => $variant['id'],
                             'size_id' => $sizes[$size],
                             'stock' => rand(0, 1) * rand(10, 300),
                         ]);
@@ -51,8 +50,7 @@ class SkuSeeder extends Seeder
                 } else {
                     array_push($skus_array, [
                         'id' => $sku_id,
-                        'variant_id' => $variant['id'],
-                        'product_id' => $product['id'],
+                        'product_id' => $variant['id'],
                         'stock' => rand(0, 1) * rand(10, 300),
                     ]);
                     $sku_id++;
@@ -61,7 +59,7 @@ class SkuSeeder extends Seeder
             if (count($skus_array) > 1000) {
                 Sku::insert($skus_array);
                 $skus_array = [];
-                $this->command->info($sku_id);
+                // $this->command->info($sku_id);
             }
         }
         Sku::insert($skus_array);

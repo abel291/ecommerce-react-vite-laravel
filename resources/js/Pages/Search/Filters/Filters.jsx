@@ -81,6 +81,7 @@ const Filters = () => {
                     optionsChecked={form.data.colors || []}
                     changeFilterCheckbox={changeFilterCheckbox}
                     filterName="colors"
+                    type='color'
                 />
             </FilterContainer>
 

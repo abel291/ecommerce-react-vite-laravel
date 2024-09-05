@@ -46,7 +46,7 @@ class OrderService
         $freeShipping = (float) SettingService::data()['rates']['freeShipping'];
 
         if ($discountCode) {
-            $discountValue =  $discountCode->calculateDiscount($subtotal);
+            $discountValue = $discountCode->calculateDiscount($subtotal);
             $discountCode->applied = $discountValue;
         } else {
             $discountValue = 0;
@@ -64,7 +64,7 @@ class OrderService
 
         $total = round($subtotalWithTaxes + $shipping, 2);
 
-        return  [
+        return [
             'sub_total' => $subtotal,
             'discount' => $discountCode,
             'tax_rate' => $taxRate,
@@ -72,24 +72,25 @@ class OrderService
             'shipping' => $shipping,
             'total' => $total,
         ];
-        return $total;
+
     }
 
-    public static function formatOrderProduct($presentation, $quantity)
+    public static function formatOrderProduct($sku, $quantity)
     {
-        $product = $presentation->product;
+        $product = $sku->product;
         return [
             'name' => $product->name,
+            'ref' => $product->ref,
+            'color' => $product->color->name,
+            'size' => $sku->size->name,
+            'thumb' => $product->thumb,
+            'old_price' => $product->old_price,
+            'offer' => $product->offer,
             'price' => $product->price,
             'quantity' => $quantity,
-            'total' => round($product->price * $quantity),
-            'data' => [
-                'color' => $presentation->color->name,
-                'size' => $presentation->size->name,
-                'product' => $product->only('slug', 'img', 'old_price', 'offer', 'price')
-            ],
+            'total' => round($product->price * $quantity, 2),
             'product_id' => $product->id,
-            'presentation_id' => $presentation->id,
+            'sku_id' => $sku->id,
         ];
     }
 

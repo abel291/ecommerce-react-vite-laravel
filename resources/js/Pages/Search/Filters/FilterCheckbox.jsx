@@ -3,6 +3,7 @@ const FilterCheckbox = ({
     optionsChecked,
     changeFilterCheckbox,
     filterName,
+    type = 'default'
 }) => {
 
     const handleChange = (e) => {
@@ -34,8 +35,12 @@ const FilterCheckbox = ({
                             value={item.id}
                             onChange={handleChange}
                         />
-                        <label className=" text-gray-600 " htmlFor={filterName + item.id}>
-                            {item.name}
+                        <label className=" text-gray-600  flex items-center gap-x-2 cursor-pointer" htmlFor={filterName + item.id}>
+                            {type == 'color' && (
+                                <span style={{ backgroundImage: "url(" + item.img + ")" }} aria-hidden="true" className="size-4 rounded-full  inline-block  border-gray-200"></span>
+                            )}
+
+                            <span>{item.name}</span>
                             {/* <span className="text-xs text-gray-500 ml-1 font-light">
                                 ({item.products_count})
                             </span> */}

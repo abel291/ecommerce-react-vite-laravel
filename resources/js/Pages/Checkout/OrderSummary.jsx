@@ -25,7 +25,7 @@ const OrderSummary = ({ products, total }) => {
 
     return (
         <div>
-            <div className="bg-gray-50 rounded-lg text-sm font-medium border divide-y shadow-sm ">
+            <div className="bg-gray-100 rounded-lg text-sm font-medium border divide-y shadow-sm ">
                 {products.map((item) => (
                     <CardProductSummary product={item} />
                 ))}

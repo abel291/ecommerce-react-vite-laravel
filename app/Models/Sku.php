@@ -15,8 +15,8 @@ class Sku extends Model
     {
         return $this->belongsTo(Product::class);
     }
-    public function variant(): BelongsTo
+    public function size(): BelongsTo
     {
-        return $this->belongsTo(Variant::class);
+        return $this->belongsTo(Size::class);
     }
 }

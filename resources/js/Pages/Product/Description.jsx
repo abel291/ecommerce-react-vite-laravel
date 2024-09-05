@@ -3,7 +3,7 @@ import Specifications from "./Specifications"
 
 const Description = ({ product }) => {
     return (
-        <div className="">
+        <div>
             <div className="pt-content">
                 <SectionTitle title="Especificaciones" />
                 <div className="mt-5">

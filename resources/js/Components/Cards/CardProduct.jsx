@@ -3,52 +3,53 @@ import { Link } from "@inertiajs/react";
 import Badge from "../Badge";
 import ProductPriceOffer from "../ProductPriceOffer";
 
-const CardProduct = ({ productVariant, productNew = false }) => {
+const CardProduct = ({ product, productNew = false }) => {
 
 
-    console.log(productVariant)
+    console.log(product)
     return (
         <Link
-            key={productVariant.id}
-            href={route("product", { slug: productVariant.product.slug, color: productVariant.color.slug })}
+            key={product.id}
+            href={route("product", { slug: product.slug, ref: product.ref })}
             className="w-full relative block max-w-md mx-auto group h-full overflow-hidden rounded-md transition duration-200 ease-in-out transform hover:-translate-y-1 md:hover:-translate-y-1.5 hover:shadow "
         >
             <div className="h-full flex flex-col">
                 <div >
                     <div className="flex justify-center">
                         <img
-                            src={productVariant.thumb}
-                            alt={productVariant.product.slug}
+                            src={product.thumb}
+                            alt={product.slug}
                             className="w-full object-cover object-top rounded-md group-hover:rounded-none "
                         />
                     </div>
                 </div>
                 <div className="grow flex flex-col px-4 pt-4 pb-3 space-y-3">
                     <h2
-                        className="text-heading text-sm md:text-sm line-clamp-1 "
-                        alt={productVariant.product.name}
-                        title={productVariant.product.name}
+                        className="text-heading text-sm md:text-sm line-clamp-1"
+                        alt={product.name}
+                        title={product.name}
                     >
-                        {productVariant.product.name}
+                        {product.name}
                     </h2>
 
                     <div className="flex gap-x-2 items-center flex-wrap ">
-                        {productVariant.product.variants.map((variant) => (
+                        {product.colors.map((color) => (
                             <div
-                                key={productVariant.id}
+                                key={product.id}
+                                title={color.name}
                                 className={"size-6 p-[2px] border rounded-full flex items-center " +
-                                    (productVariant.color.id == variant.color.id ? 'border-gray-700' : 'border-gray-300')}
+                                    (product.color_id == color.id ? 'border-gray-700' : 'border-gray-300')}
                             >
-                                <span style={{ backgroundImage: "url(" + variant.color.img + ")" }} aria-hidden="true" className="w-full h-full rounded-full  inline-block "></span>
+                                <span style={{ backgroundImage: "url(" + color.img + ")" }} aria-hidden="true" className="w-full h-full rounded-full  inline-block "></span>
                             </div>
                         ))}
                     </div>
 
                     <div className=" grow flex items-end justify-between ">
                         <ProductPriceOffer
-                            price={productVariant.price}
-                            old_price={productVariant.old_price}
-                            offer={productVariant.offer}
+                            price={product.price}
+                            old_price={product.old_price}
+                            offer={product.offer}
 
                         />
                     </div>

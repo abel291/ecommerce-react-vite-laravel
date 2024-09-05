@@ -57,7 +57,7 @@
     "13": {
         "name": "Rojo",
         "slug": "rojo",
-        "img": null
+        "img": "/img/colors/rojo.jpg"
     },
     "14": {
         "name": "Blanco",
@@ -132,7 +132,7 @@
     "121": {
         "name": "GrisOscuro",
         "slug": "grisoscuro",
-        "img": null
+        "img": "/img/colors/grisoscuro.jpg"
     },
     "147": {
         "name": "Fucsia",
@@ -172,7 +172,7 @@
     "248": {
         "name": "Azul6",
         "slug": "azul6",
-        "img": null
+        "img": "/img/colors/azul6.jpg"
     },
     "285": {
         "name": "Terracota",
@@ -227,12 +227,12 @@
     "539": {
         "name": "AzulRey",
         "slug": "azulrey",
-        "img": null
+        "img": "/img/colors/azulrey.jpg"
     },
     "541": {
         "name": "Lila",
         "slug": "lila",
-        "img": null
+        "img": "/img/colors/lila.jpg"
     },
     "603": {
         "name": "NegroCarbon",
@@ -267,17 +267,17 @@
     "753": {
         "name": "Plata",
         "slug": "plata",
-        "img": null
+        "img": "/img/colors/plata.jpg"
     },
     "759": {
         "name": "Celeste",
         "slug": "celeste",
-        "img": null
+        "img": "/img/colors/celeste.jpg"
     },
     "786": {
         "name": "Piel",
         "slug": "piel",
-        "img": null
+        "img": "/img/colors/piel.jpg"
     },
     "844": {
         "name": "Hueso",
@@ -322,22 +322,22 @@
     "1302": {
         "name": "Surtido5",
         "slug": "surtido5",
-        "img": null
+        "img": "/img/colors/surtido5.jpg"
     },
     "1321": {
         "name": "Cafe1",
         "slug": "cafe1",
-        "img": null
+        "img": "/img/colors/cafe1.jpg"
     },
     "1401": {
         "name": "RosaPastel",
         "slug": "rosapastel",
-        "img": null
+        "img": "/img/colors/rosapastel.jpg"
     },
     "1402": {
         "name": "AzulPastel",
         "slug": "azulpastel",
-        "img": null
+        "img": "/img/colors/azulpastel.jpg"
     },
     "1553": {
         "name": "Purpura",
@@ -372,7 +372,7 @@
     "1891": {
         "name": "VerdeOliva",
         "slug": "verdeoliva",
-        "img": null
+        "img": "/img/colors/verdeoliva.jpg"
     },
     "2030": {
         "name": "Rojo3",
@@ -402,7 +402,7 @@
     "2468": {
         "name": "Rojo1",
         "slug": "rojo1",
-        "img": null
+        "img": "/img/colors/rojo1.jpg"
     },
     "2720": {
         "name": "Gris10",
@@ -427,7 +427,7 @@
     "2907": {
         "name": "Uva",
         "slug": "uva",
-        "img": null
+        "img": "/img/colors/uva.jpg"
     },
     "2939": {
         "name": "Negro2",
@@ -482,7 +482,7 @@
     "4319": {
         "name": "RosaClaro",
         "slug": "rosaclaro",
-        "img": null
+        "img": "/img/colors/rosaclaro.jpg"
     },
     "4325": {
         "name": "Verde3",

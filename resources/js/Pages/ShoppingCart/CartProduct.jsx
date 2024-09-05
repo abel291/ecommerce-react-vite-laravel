@@ -50,7 +50,7 @@ const ProductsCart = ({ cardProduct }) => {
 
                 <div className="grid grid-cols-12 gap-6 md:gap-4 items-stretch h-24">
                     <div className="col-span-5 md:col-span-1">
-                        <Link href={route('product', { slug: cardProduct.slug, color: cardProduct.color.slug })}>
+                        <Link href={route('product', { slug: cardProduct.slug, ref: cardProduct.ref })}>
                             <div className=" flex items-center justify-center h-full">
                                 <img className=" md:max-h-28 lg:max-h-28 max-w-full object-cover" src={cardProduct.thumb} alt={cardProduct.name} />
                             </div>
@@ -63,7 +63,10 @@ const ProductsCart = ({ cardProduct }) => {
                             </div>
                             <div className="divide-x flex items-center text-sm ">
                                 <div className=" text-gray-500 pr-2">Color {cardProduct.color.name}</div>
-                                <div className=" text-gray-500 pl-2">Talla {cardProduct.size.name}</div>
+                                {cardProduct.size && (
+                                    <div className=" text-gray-500 pl-2">Talla {cardProduct.size.name}</div>
+                                )}
+
                             </div>
 
                         </div>

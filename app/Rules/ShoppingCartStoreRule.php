@@ -47,12 +47,11 @@ class ShoppingCartStoreRule implements DataAwareRule, ValidationRule
         $skuId = $this->data['skuId'];
 
         $product = Product::select('id', 'max_quantity')
-            ->whereRelation('variant', 'active', '=', 1)
-            ->whereHas('skus', function ($query) use ($skuId) {
-                $query->where('id', $skuId);
+            ->active()
+            ->withWhereHas('sku', function ($query) use ($skuId) {
+                $query->where('stock', '>', 0)->where('id', $skuId);
             })->first();
 
-        $sku = Sku::with('product:id,max_quantity')->find($skuId);
 
         $max_items = config('shopping-cart.max-quantity');
 
@@ -66,8 +65,8 @@ class ShoppingCartStoreRule implements DataAwareRule, ValidationRule
             $fail("La cantidad maxima que puedes llevar de este producto es de:  $product->max_quantity  unidade(s)");
         }
 
-        if ($quantity > $sku->stock) {
-            $fail("La cantidad disponible que puedes llevar de este producto es de: $sku->stock  unidade(s)");
+        if ($quantity > $product->sku->stock) {
+            $fail("La cantidad disponible que puedes llevar de este producto es de: " . $product->sku->stock . "  unidade(s)");
         }
     }
 }

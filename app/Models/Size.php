@@ -18,6 +18,6 @@ class Size extends Model
 
     public function variants(): belongsToMany
     {
-        return $this->belongsToMany(Variant::class, 'skus')->withPivot('stock');
+        return $this->belongsToMany(Product::class, 'skus')->withPivot('stock');
     }
 }

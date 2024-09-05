@@ -26,7 +26,7 @@ class ShoppingCartController extends Controller
         //session()->forget(CartEnum::SHOPPING_CART->value);
 
         $products = CartService::products();
-
+        // dd($products);
         $total = OrderService::calculateTotal($products);
         // dd($products);
         return Inertia::render('ShoppingCart/ShoppingCart', [

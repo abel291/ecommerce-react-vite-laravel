@@ -6,7 +6,7 @@ use App\Enums\CartEnum;
 use App\Models\Presentation;
 use App\Models\Product;
 use App\Models\Sku;
-use App\Models\Variant;
+
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -39,16 +39,13 @@ class CartService
         $skuIdQuantity = self::session($cardEnum);
         $skusId = array_keys($skuIdQuantity);
 
-        $selectProduct = ['id', 'name', 'slug', 'price', 'offer', 'old_price', 'max_quantity'];
+        $selectProduct = ['id', 'name', 'thumb', 'slug', 'ref', 'price', 'offer', 'old_price', 'max_quantity', 'color_id'];
 
         $products = Sku::where('stock', '>', 0)
             ->whereIn('id', $skusId)
             ->with('size:id,name')
-            ->withWhereHas('variant', function ($query) {
-                $query->with('color:id,name,slug')->active();
-            })
             ->withWhereHas('product', function ($query) use ($selectProduct) {
-                $query->select($selectProduct);
+                $query->select($selectProduct)->with('color:id,name,slug');
             })
             ->get()
             ->map(function ($sku) use ($skuIdQuantity, $selectProduct) {
@@ -60,10 +57,9 @@ class CartService
                     'stock' => $sku->stock,
                     'quantity' => $quantity,
                     'total' => round($sku->product->price * $quantity),
-                    'size' => $sku->size,
-                    'color' => $sku->variant->color,
-                    'thumb' => $sku->variant->thumb,
-                    // 'variant' => $sku->only(['id', 'ref', 'thumb'])
+                    'size' => $sku->size->only(['id', 'name']),
+                    'color' => $sku->product->color->only(['id', 'name']),
+                    'thumb' => $sku->product->thumb,
                 ];
             });
         ;

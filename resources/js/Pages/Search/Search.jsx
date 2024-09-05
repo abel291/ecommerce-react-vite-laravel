@@ -16,7 +16,7 @@ export const SearchContext = createContext();
 
 export default function Search({ page, products, filters, breadcrumb, banner, }) {
 
-    const form = useForm(filters);
+    const form = useForm(filters || []);
 
     const first = useRef(true);
 

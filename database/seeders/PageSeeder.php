@@ -24,8 +24,9 @@ class PageSeeder extends Seeder
         $home = Page::factory()->create(['type' => 'home', 'meta_title' => 'Inicio', 'title' => 'Home']);
         $search = Page::factory()->create(['type' => 'search', 'meta_title' => 'Busqueda', 'title' => 'Busqueda']);
         $blog = Page::factory()->create(['type' => 'blog', 'meta_title' => 'Blog', 'title' => 'Desde el blog']);
-        $products = Product::select('slug')->get();
+        $products = Product::select('id', 'slug', 'ref')->get();
         $categories = Category::select('slug')->get();
+        $product = $products->random();
         $images =
             [
                 [
@@ -35,7 +36,7 @@ class PageSeeder extends Seeder
                     'type' => 'carousel',
                     'sort' => 1,
                     'position' => 'top',
-                    'link' => route('product', $products->random()->slug),
+                    'link' => route('product', [$product->slug, $product->ref]),
                     'model_id' => $home->id,
                     'model_type' => 'App\Models\Page',
 
@@ -57,7 +58,7 @@ class PageSeeder extends Seeder
                     'type' => 'carousel',
                     'sort' => 3,
                     'position' => 'top',
-                    'link' => route('product', $products->random()->slug),
+                    'link' => route('product', [$product->slug, $product->ref]),
                     'model_id' => $home->id,
                     'model_type' => 'App\Models\Page',
 
@@ -95,7 +96,7 @@ class PageSeeder extends Seeder
                     'img' => '/img/banners/banner-section-2.jpg',
                     'type' => 'banner',
                     'position' => 'below',
-                    'link' => route('product', $products->random()->slug),
+                    'link' => route('product', [$product->slug, $product->ref]),
                     'model_id' => $home->id,
                     'model_type' => 'App\Models\Page',
 
@@ -104,7 +105,7 @@ class PageSeeder extends Seeder
                     'img' => '/img/banners/banner-sidebar-search.jpg',
                     'type' => 'banner',
                     'position' => 'middle',
-                    'link' => route('product', $products->random()->slug),
+                    'link' => route('product', [$product->slug, $product->ref]),
                     'model_id' => $search->id,
                     'model_type' => 'App\Models\Page',
 

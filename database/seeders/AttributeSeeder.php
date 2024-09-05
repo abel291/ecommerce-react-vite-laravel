@@ -22,17 +22,35 @@ class AttributeSeeder extends Seeder
     {
         Attribute::truncate();
         AttributeOption::truncate();
+        DB::table('attribute_option_product')->truncate();
         Attribute::factory(5)->has(AttributeOption::factory()->count(6))->create();
 
         $attributeOptions = AttributeOption::get();
+        $attributeOptionSelecteds = $attributeOptions->random(2);
         $attribute_option_product = [];
-        foreach (Product::select('id')->get() as $produc) {
+        foreach (Product::variant()->select('id')->get() as $key => $product) {
 
-            foreach ($attributeOptions->random(4) as $options) {
-                $attribute_option_product[] = [
-                    'product_id' => $produc['id'],
+            foreach ($attributeOptionSelecteds as $options) {
+                array_push($attribute_option_product, [
+                    'product_id' => $product['id'],
                     'attribute_option_id' => $options->id
-                ];
+                ]);
+                ;
+            }
+
+            foreach ($product['variants'] as $variant) {
+                foreach ($attributeOptionSelecteds as $options) {
+                    array_push($attribute_option_product, [
+                        'product_id' => $variant['id'],
+                        'attribute_option_id' => $options->id
+                    ]);
+                }
+            }
+            if (count($attribute_option_product) > 1000) {
+                DB::table('attribute_option_product')->insert($attribute_option_product);
+                $attribute_option_product = [];
+                $this->command->info($key);
+
             }
         }
         DB::table('attribute_option_product')->insert($attribute_option_product);

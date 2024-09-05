@@ -5,7 +5,7 @@ function classNames(...classes) {
 }
 const SelectSkuSize = ({ skuSizes, selectedSkuSize, setSelectedSkuSize }) => {
 
-    console.log(skuSizes)
+    // console.log(skuSizes)
 
     return (
         <div>

@@ -34,22 +34,38 @@ class SpecificationSeeder extends Seeder
                     'id' => $specification_id,
                     'name' => $specification['title'],
                     'product_id' => $product['id'],
-                    'created_at' => now(),
-                    'updated_at' => now(),
                 ]);
                 foreach ($specification['values'] as $specification_value) {
                     array_push($specifications_value_array, [
                         'specification_id' => $specification_id,
                         'name' => $specification_value['title'],
                         'value' => $specification_value['values'],
-                        'created_at' => now(),
-                        'updated_at' => now(),
+
                     ]);
                 }
                 $specification_id++;
+
+                foreach ($product['variants'] as $variant) {
+                    array_push($specifications_array, [
+                        'id' => $specification_id,
+                        'name' => $specification['title'],
+                        'product_id' => $variant['id'],
+
+                    ]);
+                    foreach ($specification['values'] as $specification_value) {
+                        array_push($specifications_value_array, [
+                            'specification_id' => $specification_id,
+                            'name' => $specification_value['title'],
+                            'value' => $specification_value['values'],
+
+                        ]);
+                    }
+                    $specification_id++;
+                }
+
             }
 
-            if (count($specifications_value_array) > 100) {
+            if (count($specifications_value_array) > 200) {
                 Specification::insert($specifications_array);
                 SpecificationValue::insert($specifications_value_array);
                 $specifications_array = [];
@@ -63,6 +79,10 @@ class SpecificationSeeder extends Seeder
         SpecificationValue::insert($specifications_value_array);
 
 
+
+    }
+    public function insertData()
+    {
 
     }
 }

@@ -30,11 +30,11 @@ export default function LayoutBlog({ children, breadcrumb = [], bannerText = nul
                     <Hero title={page.title} entry="Este es el blog donde encontrarás todo lo que necesitas para cuidar y mejorar tu computadora!" />
                 )}
                 <div className='py-content'>
-                    <div className="flex flex-col 2xl:flex-row gap-10">
-                        <div className="w-full  2xl:w-9/12">
+                    <div className="flex flex-col xl:flex-row gap-10">
+                        <div className="w-full  xl:w-8/12 2xl:w-9/12">
                             {children}
                         </div>
-                        <div className="w-full  2xl:w-3/12">
+                        <div className="w-full  xl:w-4/12 2xl:w-3/12">
                             <div className="divide-y divide-gray-200">
                                 {route().current('blog') && (
                                     <div className="pb-5">
@@ -54,7 +54,7 @@ export default function LayoutBlog({ children, breadcrumb = [], bannerText = nul
 
                                 <div className="py-5">
                                     <h3 className="font-medium text-xl ">Categorías {filters?.category && (<span>: {filters.category}</span>)}</h3>
-                                    <div className="flex flex-wrap gap-3 mt-4">
+                                    <div className="flex flex-wrap gap-2 mt-4">
                                         {categories_blog.map((item, index) => (
                                             <Link key={index} href={route('blog', { category: item.slug })}>
                                                 <Badge color='indigo'>{item.name} ({item.posts_count})</Badge>
@@ -68,12 +68,12 @@ export default function LayoutBlog({ children, breadcrumb = [], bannerText = nul
                                     <div className=" mt-4 space-y-4">
                                         {recent_post.map((post, index) => (
                                             <Link className="block" key={index} href={route('post', post.slug)}>
-                                                <div className="flex items-center  gap-x-4">
+                                                <div className="flex items-start gap-x-4">
                                                     <div className="w-4/12">
                                                         <img src={post.img} alt={post.title} className="rounded-md w-full object-cover object-center aspect-video " />
                                                     </div>
                                                     <div className="w-8/12 ">
-                                                        <span className=" text-gray-500 capitalize text-xs">{post.date}</span>
+                                                        <span className="block text-gray-500 capitalize text-xs">{post.date}</span>
                                                         <h3 className="font-medium mt-1 text-sm">{post.title}</h3>
                                                     </div>
                                                 </div>

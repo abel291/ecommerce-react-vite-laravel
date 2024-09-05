@@ -15,13 +15,12 @@ export default function DepartmentDropdown() {
                 </div>
             </PopoverButton>
 
-
             <PopoverPanel transition
 
                 className="absolute  z-20 mt-5 max-w-4xl w-full transition duration-200 ease-in-out [--anchor-gap:var(--spacing-5)] data-[closed]:-translate-y-1 data-[closed]:opacity-0" >
                 {({ close }) => (
                     <div className="overflow-hidden w-full rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white">
-                        <div className="p-4 lg:p-7 flex flex-wrap gap-4 justify-around ">
+                        <div className="p-4 lg:p-7 flex flex-wrap gap-10">
                             {departments.map((department, index) => (
                                 <div key={index}>
                                     <div className="flex items-start text-sm">
@@ -32,17 +31,18 @@ export default function DepartmentDropdown() {
                                                 <p id="Clothing-heading" class="font-medium text-gray-900">{department.name}</p>
 
                                             </Link>
-                                            <ul className='grid grid-cols-1 mt-3'>
-                                                <li>
-                                                    {department.categories.map((category) => (
+                                            <ul className='grid grid-cols-2 mt-3 gap-x-6'>
+                                                {department.categories.map((category) => (
+                                                    <li>
+
                                                         <Link key={category.id}
                                                             href={route('search', { 'categories[]': category.id, 'departments[]': department.id })} onClick={close}
                                                             className='text-left flex py-1 items-center  text-gray-500 hover:text-gray-800'>
 
                                                             {category.name}
                                                         </Link>
-                                                    ))}
-                                                </li>
+
+                                                    </li>))}
                                             </ul>
                                         </div>
                                     </div>

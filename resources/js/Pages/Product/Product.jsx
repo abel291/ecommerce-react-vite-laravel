@@ -12,8 +12,9 @@ import TitlePrice from './TitlePrice'
 import { formatCurrency } from '@/Helpers/helpers'
 import Presentations from './Variants/VariantsProduct'
 import VariantsProduct from './Variants/VariantsProduct'
+import ColorVariants from './Variants/ColorVariants'
 
-export default function Product({ product, relatedProducts, colors, sizes }) {
+export default function Product({ product, variants, relatedProducts }) {
     // console.log(product)
     let breadcrumb = [
         {
@@ -38,32 +39,18 @@ export default function Product({ product, relatedProducts, colors, sizes }) {
                         <ImagesProduct product={product} />
                     </div>
                     <div className="w-full lg:w-5/12 ">
+                        <TitlePrice product={product} />
+                        <div className='space-y-6'>
+                            {variants.length > 1 && (
+                                <ColorVariants product={product} variants={variants} />
+                            )}
+                            <VariantsProduct />
 
-                        <h2 className="font-bold text-3xl">
-                            {product.name}
-                        </h2>
-
-                        <span className='text-gray-400 block mt-2  '>REF {product.variant.ref}</span>
-
-                        <div className="mt-6 tracking-tight">
-                            {product.offer &&
-                                <span className="text-xs text-gray-400 font-medium line-through">
-                                    {formatCurrency(product.old_price)}
-                                </span>
-                            }
-                            <div className="flex items-center font-medium">
-                                <div className="text-3xl inline-block mr-2 font-semibold">{formatCurrency(product.price)}</div>
-                                {product.offer && <div className="inline-block text-green-500  ">{product.offer}%</div>}
-                            </div>
                         </div>
-
-                        <p className='mt-4 mb-10 '>{product.entry}</p>
-
-                        <VariantsProduct product={product} />
                     </div>
 
                 </div>
-                <div className="w-full lg:w-8/12">
+                <div className="w-full lg:w-9/12">
                     <Description product={product} />
                 </div>
                 <div className="py-content">

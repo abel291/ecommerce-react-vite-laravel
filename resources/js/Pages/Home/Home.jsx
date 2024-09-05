@@ -14,13 +14,13 @@ export default function Home({
     brands,
     carouselTop,
     bannersTop,
-    bestSeller,
+    productsBestSeller,
     bannersMedium,
     newProducts,
     bannersBottom,
     categoriesProductCount,
 }) {
-    // console.log(bannersTop);
+    console.log(productsBestSeller[0]);
     return (
         <>
             <Head title={page.meta_title} />
@@ -57,11 +57,11 @@ export default function Home({
                         </div>
                     )}
 
-                    {bestSeller.length > 0 && (
+                    {productsBestSeller.length > 0 && (
                         <SectionList title="Los mas vendidos">
                             <GridProduct>
-                                {bestSeller.map((variant) => (
-                                    <CardProduct key={variant.id} productVariant={variant}
+                                {productsBestSeller.map((product) => (
+                                    <CardProduct key={product.id} product={product}
                                     />
                                 ))}
                             </GridProduct>
@@ -71,8 +71,8 @@ export default function Home({
                     <SectionList title={"Los recién llegados"}>
                         <div className="py-2 relative">
                             <GridProduct>
-                                {newProducts.map((variant) => (
-                                    <CardProduct key={variant.id} productVariant={variant} productNew={true} />
+                                {newProducts.map((product) => (
+                                    <CardProduct key={product.id} product={product} productNew={true} />
                                 ))}
                             </GridProduct>
                         </div>

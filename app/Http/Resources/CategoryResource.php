@@ -22,6 +22,7 @@ class CategoryResource extends JsonResource
             'entry' => $this->entry,
             'active' => $this->active,
             'in_home' => $this->in_home,
+            'products' => ProductCardResource::collection($this->whenLoaded('products')),
         ];
     }
 }

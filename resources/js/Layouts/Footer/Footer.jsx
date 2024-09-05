@@ -5,7 +5,7 @@ import SocilaMediaIcon from "./SocilaMediaIcon";
 import SubscribeNewsletter from "./SubscribeNewsletter";
 
 const Footer = () => {
-    const { settings } = usePage().props;
+    const { settings, departments } = usePage().props;
 
     const footerItems = [
         {
@@ -40,28 +40,14 @@ const Footer = () => {
             ],
         },
         {
-            name: "Top Categorias",
-            links: [
-                {
-                    title: "Teclados",
-                    path: route("search", { "categories[]": "teclados" }),
-                },
-                {
-                    title: "Mouses",
-                    path: route("search", { "categories[]": "mouses" }),
-                },
-                {
-                    title: " Procesadores",
-                    path: route("search", { "categories[]": "procesadores" }),
-                },
-                {
-                    title: " Ram",
-                    path: route("search", { "categories[]": "ram" }),
-                },
-            ],
+            name: "Departamentos",
+            links: departments.map((department) => ({
+                title: department.name,
+                path: route("department", department.slug),
+            })),
         },
         {
-            name: "Legales",
+            name: "Enlaces Rápidos",
             links: [
                 {
                     title: "Teclados",

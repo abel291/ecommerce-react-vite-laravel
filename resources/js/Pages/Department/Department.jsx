@@ -26,7 +26,7 @@ function Department({ department, offertProducts, bestSellersProducts, categorie
 
             <div className="container">
                 <SectionList title="Top Ofertas">
-                    <CarouselProduct productVariants={offertProducts} />
+                    <CarouselProduct products={offertProducts} />
                 </SectionList>
 
                 {/* {bestSellersProduct.length > 0 && (
@@ -41,10 +41,10 @@ function Department({ department, offertProducts, bestSellersProducts, categorie
                             <SectionTitle title={category.name} />
                             <div className="mt-6">
                                 <GridProduct>
-                                    {category.products.map((item) => (
+                                    {category.products.map((product) => (
                                         <CardProduct
-                                            key={item.id}
-                                            productVariant={item}
+                                            key={product.ref}
+                                            product={product}
                                             productNew={true}
                                         />
                                     ))}

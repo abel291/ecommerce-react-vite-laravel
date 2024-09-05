@@ -8,9 +8,9 @@ const ImagesProduct = ({ product }) => {
 
     const allImages = [{
         id: 'principal-image',
-        alt: product.variant.slug,
-        img: product.variant.img,
-    }, ...product.variant.images]
+        alt: product.slug,
+        img: product.img,
+    }, ...product.images]
     return (
         <div className="flex  gap-x-4">
 

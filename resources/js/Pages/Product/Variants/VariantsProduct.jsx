@@ -1,12 +1,12 @@
 import React, { createContext, useEffect, useState } from 'react'
-import SelectColor from './SelectColor';
+import ColorVariants from './ColorVariants';
 import SelectSkuSize from './SelectSkuSize';
 import SelectQuantity from './SelectQuantity';
-import { Link, useForm } from '@inertiajs/react';
+import { Link, useForm, usePage } from '@inertiajs/react';
 import ButtonsProcessing from './ButtonsProcessing';
 
-const VariantsProduct = ({ product }) => {
-
+const VariantsProduct = () => {
+    const { product, variants } = usePage().props
     const [selectedSkuSize, setSelectedSkuSize] = useState(null)
 
     const form = useForm({
@@ -14,12 +14,10 @@ const VariantsProduct = ({ product }) => {
         skuId: null
     })
 
-
-
     useEffect(() => {
-        console.log(product.variants[0])
+        console.log(variants[0])
 
-        let newSelectedSkuSize = product.variant.skus.find((sku) => {
+        let newSelectedSkuSize = product.skus.find((sku) => {
             return sku.stock > 0
         })
 
@@ -30,7 +28,7 @@ const VariantsProduct = ({ product }) => {
     }, [])
 
     useEffect(() => {
-
+        console.log(selectedSkuSize)
         if (selectedSkuSize) {
             form.setData(data => ({
                 ...data,
@@ -50,20 +48,23 @@ const VariantsProduct = ({ product }) => {
 
 
     return (
-        <div className='space-y-6'>
 
-            {product.variants.length > 1 && (
-                <SelectColor product={product} />
-            )}
-            {product.variant.skus.length > 1 && (
+        <>
 
-                <SelectSkuSize skuSizes={product.variant.skus} selectedSkuSize={selectedSkuSize} setSelectedSkuSize={setSelectedSkuSize} />
-            )}
-            <SelectQuantity maxQuantity={product.max_quantity} selectedSkuSize={selectedSkuSize} form={form} />
+
+            {
+                product.skus.length > 1 && (
+
+                    <SelectSkuSize skuSizes={product.skus} selectedSkuSize={selectedSkuSize} setSelectedSkuSize={setSelectedSkuSize} />
+                )
+            }
+
+            < SelectQuantity maxQuantity={product.max_quantity} selectedSkuSize={selectedSkuSize} form={form} />
 
             <ButtonsProcessing form={form} />
 
-        </div>
+
+        </ >
     )
 }
 

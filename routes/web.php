@@ -24,7 +24,7 @@ Route::controller(PageController::class)->group(function () {
     Route::get('/offers', 'offers')->name('offers');
     Route::get('/contact-us', 'contact')->name('contact');
     // Route::get('/promotions', 'home')->name('promotions');
-    Route::get('/product/{slug}', 'product')->name('product');
+    Route::get('/product/{slug}/ref/{ref}', 'product')->name('product');
     //Route::get('/gift-card', 'home')->name('gift-card');
 });
 
