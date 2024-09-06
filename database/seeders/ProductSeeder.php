@@ -78,7 +78,7 @@ class ProductSeeder extends Seeder
             foreach ($product['variants'] as $variant) {
                 $color_id = $colors[$variant['color']['name']];
                 $ref = str_pad($product['id'], 4, "0", STR_PAD_LEFT) . '-' . str_pad($color_id, 3, "0", STR_PAD_LEFT);
-                if (rand(0, 5)) {
+                if (rand(0, 10)) {
                     $old_price = $product['price'];
                     $offer = fake()->randomElement([10, 20, 30, 40, 50]);
                     $price = $old_price - ($old_price * ($offer / 100));
@@ -109,7 +109,6 @@ class ProductSeeder extends Seeder
                         'model_type' => 'App\Models\Product',
                         'model_id' => $variant['id'],
                     ]);
-
                 }
             }
 

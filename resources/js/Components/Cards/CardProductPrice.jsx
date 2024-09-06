@@ -3,7 +3,7 @@ import React from 'react'
 
 const CardProductPrice = ({ price, old_price, offer }) => {
     return (
-        <div className='text-right'>
+        <div className='text-right whitespace-nowrap'>
             <span className="text-lg font-semibold">
                 {formatCurrency(price)}
             </span>

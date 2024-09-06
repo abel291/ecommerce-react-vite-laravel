@@ -31,13 +31,13 @@ export default function DepartmentDropdown() {
                                                 <p id="Clothing-heading" class="font-medium text-gray-900">{department.name}</p>
 
                                             </Link>
-                                            <ul className='grid grid-cols-2 mt-3 gap-x-6'>
+                                            <ul className='mt-3'>
                                                 {department.categories.map((category) => (
                                                     <li>
 
                                                         <Link key={category.id}
                                                             href={route('search', { 'categories[]': category.id, 'departments[]': department.id })} onClick={close}
-                                                            className='text-left flex py-1 items-center  text-gray-500 hover:text-gray-800'>
+                                                            className='text-left flex py-1 items-center  text-gray-500 hover:text-primary-600'>
 
                                                             {category.name}
                                                         </Link>

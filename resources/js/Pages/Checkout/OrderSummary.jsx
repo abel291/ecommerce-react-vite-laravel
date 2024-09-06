@@ -1,13 +1,15 @@
 import TextInput from "@/Components/Form/TextInput";
 import { formatCurrency } from "../../Helpers/helpers";
 import PrimaryButton from "@/Components/PrimaryButton";
-import { Link, useForm, usePage } from "@inertiajs/react";
+import { Link, router, useForm, usePage } from "@inertiajs/react";
 import InputError from "@/Components/Form/InputError";
 import Badge from "@/Components/Badge";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import InputLabel from "@/Components/Form/InputLabel";
 import InputDiscount from "./InputDiscount";
 import CardProductSummary from "./CardProductSummary";
+import { CheckoutContext } from "@/Components/Context/CheckoutProvider";
+import { useContext } from "react";
 
 const OrderSummary = ({ products, total }) => {
 
@@ -23,9 +25,16 @@ const OrderSummary = ({ products, total }) => {
         })
     }
 
+    const { userForm } = useContext(CheckoutContext);
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        userForm.post(route('purchase'), { preserveScroll: true })
+    }
+
     return (
         <div>
-            <div className="bg-gray-100 rounded-lg text-sm font-medium border divide-y shadow-sm ">
+            <div className="bg-gray-100 rounded-lg text-sm font-medium border divide-y  ">
                 {products.map((item) => (
                     <CardProductSummary product={item} />
                 ))}
@@ -69,6 +78,13 @@ const OrderSummary = ({ products, total }) => {
                     <div className="text-gray-600">Order total</div>
                     <div>{formatCurrency(total.total)}</div>
                 </div>
+            </div>
+
+            <div className="sm:col-span-6">
+                <PrimaryButton className="w-full mt-4" onClick={handleSubmit} isLoading={userForm.processing} disabled={userForm.processing}>
+                    Pagar {formatCurrency(total.total)}
+                </PrimaryButton>
+                <span className="text-xs text-gray-400">El metodo de pago fue comentado</span>
             </div>
 
         </div>

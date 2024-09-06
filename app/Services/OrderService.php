@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\DiscountCode;
 use App\Models\Order;
+use App\Models\Sku;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Collection;
 
@@ -22,7 +23,7 @@ class OrderService
 
         return $sub_total;
     }
-    public static function generateOrder($orderProducts, $discountCode = null, $user): Order
+    public static function generateOrder(Collection $orderProducts, $discountCode = null, $user): Order
     {
 
         $order_array = self::calculateTotal($orderProducts, $discountCode);
@@ -72,7 +73,6 @@ class OrderService
             'shipping' => $shipping,
             'total' => $total,
         ];
-
     }
 
     public static function formatOrderProduct($sku, $quantity)
@@ -94,16 +94,19 @@ class OrderService
         ];
     }
 
-    // public static function createOrderWithTotalCalculation($total)
-    // {
-    //     return new Order([
-    //         'sub_total' => $total['sub_total'],
-    //         'tax_rate' => $total['tax_rate'],
-    //         'tax_value' => $total['tax_value'],
-    //         'shipping' => $total['shipping'],
-    //         'discount' => $total['discount'],
-    //         'total' => $total['total'],
-    //         'discount_code_id' => $total['discount'] ? $total['discount']['id'] : null,
-    //     ]);
-    // }
+    public static function generateOrderProductsCheckout(array $products): Collection
+    {
+        $skuIds = array_keys($products);
+        return Sku::with(['product' => function ($query) {
+            $query->select('id', 'slug', 'name', 'ref', 'thumb', 'price', 'offer', 'old_price', 'max_quantity', 'color_id');
+        }])
+            ->find($skuIds)
+            ->filter(function ($sku) use ($products) {
+                return $sku->stock >= $products[$sku->id];
+            })
+            ->map(function ($sku) use ($products) {
+                $quantity = $products[$sku->id];
+                return self::formatOrderProduct($sku, $quantity);
+            });
+    }
 }
