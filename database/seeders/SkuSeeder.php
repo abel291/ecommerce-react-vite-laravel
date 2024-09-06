@@ -51,6 +51,7 @@ class SkuSeeder extends Seeder
                     array_push($skus_array, [
                         'id' => $sku_id,
                         'product_id' => $variant['id'],
+                        'size_id' => null,
                         'stock' => rand(0, 1) * rand(10, 300),
                     ]);
                     $sku_id++;

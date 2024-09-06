@@ -33,9 +33,9 @@ class OrderService
             'quantity' => $orderProducts->sum('quantity'),
             'code' => self::generateCode($user->id),
             'user_id' => $user->id,
-            'data' => [
-                'user' => $user->only('name', 'address', 'phone', 'email', 'city'),
-            ],
+            // 'data' => [
+            //     'user' => $user->only('name', 'address', 'phone', 'email', 'city'),
+            // ],
             'discount_code_id' => $discountCode?->id
         ]);
     }
@@ -97,9 +97,11 @@ class OrderService
     public static function generateOrderProductsCheckout(array $products): Collection
     {
         $skuIds = array_keys($products);
-        return Sku::with(['product' => function ($query) {
-            $query->select('id', 'slug', 'name', 'ref', 'thumb', 'price', 'offer', 'old_price', 'max_quantity', 'color_id');
-        }])
+        return Sku::with([
+            'product' => function ($query) {
+                $query->select('id', 'slug', 'name', 'ref', 'thumb', 'price', 'offer', 'old_price', 'max_quantity', 'color_id');
+            }
+        ])
             ->find($skuIds)
             ->filter(function ($sku) use ($products) {
                 return $sku->stock >= $products[$sku->id];

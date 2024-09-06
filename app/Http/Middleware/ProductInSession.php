@@ -16,7 +16,8 @@ class ProductInSession
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!session()->has(CartEnum::CHECKOUT->value)) {
+
+        if (!session()->has(CartEnum::CHECKOUT->value) || !session()->get(CartEnum::CHECKOUT->value)) {
             return to_route('home')->with(['error' => 'No hay productos en el checkout']);
         }
 

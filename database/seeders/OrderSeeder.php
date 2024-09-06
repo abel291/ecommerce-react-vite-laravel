@@ -59,13 +59,18 @@ class OrderSeeder extends Seeder
 
             $order = OrderService::generateOrder($orderProducts, $discountCode, $user);
 
+            $order->data = [
+                'user' => $user->only('name', 'address', 'phone', 'email', 'city'),
+            ]
+            ;
+
             $order->created_at = fake()->dateTimeBetween('-12 months');
 
             $order->updated_at = $order->created_at;
 
             $order->save();
 
-            $order->order_products()->createMany($orderProducts);
+            $order->orderProducts()->createMany($orderProducts);
 
             Payment::factory()->create([
                 'order_id' => $order->id

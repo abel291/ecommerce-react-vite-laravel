@@ -24,7 +24,7 @@ class PageSeeder extends Seeder
         $home = Page::factory()->create(['type' => 'home', 'meta_title' => 'Inicio', 'title' => 'Home']);
         $search = Page::factory()->create(['type' => 'search', 'meta_title' => 'Busqueda', 'title' => 'Busqueda']);
         $blog = Page::factory()->create(['type' => 'blog', 'meta_title' => 'Blog', 'title' => 'Desde el blog']);
-        $products = Product::select('id', 'slug', 'ref')->get();
+        $products = Product::select('id', 'slug', 'ref')->variant()->get();
         $categories = Category::select('slug')->get();
         $product = $products->random();
         $images =

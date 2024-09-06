@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\OrderStatuEnum;
+use App\Enums\OrderStatusEnum;
 use App\Enums\PaymentStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -17,7 +19,7 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('code', 20);
-            $table->string('status', 20)->default(PaymentStatus::SUCCESSFUL->value);
+            $table->string('status', 20)->default(OrderStatusEnum::SUCCESSFUL->value);
             $table->unsignedInteger('quantity');
             $table->decimal('sub_total', 12, 2);
             $table->decimal('tax_value');
@@ -32,7 +34,7 @@ class CreateOrdersTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('order_products', function (Blueprint $table) {
+        Schema::create('orderProducts', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('ref');
@@ -60,6 +62,6 @@ class CreateOrdersTable extends Migration
     public function down()
     {
         Schema::dropIfExists('orders');
-        Schema::dropIfExists('order_products');
+        Schema::dropIfExists('orderProducts');
     }
 }

@@ -28,7 +28,7 @@ enum PaymentMethodEnum: string
             PaymentMethodEnum::NEQUI => 'Nequi',
             PaymentMethodEnum::MP => 'Mercado pago',
             PaymentMethodEnum::CE => 'Contra Entrega',
-            PaymentMethodEnum::CARD => 'Targeta',
+            PaymentMethodEnum::CARD => 'Tarjeta',
         };
     }
 }

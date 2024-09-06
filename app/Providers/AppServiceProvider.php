@@ -2,6 +2,16 @@
 
 namespace App\Providers;
 
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Select;
+use Filament\Infolists\Infolist;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Number;
 use Illuminate\Support\ServiceProvider;
@@ -27,48 +37,44 @@ class AppServiceProvider extends ServiceProvider
         JsonResource::withoutWrapping();
 
         Number::useLocale('de');
+        Model::unguard();
 
-        // Event::listen(
-        //     DisableForeignKeyMigrations::class,
-        // );
+        EditAction::configureUsing(function (EditAction $action): void {
+            $action->icon(false);
+        }, isImportant: true);
 
-        // Model::unguard();
+        DeleteAction::configureUsing(function (DeleteAction $action): void {
+            $action->icon(false);
+        }, isImportant: true);
+        ViewAction::configureUsing(function (ViewAction $action, ): void {
+            $action->icon(false)->label('Ver');
+        }, isImportant: true);
 
-        // EditAction::configureUsing(function (EditAction $action): void {
-        //     $action->icon(false);
-        // }, isImportant: true);
+        Table::configureUsing(function (Table $table): void {
+            $table->defaultPaginationPageOption(10)->defaultSort('id', 'desc');
+            // $table->filtersLayout(FiltersLayout::AboveContent);
+            $table->searchDebounce('400ms');
+            $table->filtersTriggerAction(
+                fn(Action $action) => $action
+                    ->button()
+                    ->label('Filtros'),
+            );
+            ;
+        });
 
-        // DeleteAction::configureUsing(function (DeleteAction $action): void {
-        //     $action->icon(false);
-        // }, isImportant: true);
-        // ViewAction::configureUsing(function (ViewAction $action,): void {
-        //     $action->icon(false)->label('Ver');
-        // }, isImportant: true);
+        Infolist::$defaultDateTimeDisplayFormat = 'M j, Y h:i a';
 
-        // Table::configureUsing(function (Table $table): void {
-        //     $table->defaultPaginationPageOption(10)->defaultSort('id', 'desc');
-        //     // $table->filtersLayout(FiltersLayout::AboveContent);
-        //     $table->searchDebounce('400ms');
-        //     $table->filtersTriggerAction(
-        //         fn (Action $action) => $action
-        //             ->button()
-        //             ->label('Filtros'),
-        //     );;
-        // });
+        Table::$defaultDateTimeDisplayFormat = 'M j, Y h:i a';
+        DateTimePicker::$defaultDateTimeDisplayFormat = 'M j, Y h:i a';
 
-        // Infolist::$defaultDateTimeDisplayFormat = 'M j, Y h:i a';
+        Table::$defaultNumberLocale = 'de';
 
-        // Table::$defaultDateTimeDisplayFormat = 'M j, Y h:i a';
-        // DateTimePicker::$defaultDateTimeDisplayFormat = 'M j, Y h:i a';
+        Select::configureUsing(function (Select $component): void {
+            $component->native(false);
+        });
 
-        // Table::$defaultNumberLocale = 'de';
-
-        // Select::configureUsing(function (Select $component): void {
-        //     $component->native(false);
-        // });
-
-        // SelectFilter::configureUsing(function (SelectFilter $component): void {
-        //     $component->native(false);
-        // });
+        SelectFilter::configureUsing(function (SelectFilter $component): void {
+            $component->native(false);
+        });
     }
 }

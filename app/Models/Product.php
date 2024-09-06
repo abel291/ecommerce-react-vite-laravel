@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\PaymentStatus;
-
-
+use App\Enums\OrderStatusEnum;
 
 use Illuminate\Database\Eloquent\Builder;
 
@@ -153,7 +151,7 @@ class Product extends Model
     {
         $query->withCount([
             'orders' => function ($query) {
-                $query->where('status', PaymentStatus::SUCCESSFUL);
+                $query->where('status', OrderStatusEnum::SUCCESSFUL);
             }
         ])->orderBy('orders_count', 'desc');
     }
