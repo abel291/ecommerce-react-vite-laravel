@@ -11,7 +11,9 @@ const CardProductSummary = ({ product }) => {
             <div className="grow">
                 <h3>{product.name}</h3>
                 <span className="block text-gray-500 font-normal mt-1"> Color: {product.color.name}</span>
-                <span className="block text-gray-500 mt-0.5 font-normal">Talla: {product.size.name}</span>
+                {product.size && (
+                    <span className="block text-gray-500 mt-0.5 font-normal">Talla: {product.size.name}</span>
+                )}
             </div>
             <div>
                 <CardProductPrice price={product.price}

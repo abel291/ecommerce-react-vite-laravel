@@ -12,6 +12,8 @@ export default function Badge({ children, className, color = 'primary' }) {
         'pink': ' bg-pink-50  text-pink-700 ring-pink-700/10',
         'orange': 'bg-orange-50  text-orange-700 ring-orange-700/10',
         'primary': 'bg-primary-50  text-primary-700 ring-primary-700/10',
+        'success': ' bg-green-100  text-green-700 ring-green-600/20',
+        'danger': 'bg-red-50  text-red-700 ring-red-600/10',
     };
     return (
         <span className={className + " inline-flex items-center rounded-md  px-2 py-1 text-xs font-medium  ring-1 ring-inset  " + colors[color]}>{children}</span>

@@ -57,12 +57,11 @@ class CartService
                     'stock' => $sku->stock,
                     'quantity' => $quantity,
                     'total' => round($sku->product->price * $quantity),
-                    'size' => $sku->size->only(['id', 'name']),
+                    'size' => $sku->size?->only(['id', 'name']),
                     'color' => $sku->product->color->only(['id', 'name']),
                     'thumb' => $sku->product->thumb,
                 ];
-            });
-        ;
+            });;
 
         return $products;
     }

@@ -108,9 +108,7 @@ class PageController extends Controller
     public function product($slug, $ref)
     {
 
-
-        $product = Product::
-            where('slug', $slug)
+        $product = Product::where('slug', $slug)
             ->where('ref', $ref)
             ->variant()
             ->with('images', 'category', 'department', 'brand', 'specifications.specification_values', 'skus.size')

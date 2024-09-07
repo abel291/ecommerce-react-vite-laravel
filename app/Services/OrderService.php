@@ -82,7 +82,7 @@ class OrderService
             'name' => $product->name,
             'ref' => $product->ref,
             'color' => $product->color->name,
-            'size' => $sku->size->name,
+            'size' => $sku->size?->name,
             'thumb' => $product->thumb,
             'old_price' => $product->old_price,
             'offer' => $product->offer,
