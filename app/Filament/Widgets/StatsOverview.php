@@ -52,7 +52,7 @@ class StatsOverview extends BaseWidget
 
         $productBestSeller = Product::select('id', 'name', 'price')->variant()
             ->whereHas('orders', function (Builder $query) use ($filterMonth) {
-                $query->where('status', OrderStatusEnum::SUCCESSFUL)
+                $query->select('orders.id', 'status', 'orders.created_at')->where('status', OrderStatusEnum::SUCCESSFUL)
                     ->when($filterMonth, fn(Builder $query) => $query->whereDate('orders.created_at', '>=', $filterMonth));
             })->bestSeller()->first();
 

@@ -10,6 +10,7 @@ use Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -17,6 +18,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
@@ -52,8 +54,20 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+            ->renderHook(
+                PanelsRenderHook::AUTH_LOGIN_FORM_BEFORE,
+                fn(): string => Blade::render('
+                @env("local")
+                 <div class="space-y-2">
+                    <x-login-link redirect_url="/admin" email="user@user.com" label="Inicio como admin"/>
+                    <x-login-link redirect_url="/admin" email="user@user2.com" label="Inicio como usuario regular"/>
+                </div>
+                @endenv
+                '),
+            )
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->globalSearchDebounce('300ms');
     }
 }

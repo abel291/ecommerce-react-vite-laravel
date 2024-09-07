@@ -151,7 +151,9 @@ class Product extends Model
     {
         $query->withCount([
             'orders' => function ($query) {
-                $query->where('status', OrderStatusEnum::SUCCESSFUL);
+                $query
+                    ->select('orders.id', 'status')
+                    ->where('status', OrderStatusEnum::SUCCESSFUL);
             }
         ])->orderBy('orders_count', 'desc');
     }
