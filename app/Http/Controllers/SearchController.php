@@ -51,7 +51,7 @@ class SearchController extends Controller
 
         // $products_id_array = $products_id->pluck('id')->toArray();
 
-        $listDepartments = Department::whereHas(
+        $listDepartments = Department::active()->whereHas(
             'products',
             function ($query) use ($filters) {
                 $query->withFilters([
@@ -62,7 +62,7 @@ class SearchController extends Controller
         )->get();
 
 
-        $listCategories = Category::whereHas(
+        $listCategories = Category::active()->whereHas(
             'products',
             function ($query) use ($filters) {
                 $query->withFilters([
