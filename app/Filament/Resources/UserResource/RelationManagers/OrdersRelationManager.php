@@ -2,10 +2,13 @@
 
 namespace App\Filament\Resources\UserResource\RelationManagers;
 
+use App\Models\Order;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -29,9 +32,15 @@ class OrdersRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('code')
             ->columns([
-                Tables\Columns\TextColumn::make('code'),
-                Tables\Columns\TextColumn::make('cleinte'),
-                Tables\Columns\TextColumn::make('total')->money(),
+                TextColumn::make('code')->label('Numero')->searchable(),
+                TextColumn::make('data.user.name')->wrap()->searchable(),
+                TextColumn::make('order_products_count')->label('Productos')->counts('orderProducts'),
+                TextColumn::make('shipping')->label('Costo de envio')->numeric()->money(),
+                TextColumn::make('total')->label('Precio Total')->numeric()->money(),
+                TextColumn::make('status')->badge(),
+                TextColumn::make('payment.method')->label('Tipo de pago')->badge(),
+                TextColumn::make('created_at')->label('Fecha de la venta')
+                    ->sortable()->dateTime()->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
@@ -42,10 +51,13 @@ class OrdersRelationManager extends RelationManager
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Action::make('order-view')
+                    ->url(fn(Order $record): string => 123)
+                    ->label('Ver ordernes')->color('gray'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    // Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

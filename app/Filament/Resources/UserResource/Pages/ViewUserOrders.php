@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\Resources\UserResource;
+use App\Filament\Resources\UserResource\RelationManagers\OrdersRelationManager;
 use Filament\Actions;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
@@ -15,6 +16,13 @@ class ViewUserOrders extends ViewRecord
     public function getTitle(): string
     {
         return "Ver ordenes de {$this->record->name}";
+    }
+
+    public function getRelationManagers(): array
+    {
+        return [
+            OrdersRelationManager::class,
+        ];
     }
 
     public function infolist(Infolist $infolist): Infolist

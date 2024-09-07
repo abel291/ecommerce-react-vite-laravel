@@ -80,9 +80,7 @@ class UserResource extends Resource
                     ->description(fn($record) => $record->country)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('orders_count')
-                    ->counts('orders')->label('Num de compras')
-
-                ,
+                    ->counts('orders')->label('Num de compras'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -96,12 +94,13 @@ class UserResource extends Resource
                 //
             ])
             ->actions([
+                Action::make('view-orders')
+                    ->url(fn(User $record): string => UserResource::getUrl('view-orders', ['record' => $record->id]))
+                    ->label('Ver ordernes')->color('gray'),
+
                 Tables\Actions\EditAction::make()->mutateFormDataUsing(function (array $data): array {
                     return self::mutateDataPassword($data);
                 }),
-                Action::make('view-orders')
-                    ->url(fn(User $record): string => UserResource::getUrl('view-orders', ['record' => $record->id]))
-                    ->label('Ver ordernes'),
 
                 Tables\Actions\DeleteAction::make(),
 
@@ -113,19 +112,19 @@ class UserResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            RelationManagers\OrdersRelationManager::class,
-        ];
-    }
+    // public static function getRelations(): array
+    // {
+    //     return [
+    //         RelationManagers\OrdersRelationManager::class,
+    //     ];
+    // }
 
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            // 'create' => Pages\CreateUser::route('/create'),
+            // 'edit' => Pages\EditUser::route('/{record}/edit'),
             // 'view' => Pages\ViewUser::route('/{record}'),
             'view-orders' => Pages\ViewUserOrders::route('/{record}/orders'),
         ];
