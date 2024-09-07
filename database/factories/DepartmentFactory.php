@@ -24,7 +24,6 @@ class DepartmentFactory extends Factory
             'name' => $name,
             'slug' => $slug,
             'img' => '',
-            'meta_title' => $name,
             'entry' => $this->faker->text(),
             'active' => 1,
         ];

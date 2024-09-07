@@ -32,8 +32,7 @@ class CategorySeeder extends Seeder
             return Department::factory()->make([
                 'name' => $item,
                 'slug' => $slug,
-                'icon' => "/img/" . env('ECOMMERCE_TYPE') . "/departments/icon-$slug.png",
-                'img' => "/img/" . env('ECOMMERCE_TYPE') . "/departments/$slug.png",
+                'img' => "/img/departments/$slug.png",
             ]);
         });
 

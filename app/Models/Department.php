@@ -12,16 +12,6 @@ class Department extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'slug',
-        'banner',
-        'title',
-        'entry',
-        'img',
-        'active',
-    ];
-
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);
