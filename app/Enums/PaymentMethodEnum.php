@@ -2,7 +2,11 @@
 
 namespace App\Enums;
 
-enum PaymentMethodEnum: string
+use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasIcon;
+use Filament\Support\Contracts\HasLabel;
+
+enum PaymentMethodEnum: string  implements HasLabel, HasColor, HasIcon
 {
     case EFECTY = 'efecty';
     case NEQUI = 'nequi';
@@ -10,18 +14,18 @@ enum PaymentMethodEnum: string
     case CE = 'contra-entrega';
     case CARD = 'card';
 
-    public function color(): string
+    public function getColor(): string
     {
         return match ($this) {
-            PaymentMethodEnum::EFECTY => 'yellow',
-            PaymentMethodEnum::NEQUI => 'indigo',
-            PaymentMethodEnum::MP => 'blue',
+            PaymentMethodEnum::EFECTY => 'gray',
+            PaymentMethodEnum::NEQUI => 'gray',
+            PaymentMethodEnum::MP => 'gray',
             PaymentMethodEnum::CE => 'gray',
-            PaymentMethodEnum::CARD => 'green',
+            PaymentMethodEnum::CARD => 'gray',
         };
     }
 
-    public function text(): string
+    public function getLabel(): string
     {
         return match ($this) {
             PaymentMethodEnum::EFECTY => 'Efecty',
@@ -29,6 +33,16 @@ enum PaymentMethodEnum: string
             PaymentMethodEnum::MP => 'Mercado pago',
             PaymentMethodEnum::CE => 'Contra Entrega',
             PaymentMethodEnum::CARD => 'Tarjeta',
+        };
+    }
+    public function getIcon(): string
+    {
+        return match ($this) {
+            PaymentMethodEnum::EFECTY => '',
+            PaymentMethodEnum::NEQUI => '',
+            PaymentMethodEnum::MP => '',
+            PaymentMethodEnum::CE => '',
+            PaymentMethodEnum::CARD => '',
         };
     }
 }

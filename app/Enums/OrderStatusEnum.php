@@ -8,7 +8,7 @@ use Filament\Support\Contracts\HasLabel;
 
 enum OrderStatusEnum: string implements HasLabel, HasColor, HasIcon
 {
-    case CANCELED = 'canceled';
+    case CANCELLED = 'canceled';
     case REFUNDED = 'refunded';
     case SUCCESSFUL = 'successful';
     case PENDING = 'pending';
@@ -16,30 +16,30 @@ enum OrderStatusEnum: string implements HasLabel, HasColor, HasIcon
     public function getLabel(): string
     {
         return match ($this) {
-            OrderStatusEnum::CANCELED => 'Cancelado',
-            OrderStatusEnum::REFUNDED => 'Reembolsado',
-            OrderStatusEnum::SUCCESSFUL => 'Aceptado',
-            OrderStatusEnum::PENDING => 'Pendiente',
+            self::CANCELLED => 'Cancelado',
+            self::REFUNDED => 'Reembolsado',
+            self::SUCCESSFUL => 'Aceptado',
+            self::PENDING => 'Pendiente',
         };
     }
 
     public function getColor(): string
     {
         return match ($this) {
-            OrderStatusEnum::CANCELED => 'danger',
-            OrderStatusEnum::REFUNDED => 'danger',
-            OrderStatusEnum::SUCCESSFUL => 'success',
-            OrderStatusEnum::PENDING => 'gray',
+            self::CANCELLED => 'danger',
+            self::REFUNDED => 'danger',
+            self::SUCCESSFUL => 'success',
+            self::PENDING => 'gray',
         };
     }
 
     public function getIcon(): string
     {
         return match ($this) {
-            OrderStatusEnum::CANCELED => 'heroicon-s-x',
-            OrderStatusEnum::REFUNDED => 'heroicon-o-receipt-refund',
-            OrderStatusEnum::SUCCESSFUL => 'heroicon-s-check',
-            OrderStatusEnum::PENDING => 'heroicon-s-check',
+            self::REFUNDED => 'heroicon-m-receipt-refund',
+            self::SUCCESSFUL => 'heroicon-m-check-circle',
+            self::CANCELLED => 'heroicon-m-x-circle',
+            self::PENDING => 'heroicon-m-x-circle',
         };
     }
 }
