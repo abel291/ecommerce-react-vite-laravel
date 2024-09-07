@@ -15,11 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug');
-            $table->string('icon')->nullable();
             $table->string('img');
             $table->text('entry')->nullable();
-            $table->string('meta_title')->nullable();
-            $table->string('meta_desc')->nullable();
             $table->boolean('active')->default(1);
             $table->timestamps();
         });
