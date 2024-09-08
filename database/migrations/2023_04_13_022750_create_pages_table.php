@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('type')->unique()->index();
             $table->string('title')->nullable();
-            $table->string('meta_title')->nullable();
-            $table->string('meta_desc');
             $table->json('data')->nullable();
             $table->timestamps();
         });

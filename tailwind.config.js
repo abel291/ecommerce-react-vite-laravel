@@ -15,7 +15,7 @@ export default {
     theme: {
         colors: {
             ...colors,
-            primary: colors.emerald,
+            primary: colors.red,
         },
 
         container: {

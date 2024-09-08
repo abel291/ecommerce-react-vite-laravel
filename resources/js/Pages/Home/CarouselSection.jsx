@@ -45,7 +45,7 @@ const CarouselSection = ({ items, searchType, parameters = {} }) => {
                     {
                         items.map((item, index) => (
                             <CarouselItem key={index} >
-                                <Link href={route('search', { [searchType]: item.slug, ...parameters })}>
+                                <Link href={route('search', { [searchType]: item.id, ...parameters })}>
                                     <SimpleCard name={item.name} img={item.img} />
                                 </Link>
                             </CarouselItem>

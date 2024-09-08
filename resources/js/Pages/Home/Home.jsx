@@ -8,6 +8,7 @@ import { Head, usePage } from "@inertiajs/react";
 import CarouselTop from "./CarouselTop";
 import GridProduct from "@/Components/Grids/GridProduct";
 import CarouselSection from "./CarouselSection";
+import MetaTag from "@/Components/MetaTag";
 
 export default function Home({
     page,
@@ -23,7 +24,8 @@ export default function Home({
     console.log(productsBestSeller[0]);
     return (
         <>
-            <Head title={page.meta_title} />
+            <MetaTag metaTag={page.metaTag} />
+
             <Layout>
                 <div className="container">
                     <div className="py-content grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8 ">

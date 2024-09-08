@@ -24,7 +24,7 @@ class PageController extends Controller
     public function home()
     {
 
-        $page = Page::with('banners')->where('type', 'home')->firstOrFail();
+        $page = Page::with('banners', 'metaTag')->where('type', 'home')->firstOrFail();
 
         $bestSeller = Product::activeInStock()
             ->variant()
@@ -43,7 +43,7 @@ class PageController extends Controller
 
         // dd($bestSeller[0]);
         $banners = $page->banners->where('active', 1);
-        $carousel_top = $banners->where('position', 'top')->where('type', 'carousel');
+        $carousel_top = $banners->where('position', 'top')->where('type', 'carousel')->sortBy('sort');
         $banners_top = $banners->where('position', 'top')->where('type', 'banner');
         $banners_medium = $banners->where('position', 'middle');
         $banners_bottom = $banners->where('position', 'below');

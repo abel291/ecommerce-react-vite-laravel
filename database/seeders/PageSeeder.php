@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Image;
+use App\Models\MetaTag;
 use App\Models\Page;
 use App\Models\Product;
 use Illuminate\Database\Seeder;
@@ -18,12 +19,21 @@ class PageSeeder extends Seeder
         Page::truncate();
         Image::where('model_type', 'App\Models\Page')->delete();
 
-        Page::factory()->create(['type' => 'offers', 'title' => 'Ofetas']);
-        Page::factory()->create(['type' => 'contact', 'title' => 'Contáctenos']);
+        Page::factory()->has(MetaTag::factory())->create(['type' => 'offers', 'title' => 'Ofetas']);
+        Page::factory()->has(MetaTag::factory())->create(['type' => 'contact', 'title' => 'Contáctenos']);
 
-        $home = Page::factory()->create(['type' => 'home', 'meta_title' => 'Inicio', 'title' => 'Home']);
-        $search = Page::factory()->create(['type' => 'search', 'meta_title' => 'Busqueda', 'title' => 'Busqueda']);
-        $blog = Page::factory()->create(['type' => 'blog', 'meta_title' => 'Blog', 'title' => 'Desde el blog']);
+        $home = Page::factory()->has(MetaTag::factory())->create([
+            'type' => 'home',
+            'title' => 'Inicio',
+        ]);
+        $search = Page::factory()->has(MetaTag::factory())->create([
+            'type' => 'search',
+            'title' => 'Busqueda',
+        ]);
+        $blog = Page::factory()->has(MetaTag::factory())->create([
+            'type' => 'blog',
+            'title' => 'Blog',
+        ]);
         $products = Product::select('id', 'slug', 'ref')->variant()->get();
         $categories = Category::select('slug')->get();
         $product = $products->random();
@@ -31,10 +41,9 @@ class PageSeeder extends Seeder
             [
                 [
                     'img' => '/img/banners/banner-carousel-1.jpg',
-                    'alt' => 'banner-1',
-                    'title' => 'banner-1',
+
                     'type' => 'carousel',
-                    'sort' => 1,
+                    'sort' => rand(1, 10),
                     'position' => 'top',
                     'link' => route('product', [$product->slug, $product->ref]),
                     'model_id' => $home->id,
@@ -43,10 +52,9 @@ class PageSeeder extends Seeder
                 ],
                 [
                     'img' => '/img/banners/banner-carousel-2.jpg',
-                    'alt' => 'banner-2',
-                    'title' => 'banner-2',
+
                     'type' => 'carousel',
-                    'sort' => 2,
+                    'sort' => rand(1, 10),
                     'position' => 'top',
                     'link' => route('search', ['categories' => [$categories->random()->slug]]),
                     'model_id' => $home->id,
@@ -56,7 +64,7 @@ class PageSeeder extends Seeder
                 [
                     'img' => '/img/banners/banner-carousel-3.jpg',
                     'type' => 'carousel',
-                    'sort' => 3,
+                    'sort' => rand(1, 10),
                     'position' => 'top',
                     'link' => route('product', [$product->slug, $product->ref]),
                     'model_id' => $home->id,
