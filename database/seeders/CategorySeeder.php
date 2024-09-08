@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Helpers\Helpers;
 use App\Models\Category;
 use App\Models\Department;
+use App\Models\MetaTag;
 use App\Models\Specification;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -24,36 +25,46 @@ class CategorySeeder extends Seeder
         Department::truncate();
         DB::table('category_department')->truncate();
 
+        Category::factory()->count(5)->create([
+            'type' => 'blog',
+            'in_home' => false,
+        ]);
+
         $products = collect(Storage::json(DatabaseSeeder::getPathProductJson()));
 
-        $departments = $products->pluck('department')->unique()->map(function ($item) {
+        $departments = $products->pluck('department')->unique();
+        foreach ($departments as $value) {
+            # code...
 
-            $slug = Str::slug($item);
-            return Department::factory()->make([
-                'name' => $item,
-                'slug' => $slug,
-                'img' => "/img/departments/$slug.png",
-            ]);
-        });
+            $slug = Str::slug($value);
+            Department::factory()
+                ->has(MetaTag::factory())
+                ->create([
+                    'name' => $value,
+                    'slug' => $slug,
+                    'img' => "/img/departments/$slug.png",
+                ]);
+        }
 
-        Department::insert($departments->toArray());
+
 
         //////////////////////////////////
 
-        $categories = $products->pluck('category')->unique()->map(function ($category_name) {
+        $categories = $products->pluck('category')->unique();
+        foreach ($categories as $value) {
+            $slug = Str::slug($value);
 
-            $slug = Str::slug($category_name);
+            Category::factory()
+                // ->has(MetaTag::factory())
+                ->create([
+                    'name' => ucfirst($value),
+                    'slug' => $slug,
+                    'entry' => fake()->text(250),
+                    'type' => 'product',
+                    'img' => "/img/categories/$slug.png",
+                ]);
+        }
 
-            return [
-                'name' => ucfirst($category_name),
-                'slug' => Str::slug($category_name),
-                'entry' => fake()->text(250),
-                'type' => 'product',
-                'img' => "/img/categories/$slug.png",
-            ];
-        });
-
-        Category::insert($categories->toArray());
 
 
         $departments = Department::select('id', 'name')->get()->pluck('id', 'name');
@@ -70,9 +81,5 @@ class CategorySeeder extends Seeder
         $category_department = collect($category_department)->unique();
 
         DB::table('category_department')->insert($category_department->toArray());
-
-        Category::factory()->count(5)->create([
-            'type' => 'blog'
-        ]);
     }
 }

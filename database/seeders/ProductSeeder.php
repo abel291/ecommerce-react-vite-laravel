@@ -12,6 +12,7 @@ use App\Models\Category;
 use App\Models\Color;
 use App\Models\Department;
 use App\Models\Image;
+use App\Models\MetaTag;
 use App\Models\Presentation;
 use App\Models\Product;
 use App\Models\ProductAttribute;
@@ -54,7 +55,7 @@ class ProductSeeder extends Seeder
         $products_variant_array = [];
         $images_array = [];
         $product_count = 1;
-
+        $meta_array = [];
         foreach ($products as $product) {
 
             $this->command->info($product_count . ' - ' . $product['name']);
@@ -110,20 +111,29 @@ class ProductSeeder extends Seeder
                         'model_id' => $variant['id'],
                     ]);
                 }
+                array_push($meta_array, [
+                    'meta_title' => $product['name'],
+                    'meta_description' => fake()->sentence(),
+                    'model_type' => 'App\Models\Product',
+                    'model_id' => $variant['id'],
+                ]);
             }
 
             if (count($products_variant_array) > 50) {
                 Product::insert($products_array);
                 Product::insert($products_variant_array);
                 Image::insert($images_array);
+                MetaTag::insert($meta_array);
                 $products_array = [];
                 $products_variant_array = [];
                 $images_array = [];
+                $meta_array = [];
             }
         }
 
         Product::insert($products_array);
         Product::insert($products_variant_array);
         Image::insert($images_array);
+        MetaTag::insert($meta_array);
     }
 }

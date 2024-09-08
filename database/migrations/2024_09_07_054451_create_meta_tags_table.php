@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('meta_tags', function (Blueprint $table) {
             $table->id();
+            $table->string('meta_title');
+            $table->string('meta_description');
+            $table->morphs('model');
             $table->timestamps();
         });
     }

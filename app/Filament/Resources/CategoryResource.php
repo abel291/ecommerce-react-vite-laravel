@@ -2,16 +2,21 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\CategoryTypeEnum;
 use App\Filament\Resources\CategoryResource\Pages;
 use App\Filament\Resources\CategoryResource\RelationManagers;
 use App\Models\Category;
+use App\Models\Department;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class CategoryResource extends Resource
 {
@@ -20,25 +25,35 @@ class CategoryResource extends Resource
     public static ?string $label = 'Categoria';
     protected static ?string $pluralModelLabel = 'Categorias';
     protected static ?string $navigationGroup = 'Catalogo';
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-tag';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->required(),
-                Forms\Components\TextInput::make('slug')
-                    ->required(),
-                Forms\Components\TextInput::make('banner'),
-                Forms\Components\TextInput::make('img'),
-                Forms\Components\TextInput::make('entry'),
+                    ->required()
+                    ->live(debounce: 500)
+                    ->afterStateUpdated(function (Set $set, $state, $context) {
+                        if ($context === 'edit') {
+                            return;
+                        }
+
+                        $set('slug', Str::slug($state));
+                    })->label('Nombre'),
+                DepartmentResource::slugForm(prefixRouteName: 'home'),
                 Forms\Components\Toggle::make('active')
-                    ->required(),
-                Forms\Components\Toggle::make('in_home')
-                    ->required(),
-                Forms\Components\TextInput::make('type')
-                    ->required(),
+                    ->required()->label('Visible'),
+                Forms\Components\Toggle::make('in_home')->inline(false)
+                    ->required()->label('Aparece en el home'),
+                // Forms\Components\TextInput::make('slug')
+                //     ->required(),
+                Forms\Components\FileUpload::make('img')->directory('img/categories')->label('Imagen'),
+                Forms\Components\TextInput::make('entry')->columnSpanFull()->label('Pequeña descripcion'),
+
+                Forms\Components\Select::make('type')->options(CategoryTypeEnum::class)
+                    ->default(CategoryTypeEnum::PRODUCT)
+                    ->required()->label('Tipo'),
             ]);
     }
 
@@ -46,40 +61,36 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('img')
+                    ->size(50)
+                    ->square()
+                    ->searchable()
+                    ->label('Imagen'),
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('slug')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('banner')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('img')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('entry')
-                    ->searchable(),
-                Tables\Columns\IconColumn::make('active')
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('in_home')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('type')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->searchable()->label('Nombre'),
+                // Tables\Columns\TextColumn::make('slug')
+                //     ->searchable(),
+                // Tables\Columns\TextColumn::make('banner')
+                //     ->searchable(),
+
+                // Tables\Columns\TextColumn::make('entry')
+                //     ->searchable(),
+                Tables\Columns\ToggleColumn::make('active')->label('Visible'),
+                Tables\Columns\ToggleColumn::make('in_home')->label('Aparece en el home'),
+                Tables\Columns\TextColumn::make('type')->badge()->label('Tipo'),
+                ...DepartmentResource::dateCreatedTable()
             ])
             ->filters([
-                //
+                SelectFilter::make('type')
+                    ->options(CategoryTypeEnum::class)
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    // Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -95,8 +106,8 @@ class CategoryResource extends Resource
     {
         return [
             'index' => Pages\ListCategories::route('/'),
-            'create' => Pages\CreateCategory::route('/create'),
-            'edit' => Pages\EditCategory::route('/{record}/edit'),
+            // 'create' => Pages\CreateCategory::route('/create'),
+            // 'edit' => Pages\EditCategory::route('/{record}/edit'),
         ];
     }
 }

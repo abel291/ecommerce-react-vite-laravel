@@ -34,7 +34,7 @@ class CreateOrdersTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('orderProducts', function (Blueprint $table) {
+        Schema::create('order_products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('ref');

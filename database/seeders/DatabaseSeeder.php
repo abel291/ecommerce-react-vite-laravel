@@ -7,6 +7,7 @@ use App\Models\Attribute\ColorAttribute;
 use App\Models\Category;
 use App\Models\Department;
 use App\Models\Image;
+use App\Models\MetaTag;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -41,6 +42,7 @@ class DatabaseSeeder extends Seeder
         Cache::flush();
         Schema::disableForeignKeyConstraints();
         ini_set('memory_limit', '500M');
+        MetaTag::truncate();
         $this->call([
             UserSeeder::class,
             CategorySeeder::class,

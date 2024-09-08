@@ -21,6 +21,10 @@ class Department extends Model
     {
         return $this->belongsToMany(Category::class);
     }
+    public function metaTag()
+    {
+        return $this->morphOne(MetaTag::class, 'model');
+    }
 
     public function categories_active(): HasMany
     {

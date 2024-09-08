@@ -23,7 +23,7 @@ class DepartmentResource extends Resource
     public static ?string $label = 'Departamento';
     protected static ?string $pluralModelLabel = 'Departamentos';
     protected static ?string $navigationGroup = 'Catalogo';
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-building-library';
 
     public static function form(Form $form): Form
     {
@@ -38,21 +38,20 @@ class DepartmentResource extends Resource
                         }
 
                         $set('slug', Str::slug($state));
-                    }),
-                Forms\Components\TextInput::make('slug')
-                    ->required()
-                    ->maxLength(255)
-                    ->rules(['alpha_dash'])
-                    ->unique(ignoreRecord: true),
-
+                    })->label('Nombre'),
+                self::slugForm(prefixRouteName: 'department'),
                 Forms\Components\FileUpload::make('img')
                     ->directory('img/departments')
-                    ->required(),
-                Forms\Components\Toggle::make('active')
-                    ->required(),
-
+                    ->required()->label('Imagen'),
                 Forms\Components\Textarea::make('entry')
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->label('Pequeña descripcion'),
+                Forms\Components\Toggle::make('active')
+                    ->required()
+                    ->label('Visible'),
+
+                self::metasForm()
+
             ]);
     }
 
@@ -64,6 +63,10 @@ class DepartmentResource extends Resource
                 Tables\Columns\TextColumn::make('name')->label('Nombre')
                     ->description(fn($record) => $record->slug)
                     ->searchable(),
+                Tables\Columns\TextColumn::make('slug')
+                    ->formatStateUsing(fn($record) => route('department', $record->slug))
+                    ->url(fn($record) => route('department', $record->slug))
+                    ->openUrlInNewTab(),
 
                 Tables\Columns\ToggleColumn::make('active')->label('Visible'),
 
@@ -71,22 +74,13 @@ class DepartmentResource extends Resource
                     'products' => fn(Builder $query) => $query->active()->variant(),
                 ])->label('Productos'),
 
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->label('Fecha de creacion'),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->label('Fecha de modificacion'),
+                ...self::dateCreatedTable()
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make()->modalWidth(MaxWidth::TwoExtraLarge),
+                Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
@@ -95,6 +89,48 @@ class DepartmentResource extends Resource
                 ]),
             ]);
     }
+    public static function dateCreatedTable()
+    {
+        return [
+            Tables\Columns\TextColumn::make('created_at')
+                ->dateTime()
+                ->sortable()
+                ->toggleable(isToggledHiddenByDefault: true)
+                ->label('Fecha de creacion'),
+            Tables\Columns\TextColumn::make('updated_at')
+                ->dateTime()
+                ->sortable()
+                ->toggleable(isToggledHiddenByDefault: false)
+                ->label('Ultima modificacion'),
+        ];
+    }
+    public static function slugForm($prefixRouteName = 'home')
+    {
+        return Forms\Components\TextInput::make('slug')
+            ->prefix(url(route($prefixRouteName, '')) . '/')
+            ->required()
+            ->maxLength(255)
+            ->rules(['alpha_dash'])
+            ->unique(ignoreRecord: true)
+            ->label('Url');
+    }
+    public static function metasForm()
+    {
+        return Forms\Components\Fieldset::make('MetaTags')
+            ->relationship('metaTag')
+            ->schema([
+                Forms\Components\TextInput::make('meta_title')
+
+                    ->required()
+                    ->maxLength(255)
+                    ->label('Meta titulo'),
+                Forms\Components\Textarea::make('meta_description')
+                    ->required()
+                    ->maxLength(255)
+                    ->label('Meta descripcion'),
+            ])->columns(1);
+    }
+
 
     public static function getRelations(): array
     {

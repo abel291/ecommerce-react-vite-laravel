@@ -17,7 +17,8 @@ class MetaTagFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'meta_title' => fake()->sentence(3),
+            'meta_description' => fake()->sentence(),
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
 use Filament\Infolists\Infolist;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\DeleteAction;
@@ -46,7 +47,7 @@ class AppServiceProvider extends ServiceProvider
         DeleteAction::configureUsing(function (DeleteAction $action): void {
             $action->icon(false);
         }, isImportant: true);
-        ViewAction::configureUsing(function (ViewAction $action, ): void {
+        ViewAction::configureUsing(function (ViewAction $action,): void {
             $action->icon(false)->label('Ver');
         }, isImportant: true);
 
@@ -58,8 +59,7 @@ class AppServiceProvider extends ServiceProvider
                 fn(Action $action) => $action
                     ->button()
                     ->label('Filtros'),
-            );
-            ;
+            );;
         });
 
         Infolist::$defaultDateTimeDisplayFormat = 'M j, Y h:i a';
@@ -71,6 +71,9 @@ class AppServiceProvider extends ServiceProvider
 
         Select::configureUsing(function (Select $component): void {
             $component->native(false);
+        });
+        Toggle::configureUsing(function (Toggle $component): void {
+            $component->inline(false);
         });
 
         SelectFilter::configureUsing(function (SelectFilter $component): void {
