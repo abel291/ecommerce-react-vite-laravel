@@ -6,10 +6,10 @@ import ProductPriceOffer from "../ProductPriceOffer";
 const CardProduct = ({ product, productNew = false }) => {
 
 
-    console.log(product)
+    // console.log(product)
     return (
         <Link
-            key={product.id}
+
             href={route("product", { slug: product.slug, ref: product.ref })}
             className="w-full relative block max-w-md mx-auto group h-full overflow-hidden rounded-md transition duration-200 ease-in-out transform hover:-translate-y-1 md:hover:-translate-y-1.5 hover:shadow "
         >
@@ -35,7 +35,7 @@ const CardProduct = ({ product, productNew = false }) => {
                     <div className="flex gap-x-2 items-center flex-wrap ">
                         {product.colors.map((color) => (
                             <div
-                                key={product.id}
+                                key={color.id}
                                 title={color.name}
                                 className={"size-6 p-[2px] border rounded-full flex items-center " +
                                     (product.color_id == color.id ? 'border-gray-700' : 'border-gray-300')}

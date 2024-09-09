@@ -10,7 +10,7 @@ const CarouselSection = ({ items, searchType, parameters = {} }) => {
             {(items.length <= 6) ? (
                 <div className='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 md:gap-2 justify-around'>
                     {items.map((item, index) => (
-                        <div key={item.slug}>
+                        <div key={item.id}>
                             <Link href={route('search', { [searchType]: item.slug, ...parameters })}>
                                 <SimpleCard name={item.name} img={item.img} />
                             </Link>

@@ -21,7 +21,7 @@ export default function Home({
     bannersBottom,
     categoriesProductCount,
 }) {
-    console.log(productsBestSeller[0]);
+    // console.log(productsBestSeller[0]);
     return (
         <>
             <MetaTag metaTag={page.metaTag} />
@@ -34,7 +34,7 @@ export default function Home({
                         </div>
 
                         {bannersTop.map((item) => (
-                            <div key={item.img}>
+                            <div key={item.id}>
                                 <a href={item.link} target="blank">
                                     <img className="h-full mx-auto object-cover w-full rounded-lg overflow-hidden"
                                         src={item.img}
