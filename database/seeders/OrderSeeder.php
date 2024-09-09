@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\CartEnum;
+use App\Enums\OrderStatusEnum;
 use App\Models\DiscountCode;
 use App\Models\Order;
 use App\Models\OrderProduct;
@@ -32,9 +33,9 @@ class OrderSeeder extends Seeder
 
         $users = User::get();
         $discountCodes = DiscountCode::get();
-        foreach ($users->multiply(3) as $user) {
+        foreach ($users->multiply(10) as $user) {
 
-            $max_quantity_selected = rand(1, 10);
+            $max_quantity_selected = rand(1, 14);
             $orderProducts = Sku::where('stock', '>=', $max_quantity_selected)
                 ->with([
                     'size:id,name',
@@ -61,10 +62,11 @@ class OrderSeeder extends Seeder
 
             $order->data = [
                 'user' => $user->only('name', 'address', 'phone', 'email', 'city'),
-            ]
-            ;
+            ];
 
-            $order->created_at = fake()->dateTimeBetween('-12 months');
+            $order->created_at = fake()->dateTimeBetween('-12 months', '+2 days');
+
+            $order->status = fake()->randomElement(OrderStatusEnum::cases());
 
             $order->updated_at = $order->created_at;
 

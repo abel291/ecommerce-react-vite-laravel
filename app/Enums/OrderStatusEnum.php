@@ -11,7 +11,7 @@ enum OrderStatusEnum: string implements HasLabel, HasColor, HasIcon
     case CANCELLED = 'canceled';
     case REFUNDED = 'refunded';
     case SUCCESSFUL = 'successful';
-    case PENDING = 'pending';
+    // case PENDING = 'pending';
 
     public function getLabel(): string
     {
@@ -19,17 +19,17 @@ enum OrderStatusEnum: string implements HasLabel, HasColor, HasIcon
             self::CANCELLED => 'Cancelado',
             self::REFUNDED => 'Reembolsado',
             self::SUCCESSFUL => 'Aceptado',
-            self::PENDING => 'Pendiente',
+            // self::PENDING => 'Pendiente',
         };
     }
 
     public function getColor(): string
     {
         return match ($this) {
-            self::CANCELLED => 'danger',
+            self::CANCELLED => 'gray',
             self::REFUNDED => 'danger',
             self::SUCCESSFUL => 'success',
-            self::PENDING => 'gray',
+            // self::PENDING => 'gray',
         };
     }
 
@@ -39,7 +39,7 @@ enum OrderStatusEnum: string implements HasLabel, HasColor, HasIcon
             self::REFUNDED => 'heroicon-m-receipt-refund',
             self::SUCCESSFUL => 'heroicon-m-check-circle',
             self::CANCELLED => 'heroicon-m-x-circle',
-            self::PENDING => 'heroicon-m-x-circle',
+            // self::PENDING => 'heroicon-m-x-circle',
         };
     }
 }

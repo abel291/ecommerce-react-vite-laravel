@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use App\Enums\OrderStatusEnum;
 use App\Enums\PaymentMethodEnum;
 
@@ -16,7 +17,7 @@ class Order extends Model
 
     protected $casts = [
         'data' => 'object',
-        'discount' => 'object',
+        'discount' => 'array',
         'tax' => 'object',
         'shipping' => 'float',
         'status' => OrderStatusEnum::class,
@@ -34,10 +35,13 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function discountCode(): BelongsTo
+    {
+        return $this->belongsTo(DiscountCode::class);
+    }
+
     public function payment(): HasOne
     {
-        return $this->hasOne(Payment::class)->withDefault([
-            'method' => PaymentMethodEnum::CARD,
-        ]);
+        return $this->hasOne(Payment::class);
     }
 }
