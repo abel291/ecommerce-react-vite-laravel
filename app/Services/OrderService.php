@@ -7,12 +7,15 @@ use App\Models\Order;
 use App\Models\Sku;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class OrderService
 {
     public static function generateCode($id): string
     {
-        return date('md') . str_pad(Mt_rand(1, 1000), 4, 0) . $id;
+        // $week = strtoupper(Str::slug(now()->isoFormat('dd')));
+        $week = strtoupper(Str::slug(now()->subDays(rand(1, 7))->isoFormat('dd')));
+        return $week . Str::padLeft($id . fake()->bothify('###'), 6, '0');
     }
 
     public static function subtotal($products): float

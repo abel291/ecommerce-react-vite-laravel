@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ColorAttributeResource;
 use App\Http\Resources\ColorResource;
+use App\Http\Resources\PageResource;
 use App\Http\Resources\ProductCardResource;
 use App\Http\Resources\ProductResource;
 
@@ -25,7 +26,7 @@ class SearchController extends Controller
     public function search(Request $request)
     {
 
-        $page = Page::with('banners')->where('type', 'search')->firstOrFail();
+        $page = Page::with('banners', 'metaTag')->where('type', 'search')->firstOrFail();
 
         $banner = $page->banners->where('position', 'middle')->where('type', 'banner');
 
@@ -122,7 +123,7 @@ class SearchController extends Controller
             'listSizes' => SizeResource::collection($listSizes),
             'listBrands' => [], //$listBrands,
             'products' => ProductCardResource::collection($products),
-            'page' => $page,
+            'page' => new PageResource($page),
             'banner' => $banner,
             // 'breadcrumb' => $breadcrumb,
         ]);

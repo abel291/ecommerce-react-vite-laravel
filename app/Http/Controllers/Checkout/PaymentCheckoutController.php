@@ -39,7 +39,7 @@ class PaymentCheckoutController extends Controller
 
             $order->orderProducts()->createMany($orderProducts);
 
-            Payment::facotry()->create([
+            Payment::factory()->create([
                 // 'method' => PaymentMethodEnum::CARD,
                 // 'reference' => $paymentCharge->id,
                 // 'reference' => 'payment',

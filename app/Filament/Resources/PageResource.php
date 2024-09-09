@@ -21,7 +21,7 @@ class PageResource extends Resource
     public static ?string $label = 'Pagina';
     protected static ?string $pluralModelLabel = 'Paginas';
     // protected static ?string $navigationGroup = 'Catalogo';
-    protected static ?string $navigationIcon = 'heroicon-o-building-library';
+    protected static ?string $navigationIcon = 'heroicon-o-globe-alt';
 
     public static function form(Form $form): Form
     {
