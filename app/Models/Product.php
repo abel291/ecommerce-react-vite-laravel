@@ -82,7 +82,7 @@ class Product extends Model
         return $this->belongsToMany(User::class)->withPivot('quantity', 'total_price_quantity');
     }
 
-    public function orders_product(): HasMany
+    public function order_products(): HasMany
     {
         return $this->hasMany(OrderProduct::class)->has('order');
     }
@@ -98,6 +98,18 @@ class Product extends Model
             'order_id'
         );
     }
+    //     product
+    //     id - integer
+    //     name - string
+
+    // orderProducts
+    //     id - integer
+    //     product_id - integer
+    //     name - string
+    // order_id - integer
+
+    // orders
+    //     id - integer//
     public function scopeVariant(Builder $query): void
     {
         $query->whereNotNull('parent_id');
@@ -220,6 +232,8 @@ class Product extends Model
             ->when($filters['sortBy'], function (Builder $query) use ($filters) {
                 $sorBy = $filters['sortBy'] == 'price_desc' ? 'desc' : 'asc';
                 $query->orderBy('price', $sorBy);
+            }, function (Builder $query) {
+                $query->orderBy('created_at', 'desc');
             })
         ;
     }
