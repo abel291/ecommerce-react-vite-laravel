@@ -11,6 +11,7 @@ import Filters from "./Filters/Filters";
 import CarouselBanner from "@/Components/Carousel/CarouselBanner";
 import Breadcrumb from "@/Components/Breadcrumb";
 import BreadcrumbFilters from "./BreadcrumbFilters";
+import MetaTag from "@/Components/MetaTag";
 
 export const SearchContext = createContext();
 
@@ -31,7 +32,7 @@ export default function Search({ page, products, filters, breadcrumb, banner, })
 
     return (
         <Layout>
-            <Head title={page.meta_title}></Head>
+            <MetaTag metaTag={page.metaTag} />
             <Breadcrumb data={breadcrumb} />
 
             <div className="container py-content">
