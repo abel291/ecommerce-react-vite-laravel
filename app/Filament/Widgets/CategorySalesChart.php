@@ -29,7 +29,7 @@ class CategorySalesChart extends ChartWidget
             'products',
             function ($query) use ($filterMonth) {
                 $query
-                    ->select('id', 'orders_count')
+                    ->select('id', 'category_id', 'orders_count')
                     ->withCount([
                         'orders' => function (Builder $query2) use ($filterMonth) {
                             $query2->where('orders.status', OrderStatusEnum::SUCCESSFUL)
@@ -37,10 +37,11 @@ class CategorySalesChart extends ChartWidget
                         }
                     ]);
             }
-        )->where('type', 'product')->get()->mapWithKeys(function ($category, int $key) {
+        )->get()->mapWithKeys(function ($category, int $key) {
             return [$category->name => $category->products->sum('orders_count')];
-        })->sortDesc()->take(10);
-
+        })
+            ->sortDesc()->take(10);
+        // dd($categories);
         // $sales = Sale::with('products.category')
         //     ->where('status', SaleStatuEnum::ACCEPTED)
         //     ->whereDate('sales.created_at', '>=', $filterMonth)->get();
@@ -57,7 +58,6 @@ class CategorySalesChart extends ChartWidget
             ],
             'labels' => $categories->keys()->toArray(),
         ];
-
     }
 
     protected function getType(): string
