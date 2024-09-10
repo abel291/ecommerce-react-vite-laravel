@@ -23,7 +23,7 @@ class ProfileOrderController extends Controller
 
     public function orderDetails($code)
     {
-        $order = auth()->user()->orders()->with('orderProducts', 'payment')->where('code', $code)->firstOrFail();
+        $order = auth()->user()->orders()->with('order_products', 'payment')->where('code', $code)->firstOrFail();
 
         return Inertia::render('Profile/OrderDetails/OrderDetails', [
             'order' => new OrderResource($order),
@@ -32,11 +32,12 @@ class ProfileOrderController extends Controller
 
     public function invoicePdf($code)
     {
-        $order = auth()->user()->orders()->with('orderProducts', 'payment')->where('code', $code)->firstOrFail();
+        $order = auth()->user()->orders()->with('order_products', 'payment')->where('code', $code)->firstOrFail();
 
         $invoice = InvoiceService::generateInvoice($order);
 
-        //return view('pdf.invoice', compact('order'));
+
+        // return view('pdf.invoice', compact('order'));
         return $invoice->stream();
     }
 }
