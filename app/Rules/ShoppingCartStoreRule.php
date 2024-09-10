@@ -3,7 +3,10 @@
 namespace App\Rules;
 
 use App\Enums\CartEnum;
+use App\Models\Presentation;
 use App\Models\Product;
+use App\Models\Sku;
+use App\Models\Variant;
 use App\Services\CartService;
 use Closure;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -41,30 +44,29 @@ class ShoppingCartStoreRule implements DataAwareRule, ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $quantity = $this->data['quantity'];
-        $product_id = $this->data['product_id'];
+        $skuId = $this->data['skuId'];
 
-        $product = Product::query()->with('stock');
+        $product = Product::select('id', 'max_quantity')
+            ->active()
+            ->withWhereHas('sku', function ($query) use ($skuId) {
+                $query->where('stock', '>', 0)->where('id', $skuId);
+            })->first();
 
-        // foreach ($attributes as $attribute_name => $attribute_value) {
-        // 	$product->whereHas('attribute_values', function ($query) use ($attribute_name, $attribute_value) {
-        // 		$query->where('slug', $attribute_value)
-        // 			->whereHas('attribute', function ($query) use ($attribute_name, $attribute_value) {
-        // 				$query->where('slug', $attribute_name);
-        // 			});
-        // 	});
-        // }
-        $product = $product->findOrFail($product_id);
 
-        $max_items = env('SHOPPING_CART_MAX_QUANTITY', 50);
+        $max_items = config('shopping-cart.max-quantity');
 
-        $cart = Cart::instance(CartEnum::SHOPPING_CART->value);
+        $cart = CartService::session();
 
-        if ($cart->count() >= $max_items) {
+        if (count($cart) >= $max_items) {
             $fail("Carrito lleno! ,no puedes tener mas de $max_items productos en el carritos");
         }
 
         if ($quantity > $product->max_quantity) {
-            $fail("La cantidad maxima que puedes llevar de este producto es de: $product->max_quantity unidade(s)");
+            $fail("La cantidad maxima que puedes llevar de este producto es de:  $product->max_quantity  unidade(s)");
+        }
+
+        if ($quantity > $product->sku->stock) {
+            $fail("La cantidad disponible que puedes llevar de este producto es de: " . $product->sku->stock . "  unidade(s)");
         }
     }
 }

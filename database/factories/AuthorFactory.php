@@ -21,7 +21,7 @@ class AuthorFactory extends Factory
             'email' => $this->faker->email(),
             'position' => $this->faker->jobTitle(),
             'bio' => $this->faker->realText($maxNbChars = 500),
-            'img' => '/storage/clothes/authors/author-' . rand(1, 10) . '.jpg',
+            'img' => '/img/authors/author-' . rand(1, 10) . '.jpg',
             'social1' => $this->faker->url(),
             'social2' => $this->faker->url(),
         ];

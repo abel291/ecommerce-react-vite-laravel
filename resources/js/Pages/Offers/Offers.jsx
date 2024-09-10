@@ -11,8 +11,6 @@ import React from 'react'
 
 import Hero from "@/Components/Hero/Hero"
 
-
-
 export default function Offers({ page, offerProducts, offerBrands, bannersTop }) {
     return (
         <Layout>
@@ -36,15 +34,15 @@ export default function Offers({ page, offerProducts, offerBrands, bannersTop })
                     </div>
                 </SectionList>
 
-                {/* {bannersTop.length > 0 && (
-					<div className="py-content">
-						<CarouselBanner images={bannersTop} />
-					</div>
-				)} */}
+                {bannersTop.length > 0 && (
+                    <div className="py-content">
+                        <CarouselBanner images={bannersTop} />
+                    </div>
+                )}
 
                 {/* <SectionList title={"Top Marcas"}>
 					<CarouselSection items={offerBrands} searchType="brands[]" parameters={{ offer: 10 }} />
-				</SectionList> */}
+				 </SectionList> */}
 
             </div>
 

@@ -25,7 +25,8 @@ class DiscountCodeRequest extends FormRequest
     {
         return [
             'discountCode' => [
-                'required', 'exists:discount_codes,code',
+                'required',
+                'exists:discount_codes,code',
                 function (string $attribute, mixed $value, Closure $fail) {
                     $discount = DiscountCodeService::IsAvailable($value);
                     if (! $discount) {

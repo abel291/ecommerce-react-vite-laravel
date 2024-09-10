@@ -6,46 +6,56 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateProductsTable extends Migration
 {
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::disableForeignKeyConstraints();
-		Schema::create('products', function (Blueprint $table) {
-			$table->id();
-			$table->string('name');
-			$table->string('slug')->unique()->index();
-			$table->text('description_min')->nullable();
-			$table->text('description_max')->nullable();
-			$table->string('thumb')->nullable();
-			$table->string('img')->nullable();
-			$table->unsignedDecimal('price', 12)->default(0);
-			$table->unsignedTinyInteger('offer')->nullable();
-			$table->unsignedDecimal('price_offer', 12)->nullable();
-			$table->unsignedDecimal('cost', 12)->nullable();
-			$table->unsignedInteger('max_quantity');
-			$table->boolean('featured')->default(false);
-			$table->boolean('active')->default(true);
-			$table->foreignId('brand_id')->nullable()->constrained()->nullOnDelete();
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('products', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('slug')->index();
+            $table->text('entry');
+            $table->text('description')->nullable();
 
-			$table->foreignId('department_id')->nullable()->constrained()->nullOnDelete();
-			$table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
-			$table->foreignId('sub_category_id')->nullable()->constrained()->nullOnDelete();
+            $table->integer('ref')->nullable();
 
-			$table->timestamps();
-		});
-	}
+            $table->string('img')->nullable();
+            $table->string('thumb')->nullable();
+            $table->unsignedSmallInteger('max_quantity');
+            $table->decimal('old_price')->nullable();
+            $table->unsignedTinyInteger('offer')->nullable();
+            $table->decimal('price')->default(0);
+            $table->boolean('featured')->default(false);
+            $table->boolean('active')->default(true);
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::dropIfExists('products');
-	}
+            $table->foreignId('parent_id')->nullable()->constrained('products')->nullOnDelete();
+            $table->foreignId('color_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('department_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
+            $table->timestamps();
+        });
+
+        Schema::create('skus', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedInteger('stock')->default(0);
+            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('size_id')->nullable()->constrained()->nullOnDelete();
+            $table->index(['product_id', 'size_id']);
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('products');
+        Schema::dropIfExists('skus');
+    }
 }

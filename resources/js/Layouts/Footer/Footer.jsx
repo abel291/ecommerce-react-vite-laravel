@@ -1,108 +1,148 @@
-import { Link, usePage } from "@inertiajs/react"
-import Suscribe from "./Suscribe"
-import ApplicationLogo from "@/Components/ApplicationLogo"
+import { Link, usePage } from "@inertiajs/react";
+import Suscribe from "./Suscribe";
+import ApplicationLogo from "@/Components/ApplicationLogo";
+import SocilaMediaIcon from "./SocilaMediaIcon";
+import SubscribeNewsletter from "./SubscribeNewsletter";
 
 const Footer = () => {
-    const { settings } = usePage().props;
+    const { settings, departments } = usePage().props;
+
+    const footerItems = [
+        {
+            name: "Contacto",
+            links: [
+                {
+                    title: settings.company.email,
+                },
+                {
+                    title: settings.company.address,
+                },
+                {
+                    title: settings.company.phone,
+                },
+            ],
+        },
+        {
+            name: "Porque elegirnos",
+            links: [
+                {
+                    title: "Envío y Entrega",
+                    path: "/shipping-delivery",
+                },
+                {
+                    title: "Devoluciones y cambios",
+                    path: "/return-exchanges",
+                },
+                {
+                    title: "Preguntas frecuentes y ayudas",
+                    path: "/faq",
+                },
+            ],
+        },
+        {
+            name: "Departamentos",
+            links: departments.map((department) => ({
+                title: department.name,
+                path: route("department", department.slug),
+            })),
+        },
+        {
+            name: "Enlaces Rápidos",
+            links: [
+                {
+                    title: "Teclados",
+                    path: route("search", { "categories[]": "teclados" }),
+                },
+                {
+                    title: "Mouses",
+                    path: route("search", { "categories[]": "mouses" }),
+                },
+                {
+                    title: " Procesadores",
+                    path: route("search", { "categories[]": "procesadores" }),
+                },
+                {
+                    title: " Ram",
+                    path: route("search", { "categories[]": "ram" }),
+                },
+            ],
+        },
+    ];
     return (
         <>
-            <div className="container py-content">
+            {/* <div className="container py-content">
                 <Suscribe />
-            </div>
+            </div> */}
 
-            <footer className=" border-t border-gray-100 ">
-                <div className="container  ">
-                    <div className="py-content grid grid-cols-2 lg:grid-cols-5 gap-8">
-                        <div className="col-span-2 ">
+            <footer className="pt-content">
+                <div className="border-t ">
+                    <div className="container   text-sm">
+                        <div className="py-8 md:py-10 lg:py-12 xl:py-14 grid grid-cols-2 lg:grid-cols-6 gap-8">
+                            {/* <div className="col-span-2 ">
                             <div className="flex-shrink-0 flex items-center text-primary-600">
-
-                                <ApplicationLogo />
-
+                                <ApplicationLogo bgIcon="bg-white" colorIcon="text-primary-600" textColor="text-white" />
                             </div>
-                            <p className="text-sm leading-6 mt-2 text-gray-600">
+                            <p className="leading-6 mt-2 lg:mt-5 opacity-80">
                                 {settings.company.entry}
                             </p>
+                        </div> */}
+                            {footerItems.map((item, key) => (
+                                <ItemFooter key={key} title={item.name}>
+                                    <ul className="space-y-3">
+                                        {item.links.map((link, key) => (
+                                            <li key={key}>
+                                                {link.path ? (
+                                                    <Link
+                                                        href={link.path}
+                                                        className="block hover:opacity-100 opacity-90"
+                                                    >
+                                                        {link.title}
+                                                    </Link>
+                                                ) : (
+                                                    link.title
+                                                )}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </ItemFooter>
+                            ))}
+                            <ItemFooter
+                                title="Suscribite a nuestras promociones"
+                                className="col-span-2 "
+                            >
+                                <div className="space-y-4">
+                                    <p className="text-gray-500">
+                                        Las últimas noticias, artículos y
+                                        recursos, enviados a su bandeja de
+                                        entrada semanalmente.
+                                    </p>
+                                    <SubscribeNewsletter />
+                                </div>
+                            </ItemFooter>
                         </div>
 
-                        <div className="text-sm">
-                            <Link href="/contact-us" className="block">
-                                <h4 className="font-medium ">
-                                    Contacto
-                                </h4>
-                            </Link>
-                            <div className="mt-2 space-y-2 text-sm font-light">
-                                <div>{settings.company.email}</div>
-                                <div>{settings.company.address}</div>
-                                <div>{settings.company.phone}</div>
-                            </div>
-                        </div>
-
-                        <div className="text-sm">
-                            <h4 className="font-medium ">
-                                Porque elegirnos
-                            </h4>
-                            <h4 className="font-medium text-lg  "></h4>
-                            <div className="mt-2 space-y-2 font-light">
-                                <Link href="/shipping-delivery" className="block">
-                                    Envío y Entrega
-                                </Link>
-                                <Link href="/return-exchanges" className="block">
-                                    Devoluciones y cambios
-                                </Link>
-
-                                <Link href="/faq" className="block">
-                                    Preguntas frecuentes y ayudas
-                                </Link>
-                            </div>
-                        </div>
-
-                        <div className="text-sm">
-                            <h4 className="font-medium  ">Top Categorias</h4>
-                            <div className="mt-2 space-y-2  font-light">
-                                <Link href={route('search', { 'categories[]': "teclados" })} className="block">
-                                    Teclados
-                                </Link>
-                                <Link href={route('search', { 'categories[]': "mouses" })} className="block">
-                                    Mouses
-                                </Link>
-                                <Link href={route('search', { 'categories[]': "procesadores" })} className="block">
-                                    Procesadores
-                                </Link>
-                                <Link href={route('search', { 'categories[]': "ram" })} className="block">
-                                    Ram
-                                </Link>
-                                {/* <Link href={route('search', { 'categories[]': "almacenamiento" })} className="block">
-									Ssd
-								</Link> */}
-                            </div>
-                        </div>
-                    </div>
-                    <div className="border-t py-6">
-                        <div className="flex items-center justify-between text-sm text-gray-500">
-                            <p>
-                                © 2020 {settings.company.name}. All rights reserved.
-                            </p>
-                            <div className="flex items-center gap-5">
-                                <a href={settings.social.facebook} target="_blank">
-                                    <img className="w-6 transition hover:scale-110" src="/img/footer/facebook-icon.png" alt="facebook" />
-                                </a>
-                                <a href={settings.social.instagram} target="_blank">
-                                    <img className="w-6 transition hover:scale-110" src="/img/footer/instagram-icon.png" alt="instagram" />
-                                </a>
-                                <a href={settings.social.twitter} target="_blank">
-                                    <img className="w-6 transition hover:scale-110" src="/img/footer/twt-icon.png" alt="tw" />
-                                </a>
-                                <a href={settings.social.ws} target="_blank">
-                                    <img className="w-6 transition hover:scale-110" src="/img/footer/ws-icon.png" alt="ws" />
-                                </a>
+                        <div className="border-t border-white/10 py-4 text-xs">
+                            <div className="flex items-center justify-between text-gray-500 ">
+                                <p>
+                                    © 2024 {settings.company.name}. All rights
+                                    reserved.
+                                </p>
+                                <SocilaMediaIcon />
                             </div>
                         </div>
                     </div>
                 </div>
-
             </footer>
         </>
-    )
-}
+    );
+};
+export const ItemFooter = ({ title, children, className }) => {
+    return (
+        <div className={className}>
+            <h4 className="mt-2 font-medium">{title}</h4>
+            <div className="mt-2 lg:mt-5 ">{children}</div>
+        </div>
+    );
+};
 
-export default Footer
+export default Footer;

@@ -1,14 +1,15 @@
+
 import { formatCurrency } from '@/Helpers/helpers'
-import CartAttributes from '@/Pages/ShoppingCart/CartAttributes'
 import React from 'react'
 
 function OrderItemsList({ order }) {
 
     return (
         <div>
-            <table className="table-list w-full">
+            <table className="table-list">
                 <thead>
                     <tr>
+                        <th>Image</th>
                         <th>Item</th>
                         <th>Precio</th>
                         <th>Cantidad</th>
@@ -18,50 +19,53 @@ function OrderItemsList({ order }) {
                 <tbody>
                     {order.products.map((product, index) => (
                         <tr key={index}>
-                            <td>
-                                {product.data.name}
-                                {product.attributes.map((attribute, index) => (
-                                    <div key={index} className='ml-2 flex gap-x-1.5 text-xs mb-0.5 text-gray-500'>
-                                        <div>{attribute.name}:</div>
-                                        <div>{attribute.value}</div>
-                                    </div>
-                                ))}
+                            <td className='whitespace-nowrap'>
+                                <img className="h-16 max-w-full rounded " src={product.thumb} alt={product.name} />
+
                             </td>
-                            <td className='whitespace-nowrap' >{formatCurrency(product.price)}</td>
+                            <td className='align-top'>
+                                {product.name}
+                                <div key={index} className='flex gap-x-1.5 text-xs mt-1 text-gray-500'>
+                                    <div>Color {product.color}</div>
+                                    {product.size && (
+                                        <div className='border-l border-gray-300 pl-1.5'> Talla {product.size}</div>
+                                    )}
+
+                                </div>
+                            </td>
+                            <td className='whitespace-nowrap' >
+                                <PriceOffer price={product.price}
+                                    old_price={product.old_price}
+                                    offer={product.offer} />
+                                {/* {formatCurrency(product.price)} */}
+                            </td>
                             <td>{product.quantity}</td>
                             <td className='whitespace-nowrap'>{formatCurrency(product.total)}</td>
                         </tr>
                     ))}
-                    {/* <tr>
-						<td></td>
-						<td></td>
-						<td className="text-gray-500">Sub total:</td>
-						<td className="font-medium">{formatCurrency(order.sub_total)}</td>
-					</tr>
-
-					<tr>
-						<td></td>
-						<td></td>
-						<td className="text-gray-500">Envio:</td>
-						<td className="font-medium">{formatCurrency(order.shipping)}</td>
-					</tr>
-
-					<tr>
-						<td></td>
-						<td></td>
-						<td className="text-gray-500">Estimación de impuestos  ({order.tax_percent * 100}%):</td>
-						<td className="font-medium">{formatCurrency(order.tax_amount)}</td>
-					</tr>
-
-					<tr>
-						<td></td>
-						<td></td>
-						<td className="text-gray-500">Cantidad a pagar:</td>
-						<td className="font-semibold">{formatCurrency(order.total)}</td>
-					</tr> */}
 
                 </tbody>
             </table>
+        </div >
+    )
+}
+
+function PriceOffer({ price, old_price, offer }) {
+    return (
+        <div className='text-sm'>
+            <span >
+                {formatCurrency(price)}
+            </span>
+            {(offer > 0) && (
+                <div className='flex gap-x-1'>
+                    <div className="inline-block text-green-500 text-xs font-semibold">
+                        -{offer}%
+                    </div>
+                    <div className="text-xs text-gray-400 line-through">
+                        {formatCurrency(old_price)}
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

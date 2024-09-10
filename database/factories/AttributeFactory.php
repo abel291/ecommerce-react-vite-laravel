@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Attribute>
@@ -18,8 +17,8 @@ class AttributeFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->word(),
-            'slug' => Str::slug($this->faker->words(2, true)),
+            'name' => fake()->word(),
+            'slug' => fake()->slug(),
         ];
     }
 }

@@ -15,13 +15,10 @@ class PaymentResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'status' => $this->status->text(),
-            'status_color' => $this->status->color(),
-            'method' => $this->method->text(),
-            'method_color' => $this->method->color(),
+            'method' => $this->method->getLabel(),
+            'method_color' => $this->method->getColor(),
             'data' => $this->data,
             'code_reference' => $this->code_reference,
-
         ];
     }
 }

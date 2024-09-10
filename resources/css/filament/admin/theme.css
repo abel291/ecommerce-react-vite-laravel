@@ -1,0 +1,59 @@
+@import "/vendor/filament/filament/resources/css/theme.css";
+
+@config 'tailwind.config.js';
+
+.table-list-wrp {
+    @apply border mt-5 rounded-md overflow-hidden dark:border-white/10;
+}
+.table-list {
+    @apply w-full leading-6 text-sm;
+}
+.table-list thead {
+    @apply bg-gray-50 dark:bg-white/5;
+}
+
+.table-list tbody {
+    @apply border-t border-gray-300 dark:border-white/10 divide-y divide-gray-200 dark:divide-white/5;
+}
+
+.table-list tr th {
+    @apply py-2.5 px-2 text-start text-sm font-normal;
+}
+.table-list tr td:first-child {
+    @apply text-black dark:text-white font-medium;
+}
+.table-list tr td {
+    @apply py-4 px-3 text-gray-500 dark:text-gray-300;
+}
+.table-list tr th:last-child {
+    @apply text-right;
+}
+.table-list tbody tr td:last-child {
+    @apply text-right;
+}
+/* .table-list tr th,
+.table-list tr td {
+    @apply px-3 py-3.5;
+} */
+.table-list tr th:first-child,
+.table-list tr td:first-child {
+    @apply pl-6;
+}
+.table-list tr th:last-child,
+.table-list tr td:last-child {
+    @apply pr-6;
+}
+
+.label-total .fi-fo-field-wrp > div {
+    @apply flex justify-between;
+}
+
+.label-total .fi-fo-field-wrp > div .fi-fo-field-wrp-label span {
+    @apply text-neutral-500 dark:text-neutral-400 font-medium text-sm capitalize;
+}
+.label-total .fi-fo-field-wrp > div .fi-fo-placeholder span {
+    @apply text-neutral-900 dark:text-neutral-100 font-medium text-sm;
+}
+.label-total > div {
+    @apply gap-3;
+}

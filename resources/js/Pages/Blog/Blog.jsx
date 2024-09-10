@@ -22,7 +22,7 @@ export default function Blog({ posts, page }) {
             <Head title={page.meta_title} />
             {posts.data.length ? (
                 <>
-                    <div className="mx-auto grid max-w-xl grid-cols-1 gap-x-10 gap-y-14 lg:max-w-none lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-2">
+                    <div className="mx-auto grid max-w-xl grid-cols-1 gap-x-10 gap-y-14 lg:max-w-none lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3">
                         {posts.data.map((post) => (
                             <CardPost key={post.id} post={post} />
                         ))}

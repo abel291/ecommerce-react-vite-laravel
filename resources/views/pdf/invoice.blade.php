@@ -278,22 +278,22 @@
             <tr>
                 <td valign="top">
                     <div class="text-xl">
-                        React <strong class="font-semibold text-xl">Ecommerce</strong>
+                        {{ $settings['company']['name'] }}
                     </div>
                 </td>
                 <td>
                     <div class="text-right">
                         <h2 class="text-xl font-semibold ">
-                            Pedido: #3682303
+                            Pedido: #{{ $order->code }}
                         </h2>
                         <table class="inline-table w-auto mt-4">
                             <tr>
-                                <td class="font-semibold">Fecha de la factura:</td>
-                                <td class="text-gray-500">03/10/2018</td>
+                                <td>Fecha de la factura:</td>
+                                <td class="text-gray-500">{{ $order->created_at->translatedFormat('d/M/Y') }}</td>
                             </tr>
                             <tr>
-                                <td class="font-semibold">Fecha de vencimiento:</td>
-                                <td class="text-gray-500">03/10/2018</td>
+                                <td>Fecha de vencimiento:</td>
+                                <td class="text-gray-500">{{ $order->created_at->addDays(20)->translatedFormat('d/M/Y') }}</td>
                             </tr>
                         </table>
 
@@ -345,39 +345,39 @@
                     @foreach ($order->order_products as $item)
                         <tr class="border-t">
                             <td class="text-left p-3">{{ $item->name }}</td>
-                            <td class="whitespace-nowrap text-left p-3">@money($item->price)</td>
+                            <td class="whitespace-nowrap text-left p-3">{{ Number::currency($item->price) }}</td>
                             <td class="text-left p-3">{{ $item->quantity }}</td>
-                            <td class="whitespace-nowrap text-right p-3">@money($item->total)</td>
+                            <td class="whitespace-nowrap text-right p-3">{{ Number::currency($item->total) }}</td>
                         </tr>
                     @endforeach
                     <tr class="border-t-2">
                         <td class="p-3"></td>
                         <td class="p-3"></td>
-                        <td class="p-3 font-semibold text-right">Subtotal:</td>
-                        <td class="whitespace-nowrap p-3 text-right font-semibold ">@money($order->sub_total)</td>
+                        <td class="p-3  text-right">Subtotal:</td>
+                        <td class="whitespace-nowrap p-3 text-right medium ">{{ Number::currency($order->sub_total) }}</td>
                     </tr>
                     <tr class="border-t ">
                         <td class="p-3"></td>
                         <td class="p-3"></td>
-                        <td class="p-3 font-semibold text-right">Tax ({{ $order->tax_percent }}%):</td>
-                        <td class="whitespace-nowrap p-3 text-right font-semibold">
-                            @money($order->tax_amount)
+                        <td class="p-3  text-right">Tax ({{ $order->tax_rate }}%):</td>
+                        <td class="whitespace-nowrap p-3 text-right medium">
+                            {{ Number::currency($order->tax_value) }}
                         </td>
                     </tr>
                     <tr class="border-t ">
                         <td class="p-3"></td>
                         <td class="p-3"></td>
-                        <td class="p-3 font-semibold text-right">Envio:</td>
-                        <td class="whitespace-nowrap p-3 text-right font-semibold">
-                            @money($order->shipping)
+                        <td class="p-3  text-right">Envio:</td>
+                        <td class="whitespace-nowrap p-3 text-right medium">
+                            {{ Number::currency($order->shipping) }}
                         </td>
                     </tr>
                     <tr class="border-t ">
                         <td class="p-3"></td>
                         <td class="p-3"></td>
-                        <td class="p-3 font-semibold text-right">Total:</td>
-                        <td class="whitespace-nowrap p-3 text-right font-semibold">
-                            @money($order->total)
+                        <td class="p-3  text-right">Total:</td>
+                        <td class="whitespace-nowrap p-3 text-right medium">
+                            {{ Number::currency($order->total) }}
                         </td>
                     </tr>
 
@@ -394,13 +394,13 @@
                 Si tiene alguna pregunta sobre esta factura, utilice la siguiente información de contacto:
             </p>
             <div class="mt-2">
-                <p>{{ $company['email'] }}</p>
-                <p class="mt-1 not-italic">{{ $company['phone'] }}</p>
+                <p>{{ $settings['company']['email'] }}</p>
+                <p class="mt-1 not-italic">{{ $settings['company']['phone'] }}</p>
                 <address class="mt-1 not-italic">
-                    {{ $company['address'] }}
+                    {{ $settings['company']['address'] }}
                 </address>
             </div>
-            <p class="mt-2 text-sm text-gray-500">© {{ date('Y') }} React Ecommerce Inc.</p>
+            <p class="mt-2 text-sm text-gray-500">© {{ date('Y') }} {{ $settings['company']['name'] }} Inc.</p>
         </div>
     </section>
 

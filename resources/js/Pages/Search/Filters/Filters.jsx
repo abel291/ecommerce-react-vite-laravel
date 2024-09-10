@@ -1,138 +1,144 @@
-import React from 'react'
-import FiltersSelected from './FiltersSelected'
-import { usePage } from '@inertiajs/react'
-import FilterButton from './FilterButton'
-import FilterPrice from './FilterPrice'
-import FilterRadio from './FilterRadio'
-import FilterContainer from './FilterContainer'
-import FilterAttribute from './FilterAttribute'
-import FilterCheckbox from './FilterCheckbox'
+import React, { useContext } from "react";
+import FiltersSelected from "./FiltersSelected";
+import { usePage } from "@inertiajs/react";
+
+import FilterContainer from "./FilterContainer";
+
+import FilterCheckbox from "./FilterCheckbox";
+import { SearchContext } from "../Search";
+import FilterPrice from "./FilterPrice";
+
 
 const offers = [
-	{
-		name: "Desde 10%",
-		slug: "10",
-	},
-	{
-		name: "Desde 20%",
-		slug: "20",
-	},
-	{
-		name: "Desde 30%",
-		slug: "30",
-	},
-	{
-		name: "Desde 40%",
-		slug: "40",
-	},
-]
-const Filters = ({ data, setData }) => {
+    {
+        name: "Desde 10%",
+        slug: "10",
+    },
+    {
+        name: "Desde 20%",
+        slug: "20",
+    },
+    {
+        name: "Desde 30%",
+        slug: "30",
+    },
+    {
+        name: "Desde 40%",
+        slug: "40",
+    },
+];
+const Filters = () => {
 
-	const { listDepartments, listCategories, listAttributes } = usePage().props
+    const form = useContext(SearchContext);
 
+    const { listDepartments, listCategories, listColors, listSizes, listBrands } = usePage().props;
 
+    const changeFilterCheckbox = (filterName, optionsChecked) => {
+        form.setData(filterName, optionsChecked);
+    };
 
-	const changeFilterCheckbox = (filterName, value, selected) => {
-		let optionsCheckbox = []
-		switch (filterName) {
-			case 'categories':
-				optionsCheckbox = listCategories
-				break;
-			case 'departments':
-				optionsCheckbox = listDepartments
-				break;
-		}
+    const changeFilterAttributes = (attributeName, newAttributeValues) => {
 
-		let optionsSelected = generateArraySlug(optionsCheckbox, value, selected)
-		setData(filterName, optionsSelected)
-	}
+        form.setData("attributes", {
+            ...form.data.attributes,
+            [attributeName]: newAttributeValues,
+        });
+    };
 
-	const generateArraySlug = (optionsCheckbox, value, selected) => {
-		return optionsCheckbox.filter((item) => {
+    return (
+        <div className="divide-y divide-gray-200 ">
 
-			if (item.slug == value) {
-				return selected
-			}
-			return item.selected
+            <div className="pb-5">
+                <FiltersSelected
+                    data={form.data}
+                    setData={form.setData}
+                    changeFilterAttributes={changeFilterAttributes}
+                    changeFilter={changeFilterCheckbox}
+                />
+            </div>
 
-		}).map((item) => {
-			return item.slug
-		})
-	}
+            <FilterContainer title="Departamentos">
+                <FilterCheckbox
+                    optionsList={listDepartments}
+                    optionsChecked={form.data.departments || []}
+                    changeFilterCheckbox={changeFilterCheckbox}
+                    filterName="departments"
+                />
+            </FilterContainer>
 
-	const changeAttribute = (attributeSlug, value, selected) => {
+            <FilterContainer title="Categorias">
+                <FilterCheckbox
+                    optionsList={listCategories}
+                    optionsChecked={form.data.categories || []}
+                    changeFilterCheckbox={changeFilterCheckbox}
+                    filterName="categories"
+                />
+            </FilterContainer>
 
-		const attribute = listAttributes.find(attribute => attribute.slug == attributeSlug)
+            <FilterContainer title="Colores">
+                <FilterCheckbox
+                    optionsList={listColors}
+                    optionsChecked={form.data.colors || []}
+                    changeFilterCheckbox={changeFilterCheckbox}
+                    filterName="colors"
+                    type='color'
+                />
+            </FilterContainer>
 
-		const attributeValues = generateArraySlug(attribute.attribute_values, value, selected)
-
-		setData('attributes', { ...data.attributes, [attributeSlug]: attributeValues })
-	}
-
-	return (
-		<div className="divide-y divide-gray-200 space-y-5">
-			<div>
-				<FiltersSelected
-					data={data}
-					setData={setData}
-					changeAttribute={changeAttribute}
-					changeFilter={changeFilterCheckbox}
-				/>
-			</div>
-
-			<FilterContainer title="Departamentos">
-				<FilterCheckbox
-					optionsList={listDepartments}
-					changeFilter={changeFilterCheckbox}
-					filterName="departments"
-				/>
-			</FilterContainer>
-
-			<FilterContainer title="Categorias">
-				<FilterCheckbox
-					optionsList={listCategories}
-					changeFilter={changeFilterCheckbox}
-					filterName="categories"
-				/>
-			</FilterContainer>
+            <FilterContainer title="Tallas">
+                <FilterCheckbox
+                    optionsList={listSizes}
+                    optionsChecked={form.data.sizes || []}
+                    changeFilterCheckbox={changeFilterCheckbox}
+                    filterName="sizes"
+                />
+            </FilterContainer>
 
 
-			{listAttributes.map((attribute, key) => (
-				<FilterContainer key={key} title={attribute.name}>
-					<FilterCheckbox
-						optionsList={attribute.attribute_values}
-						changeFilter={changeAttribute}
-						filterName={attribute.slug}
-					/>
-				</FilterContainer>
-			))}
+            {/* {listAttributes.map((attribute, key) => (
+                <FilterContainer key={key} title={attribute.name} defaultOpen={true}>
+                    <FilterCheckbox
+                        optionsList={attribute.attribute_values}
+                        optionsChecked={
+                            (form.data.attributes && form.data.attributes[attribute.slug]) || []
+                        }
+                        changeFilterCheckbox={changeFilterAttributes}
+                        filterName={attribute.slug}
+                    />
+                </FilterContainer>
+            ))} */}
 
+            <FilterContainer title="Precio">
+                <FilterPrice data={form.data} setData={form.setData} />
+            </FilterContainer>
 
+            {/* <FilterContainer title="Ofertas">
+                <FilterRadio
+                    options={offers}
+                    data={data}
+                    setData={form.setData}
+                    filterName="offer"
+                />
+            </FilterContainer>
+            {(listBrands.length > 1) && (
+                <FilterContainer title="Marcas">
+                    <FilterCheckbox
+                        optionsList={listBrands}
+                        optionsChecked={data.brands || []}
+                        changeFilterCheckbox={changeFilterCheckbox}
+                        filterName="brands"
+                    />
+                </FilterContainer>
+            )} */}
+        </div>
+    );
+};
 
-			<FilterContainer title="Precio">
-				<FilterPrice data={data} setData={setData} />
-			</FilterContainer>
-
-			<FilterContainer title="Ofertas">
-				<FilterRadio
-					options={offers}
-					data={data}
-					setData={setData}
-					filterName="offer"
-
-				/>
-			</FilterContainer>
-
-
-		</div >
-	)
-}
-
-export default Filters
+export default Filters;
 
 export const FilterTitle = ({ children }) => {
-	return (<h3 className="font-medium mb-4 ">{children}</h3>);
-}
+    return <h3 className="font-medium mb-4 ">{children}</h3>;
+};
 // export const FilterContainer = ({ title = "", children }) => {
 // 	return (
 // 		<div className="py-5 max-h-96 mr-5">

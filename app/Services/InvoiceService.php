@@ -13,10 +13,10 @@ class InvoiceService
         $invoice = Pdf::setOption(['defaultFont' => 'sans-serif'])
             ->loadView('pdf.invoice', [
                 'order' => $order,
-                'company' => $settings['company'],
+                'settings' => $settings,
             ])->setPaper('a4');
-
-        //return view('pdf.invoice', compact('order'));
+        // now()->translatedFormat()
+        // return view('pdf.invoice', compact('order'));
         return $invoice;
     }
 }

@@ -1,18 +1,15 @@
-const defaultTheme = require('tailwindcss/defaultTheme');
+import defaultTheme from 'tailwindcss/defaultTheme';
+import forms from '@tailwindcss/forms';
+import lineClamp from '@tailwindcss/line-clamp';
+import colors from 'tailwindcss/colors'
 /** @type {import('tailwindcss').Config} */
-const colors = require('tailwindcss/colors')
-module.exports = {
-    darkMode: 'class',
+export default {
+    darkMode: 'selector',
     content: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
         './resources/js/**/*.jsx',
-
-        //dashboard
-        //"./resources/**/*.blade.php",
-        "./resources/**/*.js",
-        "./node_modules/flowbite/**/*.js"
     ],
 
     theme: {
@@ -26,8 +23,9 @@ module.exports = {
             padding: {
                 DEFAULT: "1.5rem",
                 sm: "2rem",
-                lg: "4rem",
-                xl: "6rem",
+                lg: "2rem",
+                xl: "2rem",
+                '2xl': '6rem',
             },
         },
         extend: {
@@ -36,7 +34,7 @@ module.exports = {
             },
             //accordion search filters
             transitionProperty: {
-                'height': 'height',
+                'max-height': 'max-height',
             },
             //animation toast
             animation: {
@@ -58,13 +56,8 @@ module.exports = {
                     '100%': { transform: 'translateY(0)' },
                 },
             }
-
-        }
+        },
     },
 
-    plugins: [require('@tailwindcss/forms'), require('flowbite/plugin')],
-
-
-
-
+    plugins: [forms, lineClamp],
 };

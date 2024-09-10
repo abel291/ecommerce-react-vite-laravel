@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Providers\RouteServiceProvider;
+use Filament\Pages\Dashboard;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,11 +36,13 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         if (Auth::user()->hasRole('admin')) {
-            return to_route('shopping-cart.index');
-            //return Inertia::location(route('dashboard.home'));
+            // return to_route('home');
+            return Inertia::location(Dashboard::getUrl());
         } else {
-            return redirect(RouteServiceProvider::HOME);
+            return to_route('home');
         }
+
+        // return redirect()->intended(route('dashboard', absolute: false));
     }
 
     /**

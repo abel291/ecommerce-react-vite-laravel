@@ -4,62 +4,68 @@ import React from 'react'
 function BuyerDetails({ order }) {
 
     return (
-        <div className="grid lg:grid-cols-12 gap-3 ">
-            <div className="lg:col-span-7">
-                <div className="space-y-4">
-                    <OrderDetailsList title="Facturado a" >
-                        <div className="block ">{order.user.name}</div>
-                    </OrderDetailsList>
+        <div className="grid lg:grid-cols-4 gap-6 ">
+            <OrderDetailsList title="Facturado a" >
+                <div className="block ">{order.user.name}</div>
+            </OrderDetailsList>
 
-                    <OrderDetailsList title="Detalles de envío" >
-                        <div>{order.user.email}</div>
-                        <div>{order.user.phone}</div>
-                        <address className="not-italic font-normal">
-                            {order.user.address}
-                        </address>
-                    </OrderDetailsList>
-                    {order.user.note && (
-                        <OrderDetailsList title="Nota Adicional" >
-                            {order.user.note}
-                        </OrderDetailsList>
-                    )}
+            <OrderDetailsList title="Serial de factura" >
+                {order.code}
+            </OrderDetailsList>
 
-                </div>
-            </div>
-            {/* Col */}
-
-            <div className="lg:col-span-5">
-                <div className="space-y-4">
-                    <OrderDetailsList title="Serial de factura" >
-                        {order.code}
-                    </OrderDetailsList>
-
-                    {/* <OrderDetailsList title="Moneda" >
+            {/* <OrderDetailsList title="Moneda" >
 						USD - US Dollar
 					</OrderDetailsList> */}
 
-                    <OrderDetailsList title="Fecha de Compra" >
-                        {formatDate(order.created_at)}
-                        <span className='text-gray-500 block'>{order.createdAtRelative}</span>
-                    </OrderDetailsList>
+            <OrderDetailsList title="Fecha de Compra" >
+                {formatDate(order.created_at)}
+                <span className='text-gray-500 block'>{order.createdAtRelative}</span>
+            </OrderDetailsList>
 
-                    <OrderDetailsList title="Método de Pago" >
-                        {order.payment.method}
-                    </OrderDetailsList>
-                </div>
-            </div>
+            <OrderDetailsList title="Método de Pago" >
+                {order.payment.method}
+            </OrderDetailsList>
+
+
+
+            <OrderDetailsList title="Detalles de envío" className='lg:col-span-2'>
+                {/* <span className='block'>{order.user.email}</span>
+                <span className='block'>{order.user.phone}</span> */}
+                <span className='block'>{order.user.city}</span>
+                {/* <span className='block'>{order.user.postalCode}</span> */}
+                <address className="not-italic font-normal">
+                    {order.user.address}
+                </address>
+            </OrderDetailsList>
+
+            <OrderDetailsList title="Recibe" className='lg:col-span-2'>
+                <span className='inline-block mr-2'>{order.user.name}</span>
+                <span className='inline-block'>{order.user.phone}</span>
+                <span className='block'>{order.user.email}</span>
+
+                {/* <span className='block'>{order.user.postalCode}</span> */}
+
+            </OrderDetailsList>
+
+            {order.user.note && (
+                <OrderDetailsList title="Nota Adicional" className='lg:col-span-full' >
+                    {order.user.note}
+                </OrderDetailsList>
+            )}
+
         </div>
+
     )
 }
 
-const OrderDetailsList = ({ title, children }) => {
+const OrderDetailsList = ({ title, children, ...props }) => {
 
     return (
-        <dl>
-            <dt className=" font-semibold text-gray-800">
+        <dl {...props}>
+            <dt className=" text-sm font-medium text-gray-800">
                 {title}:
             </dt>
-            <dd className="text-gray-800 mt-1 text-sm">
+            <dd className="text-gray-600 mt-1 text-sm">
                 {children}
             </dd>
         </dl>

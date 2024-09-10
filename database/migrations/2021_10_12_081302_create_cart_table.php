@@ -17,8 +17,8 @@ class CreateCartTable extends Migration
             $table->id();
 
             $table->unsignedMediumInteger('quantity_selected');
-            $table->unsignedDecimal('price', 12, 2);
-            $table->unsignedDecimal('price_quantity', 12, 2);
+            $table->decimal('price', 12, 2);
+            $table->decimal('price_quantity', 12, 2);
             $table->string('type', 40); // CartEnum -> shopping-cart | wish-list | order
             $table->json('data')->nullable();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 
@@ -27,16 +28,11 @@ class UserSeeder extends Seeder
 
         $user->assignRole('admin');
 
-        if (config('app.env') == 'testing') {
-            User::factory()->count(10)->create()
-                ->each(function (User $user) {
-                    $user->assignRole('client');
-                });
-        } else {
-            User::factory()->count(100)->create()
-                ->each(function (User $user) {
-                    $user->assignRole('client');
-                });
-        }
+        User::factory()->count(100)->create([
+            'created_at' => fake()->dateTimeBetween('-12 month')
+        ])
+            ->each(function (User $user) {
+                $user->assignRole('client');
+            });
     }
 }

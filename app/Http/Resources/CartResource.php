@@ -15,17 +15,17 @@ class CartResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'rowId' => $this['rowId'],
+
             'id' => $this['id'],
             'name' => $this['name'],
             'slug' => $this['slug'],
             'img' => $this['img'],
             'price' => $this['price'],
-            'priceOffer' => $this['price_offer'],
+            'old_price' => $this['old_price'],
             'quantity' => $this['quantity'],
             'maxQuantity' => $this['max_quantity'],
             'total' => $this['total'],
-            'attributes' => $this['attributes'],
+            'presentation' => $this['presentation'],
         ];
     }
 }

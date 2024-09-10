@@ -9,20 +9,20 @@ use App\Services\CheckoutService;
 
 class DiscountCheckoutController extends Controller
 {
-	public function applyDiscount(DiscountCodeRequest $request)
-	{
-		$discount_code = DiscountCode::select(['id', 'code', 'value', 'type'])->where('code', $request->discountCode)->firstOrFail();
+    public function applyDiscount(DiscountCodeRequest $request)
+    {
+        $discount_code = DiscountCode::select(['id', 'code', 'value', 'type'])->where('code', $request->discountCode)->firstOrFail();
 
-		session(['discountCode' => $discount_code]);
+        session(['discountCode' => $discount_code]);
 
-		// CheckoutService::applyDiscount($discount_code);
+        // CheckoutService::applyDiscount($discount_code);
 
-		return to_route('checkout');
-	}
+        return to_route('checkout');
+    }
 
-	public function removeDiscount()
-	{
-		session()->forget(['discountCode']);
-		return to_route('checkout');
-	}
+    public function removeDiscount()
+    {
+        session()->forget(['discountCode']);
+        return to_route('checkout');
+    }
 }

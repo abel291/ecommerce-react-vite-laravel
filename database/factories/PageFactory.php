@@ -16,9 +16,6 @@ class PageFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            'meta_title' => ucfirst($this->faker->words(2, true)),
-            'meta_desc' => ucfirst($this->faker->sentence()),
-        ];
+        return [];
     }
 }

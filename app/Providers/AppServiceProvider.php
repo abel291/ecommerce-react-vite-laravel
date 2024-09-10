@@ -2,14 +2,20 @@
 
 namespace App\Providers;
 
-use App\Enums\CartEnum;
-use App\Models\User;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
+use Filament\Infolists\Infolist;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Number;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Cashier\Cashier;
-use Laravel\Telescope\Telescope;
-use Cart;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -18,7 +24,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //Telescope::ignoreMigrations();
+        if ($this->app->environment('local')) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 
     /**
@@ -26,16 +35,49 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Cashier::ignoreMigrations();
-        Cashier::useCustomerModel(User::class);
         JsonResource::withoutWrapping();
 
-        Blade::directive('money', function ($money) {
-            return "<?php echo '$ ' . number_format($money, 2); ?>";
+        Number::useLocale('de');
+        Model::unguard();
+
+        EditAction::configureUsing(function (EditAction $action): void {
+            $action->icon(false);
+        }, isImportant: true);
+
+        DeleteAction::configureUsing(function (DeleteAction $action): void {
+            $action->icon(false);
+        }, isImportant: true);
+        ViewAction::configureUsing(function (ViewAction $action,): void {
+            $action->icon(false)->label('Ver');
+        }, isImportant: true);
+
+        Table::configureUsing(function (Table $table): void {
+            $table->defaultPaginationPageOption(10)->defaultSort('id', 'desc');
+            // $table->filtersLayout(FiltersLayout::AboveContent);
+            $table->searchDebounce('400ms');
+            $table->filtersTriggerAction(
+                fn(Action $action) => $action
+                    ->button()
+                    ->label('Filtros'),
+            );;
         });
 
-        Blade::directive('numberFormat', function ($number) {
-            return "<?php echo number_format($number, 2); ?>";
+        Infolist::$defaultDateTimeDisplayFormat = 'M j, Y h:i a';
+
+        Table::$defaultDateTimeDisplayFormat = 'M j, Y h:i a';
+        DateTimePicker::$defaultDateTimeDisplayFormat = 'M j, Y h:i a';
+
+        Table::$defaultNumberLocale = 'de';
+
+        Select::configureUsing(function (Select $component): void {
+            $component->native(false);
+        });
+        Toggle::configureUsing(function (Toggle $component): void {
+            $component->inline(false);
+        });
+
+        SelectFilter::configureUsing(function (SelectFilter $component): void {
+            $component->native(false);
         });
     }
 }

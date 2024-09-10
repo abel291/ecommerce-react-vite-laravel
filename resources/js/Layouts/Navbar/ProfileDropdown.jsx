@@ -58,15 +58,15 @@ export default function ProfileDropdown({ children }) {
                                 </Dropdown.Link>
 
                             ))}
-                            {(auth.user.role == 'admin') && (
+                            {/*{(auth.user.role == 'admin') && (
 
-                                <a className="dropdown-link" target='_blank' href={route('dashboard.home')}  >
+                                 <a className="dropdown-link" target='_blank' href={route('dashboard.home')}  >
                                     <div className="flex items-center">
                                         <AdjustmentsHorizontalIcon className="h-5 w-5 mr-2 text-primary-600" />
                                         <span>Dashboard</span>
                                     </div>
                                 </a>
-                            )}
+                            )}*/}
                             <Dropdown.Link href={route('logout')} method="post" className='border-t'>
                                 Cerrar sesión
                             </Dropdown.Link>
@@ -75,7 +75,7 @@ export default function ProfileDropdown({ children }) {
                         navigation_sing.map((item) => (
                             <Dropdown.Link href={item.href} key={item.name}>
                                 <div className="flex items-center">
-                                    <item.icon className="h-5 w-5 mr-2 text-gray-400" />
+                                    <item.icon className="h-5 w-5 mr-2 text-gray-700" />
                                     <span>{item.name}</span>
                                 </div>
                             </Dropdown.Link>

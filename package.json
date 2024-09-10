@@ -1,32 +1,32 @@
 {
-	"private": true,
-	"scripts": {
-		"dev": "vite",
-		"build": "vite build"
-	},
-	"devDependencies": {
-		"@headlessui/react": "^1.4.2",
-		"@inertiajs/react": "^1.0.0",
-		"@tailwindcss/forms": "^0.5.3",
-		"@types/react": "^18.2.8",
-		"@vitejs/plugin-react": "^3.0.0",
-		"autoprefixer": "^10.4.12",
-		"axios": "^1.1.2",
-		"flowbite": "^1.6.5",
-		"laravel-vite-plugin": "^0.7.2",
-		"postcss": "^8.4.18",
-		"react": "^18.2.0",
-		"react-dom": "^18.2.0",
-		"tailwindcss": "^3.2.1",
-		"vite": "^4.0.0"
-	},
-	"dependencies": {
-		"@alpinejs/mask": "^3.12.0",
-		"@heroicons/react": "^2.0.17",
-		"@stripe/react-stripe-js": "^2.1.0",
-		"@stripe/stripe-js": "^1.54.0",
-		"alpinejs": "^3.12.0",
-		"react-hot-toast": "^2.4.0",
-		"swiper": "^9.2.0"
-	}
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "@headlessui/react": "^2.1.2",
+        "@inertiajs/react": "^1.0.0",
+        "@tailwindcss/forms": "^0.5.9",
+        "@tailwindcss/line-clamp": "^0.4.4",
+        "@tailwindcss/typography": "^0.5.15",
+        "@vitejs/plugin-react": "^4.2.0",
+        "autoprefixer": "^10.4.20",
+        "axios": "^1.6.4",
+        "laravel-vite-plugin": "^1.0",
+        "postcss": "^8.4.45",
+        "postcss-nesting": "^13.0.0",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "tailwindcss": "^3.4.10",
+        "vite": "^5.0"
+    },
+    "dependencies": {
+        "@heroicons/react": "^2.1.5",
+        "@stripe/react-stripe-js": "^2.7.3",
+        "@stripe/stripe-js": "^4.2.0",
+        "react-hot-toast": "^2.4.1",
+        "swiper": "^11.1.9"
+    }
 }

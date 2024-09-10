@@ -1,0 +1,537 @@
+{
+    "0": {
+        "name": "Azul",
+        "slug": "azul",
+        "img": "/img/colors/azul.jpg"
+    },
+    "1": {
+        "name": "Gris",
+        "slug": "gris",
+        "img": "/img/colors/gris.jpg"
+    },
+    "2": {
+        "name": "Cafe",
+        "slug": "cafe",
+        "img": "/img/colors/cafe.jpg"
+    },
+    "3": {
+        "name": "Indigo",
+        "slug": "indigo",
+        "img": "/img/colors/indigo.jpg"
+    },
+    "4": {
+        "name": "Beige",
+        "slug": "beige",
+        "img": "/img/colors/beige.jpg"
+    },
+    "5": {
+        "name": "Negro",
+        "slug": "negro",
+        "img": "/img/colors/negro.jpg"
+    },
+    "6": {
+        "name": "Rosa",
+        "slug": "rosa",
+        "img": "/img/colors/rosa.jpg"
+    },
+    "7": {
+        "name": "GrisJaspe",
+        "slug": "grisjaspe",
+        "img": "/img/colors/grisjaspe.jpg"
+    },
+    "8": {
+        "name": "Crema",
+        "slug": "crema",
+        "img": "/img/colors/crema.jpg"
+    },
+    "10": {
+        "name": "AzulOscuro",
+        "slug": "azuloscuro",
+        "img": "/img/colors/azuloscuro.jpg"
+    },
+    "11": {
+        "name": "AzulClaro",
+        "slug": "azulclaro",
+        "img": "/img/colors/azulclaro.jpg"
+    },
+    "13": {
+        "name": "Rojo",
+        "slug": "rojo",
+        "img": "/img/colors/rojo.jpg"
+    },
+    "14": {
+        "name": "Blanco",
+        "slug": "blanco",
+        "img": "/img/colors/blanco.jpg"
+    },
+    "16": {
+        "name": "Verde",
+        "slug": "verde",
+        "img": "/img/colors/verde.jpg"
+    },
+    "21": {
+        "name": "Rosado",
+        "slug": "rosado",
+        "img": "/img/colors/rosado.jpg"
+    },
+    "31": {
+        "name": "Naranja",
+        "slug": "naranja",
+        "img": "/img/colors/naranja.jpg"
+    },
+    "42": {
+        "name": "Amarillo",
+        "slug": "amarillo",
+        "img": "/img/colors/amarillo.jpg"
+    },
+    "47": {
+        "name": "Crudo",
+        "slug": "crudo",
+        "img": "/img/colors/crudo.jpg"
+    },
+    "52": {
+        "name": "Morado",
+        "slug": "morado",
+        "img": "/img/colors/morado.jpg"
+    },
+    "56": {
+        "name": "Marfil",
+        "slug": "marfil",
+        "img": "/img/colors/marfil.jpg"
+    },
+    "61": {
+        "name": "Camel",
+        "slug": "camel",
+        "img": "/img/colors/camel.jpg"
+    },
+    "67": {
+        "name": "Negro5",
+        "slug": "negro5",
+        "img": "/img/colors/negro5.jpg"
+    },
+    "68": {
+        "name": "Negro6",
+        "slug": "negro6",
+        "img": "/img/colors/negro6.jpg"
+    },
+    "70": {
+        "name": "Azul2",
+        "slug": "azul2",
+        "img": "/img/colors/azul2.jpg"
+    },
+    "84": {
+        "name": "AzulMedio",
+        "slug": "azulmedio",
+        "img": "/img/colors/azulmedio.jpg"
+    },
+    "91": {
+        "name": "VerdeOscuro",
+        "slug": "verdeoscuro",
+        "img": "/img/colors/verdeoscuro.jpg"
+    },
+    "121": {
+        "name": "GrisOscuro",
+        "slug": "grisoscuro",
+        "img": "/img/colors/grisoscuro.jpg"
+    },
+    "147": {
+        "name": "Fucsia",
+        "slug": "fucsia",
+        "img": "/img/colors/fucsia.jpg"
+    },
+    "162": {
+        "name": "Mostaza",
+        "slug": "mostaza",
+        "img": "/img/colors/mostaza.jpg"
+    },
+    "171": {
+        "name": "Azul1",
+        "slug": "azul1",
+        "img": "/img/colors/azul1.jpg"
+    },
+    "191": {
+        "name": "Surtido2",
+        "slug": "surtido2",
+        "img": "/img/colors/surtido2.jpg"
+    },
+    "196": {
+        "name": "Surtido",
+        "slug": "surtido",
+        "img": "/img/colors/surtido.jpg"
+    },
+    "197": {
+        "name": "Surtido1",
+        "slug": "surtido1",
+        "img": "/img/colors/surtido1.jpg"
+    },
+    "216": {
+        "name": "Vino",
+        "slug": "vino",
+        "img": "/img/colors/vino.jpg"
+    },
+    "248": {
+        "name": "Azul6",
+        "slug": "azul6",
+        "img": "/img/colors/azul6.jpg"
+    },
+    "285": {
+        "name": "Terracota",
+        "slug": "terracota",
+        "img": "/img/colors/terracota.jpg"
+    },
+    "294": {
+        "name": "Mandarina",
+        "slug": "mandarina",
+        "img": "/img/colors/mandarina.jpg"
+    },
+    "339": {
+        "name": "GrisClaro",
+        "slug": "grisclaro",
+        "img": "/img/colors/grisclaro.jpg"
+    },
+    "371": {
+        "name": "Coral",
+        "slug": "coral",
+        "img": "/img/colors/coral.jpg"
+    },
+    "432": {
+        "name": "Beige1",
+        "slug": "beige1",
+        "img": "/img/colors/beige1.jpg"
+    },
+    "462": {
+        "name": "Negro8",
+        "slug": "negro8",
+        "img": "/img/colors/negro8.jpg"
+    },
+    "466": {
+        "name": "Negro7",
+        "slug": "negro7",
+        "img": "/img/colors/negro7.jpg"
+    },
+    "500": {
+        "name": "Avena",
+        "slug": "avena",
+        "img": "/img/colors/avena.jpg"
+    },
+    "508": {
+        "name": "RosadoClaro",
+        "slug": "rosadoclaro",
+        "img": "/img/colors/rosadoclaro.jpg"
+    },
+    "523": {
+        "name": "Gris1",
+        "slug": "gris1",
+        "img": "/img/colors/gris1.jpg"
+    },
+    "539": {
+        "name": "AzulRey",
+        "slug": "azulrey",
+        "img": "/img/colors/azulrey.jpg"
+    },
+    "541": {
+        "name": "Lila",
+        "slug": "lila",
+        "img": "/img/colors/lila.jpg"
+    },
+    "603": {
+        "name": "NegroCarbon",
+        "slug": "negrocarbon",
+        "img": "/img/colors/negrocarbon.jpg"
+    },
+    "604": {
+        "name": "VerdeNeon",
+        "slug": "verdeneon",
+        "img": "/img/colors/verdeneon.jpg"
+    },
+    "616": {
+        "name": "Cereza",
+        "slug": "cereza",
+        "img": "/img/colors/cereza.jpg"
+    },
+    "627": {
+        "name": "VerdeClaro",
+        "slug": "verdeclaro",
+        "img": "/img/colors/verdeclaro.jpg"
+    },
+    "694": {
+        "name": "CafeClaro",
+        "slug": "cafeclaro",
+        "img": "/img/colors/cafeclaro.jpg"
+    },
+    "744": {
+        "name": "Dorado",
+        "slug": "dorado",
+        "img": "/img/colors/dorado.jpg"
+    },
+    "753": {
+        "name": "Plata",
+        "slug": "plata",
+        "img": "/img/colors/plata.jpg"
+    },
+    "759": {
+        "name": "Celeste",
+        "slug": "celeste",
+        "img": "/img/colors/celeste.jpg"
+    },
+    "786": {
+        "name": "Piel",
+        "slug": "piel",
+        "img": "/img/colors/piel.jpg"
+    },
+    "844": {
+        "name": "Hueso",
+        "slug": "hueso",
+        "img": "/img/colors/hueso.jpg"
+    },
+    "847": {
+        "name": "Negro1",
+        "slug": "negro1",
+        "img": "/img/colors/negro1.jpg"
+    },
+    "856": {
+        "name": "AguaMarina",
+        "slug": "aguamarina",
+        "img": "/img/colors/aguamarina.jpg"
+    },
+    "1036": {
+        "name": "Surtido3",
+        "slug": "surtido3",
+        "img": "/img/colors/surtido3.jpg"
+    },
+    "1070": {
+        "name": "NegroBinado",
+        "slug": "negrobinado",
+        "img": "/img/colors/negrobinado.jpg"
+    },
+    "1123": {
+        "name": "Verde2",
+        "slug": "verde2",
+        "img": "/img/colors/verde2.jpg"
+    },
+    "1125": {
+        "name": "Verde1",
+        "slug": "verde1",
+        "img": "/img/colors/verde1.jpg"
+    },
+    "1127": {
+        "name": "Amarillo1",
+        "slug": "amarillo1",
+        "img": "/img/colors/amarillo1.jpg"
+    },
+    "1302": {
+        "name": "Surtido5",
+        "slug": "surtido5",
+        "img": "/img/colors/surtido5.jpg"
+    },
+    "1321": {
+        "name": "Cafe1",
+        "slug": "cafe1",
+        "img": "/img/colors/cafe1.jpg"
+    },
+    "1401": {
+        "name": "RosaPastel",
+        "slug": "rosapastel",
+        "img": "/img/colors/rosapastel.jpg"
+    },
+    "1402": {
+        "name": "AzulPastel",
+        "slug": "azulpastel",
+        "img": "/img/colors/azulpastel.jpg"
+    },
+    "1553": {
+        "name": "Purpura",
+        "slug": "purpura",
+        "img": "/img/colors/purpura.jpg"
+    },
+    "1629": {
+        "name": "Vino10",
+        "slug": "vino10",
+        "img": "/img/colors/vino10.jpg"
+    },
+    "1768": {
+        "name": "Azul8",
+        "slug": "azul8",
+        "img": "/img/colors/azul8.jpg"
+    },
+    "1846": {
+        "name": "Azul3",
+        "slug": "azul3",
+        "img": "/img/colors/azul3.jpg"
+    },
+    "1847": {
+        "name": "Gris5",
+        "slug": "gris5",
+        "img": "/img/colors/gris5.jpg"
+    },
+    "1860": {
+        "name": "Blanco1",
+        "slug": "blanco1",
+        "img": "/img/colors/blanco1.jpg"
+    },
+    "1891": {
+        "name": "VerdeOliva",
+        "slug": "verdeoliva",
+        "img": "/img/colors/verdeoliva.jpg"
+    },
+    "2030": {
+        "name": "Rojo3",
+        "slug": "rojo3",
+        "img": "/img/colors/rojo3.jpg"
+    },
+    "2102": {
+        "name": "Rojo4",
+        "slug": "rojo4",
+        "img": "/img/colors/rojo4.jpg"
+    },
+    "2293": {
+        "name": "AmarilloPastel",
+        "slug": "amarillopastel",
+        "img": "/img/colors/amarillopastel.jpg"
+    },
+    "2423": {
+        "name": "Negro3",
+        "slug": "negro3",
+        "img": "/img/colors/negro3.jpg"
+    },
+    "2466": {
+        "name": "CafeOscuro",
+        "slug": "cafeoscuro",
+        "img": "/img/colors/cafeoscuro.jpg"
+    },
+    "2468": {
+        "name": "Rojo1",
+        "slug": "rojo1",
+        "img": "/img/colors/rojo1.jpg"
+    },
+    "2720": {
+        "name": "Gris10",
+        "slug": "gris10",
+        "img": "/img/colors/gris10.jpg"
+    },
+    "2790": {
+        "name": "Gris4",
+        "slug": "gris4",
+        "img": "/img/colors/gris4.jpg"
+    },
+    "2791": {
+        "name": "Vino1",
+        "slug": "vino1",
+        "img": "/img/colors/vino1.jpg"
+    },
+    "2816": {
+        "name": "Menta",
+        "slug": "menta",
+        "img": "/img/colors/menta.jpg"
+    },
+    "2907": {
+        "name": "Uva",
+        "slug": "uva",
+        "img": "/img/colors/uva.jpg"
+    },
+    "2939": {
+        "name": "Negro2",
+        "slug": "negro2",
+        "img": "/img/colors/negro2.jpg"
+    },
+    "3137": {
+        "name": "Azul5",
+        "slug": "azul5",
+        "img": "/img/colors/azul5.jpg"
+    },
+    "3142": {
+        "name": "Azul4",
+        "slug": "azul4",
+        "img": "/img/colors/azul4.jpg"
+    },
+    "3145": {
+        "name": "Blanco3",
+        "slug": "blanco3",
+        "img": "/img/colors/blanco3.jpg"
+    },
+    "3146": {
+        "name": "Blanco2",
+        "slug": "blanco2",
+        "img": "/img/colors/blanco2.jpg"
+    },
+    "3149": {
+        "name": "Vino2",
+        "slug": "vino2",
+        "img": "/img/colors/vino2.jpg"
+    },
+    "3207": {
+        "name": "PalodeRosa",
+        "slug": "paloderosa",
+        "img": "/img/colors/paloderosa.jpg"
+    },
+    "3917": {
+        "name": "Gris2",
+        "slug": "gris2",
+        "img": "/img/colors/gris2.jpg"
+    },
+    "4315": {
+        "name": "Rosado2",
+        "slug": "rosado2",
+        "img": "/img/colors/rosado2.jpg"
+    },
+    "4316": {
+        "name": "Rosado1",
+        "slug": "rosado1",
+        "img": "/img/colors/rosado1.jpg"
+    },
+    "4319": {
+        "name": "RosaClaro",
+        "slug": "rosaclaro",
+        "img": "/img/colors/rosaclaro.jpg"
+    },
+    "4325": {
+        "name": "Verde3",
+        "slug": "verde3",
+        "img": "/img/colors/verde3.jpg"
+    },
+    "4358": {
+        "name": "Azul7",
+        "slug": "azul7",
+        "img": "/img/colors/azul7.jpg"
+    },
+    "4359": {
+        "name": "Negro9",
+        "slug": "negro9",
+        "img": "/img/colors/negro9.jpg"
+    },
+    "4360": {
+        "name": "Gris7",
+        "slug": "gris7",
+        "img": "/img/colors/gris7.jpg"
+    },
+    "4474": {
+        "name": "Rojo2",
+        "slug": "rojo2",
+        "img": "/img/colors/rojo2.jpg"
+    },
+    "4538": {
+        "name": "Oro",
+        "slug": "oro",
+        "img": "/img/colors/oro.jpg"
+    },
+    "4627": {
+        "name": "Gris9",
+        "slug": "gris9",
+        "img": "/img/colors/gris9.jpg"
+    },
+    "5011": {
+        "name": "Azul10",
+        "slug": "azul10",
+        "img": "/img/colors/azul10.jpg"
+    },
+    "5603": {
+        "name": "Curuba",
+        "slug": "curuba",
+        "img": "/img/colors/curuba.jpg"
+    },
+    "5620": {
+        "name": "Gris8",
+        "slug": "gris8",
+        "img": "/img/colors/gris8.jpg"
+    }
+}

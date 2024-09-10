@@ -4,17 +4,22 @@ namespace Database\Seeders;
 
 use App\Helpers\Helpers;
 use App\Models\Attribute;
+use App\Models\AttributeOption;
 use App\Models\AttributeProduct;
 use App\Models\AttributeValue;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Color;
 use App\Models\Department;
 use App\Models\Image;
+use App\Models\MetaTag;
+use App\Models\Presentation;
 use App\Models\Product;
 use App\Models\ProductAttribute;
 use App\Models\ProductAttributeValue;
+use App\Models\Sku;
 use App\Models\Specification;
-
+use App\Models\SpecificationValue;
 use App\Models\Stock;
 use Faker;
 use Illuminate\Database\Seeder;
@@ -33,93 +38,102 @@ class ProductSeeder extends Seeder
     public function run()
     {
         Product::truncate();
-        Stock::truncate();
-        Specification::truncate();
-        Attribute::truncate();
-        AttributeValue::truncate();
-        //$brands = Brand::get();
 
-        $categories = Category::select('id', 'name')->get()->pluck('id', 'name');
+        Image::where('model_type', 'App\Models\Product')->delete();
 
-        $departments = Department::select('id', 'name')->get()->pluck('id', 'name');
+        $categories = Category::select('id', 'name')->pluck('id', 'name');
+        $departments = Department::select('id', 'name')->pluck('id', 'name');
 
-        $products = collect(Storage::json("data/products_with_images.json"))->shuffle();
+        $products = collect(Storage::json(DatabaseSeeder::getPathProductJson()));
 
         if (config('app.env') == 'testing') {
-            $products = collect($products)->random(20);
+            $products = $products->take(20);
         }
+        $colors = Color::pluck('id', 'name');
 
-        $faker = Faker\Factory::create();
+        $products_array = [];
+        $products_variant_array = [];
+        $images_array = [];
+        $product_count = 1;
+        $meta_array = [];
+        foreach ($products as $product) {
 
-        foreach ($products as $key => $product) {
+            $this->command->info($product_count . ' - ' . $product['name']);
+            $product_base = [
+                'name' => $product['name'],
+                'slug' => Str::slug($product['name']) . "-" . $product['id'],
+                'entry' => $product['entry'],
+                'description' => fake()->text(800),
+                'max_quantity' => rand(1, 300),
+                'featured' => boolval(rand(0, 6)),
+                'department_id' => $departments[$product['department']],
+                'category_id' => $categories[$product['category']],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+            array_push($products_array, [
+                'id' => $product['id'],
+                ...$product_base
+            ]);
 
-            $price = $product['price'];
-
-            $offer = rand(0, 1) ? $faker->randomElement([10, 20, 30, 40, 50]) : 0;
-
-            $price_offer = $price - ($price * ($offer / 100));
-
-            $cost = round($price * 0.80);
-
-            echo ($key + 1) . ' - ' . $product['name'] . " \n";
-
-            $product_model = Product::factory()
-                ->has(Stock::factory()->count(1))
-                ->create([
-                    'name' => $product['name'],
-                    'slug' => Str::slug($product['name'], '-') . rand(0, 99999),
-                    'img' => $product['img'],
-                    'thumb' => $product['thumb'],
-                    //'description_min' => $product['entry'],
-                    'description_max' => $product['desc'],
-                    'price' => $price,
+            foreach ($product['variants'] as $variant) {
+                $color_id = $colors[$variant['color']['name']];
+                $ref = str_pad($product['id'], 4, "0", STR_PAD_LEFT) . '-' . str_pad($color_id, 3, "0", STR_PAD_LEFT);
+                if (rand(0, 10)) {
+                    $old_price = $product['price'];
+                    $offer = fake()->randomElement([10, 20, 30, 40, 50]);
+                    $price = $old_price - ($old_price * ($offer / 100));
+                } else {
+                    $offer = null;
+                    $old_price = null;
+                    $price = $product['price'];
+                }
+                array_push($products_variant_array, [
+                    ...$product_base,
+                    'id' => $variant['id'],
+                    'ref' => $ref,
+                    'old_price' => $old_price,
                     'offer' => $offer,
-                    'price_offer' => $price_offer,
-                    'cost' => $cost,
-                    'department_id' => $departments[$product['department']],
-                    'category_id' => $categories[$product['category']],
-                    'sub_category_id' => null,
-                    'brand_id' => null //$brands[$product['brand']],
+                    'price' => $price,
+                    'img' => $variant['img'],
+                    'thumb' => $variant['thumb'],
+                    'color_id' => $color_id,
+                    'parent_id' => $product['id'],
+                    'created_at' => fake()->dateTimeBetween('-2 days', 'now'),
+                    'updated_at' => fake()->dateTimeBetween('-2 days', 'now'),
+
                 ]);
-
-            $product_model->images()->createMany($product['images']);
-
-            //specifications
-            $specifications = [];
-            foreach ($product['specifications'] as $key => $item) {
-                foreach ($item['table'] as $key => $table) {
-                    array_push($specifications, [
-                        'type' => $item['title'],
-                        'name' => $table['name'],
-                        'slug' => Str::slug($table['name']),
-                        'value' => $table['value'],
-                        'active' => 1,
+                $product_count++;
+                foreach ($variant['images'] as $image) {
+                    array_push($images_array, [
+                        'img' => $image,
+                        'model_type' => 'App\Models\Product',
+                        'model_id' => $variant['id'],
                     ]);
                 }
-            }
-            $product_model->specifications()->createMany($specifications);
-
-            //attributes
-            foreach ($product['attributes'] as  $item) {
-
-                $product_attribute = Attribute::create([
-                    'name' => $item['name'],
-                    'slug' => Str::slug($item['name']),
-                    'product_id' => $product_model->id,
+                array_push($meta_array, [
+                    'meta_title' => $product['name'],
+                    'meta_description' => fake()->sentence(),
+                    'model_type' => 'App\Models\Product',
+                    'model_id' => $variant['id'],
                 ]);
+            }
 
-                $attribute_values = [];
-                foreach ($item['value'] as $key => $value) {
-                    $attribute_values[] = [
-                        'name' => $value,
-                        'slug' => Str::slug($value),
-                        'default' => $key == 0,
-                        'in_stock' => $key == 0 ? 1 : rand(0, 1),
-                        'product_id' => $product_model->id,
-                    ];
-                }
-                $product_attribute->attribute_values()->createMany($attribute_values);
+            if (count($products_variant_array) > 50) {
+                Product::insert($products_array);
+                Product::insert($products_variant_array);
+                Image::insert($images_array);
+                MetaTag::insert($meta_array);
+                $products_array = [];
+                $products_variant_array = [];
+                $images_array = [];
+                $meta_array = [];
             }
         }
+
+        Product::insert($products_array);
+        Product::insert($products_variant_array);
+        Image::insert($images_array);
+        MetaTag::insert($meta_array);
     }
 }

@@ -8,9 +8,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Sku extends Model
 {
-	use HasFactory;
-	public function product(): BelongsTo
-	{
-		return $this->belongsTo(Product::class);
-	}
+    use HasFactory;
+
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
+    }
+    public function size(): BelongsTo
+    {
+        return $this->belongsTo(Size::class);
+    }
 }

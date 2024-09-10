@@ -2,7 +2,10 @@
 
 namespace App\Rules;
 
+use App\Models\Presentation;
 use App\Models\Product;
+use App\Models\Sku;
+use App\Models\Variant;
 use Closure;
 use Illuminate\Contracts\Validation\DataAwareRule;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -38,16 +41,20 @@ class ValidateProductRule implements DataAwareRule, ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         $quantity = $this->data['quantity'];
-        $product_id = $this->data['product_id'];
+        $skuId = $this->data['skuId'];
 
-        $product = Product::with('stock')->activeInStock()->findOrFail($product_id);
+        $product = Product::select('id')
+            ->active()
+            ->withWhereHas('sku', function ($query) use ($skuId) {
+                $query->where('stock', '>', 0)->where('id', $skuId);
+            })->first();
 
-        if (!$product->active) {
+        if (!$product) {
             $fail('Este producto no esta disponible');
         }
 
-        if ($quantity > $product->stock->remaining) {
-            $fail('No hay stock suficiente para este producto');
-        }
+        // if ($quantity > $sku->stock) {
+        //     $fail('No hay stock suficiente para este producto');
+        // }
     }
 }

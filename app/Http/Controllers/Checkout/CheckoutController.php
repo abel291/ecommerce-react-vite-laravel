@@ -16,13 +16,14 @@ use Faker;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Rules\ValidateProductRule;
 
 class CheckoutController extends Controller
 {
     public function checkout(Request $request)
     {
 
-        $products = CartService::session(CartEnum::CHECKOUT->value);
+        $products = CartService::products(CartEnum::CHECKOUT);
 
         $discountCode = session()->get('discountCode');
 
@@ -36,7 +37,7 @@ class CheckoutController extends Controller
         $note = $faker->paragraph(2);
 
         return Inertia::render('Checkout/Checkout', [
-            'products' => CartResource::collection($products),
+            'products' => $products,
             'total' => $total,
             'dicountCodes' => $discount_codes,
             'note' => $note,
@@ -44,18 +45,23 @@ class CheckoutController extends Controller
         ]);
     }
 
-    public function addSingleProduct(CheckoutProductRequest $request)
+    public function addSingleProduct(Request $request)
     {
-        $product = Product::select('id', 'name', 'price', 'img', 'price_offer', 'slug', 'max_quantity')->with('stock')->find($request->product_id);
+        $request->validate([
+            'skuId' => ['required', 'exists:skus,id', new ValidateProductRule],
+            'quantity' => ['required', 'numeric', 'min:1'],
+        ]);
 
-        CartService::add(CartEnum::CHECKOUT->value, $product, $request->quantity, $request['attributes']);
+        session()->forget(CartEnum::CHECKOUT->value);
+
+        CartService::add(CartEnum::CHECKOUT, $request->skuId, $request->quantity);
 
         return to_route('checkout');
     }
 
     public function addShoppingCart()
     {
-        $products = CartService::session(CartEnum::SHOPPING_CART->value);
+        $products = CartService::session(CartEnum::SHOPPING_CART);
 
         session([CartEnum::CHECKOUT->value => $products]);
 

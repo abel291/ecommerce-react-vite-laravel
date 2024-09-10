@@ -14,4 +14,8 @@ class Page extends Model
     {
         return $this->morphMany(Image::class, 'model');
     }
+    public function metaTag()
+    {
+        return $this->morphOne(MetaTag::class, 'model');
+    }
 }

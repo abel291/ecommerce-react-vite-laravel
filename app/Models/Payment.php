@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Enums\PaymentMethodEnum;
-use App\Enums\PaymentStatus;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,12 +13,10 @@ class Payment extends Model
     use HasFactory;
 
     protected $casts = [
-        'status' => PaymentStatus::class,
         'method' => PaymentMethodEnum::class,
     ];
 
     protected $attributes = [
-        //'status' => PaymentStatus::PENDING,
     ];
 
     protected $guarded = [];
@@ -34,8 +32,8 @@ class Payment extends Model
 
         $can = $this->created_at->diff(now())->days < $max_days;
 
-        $status = $this->status == PaymentStatus::SUCCESSFUL;
+        // $status = $this->status == PaymentStatus::SUCCESSFUL;
         // dd($this->created_at->diff(now())->days);
-        return $can && $status;
+        return $can;
     }
 }
