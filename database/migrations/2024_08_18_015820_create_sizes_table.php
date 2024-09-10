@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('sizes', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('slug')->index();
+            $table->string('name')->unique()->index();
+            $table->string('slug');
             $table->timestamps();
         });
     }

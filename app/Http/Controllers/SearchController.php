@@ -95,7 +95,7 @@ class SearchController extends Controller
 
         // $products = Product::card()->withFilters($filters)->paginate(24)->withQueryString();
 
-        $products = Product::variant()->card()->withFilters($filters)->paginate(24)->withQueryString();
+        $products = Product::variant()->card()->withFilters($filters)->paginate(20)->withQueryString();
 
         // dd($products);
 

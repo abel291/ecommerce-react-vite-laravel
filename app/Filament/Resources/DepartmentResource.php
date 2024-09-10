@@ -18,6 +18,7 @@ use Illuminate\Support\Str;
 
 class DepartmentResource extends Resource
 {
+    protected static ?int $navigationSort = 1;
     protected static ?string $model = Department::class;
 
     public static ?string $label = 'Departamento';
