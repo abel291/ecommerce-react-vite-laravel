@@ -20,16 +20,23 @@ class ColorSizeSeeder extends Seeder
         Color::truncate();
         Size::truncate();
 
-        $colors = collect(Storage::json('products/colors.json'))->values()->toArray();
-        Color::insert($colors);
+        $colors = collect(Storage::json('products/colors.json'))->values();
+        foreach ($colors as $color) {
+            Color::create($color);
+        }
+        // Color::insert($colors);
 
         $sizes = collect(Storage::json(DatabaseSeeder::getPathProductJson()))->pluck('sizes')->collapse()->unique()
-            ->map(function ($size) {
-                return [
-                    'name' => $size,
-                    'slug' => Str::slug($size),
-                ];
-            })->toArray();
-        Size::insert($sizes);
+            ->filter()
+            ->values();
+        // dd($sizes);
+
+        foreach ($sizes as $size) {
+            Size::create([
+                'name' => $size,
+                'slug' => Str::slug($size),
+            ]);
+        }
+        // Size::insert($sizes);
     }
 }
