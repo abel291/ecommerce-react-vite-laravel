@@ -23,34 +23,34 @@ class AttributeSeeder extends Seeder
         Attribute::truncate();
         AttributeOption::truncate();
         DB::table('attribute_option_product')->truncate();
-        Attribute::factory(5)->has(AttributeOption::factory()->count(6))->create();
+        Attribute::factory(5)->has(AttributeOption::factory()->count(6), 'attribute_options')->create();
 
-        $attributeOptions = AttributeOption::get();
-        $attributeOptionSelecteds = $attributeOptions->random(2);
+        $attributeOptions = AttributeOption::pluck('id')->toArray();
+        // $attributesOptionSelected = $attributeOptions->random(2)->toArray();
         $attribute_option_product = [];
         foreach (Product::variant()->select('id')->get() as $key => $product) {
 
-            foreach ($attributeOptionSelecteds as $options) {
+            $attributesOptionSelected = array_rand($attributeOptions, rand(3, 5));
+
+            foreach ($attributesOptionSelected as $options_id) {
                 array_push($attribute_option_product, [
                     'product_id' => $product['id'],
-                    'attribute_option_id' => $options->id
-                ]);
-                ;
+                    'attribute_option_id' => $options_id
+                ]);;
             }
 
             foreach ($product['variants'] as $variant) {
-                foreach ($attributeOptionSelecteds as $options) {
+                foreach ($attributesOptionSelected as $options_id) {
                     array_push($attribute_option_product, [
                         'product_id' => $variant['id'],
-                        'attribute_option_id' => $options->id
+                        'attribute_option_id' => $options_id
                     ]);
                 }
             }
-            if (count($attribute_option_product) > 1000) {
+            if (count($attribute_option_product) > 500) {
                 DB::table('attribute_option_product')->insert($attribute_option_product);
                 $attribute_option_product = [];
                 $this->command->info($key);
-
             }
         }
         DB::table('attribute_option_product')->insert($attribute_option_product);

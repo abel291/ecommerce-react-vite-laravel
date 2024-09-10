@@ -13,7 +13,7 @@ class Attribute extends Model
 
     use HasFactory;
 
-    public function attributeOptions(): HasMany
+    public function attribute_options(): HasMany
     {
         return $this->HasMany(AttributeOption::class);
     }
