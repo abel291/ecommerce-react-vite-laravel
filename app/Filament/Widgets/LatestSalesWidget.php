@@ -33,7 +33,7 @@ class LatestSalesWidget extends BaseWidget
                 ->with('payment')
                 ->when($startDate, fn(Builder $query) => $query->whereDate('created_at', '>=', $startDate))
                 ->when($endDate, fn(Builder $query) => $query->whereDate('created_at', '<=', $endDate))
-                ->withCount('orderProducts')->latest())
+                ->withCount('order_products')->latest())
             ->defaultPaginationPageOption(8)
             ->defaultSort('id', 'desc')
             ->columns([

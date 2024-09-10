@@ -102,7 +102,7 @@ class Product extends Model
     //     id - integer
     //     name - string
 
-    // orderProducts
+    // order_products
     //     id - integer
     //     product_id - integer
     //     name - string

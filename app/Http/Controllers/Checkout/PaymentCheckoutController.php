@@ -25,11 +25,11 @@ class PaymentCheckoutController extends Controller
         $discountCode = session()->get('discountCode');
 
         $products = CartService::session(CartEnum::CHECKOUT);
-        $orderProducts = OrderService::generateOrderProductsCheckout($products);
+        $order_products = OrderService::generateorder_productsCheckout($products);
 
-        $order = OrderService::generateOrder($orderProducts, $discountCode, $user);
+        $order = OrderService::generateOrder($order_products, $discountCode, $user);
 
-        DB::transaction(function () use ($order, $orderProducts, $request) {
+        DB::transaction(function () use ($order, $order_products, $request) {
 
             $order->status = OrderStatusEnum::SUCCESSFUL;
             $order->data = [
@@ -37,7 +37,7 @@ class PaymentCheckoutController extends Controller
             ];
             $order->save();
 
-            $order->orderProducts()->createMany($orderProducts);
+            $order->order_products()->createMany($order_products);
 
             Payment::factory()->create([
                 // 'method' => PaymentMethodEnum::CARD,

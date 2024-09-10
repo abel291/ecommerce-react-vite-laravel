@@ -46,7 +46,7 @@ class OrderResource extends Resource
             ->columns([
                 TextColumn::make('code')->label('Codigo')->searchable(),
                 TextColumn::make('data.user.name')->wrap()->searchable(),
-                TextColumn::make('order_products_count')->label('Productos')->counts('orderProducts'),
+                TextColumn::make('order_products_count')->label('Productos')->counts('order_products'),
                 TextColumn::make('shipping')->label('Costo de envio')->numeric(),
                 TextColumn::make('total')->label('Precio Total')->numeric(),
                 TextColumn::make('status')->badge(),

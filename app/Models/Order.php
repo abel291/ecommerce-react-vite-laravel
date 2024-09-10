@@ -25,7 +25,7 @@ class Order extends Model
 
     protected $guarded = [];
 
-    public function orderProducts(): HasMany
+    public function order_products(): HasMany
     {
         return $this->hasMany(OrderProduct::class);
     }

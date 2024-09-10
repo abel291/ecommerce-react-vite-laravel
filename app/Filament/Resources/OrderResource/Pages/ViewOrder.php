@@ -79,7 +79,7 @@ class ViewOrder extends ViewRecord
                             // TextEntry::make('user.name')->label('Vendedor'),
                             TextEntry::make('status')->label('Estado')->badge(),
 
-                            ViewEntry::make('orderProducts')->columnSpanFull()->view('filament.infolists.sales-view')
+                            ViewEntry::make('order_products')->columnSpanFull()->view('filament.infolists.sales-view')
                         ])
                             ->columnSpan(2)
                             ->columns(4),

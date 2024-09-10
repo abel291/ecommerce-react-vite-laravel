@@ -26,14 +26,14 @@ class OrderService
 
         return $sub_total;
     }
-    public static function generateOrder(Collection $orderProducts, $discountCode = null, $user): Order
+    public static function generateOrder(Collection $order_products, $discountCode = null, $user): Order
     {
 
-        $order_array = self::calculateTotal($orderProducts, $discountCode);
+        $order_array = self::calculateTotal($order_products, $discountCode);
 
         return new Order([
             ...$order_array,
-            'quantity' => $orderProducts->sum('quantity'),
+            'quantity' => $order_products->sum('quantity'),
             'code' => self::generateCode($user->id),
             'user_id' => $user->id,
             // 'data' => [
@@ -97,7 +97,7 @@ class OrderService
         ];
     }
 
-    public static function generateOrderProductsCheckout(array $products): Collection
+    public static function generateorder_productsCheckout(array $products): Collection
     {
         $skuIds = array_keys($products);
         return Sku::with([

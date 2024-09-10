@@ -34,7 +34,7 @@ class OrdersRelationManager extends RelationManager
             ->columns([
                 TextColumn::make('code')->label('Numero')->searchable(),
                 TextColumn::make('data.user.name')->wrap()->searchable(),
-                TextColumn::make('order_products_count')->label('Productos')->counts('orderProducts'),
+                TextColumn::make('order_products_count')->label('Productos')->counts('order_products'),
                 TextColumn::make('shipping')->label('Costo de envio')->numeric()->money(),
                 TextColumn::make('total')->label('Precio Total')->numeric()->money(),
                 TextColumn::make('status')->badge(),
