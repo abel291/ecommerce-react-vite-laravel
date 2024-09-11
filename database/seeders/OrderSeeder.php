@@ -36,7 +36,7 @@ class OrderSeeder extends Seeder
         foreach ($users->multiply(10) as $user) {
 
             $max_quantity_selected = rand(1, 14);
-            $orderProducts = Sku::where('stock', '>=', $max_quantity_selected)
+            $order_products = Sku::where('stock', '>=', $max_quantity_selected)
                 ->with([
                     'size:id,name',
                     'product' => function ($query) {
@@ -58,7 +58,7 @@ class OrderSeeder extends Seeder
                 $discountCode = null;
             }
 
-            $order = OrderService::generateOrder($orderProducts, $discountCode, $user);
+            $order = OrderService::generateOrder($order_products, $discountCode, $user);
 
             $order->data = [
                 'user' => $user->only('name', 'address', 'phone', 'email', 'city'),
@@ -72,7 +72,7 @@ class OrderSeeder extends Seeder
 
             $order->save();
 
-            $order->orderProducts()->createMany($orderProducts);
+            $order->order_products()->createMany($order_products);
 
             Payment::factory()->create([
                 'order_id' => $order->id
