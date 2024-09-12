@@ -104,9 +104,12 @@ class ProductSeeder extends Seeder
 
                 ]);
                 $product_count++;
-                foreach ($variant['images'] as $image) {
+                foreach ($variant['images'] as $key => $image) {
                     array_push($images_array, [
                         'img' => $image,
+                        'title' => $product['name'],
+                        'alt' => $product['name'],
+                        'sort' => $key + 1,
                         'model_type' => 'App\Models\Product',
                         'model_id' => $variant['id'],
                     ]);

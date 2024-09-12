@@ -11,9 +11,7 @@ class Specification extends Model
     use HasFactory;
 
     protected $fillable = [
-        'type',
-        'slug',
-        'value',
+        'name',
     ];
 
     public function product()
