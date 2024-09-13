@@ -5,6 +5,8 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ProductResource\Pages;
 use App\Models\Color;
 use App\Models\Product;
+use App\Services\ProductService;
+use Filament\Actions\Contracts\ReplicatesRecords;
 use Filament\Forms;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
@@ -16,6 +18,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\ReplicateAction;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -186,7 +189,6 @@ class ProductResource extends Resource
         $offer = ($get('price') / $get('old_price')) * 100;
         $set('offer', round($offer));
     }
-
     public static function table(Table $table): Table
     {
         return $table
@@ -238,15 +240,20 @@ class ProductResource extends Resource
                     Action::make('product-relations')
                         ->url(fn(Product $record): string => ProductResource::getUrl('product-relations', ['record' => $record->id]))
                         ->label('Relaciones')->color('gray')->icon('heroicon-o-squares-2x2'),
-
-                    Action::make('generate_variant_color')
-                        ->action(function (Product $record) {})
+                    ReplicateAction::make('replicate_product')
+                        ->excludeAttributes(['thumb', 'img', 'active', 'skus_sum_stock'])
                         ->requiresConfirmation()
-                        ->color('info')
-                        ->modalHeading('Variante de Color')
                         ->modalDescription('Se creara una replica de este producto pero sin las imagenes y sin el color')
                         ->modalSubmitActionLabel('Crear Replica')
                         ->modalIcon('heroicon-o-exclamation-circle')
+                        ->beforeReplicaSaved(function (Product $replica, $data): void {
+                            $replica->color_id = $data['color_id'];
+                            $replica->ref = ProductService::generateRef($replica->parent_id, $replica->color_id);
+                        })
+                        ->before(function ($record, $data) {
+                            $record->color_id = $data['color_id'];
+                        })
+
                         ->form([
                             Grid::make(5)->schema([
                                 Select::make('color_id')
@@ -256,6 +263,10 @@ class ProductResource extends Resource
                                     ->columnSpan(3),
                             ])
                         ])
+                        ->successRedirectUrl(fn(Product $replica) => ProductResource::getUrl('edit', [$replica->id]))
+
+                    ,
+
 
 
                 ])
