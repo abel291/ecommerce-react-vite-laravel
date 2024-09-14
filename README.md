@@ -2,6 +2,8 @@
 
 Tienda el linea de venta de ropa , construida en React y Laravel
 
+
+<a href="https://drive.google.com/file/d/1naudELoaIZCQ0jNCmnvjLdvjlw4jNXV5/view?usp=drive_link" target="_blank">Link to download the images (30,000 images - 2gb) </a>
 ## Screenshot 🖥️️
 
 ![screenshot-1](/public/screenshot/img-1.png)
