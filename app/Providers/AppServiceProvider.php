@@ -52,7 +52,7 @@ class AppServiceProvider extends ServiceProvider
         }, isImportant: true);
 
         Table::configureUsing(function (Table $table): void {
-            $table->defaultPaginationPageOption(10)->defaultSort('id', 'desc');
+            $table->defaultPaginationPageOption(25)->defaultSort('id', 'desc');
             // $table->filtersLayout(FiltersLayout::AboveContent);
             $table->searchDebounce('400ms');
             $table->filtersTriggerAction(
@@ -64,7 +64,7 @@ class AppServiceProvider extends ServiceProvider
 
         Infolist::$defaultDateTimeDisplayFormat = 'M j, Y h:i a';
 
-        Table::$defaultDateTimeDisplayFormat = 'M j, Y h:i a';
+        Table::$defaultDateTimeDisplayFormat = 'l d \de F Y ';
         DateTimePicker::$defaultDateTimeDisplayFormat = 'M j, Y h:i a';
 
         Table::$defaultNumberLocale = 'de';
