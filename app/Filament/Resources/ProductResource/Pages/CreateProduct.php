@@ -13,6 +13,17 @@ class CreateProduct extends CreateRecord
     protected static string $resource = ProductResource::class;
     protected ?string $subheading = 'Luego de crear el producto podras agregar mas informacion como imagenes, especificaciones etc';
 
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        if ($data['img'] && $data['img'][0] != '/') {
+            $data['img'] = '/' . $data['img'];
+        }
+        if ($data['thumb'] && $data['thumb'][0] != '/') {
+            $data['thumb'] = '/' . $data['thumb'];
+        }
+
+        return $data;
+    }
     protected function handleRecordCreation(array $data): Model
     {
         // produc parent

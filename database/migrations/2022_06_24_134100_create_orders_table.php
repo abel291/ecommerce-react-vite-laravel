@@ -49,6 +49,8 @@ class CreateOrdersTable extends Migration
             $table->foreignId('order_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('product_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('sku_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('department_id')->nullable()->constrained()->nullOnDelete();
             $table->json('data')->nullable();
             $table->timestamps();
         });

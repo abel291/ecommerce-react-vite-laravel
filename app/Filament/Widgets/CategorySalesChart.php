@@ -5,6 +5,7 @@ namespace App\Filament\Widgets;
 use App\Enums\OrderStatusEnum;
 use App\Enums\SaleStatuEnum;
 use App\Models\Category;
+use App\Models\OrderProduct;
 use App\Models\Product;
 use App\Models\Sale;
 use Dashboard;
@@ -25,27 +26,10 @@ class CategorySalesChart extends ChartWidget
 
         $filterMonth = Dashboard::filterDateSelected($this->filters['select_month']);
 
-        $categories = Category::withWhereHas(
-            'products',
-            function ($query) use ($filterMonth) {
-                $query
-                    ->select('id', 'category_id', 'orders_count')
-                    ->withCount([
-                        'orders' => function (Builder $query2) use ($filterMonth) {
-                            $query2->where('orders.status', OrderStatusEnum::SUCCESSFUL)
-                                ->when($filterMonth, fn(Builder $query) => $query->whereDate('orders.created_at', '>=', $filterMonth));
-                        }
-                    ]);
-            }
-        )->get()->mapWithKeys(function ($category, int $key) {
-            return [$category->name => $category->products->sum('orders_count')];
-        })
-            ->sortDesc()->take(10);
-        // dd($categories);
-        // $sales = Sale::with('products.category')
-        //     ->where('status', SaleStatuEnum::ACCEPTED)
-        //     ->whereDate('sales.created_at', '>=', $filterMonth)->get();
-        // dd($sales->pluck('products')->collapse()->groupBy('category.name'));
+        $categories = Category::select('id', 'name')->withCount(['order_products' => function (Builder $query2) use ($filterMonth) {
+            $query2->whereRelation('order', 'status', '=', OrderStatusEnum::SUCCESSFUL->value)
+                ->when($filterMonth, fn(Builder $query) => $query->whereDate('created_at', '>=', $filterMonth));
+        }])->orderBy('order_products_count', 'desc')->limit(10)->pluck('order_products_count', 'name');
 
         self::$heading = self::$heading . " (" . Number::format($categories->sum()) . " productos vendidos)";
         return [

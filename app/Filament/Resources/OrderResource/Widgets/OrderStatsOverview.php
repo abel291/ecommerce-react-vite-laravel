@@ -28,8 +28,8 @@ class OrderStatsOverview extends BaseWidget
         return [
             Stat::make('Ventas de ' . now()->translatedFormat('F'), $orders->count())
                 ->chart($chartSalesMonth),
-            Stat::make('Total ingresos', Number::currency($orders->sum('total'))),
-            Stat::make('Venta promedio', Number::currency($orders->average('total'))),
+            Stat::make('Total ingresos', Number::currency($orders->sum('total') ?: 0)),
+            Stat::make('Venta promedio', Number::currency($orders->average('total') ?: 0)),
         ];
     }
 }

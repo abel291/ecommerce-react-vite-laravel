@@ -8,13 +8,14 @@ use Illuminate\Support\Str;
 
 class ProductService
 {
-    public static function generateRef($parent_id, $color_id)
+    public static function generateRef($parent_id)
     {
 
         $parent_product_id = Str::padLeft($parent_id, 4, '0');
 
-        return $parent_product_id . '-' . Str::padLeft($color_id, 3, '0');
+        $time_code = now()->format('hi');
 
+        return $parent_product_id . '-' . Str::padLeft($time_code, 3, '0');
     }
 
     public static function charger(User $user, Order $order, string $payment_method_id): object

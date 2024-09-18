@@ -21,6 +21,10 @@
                         </td>
                         <td>
                             {{ $product->name }}
+                            <div class="flex gap-5">
+                                <span> Tamaño {{ $product->size }}</span>
+                                <span> Color {{ $product->color }}</span>
+                            </div>
                         </td>
                         <td class="whitespace-nowrap">
                             {{ Number::currency($product->price) }}

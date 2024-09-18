@@ -26,9 +26,9 @@ function OrderItemsList({ order }) {
                             <td className='align-top'>
                                 {product.name}
                                 <div key={index} className='flex gap-x-1.5 text-xs mt-1 text-gray-500'>
-                                    <div>Color {product.color}</div>
+                                    <div>Color {product.color.name}</div>
                                     {product.size && (
-                                        <div className='border-l border-gray-300 pl-1.5'> Talla {product.size}</div>
+                                        <div className='border-l border-gray-300 pl-1.5'> Talla {product.size.name}</div>
                                     )}
 
                                 </div>

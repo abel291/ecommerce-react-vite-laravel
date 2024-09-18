@@ -26,6 +26,7 @@ class SalesChart extends ChartWidget
         $sales = Order::select('id', 'created_at', 'status')
             ->where('status', OrderStatusEnum::SUCCESSFUL)
             ->when($filterMonth, fn(Builder $query) => $query->whereDate('created_at', '>=', $filterMonth))
+            ->orderBy('created_at')
             ->get();
 
         $salesPerMonth = $sales->groupBy(function ($sale) {
@@ -33,7 +34,6 @@ class SalesChart extends ChartWidget
         })->map(function ($item) {
             return $item->count();
         });
-
 
         return [
             'datasets' => [
@@ -62,6 +62,6 @@ class SalesChart extends ChartWidget
 
     protected function getType(): string
     {
-        return 'line';
+        return 'bar';
     }
 }

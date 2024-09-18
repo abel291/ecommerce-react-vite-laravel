@@ -62,27 +62,18 @@ class SpecificationSeeder extends Seeder
                     }
                     $specification_id++;
                 }
-
             }
 
-            if (count($specifications_value_array) > 200) {
+            if (count($specifications_value_array) > 400) {
                 Specification::insert($specifications_array);
                 SpecificationValue::insert($specifications_value_array);
                 $specifications_array = [];
                 $specifications_value_array = [];
                 // $this->command->info("Specification " . $specification_id);
             }
-
-
         }
         Specification::insert($specifications_array);
         SpecificationValue::insert($specifications_value_array);
-
-
-
     }
-    public function insertData()
-    {
-
-    }
+    public function insertData() {}
 }

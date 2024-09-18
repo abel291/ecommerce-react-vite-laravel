@@ -23,27 +23,31 @@ class ColorResource extends Resource
     protected static ?int $navigationSort = 3;
     public static ?string $label = 'Color';
     protected static ?string $pluralModelLabel = 'Colores';
-    protected static ?string $navigationGroup = 'Catalogo';
+    protected static ?string $navigationGroup = 'Atributos';
     protected static ?string $navigationIcon = 'heroicon-o-swatch';
 
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->live(debounce: 500)
-                    ->afterStateUpdated(function (Set $set, $state, $context) {
-                        if ($context === 'edit') {
-                            return;
-                        }
+            ->schema(self::formColor())->columns(1);
+    }
+    public static function formColor(): array
+    {
+        return [
+            Forms\Components\TextInput::make('name')
+                ->required()
+                ->live(debounce: 500)
+                ->afterStateUpdated(function (Set $set, $state, $context) {
+                    if ($context === 'edit') {
+                        return;
+                    }
 
-                        $set('slug', Str::slug($state));
-                    })->label('Nombre'),
-                Forms\Components\Hidden::make('slug')
-                    ->required(),
-                Forms\Components\FileUpload::make('img')->directory('/img/colors')->label('Mini Imagen'),
-            ])->columns(1);
+                    $set('slug', Str::slug($state));
+                })->label('Nombre'),
+            Forms\Components\Hidden::make('slug')
+                ->required(),
+            Forms\Components\FileUpload::make('img')->directory('/img/colors')->label('Mini Imagen'),
+        ];
     }
 
     public static function table(Table $table): Table

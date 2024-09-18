@@ -95,12 +95,14 @@ class DepartmentResource extends Resource
         return [
             Tables\Columns\TextColumn::make('created_at')
                 ->dateTime()
+                ->description(fn($state) => $state->format('h:i A'))
                 ->sortable()
                 ->toggleable(isToggledHiddenByDefault: true)
                 ->label('Fecha de creacion'),
             Tables\Columns\TextColumn::make('updated_at')
                 ->dateTime()
                 ->sortable()
+                ->description(fn($state) => $state->format('h:i A'))
                 ->toggleable(isToggledHiddenByDefault: false)
                 ->label('Ultima modificacion'),
         ];

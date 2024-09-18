@@ -11,6 +11,8 @@ use App\Models\Color;
 use App\Models\Image;
 use App\Models\Size;
 use App\Models\Sku;
+use App\Models\StockEntry;
+use App\Models\User;
 use App\Models\Variant;
 use Illuminate\Support\Str;
 
@@ -28,41 +30,54 @@ class SkuSeeder extends Seeder
     {
 
         Sku::truncate();
-        $sizes = Size::pluck('id', 'name');
+        StockEntry::truncate();
 
+        $sizes = Size::pluck('id', 'name');
         $products = collect(Storage::json(DatabaseSeeder::getPathProductJson()));
         $sku_id = 1;
         $skus_array = [];
-
+        $stock_array = [];
+        $user_id = User::select('id')->get()->random()->id;
         foreach ($products as $product) {
             foreach ($product['variants'] as $variant) {
 
-                if ($product['sizes']) {
-                    foreach ($product['sizes'] as $size) {
-                        array_push($skus_array, [
-                            'id' => $sku_id,
-                            'product_id' => $variant['id'],
-                            'size_id' => $sizes[$size],
-                            'stock' => rand(0, 1) * rand(10, 300),
-                        ]);
-                        $sku_id++;
+                foreach ($product['sizes'] as $size) {
+
+                    // stockEntry
+                    $stock = 0;
+                    for ($i = 0; $i < rand(4, 10); $i++) {
+                        # code...
+                        $quantity = rand(1, 5) * 12;
+                        $stock += $quantity;
+                        $stock_array[] = [
+                            'quantity' => $quantity,
+                            'cost' => round($product['price'] * 0.80, 2),
+                            'user_id' => $user_id,
+                            'sku_id' =>  $sku_id,
+                            'created_at' => fake()->dateTimeBetween('-2 month', 'now'),
+                            'updated_at' => fake()->dateTimeBetween('-2 month', 'now'),
+                        ];
                     }
-                } else {
                     array_push($skus_array, [
                         'id' => $sku_id,
                         'product_id' => $variant['id'],
-                        'size_id' => null,
-                        'stock' => rand(0, 1) * rand(10, 300),
+                        'size_id' => $sizes[$size],
+                        'stock' => $stock,
                     ]);
                     $sku_id++;
                 }
             }
-            if (count($skus_array) > 1000) {
+            if (count($skus_array) > 100) {
+                shuffle($stock_array);
                 Sku::insert($skus_array);
+                StockEntry::insert($stock_array);
                 $skus_array = [];
+                $stock_array = [];
                 // $this->command->info($sku_id);
             }
         }
+        shuffle($stock_array);
         Sku::insert($skus_array);
+        StockEntry::insert($stock_array);
     }
 }

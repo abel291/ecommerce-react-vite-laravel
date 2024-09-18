@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\AttributeResource\Pages;
-use App\Filament\Resources\AttributeResource\RelationManagers;
 use App\Filament\Resources\AttributeResource\RelationManagers\AttributeOptionsRelationManager;
 use App\Models\Attribute;
 use Filament\Forms;
@@ -12,8 +11,6 @@ use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
 
 class AttributeResource extends Resource
@@ -22,7 +19,7 @@ class AttributeResource extends Resource
     protected static ?int $navigationSort = 5;
     public static ?string $label = 'Atributo';
     protected static ?string $pluralModelLabel = 'Atributos';
-    protected static ?string $navigationGroup = 'Catalogo';
+    protected static ?string $navigationGroup = 'Atributos';
     protected static ?string $navigationIcon = 'heroicon-o-funnel';
 
 

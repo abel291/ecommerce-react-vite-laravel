@@ -81,30 +81,32 @@ class OrderService
     public static function formatOrderProduct($sku, $quantity)
     {
         $product = $sku->product;
+
         return [
-            'name' => $product->name,
-            'ref' => $product->ref,
+            ...$product->only([
+                'name',
+                'ref',
+                'thumb',
+                'old_price',
+                'offer',
+                'price',
+                'category_id',
+                'department_id',
+            ]),
             'color' => $product->color->name,
-            'size' => $sku->size?->name,
-            'thumb' => $product->thumb,
-            'old_price' => $product->old_price,
-            'offer' => $product->offer,
-            'price' => $product->price,
-            'quantity' => $quantity,
+            'size' => $sku->size->name,
             'total' => round($product->price * $quantity, 2),
-            'product_id' => $product->id,
+            'quantity' => $quantity,
             'sku_id' => $sku->id,
+            'product_id' => $product->id,
+
         ];
     }
 
-    public static function generateorder_productsCheckout(array $products): Collection
+    public static function generate_order_products_checkout(array $products): Collection
     {
         $skuIds = array_keys($products);
-        return Sku::with([
-            'product' => function ($query) {
-                $query->select('id', 'slug', 'name', 'ref', 'thumb', 'price', 'offer', 'old_price', 'max_quantity', 'color_id');
-            }
-        ])
+        return Sku::with('product')
             ->find($skuIds)
             ->filter(function ($sku) use ($products) {
                 return $sku->stock >= $products[$sku->id];

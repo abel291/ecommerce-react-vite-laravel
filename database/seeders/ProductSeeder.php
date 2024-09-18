@@ -64,8 +64,8 @@ class ProductSeeder extends Seeder
                 'slug' => Str::slug($product['name']) . "-" . $product['id'],
                 'entry' => $product['entry'],
                 'description' => fake()->text(800),
-                'max_quantity' => rand(1, 300),
-                'featured' => boolval(rand(0, 6)),
+                'max_quantity' => rand(1, 100),
+                'featured' => boolval(rand(0, 1000)),
                 'department_id' => $departments[$product['department']],
                 'category_id' => $categories[$product['category']],
                 'created_at' => now(),
@@ -77,8 +77,12 @@ class ProductSeeder extends Seeder
             ]);
 
             foreach ($product['variants'] as $variant) {
+
                 $color_id = $colors[$variant['color']['name']];
-                $ref = str_pad($product['id'], 4, "0", STR_PAD_LEFT) . '-' . str_pad($color_id, 3, "0", STR_PAD_LEFT);
+
+                $time_fake = fake()->dateTime()->format('hi');
+                $ref = str_pad($product['id'], 4, "0", STR_PAD_LEFT) . '-' . str_pad($time_fake, 3, "0", STR_PAD_LEFT);
+
                 if (rand(0, 10)) {
                     $old_price = $product['price'];
                     $offer = fake()->randomElement([10, 20, 30, 40, 50]);

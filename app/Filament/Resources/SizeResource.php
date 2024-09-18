@@ -20,9 +20,9 @@ class SizeResource extends Resource
 {
     protected static ?string $model = Size::class;
     protected static ?int $navigationSort = 4;
-    public static ?string $label = 'Talla';
-    protected static ?string $pluralModelLabel = 'Tallas';
-    protected static ?string $navigationGroup = 'Catalogo';
+    public static ?string $label = 'Tamaño';
+    protected static ?string $pluralModelLabel = 'Tamaños';
+    protected static ?string $navigationGroup = 'Atributos';
     protected static ?string $navigationIcon = 'heroicon-o-tag';
 
     public static function form(Form $form): Form
@@ -47,11 +47,11 @@ class SizeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable()->placeholder('Sin Talla'),
+                Tables\Columns\TextColumn::make('name')->label('Nombre')
+                    ->searchable()->sortable()->placeholder('Sin Talla'),
 
                 Tables\Columns\TextColumn::make('products_count')->counts('products')->searchable()
-                    ->label('N° Productos'),
+                    ->label('N° Productos')->sortable(),
 
                 ...DepartmentResource::dateCreatedTable()
             ])

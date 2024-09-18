@@ -30,6 +30,10 @@ class Category extends Model
     {
         return $this->hasMany(Product::class)->whereNotNull('parent_id');
     }
+    public function order_products(): HasMany
+    {
+        return $this->hasMany(OrderProduct::class);
+    }
     public function limitProducts(): HasMany
     {
         return $this->hasMany(Product::class)->limit(12);

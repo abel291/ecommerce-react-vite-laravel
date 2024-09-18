@@ -25,7 +25,7 @@ class PaymentCheckoutController extends Controller
         $discountCode = session()->get('discountCode');
 
         $products = CartService::session(CartEnum::CHECKOUT);
-        $order_products = OrderService::generateorder_productsCheckout($products);
+        $order_products = OrderService::generate_order_products_checkout($products);
 
         $order = OrderService::generateOrder($order_products, $discountCode, $user);
 

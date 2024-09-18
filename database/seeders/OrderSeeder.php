@@ -33,23 +33,37 @@ class OrderSeeder extends Seeder
 
         $users = User::get();
         $discountCodes = DiscountCode::get();
+
+        $order_products = Sku::with([
+            'size:id,name',
+            'product' => function ($query) {
+                $query->select(
+                    'id',
+                    'slug',
+                    'img',
+                    'name',
+                    'ref',
+                    'thumb',
+                    'price',
+                    'offer',
+                    'old_price',
+                    'max_quantity',
+                    'color_id',
+                    'category_id',
+                    'department_id'
+                )
+                    ->with('color:id,name');
+            }
+        ])
+            ->get();
+
+
         foreach ($users->multiply(10) as $user) {
 
-            $max_quantity_selected = rand(1, 14);
-            $order_products = Sku::where('stock', '>=', $max_quantity_selected)
-                ->with([
-                    'size:id,name',
-                    'product' => function ($query) {
-                        $query->select('id', 'slug', 'img', 'name', 'ref', 'thumb', 'price', 'offer', 'old_price', 'max_quantity', 'color_id')
-                            ->with('color:id,name');
-                    }
-                ])
-                ->limit(rand(2, 5))
-                ->inRandomOrder()
-                ->get()->map(function ($sku) use ($max_quantity_selected) {
-                    $quantity = rand(1, $max_quantity_selected);
-                    return OrderService::formatOrderProduct($sku, $quantity);
-                });
+            $order_products_selected = $order_products->random(10, 20)->map(function ($sku) {
+                $quantity = rand(1, rand(1, 14));
+                return OrderService::formatOrderProduct($sku, $quantity);
+            });
 
 
             if (rand(0, 2) == 0) {
@@ -58,21 +72,25 @@ class OrderSeeder extends Seeder
                 $discountCode = null;
             }
 
-            $order = OrderService::generateOrder($order_products, $discountCode, $user);
+            $order = OrderService::generateOrder($order_products_selected, $discountCode, $user);
 
             $order->data = [
                 'user' => $user->only('name', 'address', 'phone', 'email', 'city'),
             ];
 
-            $order->created_at = fake()->dateTimeBetween('-12 months', '+2 days');
-
             $order->status = fake()->randomElement(OrderStatusEnum::cases());
+
+            if ($order->status != OrderStatusEnum::SUCCESSFUL) {
+                $order->refund_at = now();
+            }
+
+            $order->created_at = fake()->dateTimeBetween('-12 months', 'now');
 
             $order->updated_at = $order->created_at;
 
             $order->save();
 
-            $order->order_products()->createMany($order_products);
+            $order->order_products()->createMany($order_products_selected);
 
             Payment::factory()->create([
                 'order_id' => $order->id
