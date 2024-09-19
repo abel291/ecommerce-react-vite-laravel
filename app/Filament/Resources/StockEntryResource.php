@@ -118,6 +118,7 @@ class StockEntryResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('sku_id')
+                    ->label('Producto')
                     ->getSearchResultsUsing(function (string $search): array {
                         return Sku::with('size:id,name')->withWhereHas('product', function ($query) use ($search) {
                             $query
