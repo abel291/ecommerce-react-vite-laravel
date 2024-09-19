@@ -4,6 +4,7 @@ namespace App\Filament\Resources\ProductResource\RelationManagers;
 
 use App\Filament\Resources\OrderResource;
 use App\Filament\Resources\ProductResource;
+use App\Filament\Resources\StockAdjustmentResource;
 use App\Filament\Resources\StockEntryResource;
 use App\Models\Product;
 use App\Models\Sku;
@@ -49,8 +50,8 @@ class SkusRelationManager extends RelationManager
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Action::make('view-order-detail')
-                    ->url(fn(Sku $record): string => StockEntryResource::getUrl('index', [
+                Action::make('view-stock-adjustment')
+                    ->url(fn(Sku $record): string => StockAdjustmentResource::getUrl('index', [
                         'record' => $record->order_id,
                         'tableFilters[sku_id][value]' => $record->id
                     ]))

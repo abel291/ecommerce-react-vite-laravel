@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Department;
 use App\Models\Image;
 use App\Models\MetaTag;
+use App\Models\StockAdjustment;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -50,6 +51,7 @@ class DatabaseSeeder extends Seeder
             ColorSizeSeeder::class,
             ProductSeeder::class,
             SkuSeeder::class,
+            StockAdjustmentSeeder::class,
             PageSeeder::class,
             DiscountCodeSeeder::class,
             OrderSeeder::class,

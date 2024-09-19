@@ -11,20 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stock_entries', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedMediumInteger('quantity');
-            $table->unsignedMediumInteger('cost');
-            $table->text('note')->nullable();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete(); //responsable
-            $table->foreignId('sku_id')->constrained()->cascadeOnDelete();
-
-            $table->timestamps();
-        });
         Schema::create('stock_adjustments', function (Blueprint $table) {
             $table->id();
-            $table->text('note');
             $table->unsignedMediumInteger('quantity');
+            $table->text('note');
             $table->string('type'); // adicción - sustracción
             $table->foreignId('user_id')->constrained()->cascadeOnDelete(); //responsable
             $table->foreignId('sku_id')->constrained()->cascadeOnDelete();
@@ -37,7 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stock_entries');
         Schema::dropIfExists('stock_adjustments');
     }
 };

@@ -32,7 +32,7 @@ class ProductResource extends Resource
     public static ?string $label = 'Producto';
     protected static ?string $pluralModelLabel = 'Productos';
     protected static ?string $navigationGroup = 'Catalogo';
-    protected static ?string $navigationIcon = 'heroicon-o-building-library';
+    protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
 
 
     protected static ?string $recordTitleAttribute = 'name';
