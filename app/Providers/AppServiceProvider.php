@@ -62,9 +62,10 @@ class AppServiceProvider extends ServiceProvider
             );;
         });
 
-        Infolist::$defaultDateTimeDisplayFormat = 'M j, Y h:i a';
+        Infolist::$defaultDateTimeDisplayFormat = 'l d \de F Y h:i A';
 
-        Table::$defaultDateTimeDisplayFormat = 'l d \de F Y ';
+        Table::$defaultDateTimeDisplayFormat = 'l d \de F Y';
+
         DateTimePicker::$defaultDateTimeDisplayFormat = 'M j, Y h:i a';
 
         Table::$defaultNumberLocale = 'de';
