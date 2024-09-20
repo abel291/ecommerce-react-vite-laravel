@@ -30,7 +30,6 @@ class SkuSeeder extends Seeder
     {
 
         Sku::truncate();
-        StockEntry::truncate();
         $sizes = Size::pluck('id', 'name');
         $products = collect(Storage::json(DatabaseSeeder::getPathProductJson()));
         $sku_id = 1;
