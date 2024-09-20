@@ -9,7 +9,7 @@ const CardProductSummary = ({ product }) => {
                 <img className="h-20  max-w-full rounded" src={product.thumb} alt={product.name} />
             </div>
             <div className="grow">
-                <h3>{product.name}</h3>
+                <h3>{product.quantity} x {product.name}</h3>
                 <span className="block text-gray-500 font-normal mt-1"> Color: {product.color.name}</span>
                 {product.size && (
                     <span className="block text-gray-500 mt-0.5 font-normal">Talla: {product.size.name}</span>
