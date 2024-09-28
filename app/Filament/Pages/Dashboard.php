@@ -40,7 +40,7 @@ class Dashboard extends \Filament\Pages\Dashboard
                                 'm2' => 'Ultimos 6 meses',
                                 'm3' => 'Ultimos 12 meses',
                             ])
-                            ->default('today')
+                            ->default('m2')
 
                     ])
                     ->columns(3),
