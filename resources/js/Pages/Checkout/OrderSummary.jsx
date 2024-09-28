@@ -34,7 +34,7 @@ const OrderSummary = ({ products, total }) => {
 
     return (
         <div>
-            <div className="bg-gray-100 rounded-lg text-sm font-medium border divide-y  ">
+            <div className="bg-gray-100 rounded-lg text-sm font-medium border divide-y">
                 {products.map((item) => (
                     <CardProductSummary product={item} />
                 ))}
@@ -84,7 +84,7 @@ const OrderSummary = ({ products, total }) => {
                 <PrimaryButton className="w-full mt-4" onClick={handleSubmit} isLoading={userForm.processing} disabled={userForm.processing}>
                     Pagar {formatCurrency(total.total)}
                 </PrimaryButton>
-                <span className="text-xs text-gray-400">El metodo de pago fue comentado</span>
+                <span className="text-xs text-gray-400">El metodo de pago fue deshabilitado</span>
             </div>
 
         </div>

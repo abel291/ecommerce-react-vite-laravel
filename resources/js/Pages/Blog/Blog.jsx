@@ -10,6 +10,7 @@ import SectionList from "@/Components/Sections/SectionList"
 import BannerText from '@/Components/Carousel/BannerText'
 import Breadcrumb from '@/Components/Breadcrumb'
 import Hero from '@/Components/Hero/Hero'
+import MetaTag from '@/Components/MetaTag'
 
 export default function Blog({ posts, page }) {
 
@@ -19,7 +20,7 @@ export default function Blog({ posts, page }) {
         }]
     return (
         <LayoutBlog breadcrumb={breadcrumb}>
-            <Head title={page.meta_title} />
+            <MetaTag metaTag={page.metaTag} />
             {posts.data.length ? (
                 <>
                     <div className="mx-auto grid max-w-xl grid-cols-1 gap-x-10 gap-y-14 lg:max-w-none lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3">

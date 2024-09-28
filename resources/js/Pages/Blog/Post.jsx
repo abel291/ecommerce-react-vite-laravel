@@ -5,6 +5,7 @@ import { Head } from '@inertiajs/react'
 import React from 'react'
 import AuthorPost from './AuthorPost'
 import Breadcrumb from '@/Components/Breadcrumb'
+import MetaTag from '@/Components/MetaTag'
 
 export default function Post({ post }) {
     const breadcrumb = [
@@ -19,12 +20,11 @@ export default function Post({ post }) {
     ]
     return (
         <Layout breadcrumb={breadcrumb}>
-            <Head title={post.meta_title} />
+            <MetaTag metaTag={post.metaTag} />
             <Breadcrumb data={breadcrumb} />
-            <div className="container ">
+            <div className="container max-w-6xl  ">
                 <article className='py-content' >
-                    <div>
-
+                    <div>npm ru
                         <img src={post.img} alt="" className="w-full rounded-lg aspect-video object-cover object-center " />
 
                         <div className="uppercase text-gray-500 text-sm mt-8">

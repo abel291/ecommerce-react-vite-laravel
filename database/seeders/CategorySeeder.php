@@ -38,7 +38,9 @@ class CategorySeeder extends Seeder
 
             $slug = Str::slug($value);
             Department::factory()
-                ->has(MetaTag::factory())
+                ->has(MetaTag::factory()->state([
+                    'meta_title' => $value
+                ]))
                 ->create([
                     'name' => $value,
                     'slug' => $slug,

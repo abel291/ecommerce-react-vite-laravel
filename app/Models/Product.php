@@ -25,6 +25,10 @@ class Product extends Model
         'price' => 'float',
     ];
 
+    public function metaTag()
+    {
+        return $this->morphOne(MetaTag::class, 'model');
+    }
     public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class);

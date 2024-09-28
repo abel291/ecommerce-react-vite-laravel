@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\CategoryResource;
+use App\Http\Resources\DepartmentResource;
 use App\Http\Resources\ProductCardResource;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\VariantProductResource;
@@ -18,7 +19,7 @@ class DepartmentController extends Controller
     public function department($department)
     {
 
-        $department = Department::active()->where('slug', $department)->firstOrFail();
+        $department = Department::active()->with('metaTag')->where('slug', $department)->firstOrFail();
 
         // $offers_product = $department->products()->card()->activeInStock()
         //     ->inOffer()->limit(15)->get();
@@ -47,7 +48,7 @@ class DepartmentController extends Controller
             })->get();
 
         return Inertia::render('Department/Department', [
-            'department' => $department,
+            'department' => new DepartmentResource($department),
             'offertProducts' => ProductCardResource::collection($offers_product),
             'bestSellersProducts' => ProductCardResource::collection($best_sellers_product),
             'categories' => CategoryResource::collection($categories),

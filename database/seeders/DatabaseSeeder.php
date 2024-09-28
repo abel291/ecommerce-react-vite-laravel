@@ -56,7 +56,7 @@ class DatabaseSeeder extends Seeder
             DiscountCodeSeeder::class,
             OrderSeeder::class,
             SpecificationSeeder::class,
-            // AttributeSeeder::class,
+            AttributeSeeder::class,
 
         ]);
         Schema::enableForeignKeyConstraints();

@@ -6,6 +6,7 @@ use App\Models\Author;
 use App\Models\Blog;
 use App\Models\Category;
 use App\Models\Image;
+use App\Models\MetaTag;
 use Illuminate\Database\Seeder;
 use Faker;
 
@@ -23,6 +24,7 @@ class BlogSeeder extends Seeder
         $categories = Category::where('type', 'blog')->select('id', 'name')->get();
 
         Blog::factory()->count(rand(10, 20))
+            ->has(MetaTag::factory())
             ->state(function (array $attributes) use ($authors, $categories) {
                 $category = $categories->random();
                 return [

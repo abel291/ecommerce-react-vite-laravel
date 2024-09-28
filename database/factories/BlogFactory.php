@@ -21,8 +21,6 @@ class BlogFactory extends Factory
         return [
             'title' => ucfirst($this->faker->sentence()),
             'slug' => Str::slug($this->faker->sentence()),
-            'meta_title' => ucfirst($this->faker->words(2, true)),
-            'meta_desc' => $this->faker->sentence(),
             'img' => '/img/blog/post-' . rand(1, 10) . '.jpg',
             'thum' => '/img/blog/post-' . rand(1, 10) . '.jpg',
             'entry' => $this->faker->paragraph(),

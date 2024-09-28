@@ -19,18 +19,30 @@ class PageSeeder extends Seeder
         Page::truncate();
         Image::where('model_type', 'App\Models\Page')->delete();
 
-        Page::factory()->has(MetaTag::factory())->create(['type' => 'offers', 'title' => 'Ofetas']);
-        Page::factory()->has(MetaTag::factory())->create(['type' => 'contact', 'title' => 'Contáctenos']);
 
-        $home = Page::factory()->has(MetaTag::factory())->create([
+        Page::factory()->has(MetaTag::factory()->state([
+            'meta_title' => 'Ofetas'
+        ]))->create(['type' => 'offers', 'title' => 'Ofetas']);
+
+        Page::factory()->has(MetaTag::factory()->state([
+            'meta_title' => 'Contáctenos'
+        ]))->create(['type' => 'contact', 'title' => 'Contáctenos']);
+
+        $home = Page::factory()->has(MetaTag::factory()->state([
+            'meta_title' => 'Inicio'
+        ]))->create([
             'type' => 'home',
             'title' => 'Inicio',
         ]);
-        $search = Page::factory()->has(MetaTag::factory())->create([
+        $search = Page::factory()->has(MetaTag::factory()->state([
+            'meta_title' => 'Busqueda'
+        ]))->create([
             'type' => 'search',
             'title' => 'Busqueda',
         ]);
-        $blog = Page::factory()->has(MetaTag::factory())->create([
+        $blog = Page::factory()->has(MetaTag::factory()->state([
+            'meta_title' => 'Blog'
+        ]))->create([
             'type' => 'blog',
             'title' => 'Blog',
         ]);

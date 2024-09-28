@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PageResource;
 use App\Http\Resources\PostResource;
 use App\Models\Blog;
 use App\Models\Category;
@@ -15,12 +16,11 @@ class BlogController extends Controller
 {
     public function blog(Request $request): Response
     {
-        $page = Page::with('banners')->where('type', 'blog')->firstOrFail();
+        $page = Page::with('banners', 'metaTag')->where('type', 'blog')->firstOrFail();
         $banner = $page->banners->where('position', 'middle')->where('active', 1)->where('type', 'banner')->first();
 
         $posts = Blog::with('category', 'author')->where('active', 1)->orderBy('id', 'desc')
             ->when($request->q, function (Builder $query) use ($request) {
-
                 $query->where(function ($sub_query) use ($request) {
                     $sub_query->orWhere('title', 'like', "%$request->q%");
                     $sub_query->orWhere('entry', 'like', "%$request->q%");
@@ -41,14 +41,14 @@ class BlogController extends Controller
             'categories_blog' => $this->categories_blog(),
             'filters' => $request->only(['q', 'category']),
             'banner' => $banner,
-            'page' => $page,
+            'page' => new PageResource($page),
 
         ]);
     }
 
     public function post($slug): Response
     {
-        $post = Blog::with('category', 'author')->where('slug', $slug)->where('active', 1)->firstOrFail();
+        $post = Blog::with('category', 'author', 'metaTag')->where('slug', $slug)->where('active', 1)->firstOrFail();
 
         return Inertia::render('Blog/Post', [
             'post' => new PostResource($post),

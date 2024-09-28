@@ -16,8 +16,6 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('slug');
-            $table->string('meta_title');
-            $table->string('meta_desc');
             $table->text('entry');
             $table->text('desc');
             $table->boolean('active')->default(1);

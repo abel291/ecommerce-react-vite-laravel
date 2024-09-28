@@ -5,18 +5,15 @@ import GridProduct from "@/Components/Grids/GridProduct"
 import SectionList from "@/Components/Sections/SectionList"
 import Layout from "@/Layouts/Layout"
 import { Head, Link } from "@inertiajs/react"
-
-
 import React from 'react'
-
 import Hero from "@/Components/Hero/Hero"
+import MetaTag from "@/Components/MetaTag"
 
 export default function Offers({ page, offerProducts, offerBrands, bannersTop }) {
     return (
         <Layout>
-            <Head title={page.meta_title} />
+            <MetaTag metaTag={page.metaTag} />
             <Breadcrumb data={[{ title: 'Ofertas', }]} />
-
 
             <div className="container">
                 <Hero title="Ofertas" entry="¡Encuentra precios increíbles cada día!" />

@@ -9,12 +9,13 @@ import CarouselSection from '../Home/CarouselSection'
 import BannerText from '@/Components/Carousel/BannerText'
 import Breadcrumb from '@/Components/Breadcrumb'
 import SectionTitle from '@/Components/Sections/SectionTitle'
+import MetaTag from '@/Components/MetaTag'
 
 function Department({ department, offertProducts, bestSellersProducts, categories }) {
     // console.log(offertProducts[0])
     return (
         <Layout>
-            <Head title={department.meta_title} />
+            <MetaTag metaTag={department.metaTag} />
             <Breadcrumb data={[
                 {
                     title: department.name,

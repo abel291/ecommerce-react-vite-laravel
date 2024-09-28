@@ -5,8 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-
-class PostResource extends JsonResource
+class DepartmentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,18 +16,14 @@ class PostResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
-            'position' => $this->position,
+            'name' => $this->name,
             'slug' => $this->slug,
-            'entry' => $this->entry,
-            'desc' => $this->desc,
-            'active' => $this->active,
+            // 'banner' => $this->banner,
             'img' => $this->img,
-            'category' => $this->whenLoaded('category'),
-            'author' => $this->whenLoaded('author'),
-            'created_at' => $this->created_at->format('Y-m-d'),
-            'date' => $this->created_at->isoFormat('dddd DD MMMM YYYY'),
-            'dateRelative' => $this->updated_at->locale('es_ES')->diffForHumans(['parts' => 2]),
+            'entry' => $this->entry,
+            'active' => $this->active,
+            'in_home' => $this->in_home,
+            'products' => ProductCardResource::collection($this->whenLoaded('products')),
             'metaTag' => new MetaTagResource($this->whenLoaded('metaTag')),
         ];
     }

@@ -13,6 +13,7 @@ import { formatCurrency } from '@/Helpers/helpers'
 import Presentations from './Variants/VariantsProduct'
 import VariantsProduct from './Variants/VariantsProduct'
 import ColorVariants from './Variants/ColorVariants'
+import MetaTag from '@/Components/MetaTag'
 
 export default function Product({ product, variants, relatedProducts }) {
     // console.log(product)
@@ -31,7 +32,7 @@ export default function Product({ product, variants, relatedProducts }) {
         }]
     return (
         <Layout>
-            <Head title={product.name} />
+            <MetaTag metaTag={product.metaTag} />
             <Breadcrumb data={breadcrumb} />
             <div className="container ">
                 <div className="flex flex-col-reverse lg:flex-row py-content gap-10">

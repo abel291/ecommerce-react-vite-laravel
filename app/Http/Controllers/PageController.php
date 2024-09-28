@@ -67,7 +67,7 @@ class PageController extends Controller
     public function offers()
     {
 
-        $page = Page::with('banners')->where('type', 'offers')->firstOrFail();
+        $page = Page::with('banners', 'metaTag')->where('type', 'offers')->firstOrFail();
         $banners = $page->banners->where('active', 1);
         $banners_top = $banners->where('position', 'top')->where('type', 'banner');
         $offer_products = Product::activeInStock()->card()
@@ -89,7 +89,7 @@ class PageController extends Controller
 
 
         return Inertia::render('Offers/Offers', [
-            'page' => $page,
+            'page' => new PageResource($page),
             'offerProducts' => ProductCardResource::collection($offer_products),
             'bannersTop' => ImageResource::collection($banners_top),
             //'offerBrands' => $offer_brands,
@@ -98,10 +98,10 @@ class PageController extends Controller
 
     public function contact()
     {
-        $page = Page::where('type', 'contact')->firstOrFail();
+        $page = Page::with('metaTag')->where('type', 'contact')->firstOrFail();
 
         return Inertia::render('Contact/Contact', [
-            'page' => $page,
+            'page' => new PageResource($page),
         ]);
     }
 
@@ -111,7 +111,7 @@ class PageController extends Controller
         $product = Product::where('slug', $slug)
             ->where('ref', $ref)
             ->variant()
-            ->with('images', 'category', 'department', 'brand', 'specifications.specification_values', 'skus.size')
+            ->with('images', 'category', 'department', 'brand', 'specifications.specification_values', 'skus.size', 'metaTag')
             ->activeInstock()
             ->withSum('skus', 'stock')
             ->firstOrFail();

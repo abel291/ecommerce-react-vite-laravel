@@ -38,6 +38,7 @@ class ProductResource extends JsonResource
             'category' => $this->whenLoaded('category'),
             'department' => $this->whenLoaded('department'),
             'brand' => $this->whenLoaded('brand'),
+            'metaTag' => new MetaTagResource($this->whenLoaded('metaTag')),
         ];
     }
 }
