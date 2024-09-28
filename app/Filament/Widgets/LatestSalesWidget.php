@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use App\Filament\Resources\OrderResource;
 use App\Filament\Resources\SaleResource;
 use App\Filament\Resources\SaleResource\Pages\ViewSale;
 use App\Models\Order;
@@ -46,8 +47,8 @@ class LatestSalesWidget extends BaseWidget
                 TextColumn::make('total')->label('Total')->money(),
             ])
             ->actions([
-                // Tables\Actions\Action::make('view')->label('Ver')
-                //     ->url(fn(Order $record): string => ViewSale::getUrl(['record' => $record->id]))
+                Tables\Actions\Action::make('view')->label('Ver orden completa')
+                    ->url(fn(Order $record): string => OrderResource::getUrl('view', ['record' => $record->id]))
             ]);
     }
 }
