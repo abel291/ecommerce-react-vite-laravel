@@ -22,9 +22,9 @@ export default function Post({ post }) {
         <Layout breadcrumb={breadcrumb}>
             <MetaTag metaTag={post.metaTag} />
             <Breadcrumb data={breadcrumb} />
-            <div className="container max-w-6xl  ">
+            <div className="container max-w-5xl  ">
                 <article className='py-content' >
-                    <div>npm ru
+                    <div>
                         <img src={post.img} alt="" className="w-full rounded-lg aspect-video object-cover object-center " />
 
                         <div className="uppercase text-gray-500 text-sm mt-8">

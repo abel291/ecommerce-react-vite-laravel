@@ -79,7 +79,7 @@ class StockAdjustmentResource extends Resource
                     ->placeholder(0)
                     ->required()
                     ->live(debounce: 400)
-                    ->afterStateUpdated(function (Set $set, Get $get,) {
+                    ->afterStateUpdated(function (Set $set, Get $get, ) {
                         self::changeFormQuantity($get, $set);
                     })
                     ->numeric(),
@@ -87,7 +87,7 @@ class StockAdjustmentResource extends Resource
 
                     ->options(StockMovementOperationEnum::class)
                     ->live()
-                    ->afterStateUpdated(function (Set $set, Get $get,) {
+                    ->afterStateUpdated(function (Set $set, Get $get, ) {
                         self::changeFormQuantity($get, $set);
                     })
                     ->default('addition')
@@ -135,7 +135,7 @@ class StockAdjustmentResource extends Resource
         if ($get('quantity') && $get('type')) {
 
             $final_stock = match ($get('type')) {
-                'addition' =>  $get('current_stock') + $get('quantity'),
+                'addition' => $get('current_stock') + $get('quantity'),
                 'subtraction' => $get('current_stock') - $get('quantity'),
             };
             $set('final_stock', $final_stock);
@@ -156,6 +156,7 @@ class StockAdjustmentResource extends Resource
                 Tables\Columns\ImageColumn::make('sku.product.thumb')
                     ->size(40)->circular()->label('Imagen'),
                 Tables\Columns\TextColumn::make('sku.product.name')
+                    ->wrap()
                     ->url(fn($record) => route('product', [$record->sku->product->slug, $record->sku->product->ref]))
                     ->openUrlInNewTab()
                     ->label('Nombre')

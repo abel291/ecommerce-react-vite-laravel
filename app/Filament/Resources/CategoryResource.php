@@ -21,7 +21,7 @@ use Illuminate\Support\Str;
 class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 1;
     public static ?string $label = 'Categoria';
     protected static ?string $pluralModelLabel = 'Categorias';
     protected static ?string $navigationGroup = 'Catalogo';

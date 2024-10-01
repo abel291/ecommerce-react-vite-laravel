@@ -130,15 +130,16 @@ class ProductResource extends Resource
                     ->columnSpanFull()
                     ->label('Descripcion Larga'),
 
-                Forms\Components\FileUpload::make('img')->directory('/img/products')
-                    ->columnSpan(3)
-                    ->required()
-                    ->label('Imagen pequeña'),
-
                 Forms\Components\FileUpload::make('thumb')->directory('/img/products/thumb')
                     ->columnSpan(3)
                     ->required()
-                    ->label('Imagen'),
+                    ->label('Imagen pequeña'),
+                Forms\Components\FileUpload::make('img')->directory('/img/products')
+                    ->columnSpan(3)
+                    ->required()
+                    ->label('Imagen '),
+
+
 
                 self::formPrice(),
 
@@ -258,7 +259,7 @@ class ProductResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('category')
-                    ->relationship('category', 'name', modifyQueryUsing: fn(Builder $query) => $query->where('type', 'product'),)
+                    ->relationship('category', 'name', modifyQueryUsing: fn(Builder $query) => $query->where('type', 'product'), )
                     ->preload()
             ])
             ->actions([
