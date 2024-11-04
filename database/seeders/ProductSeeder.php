@@ -58,7 +58,7 @@ class ProductSeeder extends Seeder
         $meta_array = [];
         foreach ($products as $product) {
 
-            $this->command->info($product_count . ' - ' . $product['name']);
+            $this->command->info($product_count . ' - ' . $product['ref']);
             $product_base = [
                 'name' => $product['name'],
                 'slug' => Str::slug($product['name']) . "-" . $product['id'],
