@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->text('entry');
             $table->text('description')->nullable();
 
-            $table->integer('ref')->nullable();
+            $table->string('ref')->nullable();
 
             $table->string('img')->nullable();
             $table->string('thumb')->nullable();

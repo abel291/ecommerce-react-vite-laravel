@@ -48,7 +48,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'departments' => function () {
                 return Cache::remember('categories', 3600, function () {
-                    return Department::select('id', 'name', 'slug', 'img', 'icon')
+                    return Department::select('id', 'name', 'slug', 'img')
                         ->active()
                         ->with([
                             'categories' => function ($query) {

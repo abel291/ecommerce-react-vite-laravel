@@ -168,15 +168,10 @@ class Product extends Model
         $query->withCount([
             'orders' => function ($query) {
                 $query
-                    ->select('orders.id', 'status')
                     ->where('status', OrderStatusEnum::SUCCESSFUL);
             }
         ])->orderBy('orders_count', 'desc');
     }
-
-
-
-
 
 
     public function scopeWithFilters($query, $filters)
